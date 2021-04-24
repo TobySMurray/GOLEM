@@ -3,6 +3,7 @@ extends KinematicBody2D
 onready var animplayer = $AnimationPlayer
 onready var sprite = $Sprite
 onready var swap_cursor = $BloodMoon
+onready var bullet = load("res://Scenes/Bullet.tscn")
 
 var health
 var max_speed = 100
@@ -12,10 +13,14 @@ var facing_left = false
 var attacking = false
 var about_to_swap = false
 
-var offset
+var aim_direction
+
+var flip_offset
 
 func _physics_process(delta):
 	if not is_in_group("enemy"):
+		aim_direction = (get_global_mouse_position() - global_position).normalized()
+		
 		player_move()
 		
 		if about_to_swap:
@@ -27,6 +32,7 @@ func _physics_process(delta):
 			player_action()
 		
 	else:
+		aim_direction = Vector2.RIGHT #Will aim at player when defined
 		ai_move()
 		ai_action()
 		
@@ -72,19 +78,28 @@ func ai_move():
 		
 func animate():
 	if not attacking:
-		if velocity.x > 0.5:
+		if aim_direction.x > 0:
 			facing_left = false
 			sprite.flip_h = false
-			sprite.position.x = -offset
-		elif velocity.x < -0.5:
+			sprite.offset.x = 0
+		else:
 			facing_left = true
 			sprite.flip_h = true
-			sprite.position.x = offset
+			sprite.offset.x = flip_offset
 
 	if abs(velocity.x) <= 20 and !attacking:
 		animplayer.play("Idle")
 	elif !attacking:
 		animplayer.play("Walk")
+		
+		
+func shoot_bullet(vel, damage):
+	var new_bullet = bullet.instance().duplicate()
+	new_bullet.global_position = global_position
+	new_bullet.source = self
+	new_bullet.velocity = vel
+	new_bullet.damage = damage
+	get_node("/root").add_child(new_bullet)
 		
 func take_damage(damage):
 	health -= damage
