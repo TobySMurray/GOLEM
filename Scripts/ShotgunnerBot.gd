@@ -1,5 +1,7 @@
 extends "res://Scripts/Enemy.gd"
 
+onready var muzzle_flash = $MuzzleFlash
+
 var shot_speed = 200
 var shot_spread = 15
 var num_pellets = 6
@@ -14,4 +16,8 @@ func player_action():
 			var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
 			var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 			shoot_bullet(pellet_dir*pellet_speed, 10)
+			
+func show_muzzle_flash():
+	muzzle_flash.rotation_d = aim_direction.angle;
+	
 

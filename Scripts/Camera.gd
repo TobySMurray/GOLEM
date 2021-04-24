@@ -6,7 +6,7 @@ onready var smooth_anchor_pos = anchor.global_position
 var base_offset = Vector2.ZERO
 var smooth_base_offset = base_offset
 
-var mouse_follow = 0.15
+var mouse_follow = 0
 
 
 func _process(delta):
