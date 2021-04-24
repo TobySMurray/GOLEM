@@ -277,18 +277,4 @@ anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-frame = 47
-=======
-=======
->>>>>>> Stashed changes
-<<<<<<< HEAD
-frame = 42
-=======
-frame = 47
->>>>>>> f3c20a92e72d5ec8c364ec8b55df8c6addcce209
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+frame = 37

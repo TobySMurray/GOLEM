@@ -87,7 +87,7 @@ func animate():
 			sprite.flip_h = true
 			sprite.offset.x = flip_offset
 
-	if abs(velocity.x) <= 20 and !attacking:
+	if abs(velocity.x) <= 20 and abs(velocity.y) <= 20 and !attacking:
 		animplayer.play("Idle")
 	elif !attacking:
 		animplayer.play("Walk")
@@ -123,7 +123,7 @@ func toggle_swap(state):
 func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
-		get_node("/root/Node2D/Camera2D").anchor = self
+		get_node("/root/LevelTest/Camera2D").anchor = self
 	else:
 		add_to_group("enemy")
 		
