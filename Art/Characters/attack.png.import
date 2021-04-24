@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/attack.png-be6d1ae32732049e491fcaee8398926a.stex"
+path="res://.import/attack.png-f0695ab1744eb6f479574419691b122a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Characters/Shotgunner/attack.png"
-dest_files=[ "res://.import/attack.png-be6d1ae32732049e491fcaee8398926a.stex" ]
+source_file="res://Art/Characters/attack.png"
+dest_files=[ "res://.import/attack.png-f0695ab1744eb6f479574419691b122a.stex" ]
 
 [params]
 
