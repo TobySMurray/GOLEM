@@ -61,6 +61,7 @@ func choose_swap_target():
 		if swap_cursor.selected_enemy:
 			swap_cursor.selected_enemy.toggle_playerhood(true)
 			toggle_playerhood(false)
+			
 		
 		toggle_swap(false)
 		
@@ -105,6 +106,7 @@ func toggle_swap(state):
 func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
+		get_node("/root/Node2D/Camera2D").anchor = self
 	else:
 		add_to_group("enemy")
 		

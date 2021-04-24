@@ -1,12 +1,19 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/ToasterBot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Camera.gd" type="Script" id=3]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="ToasterBot" parent="." instance=ExtResource( 2 )]
-position = Vector2( 115.481, 43.9677 )
+position = Vector2( -83.7374, -32.2276 )
 
 [node name="ShotgunnerBot" parent="." instance=ExtResource( 1 )]
-position = Vector2( 235.466, 97.4705 )
+position = Vector2( 36.2467, 21.2753 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.75, 0.75 )
+script = ExtResource( 3 )
+init_anchor = NodePath("../ShotgunnerBot")
