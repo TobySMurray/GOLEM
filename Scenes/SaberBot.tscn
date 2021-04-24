@@ -259,7 +259,6 @@ radius = 7.29989
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
 position = Vector2( -0.34697, -0.158186 )
-frame = 25
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 8, -19.057 )

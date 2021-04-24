@@ -1,7 +1,7 @@
 extends "res://Scripts/Enemy.gd"
 
 
-var offset = 16
+var flip_offset = -16
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
