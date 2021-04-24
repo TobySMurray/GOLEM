@@ -1,14 +1,16 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Art/Characters/Shotgunner/idle.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/ShotgunnerBot.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 7.31758
 height = 7.15037
 
-[node name="ShotgunnerBot" type="KinematicBody2D" groups=[
-"enemy",
-]]
+[node name="ShotgunnerBot" type="KinematicBody2D"]
+script = ExtResource( 2 )
+is_player = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 26.1626, -4.75683 )
@@ -20,3 +22,7 @@ position = Vector2( 0, 0.743252 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="BloodMoon" parent="." instance=ExtResource( 3 )]
+visible = false
+frame = 51

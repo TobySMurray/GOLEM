@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var animplayer = $AnimatinoPlayer
 onready var sprite = $Sprite
+onready var swap_cursor = $BloodMoon
 
 var health
 var max_speed = 100
@@ -11,25 +12,59 @@ var facing_left = false
 var attacking = false
 var about_to_swap = false
 
-var is_player = false
+export var is_player = false
 
-func physics_process():
+func _physics_process(delta):
 	if is_player:
 		player_move()
+		
+		if about_to_swap:
+			choose_swap_target()
+		else:
+			if Input.is_action_just_pressed("swap"):
+				toggle_swap(true)
+				
+			player_action()
+		
 	else:
 		ai_move()
+		ai_action()
 		
 	#animate()
 	
 func player_move():
-	var move_direction = Vector2.ZERO
-	move_direction.x = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
-	move_direction.y = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
+	var input = Vector2()
+	if Input.is_action_pressed("move_right"):
+		input.x += 1
+	if Input.is_action_pressed("move_left"):
+		input.x -= 1
+	if Input.is_action_pressed("move_down"):
+		input.y += 1
+	if Input.is_action_pressed("move_up"):
+		input.y -= 1
 	
-	if abs(move_direction.x > 0) or abs(move_direction.y > 0):
-		velocity = lerp(velocity, max_speed * move_direction.normalized(), accel)
+	if abs(input.x) > 0 or abs(input.y) > 0:
+		velocity = lerp(velocity, max_speed * input.normalized(), accel)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, accel)
+		
+	velocity = move_and_slide(velocity)
+		
+		
+func player_action():
+	pass
+	
+func ai_action():
+	pass
+		
+func choose_swap_target():
+	swap_cursor.global_position = get_global_mouse_position()
+	if Input.is_action_just_released("swap"):
+		if swap_cursor.selected_enemy:
+			swap_cursor.selected_enemy.toggle_playerhood(true)
+			toggle_playerhood(false)
+		
+		toggle_swap(false)
 		
 func ai_move():
 	pass
@@ -57,6 +92,16 @@ func take_damage(damage):
 	else:
 		animplayer.play("Hit")
 		
+func toggle_swap(state):
+	about_to_swap = state
+	
+	if(about_to_swap):
+		#GameManager.lerp_to_timescale(0.25)
+		swap_cursor.visible = true
+	else:
+		#GameManager.lerp_to_timescale(1)
+		swap_cursor.visible = false
+		
 func toggle_playerhood(state):
 	is_player = state
 	#Whatever else has to happewn
@@ -66,7 +111,5 @@ func die():
 		
 	
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+
 

@@ -255,9 +255,8 @@ animations = [ {
 radius = 14.9115
 
 [node name="BloodMoon" type="AnimatedSprite"]
-position = Vector2( -0.198425, 0 )
 frames = SubResource( 61 )
-frame = 13
+frame = 48
 speed_scale = 5.0
 playing = true
 offset = Vector2( -1, 0 )
