@@ -1,10 +1,8 @@
 extends "res://Scripts/Enemy.gd"
 
-
-var offset = 24
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	offset = 24
 	pass # Replace with function body.
 
 

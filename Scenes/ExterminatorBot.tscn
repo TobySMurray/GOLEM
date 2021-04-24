@@ -302,9 +302,8 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -11.8044, -29.1769 )
-texture = ExtResource( 3 )
-vframes = 18
-frame = 17
+texture = ExtResource( 9 )
+vframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.210236, 16.6077 )
@@ -321,4 +320,4 @@ anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 18
+frame = 17

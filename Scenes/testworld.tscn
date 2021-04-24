@@ -9,6 +9,9 @@
 [node name="ToasterBot" parent="." instance=ExtResource( 2 )]
 position = Vector2( -83.7374, -32.2276 )
 
+[node name="ToasterBot2" parent="." instance=ExtResource( 2 )]
+position = Vector2( -77.8511, 69.9413 )
+
 [node name="ShotgunnerBot" parent="." instance=ExtResource( 1 )]
 position = Vector2( 36.2467, 21.2753 )
 

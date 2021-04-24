@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-onready var animplayer = $AnimatinoPlayer
+onready var animplayer = $AnimationPlayer
 onready var sprite = $Sprite
 onready var swap_cursor = $BloodMoon
 
@@ -11,6 +11,8 @@ var accel = 1
 var facing_left = false
 var attacking = false
 var about_to_swap = false
+
+var offset
 
 func _physics_process(delta):
 	if not is_in_group("enemy"):
@@ -28,7 +30,7 @@ func _physics_process(delta):
 		ai_move()
 		ai_action()
 		
-	#animate()
+	animate()
 	
 func player_move():
 	var input = Vector2()
@@ -73,11 +75,11 @@ func animate():
 		if velocity.x > 0.5:
 			facing_left = false
 			sprite.flip_h = false
+			sprite.position.x = -offset
 		elif velocity.x < -0.5:
 			facing_left = true
 			sprite.flip_h = true
-		else:
-			sprite.flip_h = facing_left
+			sprite.position.x = offset
 
 	if abs(velocity.x) <= 20 and !attacking:
 		animplayer.play("Idle")

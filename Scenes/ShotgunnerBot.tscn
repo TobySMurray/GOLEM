@@ -13,7 +13,7 @@
 radius = 4.92806
 height = 0.0472422
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Die"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -52,7 +52,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Hit"
 length = 0.4
 tracks/0/type = "value"
@@ -92,8 +92,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Idle"
+[sub_resource type="Animation" id=4]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -261,22 +260,21 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 26.163, -4.757 )
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
 vframes = 6
-frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.198425, 8.53022 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Die = SubResource( 3 )
-anims/Hit = SubResource( 4 )
-anims/Idle = SubResource( 2 )
+anims/Die = SubResource( 2 )
+anims/Hit = SubResource( 3 )
+anims/Idle = SubResource( 4 )
 anims/Shoot = SubResource( 5 )
 anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
-frame = 13
+frame = 55
