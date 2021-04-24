@@ -6,7 +6,9 @@
 radius = 7.31758
 height = 7.15037
 
-[node name="ShotgunnerBot" type="KinematicBody2D"]
+[node name="ShotgunnerBot" type="KinematicBody2D" groups=[
+"enemy",
+]]
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 26.1626, -4.75683 )
