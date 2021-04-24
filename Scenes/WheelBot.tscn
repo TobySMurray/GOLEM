@@ -319,4 +319,4 @@ shape = SubResource( 8 )
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 0.0102234, -0.932678 )
-frame = 12
+frame = 48
