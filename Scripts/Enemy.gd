@@ -12,10 +12,8 @@ var facing_left = false
 var attacking = false
 var about_to_swap = false
 
-export var is_player = false
-
 func _physics_process(delta):
-	if is_player:
+	if not is_in_group("enemy"):
 		player_move()
 		
 		if about_to_swap:
@@ -96,14 +94,21 @@ func toggle_swap(state):
 	about_to_swap = state
 	
 	if(about_to_swap):
-		#GameManager.lerp_to_timescale(0.25)
+		GameManager.lerp_to_timescale(0.25)
 		swap_cursor.visible = true
+		choose_swap_target()
 	else:
-		#GameManager.lerp_to_timescale(1)
+		GameManager.lerp_to_timescale(1)
 		swap_cursor.visible = false
+		swap_cursor.selected_enemy = null
 		
 func toggle_playerhood(state):
-	is_player = state
+	if state == true:
+		remove_from_group("enemy")
+	else:
+		add_to_group("enemy")
+		
+	#is_player = state
 	#Whatever else has to happewn
 		
 func die():

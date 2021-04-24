@@ -256,7 +256,7 @@ radius = 14.9115
 
 [node name="BloodMoon" type="AnimatedSprite"]
 frames = SubResource( 61 )
-frame = 48
+frame = 38
 speed_scale = 5.0
 playing = true
 offset = Vector2( -1, 0 )
@@ -268,3 +268,4 @@ script = ExtResource( 2 )
 position = Vector2( -0.198425, 1.19055 )
 shape = SubResource( 62 )
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
