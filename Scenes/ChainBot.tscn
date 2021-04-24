@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/idle.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/attack.png" type="Texture" id=5]
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/charge.png" type="Texture" id=6]
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/run.png" type="Texture" id=7]
+[ext_resource path="res://Scripts/ChainBot.gd" type="Script" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -257,6 +258,7 @@ tracks/2/keys = {
 radius = 4.76478
 
 [node name="ChainBot" type="KinematicBody2D"]
+script = ExtResource( 8 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 7 )
@@ -277,4 +279,4 @@ shape = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 56
+frame = 49

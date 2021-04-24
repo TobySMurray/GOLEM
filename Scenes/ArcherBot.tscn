@@ -303,10 +303,10 @@ script = ExtResource( 2 )
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
 position = Vector2( -0.453369, -3.22388 )
-frame = 37
+frame = 41
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 11.5331, -28.6951 )
+position = Vector2( 11, -28 )
 texture = ExtResource( 4 )
 vframes = 14
 
@@ -320,6 +320,5 @@ anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 0, 2.66968 )
+position = Vector2( -1, 5 )
 shape = SubResource( 8 )

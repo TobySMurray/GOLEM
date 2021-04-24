@@ -10,7 +10,7 @@
 [ext_resource path="res://Art/Characters/Bot Wheel/death.png" type="Texture" id=8]
 [ext_resource path="res://Art/Characters/Bot Wheel/damaged.png" type="Texture" id=9]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "Attack"
 length = 0.4
 tracks/0/type = "value"
@@ -50,7 +50,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Charge"
 length = 0.4
 tracks/0/type = "value"
@@ -90,7 +90,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Die"
 length = 0.6
 tracks/0/type = "value"
@@ -130,7 +130,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "Hit"
 length = 0.4
 tracks/0/type = "value"
@@ -170,7 +170,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "Idle"
 length = 0.8
 loop = true
@@ -211,7 +211,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 1 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 resource_name = "Special"
 length = 0.7
 tracks/0/type = "value"
@@ -251,7 +251,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 resource_name = "Walk"
 length = 0.8
 loop = true
@@ -292,31 +292,31 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=8]
 radius = 4.14862
 
 [node name="WheelBot" type="KinematicBody2D"]
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 36.5102, -2.18268 )
+position = Vector2( 36, -2 )
 texture = ExtResource( 2 )
 vframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Attack = SubResource( 2 )
-anims/Charge = SubResource( 3 )
-anims/Die = SubResource( 4 )
-anims/Hit = SubResource( 5 )
-anims/Idle = SubResource( 6 )
-anims/Special = SubResource( 7 )
-anims/Walk = SubResource( 8 )
+anims/Attack = SubResource( 1 )
+anims/Charge = SubResource( 2 )
+anims/Die = SubResource( 3 )
+anims/Hit = SubResource( 4 )
+anims/Idle = SubResource( 5 )
+anims/Special = SubResource( 6 )
+anims/Walk = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.117981, 4.83736 )
-shape = SubResource( 1 )
+shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 0.0102234, -0.932678 )
-frame = 6
+frame = 12
