@@ -174,7 +174,10 @@ func take_damage(damage):
 		pass
 		#animplayer.play("Hit")
 func init_healthbar():
+	healthbar.max_value = health
+	healthbar.value = health
 	healthbar.rect_scale.x = health / 200.0
+	
 
 func toggle_swap(state):
 	about_to_swap = state

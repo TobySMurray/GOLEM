@@ -17,6 +17,7 @@ func _ready():
 	max_speed = walk_speed
 	bullet_spawn_offset = 10
 	flip_offset = -46
+	healthbar.max_value = health
 	init_healthbar()
 
 func player_action():
