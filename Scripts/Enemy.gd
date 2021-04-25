@@ -43,7 +43,7 @@ func _physics_process(delta):
 		if about_to_swap:
 			choose_swap_target()
 		else:
-			if Input.is_action_just_pressed("swap"):
+			if Input.is_action_just_pressed("swap") and GameManager.swappable:
 				toggle_swap(true)
 				
 			player_action()
@@ -91,6 +91,7 @@ func choose_swap_target():
 		if swap_cursor.selected_enemy:
 			swap_cursor.selected_enemy.toggle_playerhood(true)
 			toggle_playerhood(false)
+			GameManager.swap_bar.control_timer = 0
 			clear_transcender()
 		toggle_swap(false)
 	else:
@@ -133,7 +134,7 @@ func toggle_swap(state):
 	about_to_swap = state
 	
 	if(about_to_swap):
-		GameManager.lerp_to_timescale(0.25)
+		GameManager.lerp_to_timescale(0.1)
 		swap_cursor.visible = true
 		choose_swap_target()
 	else:
