@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scripts/WheelBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/Bot Wheel/move without FX.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Art/Characters/Bot Wheel/death.png" type="Texture" id=8]
 [ext_resource path="res://Art/Characters/Bot Wheel/damaged.png" type="Texture" id=9]
 [ext_resource path="res://Art/Characters/Bot Wheel/GAS dash FX.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -361,7 +362,7 @@ shape = SubResource( 8 )
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 0.0102234, -0.932678 )
-frame = 44
+frame = 23
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
@@ -377,4 +378,11 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 17 )
+
+[node name="HealthBar" parent="." instance=ExtResource( 11 )]
+margin_left = -40.0
+margin_top = -21.0
+margin_right = 40.0
+margin_bottom = -13.0
+rect_pivot_offset = Vector2( 40, 0 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

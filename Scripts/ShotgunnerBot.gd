@@ -13,6 +13,7 @@ func _ready():
 	max_speed = 120
 	bullet_spawn_offset = 10
 	flip_offset = -53
+	init_healthbar()
 	
 	
 func player_action():

@@ -8,6 +8,7 @@ onready var swap_cursor = $BloodMoon
 onready var bullet = load("res://Scenes/Bullet.tscn")
 onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
+onready var healthbar = $HealthBar
 
 var health = 100
 var max_speed = 100
@@ -166,12 +167,15 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 		
 func take_damage(damage):
 	health -= damage
+	healthbar.value = health
 	if health <= 0:
 		die()
 	else:
 		pass
 		#animplayer.play("Hit")
-		
+func init_healthbar():
+	healthbar.rect_scale.x = health / 200.0
+
 func toggle_swap(state):
 	about_to_swap = state
 	
