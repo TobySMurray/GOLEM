@@ -5,6 +5,7 @@ onready var muzzle_flash = $MuzzleFlash
 var shot_speed = 200
 var shot_spread = 15
 var num_pellets = 6
+var max_range = 200
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,6 +18,15 @@ func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
 		shoot()
 		
+func ai_move():
+	var to_player = GameManager.player.position - global_position
+	#if to_player.length() > max_range:
+		
+		
+func ai_action():
+	aim_direction = (GameManager.player.global_position - global_position).normalized()
+	if attack_cooldown < 0:
+		shoot()
 		
 func shoot():
 	attacking = true

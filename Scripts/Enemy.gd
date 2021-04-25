@@ -12,6 +12,7 @@ onready var transcender = self.get_parent().get_node("Transcender")
 var health
 var max_speed = 100
 var velocity = Vector2.ZERO
+var target_velocity = Vector2.ZERO
 var accel = 10
 var facing_left = false
 var attacking = false
@@ -57,8 +58,13 @@ func _physics_process(delta):
 	special_cooldown -= delta	
 	
 	animate()
-	velocity = move_and_slide(velocity)
+	move(delta)
 	
+	
+func move(delta):
+	velocity = lerp(velocity, target_velocity, accel*delta)	
+	velocity = move_and_slide(velocity)
+
 func player_move(delta):
 	var input = Vector2()
 	if Input.is_action_pressed("move_right"):
@@ -69,18 +75,15 @@ func player_move(delta):
 		input.y += 1
 	if Input.is_action_pressed("move_up"):
 		input.y -= 1
-	
-	if abs(input.x) > 0 or abs(input.y) > 0:
-		velocity = lerp(velocity, max_speed * input.normalized(), accel*delta)
-	else:
-		velocity = lerp(velocity, Vector2.ZERO, accel*delta)
+		
+	target_velocity = max_speed * input.normalized()
 		
 		
 func player_action():
 	pass
 	
 func ai_move():
-	pass
+	target_velocity = Vector2.ZERO
 	
 func ai_action():
 	pass
@@ -147,6 +150,7 @@ func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
 		get_node("../../../Camera2D").anchor = self
+		GameManager.player = self
 	else:
 		add_to_group("enemy")
 		
