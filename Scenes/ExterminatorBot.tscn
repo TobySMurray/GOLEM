@@ -320,4 +320,4 @@ anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 56
+frame = 19
