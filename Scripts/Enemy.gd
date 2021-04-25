@@ -43,7 +43,7 @@ func _physics_process(delta):
 		if about_to_swap:
 			choose_swap_target()
 		else:
-			if Input.is_action_just_pressed("swap"):
+			if Input.is_action_just_pressed("swap") and GameManager.swappable:
 				toggle_swap(true)
 				
 			player_action()
@@ -91,13 +91,12 @@ func choose_swap_target():
 		if swap_cursor.selected_enemy:
 			swap_cursor.selected_enemy.toggle_playerhood(true)
 			toggle_playerhood(false)
+			GameManager.swap_bar.control_timer = 0
 			clear_transcender()
 		toggle_swap(false)
 	else:
-		if swap_cursor.selected_enemy:
-			draw_transcender()
-		
-
+		draw_transcender()
+			
 		
 func animate():
 	if not attacking:
@@ -135,19 +134,20 @@ func toggle_swap(state):
 	about_to_swap = state
 	
 	if(about_to_swap):
-		GameManager.lerp_to_timescale(0.25)
+		GameManager.lerp_to_timescale(0.1)
 		swap_cursor.visible = true
 		choose_swap_target()
 	else:
 		GameManager.lerp_to_timescale(1)
 		swap_cursor.visible = false
 		swap_cursor.selected_enemy = null
+		swap_cursor.emit_selected_enemy_signal(false)
 		clear_transcender()
 		
 func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
-		get_node("../Camera2D").anchor = self
+		get_node("../../../Camera2D").anchor = self
 	else:
 		add_to_group("enemy")
 		
@@ -158,7 +158,7 @@ func draw_transcender():
 	
 	transcender_curve = Curve2D.new()
 	
-	var enemy_position = swap_cursor.selected_enemy.position
+	var enemy_position = get_global_mouse_position()
 	var my_position = self.position
 	var mid_point = (enemy_position + my_position)/2
 	var mid_point_adjusted = mid_point + Vector2(0, 1)
@@ -187,13 +187,10 @@ func animate_transcender():
 	
 func clear_transcender(): 
 		emit_signal("clear_transcender")
-
+		
 func toggle_selected_enemy(enemy_is_selected):
 	if enemy_is_selected:
-		draw_transcender()
-	else:
-		clear_transcender()
-
+		emit_signal("toggle_selected_enemy")
 
 func die():
 	queue_free()
