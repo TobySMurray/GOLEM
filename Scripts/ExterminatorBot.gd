@@ -24,8 +24,17 @@ func _process(delta):
 				teleport()
 			
 func player_action():
-	if Input.is_action_just_pressed("attack2") and special_cooldown < 0:
-		start_teleport();
+	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
+		attack()
+	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not attacking:
+		start_teleport()
+		
+func attack():
+	attacking = true
+	lock_aim = true
+	max_speed = 0
+	attack_cooldown = 1.5
+	animplayer.play("Attack")
 	
 func start_teleport():
 	charging_tp = true
@@ -61,10 +70,15 @@ func area_deflect():
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == "Appear":
+	if anim_name == "Appear" or anim_name == "Attack":
 		lock_aim = false
 		max_speed = walk_speed
 		attacking = false
 		invincible = false
 	elif anim_name == "Die":
 		queue_free()
+
+
+func _on_Deflector_area_entered(area):
+	if area.is_in_group("bullet"):
+		area.velocity += (area.global_position - global_position).normalized()*area.velocity.length()/2

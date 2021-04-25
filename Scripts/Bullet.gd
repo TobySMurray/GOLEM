@@ -13,8 +13,13 @@ func _physics_process(delta):
 	position += velocity*delta
 
 func _on_Area2D_body_entered(body):
-	if body != source:
-		if (body.is_in_group("enemy") or body.is_in_group("player")) and not body.invincible:
-			body.take_damage(damage)
-			body.velocity += velocity*mass
+	queue_free();
+
+
+func _on_Area2D_area_entered(area):
+	if (area.is_in_group("hitbox")):
+		var entity = area.parent
+		if not entity.invincible and entity != source:
+			entity.take_damage(damage)
+			entity.velocity += velocity*mass
 		queue_free()

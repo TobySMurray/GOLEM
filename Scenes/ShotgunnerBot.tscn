@@ -10,7 +10,6 @@
 [ext_resource path="res://Art/Characters/Shotgunner/hit.png" type="Texture" id=8]
 [ext_resource path="res://Art/Characters/Shotgunner/shotgun blast FX.png" type="Texture" id=9]
 
-
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.92806
 height = 0.0472422
@@ -289,6 +288,7 @@ animations = [ {
 } ]
 
 [node name="ShotgunnerBot" type="KinematicBody2D"]
+collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -310,7 +310,7 @@ anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
-frame = 34
+frame = 10
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
 rotation = -1.08909

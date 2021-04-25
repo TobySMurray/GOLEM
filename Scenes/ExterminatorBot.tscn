@@ -71,7 +71,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "Attack"
-length = 1.42
+length = 1.05
 step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -104,10 +104,24 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56, 0.64, 0.72, 0.8, 0.88, 0.96, 1.04, 1.12, 1.2, 1.28, 1.36 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56, 0.64, 0.72, 0.8, 0.88, 0.96 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
+"values": [ 16, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.48 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "area_deflect"
+} ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -383,8 +397,9 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -12, -30 )
-texture = ExtResource( 8 )
-vframes = 7
+texture = ExtResource( 3 )
+vframes = 18
+frame = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.210236, 16.6077 )
@@ -401,7 +416,7 @@ anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 42
+frame = 47
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )
@@ -412,7 +427,9 @@ offset = Vector2( -13, -26 )
 [node name="Deflector" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Deflector"]
-position = Vector2( 0, 10 )
-scale = Vector2( 10, 10 )
+visible = false
+position = Vector2( 0, 5 )
+scale = Vector2( 8, 8 )
 shape = SubResource( 24 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]
