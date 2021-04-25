@@ -8,6 +8,8 @@ var smooth_base_offset = base_offset
 
 var mouse_follow = 0
 
+func _ready():
+	GameManager.camera = self
 
 func _process(delta):
 	base_offset = (get_global_mouse_position() - anchor.global_position)*mouse_follow

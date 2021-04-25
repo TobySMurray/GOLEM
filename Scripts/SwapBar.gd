@@ -14,6 +14,7 @@ var control_timer = 0
 
 func _ready():
 	self.value = 0
+	GameManager.swap_bar = self
 
 func _physics_process(delta):
 	control_timer = min(control_timer + delta, 100)
@@ -21,7 +22,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("reset"):
 		control_timer = 0
 	
-	self.value = int((control_timer / max_control_time) * 100)
+	self.value = (control_timer / max_control_time) * 100
 	
 	GameManager.swappable = control_timer > swap_threshold
 	

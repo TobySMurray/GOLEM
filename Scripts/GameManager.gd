@@ -6,6 +6,10 @@ var target_timescale = 1
 var swappable = false
 var out_of_control = false
 
+var swap_bar
+var player
+var camera
+
 func _process(delta):
 	timescale = lerp(timescale, target_timescale, delta*12)
 	Engine.time_scale =  timescale
