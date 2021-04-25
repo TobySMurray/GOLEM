@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/idle.png-0f8b69fa82322245da9a54b66dc6226e.stex"
+path="res://.import/idle.png-7079eb2cc9aba0d8643184f518f71bc0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Characters/Merchant Tileset Sidescroller/merchant/idle.png"
-dest_files=[ "res://.import/idle.png-0f8b69fa82322245da9a54b66dc6226e.stex" ]
+source_file="res://Art/Characters/Landmine Bot/Merchant Tileset Sidescroller/merchant/idle.png"
+dest_files=[ "res://.import/idle.png-7079eb2cc9aba0d8643184f518f71bc0.stex" ]
 
 [params]
 

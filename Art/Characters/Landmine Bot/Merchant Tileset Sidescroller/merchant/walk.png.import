@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Sci-fi Tileset re-imagined.png-95e0ce1db20e5f533d701172b7e51887.stex"
+path="res://.import/walk.png-71714ce7148b92c9b33334ddb8442c7d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Characters/Merchant Tileset Sidescroller/Sci-fi Tileset re-imagined.png"
-dest_files=[ "res://.import/Sci-fi Tileset re-imagined.png-95e0ce1db20e5f533d701172b7e51887.stex" ]
+source_file="res://Art/Characters/Landmine Bot/Merchant Tileset Sidescroller/merchant/walk.png"
+dest_files=[ "res://.import/walk.png-71714ce7148b92c9b33334ddb8442c7d.stex" ]
 
 [params]
 

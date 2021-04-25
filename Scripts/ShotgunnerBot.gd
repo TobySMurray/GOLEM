@@ -8,16 +8,38 @@ var num_pellets = 6
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	max_speed = 120
+	bullet_spawn_offset = 10
 	flip_offset = -53
 	
+	
 func player_action():
-	if Input.is_action_just_pressed("attack1"):
-		for i in range(num_pellets):
-			var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
-			var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-			shoot_bullet(pellet_dir*pellet_speed, 10)
+	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
+		shoot()
+		
+		
+func shoot():
+	attacking = true
+	attack_cooldown = 1.2
+	animplayer.play("Shoot")
+	show_muzzle_flash()
+	
+	velocity -= aim_direction*180
+	
+	for i in range(num_pellets):
+		var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
+		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
+		shoot_bullet(pellet_dir*pellet_speed, 10)
 			
 func show_muzzle_flash():
-	muzzle_flash.rotation_d = aim_direction.angle;
+	muzzle_flash.rotation = aim_direction.angle();
+	muzzle_flash.show_behind_parent = muzzle_flash.rotation_degrees < -30 and muzzle_flash.rotation_degrees > -150
+	muzzle_flash.frame = 0
+	muzzle_flash.play("Flash")
 	
 
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "Shoot":
+		attacking = false

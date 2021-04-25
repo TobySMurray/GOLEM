@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/up.png-fd7f2cac2ff37843a0ef645492e01fe7.stex"
+path="res://.import/no.png-1ee472bc386d2491c54adffdcce7f961.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Characters/Merchant Tileset Sidescroller/rock droid merchant/up.png"
-dest_files=[ "res://.import/up.png-fd7f2cac2ff37843a0ef645492e01fe7.stex" ]
+source_file="res://Art/Characters/Landmine Bot/Merchant Tileset Sidescroller/rock droid merchant/no.png"
+dest_files=[ "res://.import/no.png-1ee472bc386d2491c54adffdcce7f961.stex" ]
 
 [params]
 
