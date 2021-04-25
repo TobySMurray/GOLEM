@@ -1,16 +1,9 @@
 extends TextureProgress
 
-
-onready var timer = $SwapTimer
-onready var tween = $UpdateTween
-
-
 var max_control_time = 30
 var swap_threshold = 0
 
 var control_timer = 0
-
-
 
 func _ready():
 	self.value = 0
