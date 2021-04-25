@@ -94,10 +94,8 @@ func choose_swap_target():
 			clear_transcender()
 		toggle_swap(false)
 	else:
-		if swap_cursor.selected_enemy:
-			draw_transcender()
-		
-
+		draw_transcender()
+			
 		
 func animate():
 	if not attacking:
@@ -158,7 +156,7 @@ func draw_transcender():
 	
 	transcender_curve = Curve2D.new()
 	
-	var enemy_position = swap_cursor.selected_enemy.position
+	var enemy_position = get_global_mouse_position()
 	var my_position = self.position
 	var mid_point = (enemy_position + my_position)/2
 	var mid_point_adjusted = mid_point + Vector2(0, 1)
@@ -187,13 +185,6 @@ func animate_transcender():
 	
 func clear_transcender(): 
 		emit_signal("clear_transcender")
-
-func toggle_selected_enemy(enemy_is_selected):
-	if enemy_is_selected:
-		draw_transcender()
-	else:
-		clear_transcender()
-
 
 func die():
 	queue_free()
