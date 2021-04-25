@@ -20,6 +20,7 @@ func _ready():
 	accel = 2.5
 	bullet_spawn_offset = 10
 	flip_offset = -71
+	init_healthbar()
 	
 func _process(delta):
 	ai_retarget_timer -= delta
