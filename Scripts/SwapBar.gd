@@ -5,25 +5,26 @@ onready var timer = $SwapTimer
 onready var tween = $UpdateTween
 
 
-var cooldown = 30
+var max_control_time = 30
 var swap_threshold = 15
 
+var control_timer = 0
+
+
+
 func _ready():
-	timer.wait_time = cooldown
 	self.value = 0
 
 func _physics_process(delta):
-	if Input.is_action_just_pressed("move_up"):
-		timer.start()
+	control_timer = min(control_timer + delta, 100)
 	
-	self.value = int((timer.time_left / cooldown) * 100)
+	if Input.is_action_just_pressed("reset"):
+		control_timer = 0
 	
-	if timer.time_left > swap_threshold:
-		GameManager.swappable = false
+	self.value = int((control_timer / max_control_time) * 100)
 	
-	if timer.time_left < swap_threshold:
-		GameManager.swappable = true
+	GameManager.swappable = control_timer > swap_threshold
 	
-	if timer.time_left < 5:
-		GameManager.out_of_control()
+	if control_timer > max_control_time - 5:
+		GameManager.toggle_out_of_control(true)
 

@@ -147,7 +147,7 @@ func toggle_swap(state):
 func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
-		get_node("../Camera2D").anchor = self
+		get_node("../../../Camera2D").anchor = self
 	else:
 		add_to_group("enemy")
 		
