@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/ExterminatorBot.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Art/Characters/Exterminator/vanish.png" type="Texture" id=7]
 [ext_resource path="res://Art/Characters/Exterminator/death.png" type="Texture" id=8]
 [ext_resource path="res://Art/Characters/Exterminator/idle.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=10]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.67502
@@ -419,7 +420,7 @@ anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 47
+frame = 35
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )
@@ -444,5 +445,12 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2( 7.62939e-06, 5.29732 )
 shape = SubResource( 25 )
+
+[node name="HealthBar" parent="." instance=ExtResource( 10 )]
+margin_left = -40.0
+margin_top = -34.0
+margin_right = 40.0
+margin_bottom = -26.0
+rect_pivot_offset = Vector2( 40, 0 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]

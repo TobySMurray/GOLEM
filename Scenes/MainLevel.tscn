@@ -69,14 +69,11 @@ init_anchor = NodePath("../WorldObjects/Characters/ShotgunnerBot")
 
 [node name="SwapBar" parent="Camera2D/CanvasLayer" instance=ExtResource( 21 )]
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -199.358
-margin_top = -20.2962
-margin_right = -119.358
-margin_bottom = -12.2962
-rect_scale = Vector2( 5, 2 )
+margin_left = -224.0
+margin_top = -64.0
+margin_right = 376.0
+margin_bottom = 16.0
 value = 10.0
 
 [node name="Extra" parent="." instance=ExtResource( 16 )]

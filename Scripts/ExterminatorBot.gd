@@ -14,6 +14,7 @@ func _ready():
 	health = 200
 	max_speed = walk_speed
 	flip_offset = 24
+	init_healthbar()
 	
 func _process(delta):
 	if charging_tp:

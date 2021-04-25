@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/FlamethrowerBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/flamethrower bot/run.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Art/Characters/flamethrower bot/death.png" type="Texture" id=6]
 [ext_resource path="res://Art/Characters/flamethrower bot/prep attack.png" type="Texture" id=7]
 [ext_resource path="res://Art/Characters/flamethrower bot/attack.png" type="Texture" id=8]
+[ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -320,7 +321,7 @@ shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
 visible = false
-frame = 41
+frame = 49
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -330,4 +331,11 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 9 )
+
+[node name="HealthBar" parent="." instance=ExtResource( 9 )]
+margin_left = -39.882
+margin_top = -18.0
+margin_right = 40.118
+margin_bottom = -10.0
+rect_pivot_offset = Vector2( 40, 0 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

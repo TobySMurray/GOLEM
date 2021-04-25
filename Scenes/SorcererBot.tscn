@@ -282,7 +282,7 @@ anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 8 )]
 visible = false
-frame = 5
+frame = 0
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",

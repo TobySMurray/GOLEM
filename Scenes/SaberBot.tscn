@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/Characters/3 Saber dude/quick spin attack.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Art/Characters/3 Saber dude/death or vanish.png" type="Texture" id=5]
 [ext_resource path="res://Art/Characters/3 Saber dude/move.png" type="Texture" id=6]
 [ext_resource path="res://Art/Characters/3 Saber dude/telekenisis dart attack.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -264,7 +265,7 @@ collision_layer = 0
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
 position = Vector2( -0.34697, -0.158186 )
-frame = 13
+frame = 37
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 8, -19.057 )
@@ -292,3 +293,10 @@ collision_mask = 6
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2( -0.472473, -0.629959 )
 shape = SubResource( 8 )
+
+[node name="HealthBar" parent="." instance=ExtResource( 8 )]
+margin_left = -40.157
+margin_top = -27.0
+margin_right = 39.843
+margin_bottom = -19.0
+rect_pivot_offset = Vector2( 40, 0 )
