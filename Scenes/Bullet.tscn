@@ -26,7 +26,10 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 3, 3 )
 
-[node name="Area2D" type="Area2D"]
+[node name="Area2D" type="Area2D" groups=[
+"bullet",
+]]
+collision_layer = 2147483650
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

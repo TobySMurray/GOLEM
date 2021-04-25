@@ -135,8 +135,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id=5]
 resource_name = "Shoot"
-length = 0.6
-loop = true
+length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
@@ -168,10 +167,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 5 ]
+"values": [ 0, 1, 2, 3 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -282,10 +281,10 @@ region = Rect2( 0, 175, 92, 35 )
 
 [sub_resource type="SpriteFrames" id=14]
 animations = [ {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), null ],
+"loop": false,
+"name": "Flash",
+"speed": 10.0
 } ]
 
 [node name="ShotgunnerBot" type="KinematicBody2D"]
@@ -310,10 +309,12 @@ anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
-frame = 57
+frame = 34
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
-show_behind_parent = true
 rotation = -1.08909
 frames = SubResource( 14 )
+animation = "Flash"
+frame = 6
 offset = Vector2( 18, -3.5 )
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

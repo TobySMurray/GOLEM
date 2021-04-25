@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+class_name Enemy
+
 onready var animplayer = $AnimationPlayer
 onready var sprite = $Sprite
 onready var swap_cursor = $BloodMoon
@@ -8,20 +10,26 @@ onready var bullet = load("res://Scenes/Bullet.tscn")
 var health
 var max_speed = 100
 var velocity = Vector2.ZERO
-var accel = 1
+var accel = 10
 var facing_left = false
 var attacking = false
 var about_to_swap = false
 
-var aim_direction
+var attack_cooldown = 0
+var special_cooldown = 0
 
-var flip_offset
+var aim_direction
+var lock_aim = false
+
+var flip_offset = 0
+var bullet_spawn_offset = 0
 
 func _physics_process(delta):
 	if not is_in_group("enemy"):
-		aim_direction = (get_global_mouse_position() - global_position).normalized()
+		if not lock_aim:
+			aim_direction = (get_global_mouse_position() - global_position).normalized()
 		
-		player_move()
+		player_move(delta)
 		
 		if about_to_swap:
 			choose_swap_target()
@@ -36,9 +44,13 @@ func _physics_process(delta):
 		ai_move()
 		ai_action()
 		
-	animate()
+	attack_cooldown -= delta
+	special_cooldown -= delta	
 	
-func player_move():
+	animate()
+	velocity = move_and_slide(velocity)
+	
+func player_move(delta):
 	var input = Vector2()
 	if Input.is_action_pressed("move_right"):
 		input.x += 1
@@ -50,14 +62,15 @@ func player_move():
 		input.y -= 1
 	
 	if abs(input.x) > 0 or abs(input.y) > 0:
-		velocity = lerp(velocity, max_speed * input.normalized(), accel)
+		velocity = lerp(velocity, max_speed * input.normalized(), accel*delta)
 	else:
-		velocity = lerp(velocity, Vector2.ZERO, accel)
-		
-	velocity = move_and_slide(velocity)
+		velocity = lerp(velocity, Vector2.ZERO, accel*delta)
 		
 		
 func player_action():
+	pass
+	
+func ai_move():
 	pass
 	
 func ai_action():
@@ -73,8 +86,7 @@ func choose_swap_target():
 		
 		toggle_swap(false)
 		
-func ai_move():
-	pass
+
 		
 func animate():
 	if not attacking:
@@ -95,7 +107,7 @@ func animate():
 		
 func shoot_bullet(vel, damage):
 	var new_bullet = bullet.instance().duplicate()
-	new_bullet.global_position = global_position
+	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
 	new_bullet.source = self
 	new_bullet.velocity = vel
 	new_bullet.damage = damage
@@ -123,7 +135,7 @@ func toggle_swap(state):
 func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
-		get_node("/root/LevelTest/Camera2D").anchor = self
+		get_node("../Camera2D").anchor = self
 	else:
 		add_to_group("enemy")
 		
