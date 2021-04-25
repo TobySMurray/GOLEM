@@ -141,6 +141,7 @@ func toggle_swap(state):
 		GameManager.lerp_to_timescale(1)
 		swap_cursor.visible = false
 		swap_cursor.selected_enemy = null
+		swap_cursor.emit_selected_enemy_signal(false)
 		clear_transcender()
 		
 func toggle_playerhood(state):

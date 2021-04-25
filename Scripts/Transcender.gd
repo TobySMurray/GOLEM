@@ -4,6 +4,9 @@ var transcender_curve = Curve2D.new()
 var should_draw = false
 var enemy_is_selected = false
 
+func _ready():
+	GameManager.transcender = self
+
 func _draw():
 	if should_draw:
 		var curve_points = transcender_curve.tessellate()
@@ -19,5 +22,6 @@ func clear_transcender():
 	should_draw = false
 	update()
 
-func selected_enemy_signal(enemy_is_selected):
-	enemy_is_selected = enemy_is_selected
+func toggle_selected_enemy(_enemy_is_selected):
+	enemy_is_selected = _enemy_is_selected
+	update()
