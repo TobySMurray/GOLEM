@@ -1,8 +1,8 @@
 extends Label
 
-export var decay = 0.8  # How quickly the shaking stops [0, 1].
-export var max_dist = 20  # Maximum hor/ver shake in pixels.
-export var max_roll = 30  # Maximum rotation in radians (use sparingly).
+export var decay = 1  # How quickly the shaking stops [0, 1].
+export var max_dist = 5  # Maximum hor/ver shake in pixels.
+export var max_roll = 0  # Maximum rotation in radians (use sparingly).
 #export var color_fade_time = 0.5
 #export var rave_intensity = 0
 
@@ -10,6 +10,7 @@ export var max_roll = 30  # Maximum rotation in radians (use sparingly).
 #export var pulse_gradient : Gradient
 #export var color_pulse_freq = 2
 #export var color_pulse_range = 0.3
+
 
 
 #var base_color
@@ -25,6 +26,7 @@ export var score = 0
 
 func _ready():
 	base_pos = rect_position
+	GameManager.score_display = self
 	#base_color = modulate
 
 func _process(delta):

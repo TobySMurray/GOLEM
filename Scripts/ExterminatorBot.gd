@@ -16,6 +16,7 @@ func _ready():
 	flip_offset = 24
 	healthbar.max_value = health
 	init_healthbar()
+	score = 100
 	
 func _process(delta):
 	if charging_tp:

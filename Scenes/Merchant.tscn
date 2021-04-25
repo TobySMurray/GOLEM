@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Art/Characters/Merchant/walk.png" type="Texture" id=1]
 [ext_resource path="res://Art/Characters/Merchant/idle.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/Merchant.gd" type="Script" id=4]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=1]
 resource_name = "Die"
 length = 0.8
 tracks/0/type = "value"
@@ -44,8 +45,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.470588, 0.470588, 0.470588, 1 ), Color( 0, 0, 0, 0.529412 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "Idle"
+[sub_resource type="Animation" id=2]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -109,8 +109,7 @@ tracks/4/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Walk"
+[sub_resource type="Animation" id=3]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -174,27 +173,29 @@ tracks/4/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="CapsuleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=4]
 radius = 4.62383
 height = 0.0
 
 [node name="Merchant" type="KinematicBody2D"]
 collision_layer = 0
+script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
-hframes = 4
+texture = ExtResource( 1 )
+hframes = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 0.5
-anims/Die = SubResource( 4 )
-anims/Idle = SubResource( 1 )
-anims/Walk = SubResource( 2 )
+anims/Die = SubResource( 1 )
+anims/Idle = SubResource( 2 )
+anims/Walk = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 12.9326 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
-frame = 31
+frame = 23
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

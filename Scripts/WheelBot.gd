@@ -21,6 +21,7 @@ func _ready():
 	bullet_spawn_offset = 10
 	flip_offset = -71
 	healthbar.max_value = health
+	score = 50
 	init_healthbar()
 	
 func _process(delta):

@@ -12,6 +12,8 @@ var swap_bar
 var player
 var camera
 var transcender
+var total_score = 0
+var score_display
 
 func _process(delta):
 	timescale = lerp(timescale, target_timescale, delta*12)
@@ -32,3 +34,6 @@ func spawn_explosion(pos, size = 1, damage = 20, force = 200, delay = 0):
 	new_explosion.delay_timer = delay
 	get_node("/root").add_child(new_explosion)
 	
+func increase_score(value):
+	total_score += value
+	score_display.score = total_score

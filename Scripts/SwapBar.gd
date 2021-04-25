@@ -1,7 +1,7 @@
 extends TextureProgress
 
 var max_control_time = 30
-var swap_threshold = 15
+var swap_threshold = 5
 
 var control_timer = 0
 
@@ -21,8 +21,6 @@ func _physics_process(delta):
 		control_timer = 0
 	
 	self.value = (control_timer / max_control_time) * 100
-	tween.interpolate_property(self, "value", self.value, control_timer, 0.4, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 0.2)
-	tween.start()
 	
 	GameManager.swappable = control_timer > swap_threshold
 	

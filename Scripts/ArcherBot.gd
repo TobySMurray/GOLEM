@@ -12,9 +12,10 @@ var raycast_endpoint = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 120
+	health = 50
 	max_speed = walk_speed
 	flip_offset = -23
+	init_healthbar()
 	
 func _process(delta):
 	if charging:
