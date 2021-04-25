@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/Sky.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://Scenes/ExterminatorBot.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/FlamethrowerBot.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scenes/ChainBot.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Scenes/ArcherBot.tscn" type="PackedScene" id=25]
 
 [node name="MainLevel" type="Node2D"]
 
@@ -106,6 +107,9 @@ position = Vector2( 100.319, 129.618 )
 position = Vector2( 139.295, 11.1118 )
 
 [node name="ShotgunnerBot" parent="WorldObjects/Characters" instance=ExtResource( 2 )]
+
+[node name="ArcherBot" parent="WorldObjects/Characters" instance=ExtResource( 25 )]
+position = Vector2( 0, 288 )
 
 [node name="Marble Orb" parent="WorldObjects" instance=ExtResource( 14 )]
 position = Vector2( -265.342, 580.376 )

@@ -321,7 +321,7 @@ shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
 visible = false
-frame = 49
+frame = 38
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",

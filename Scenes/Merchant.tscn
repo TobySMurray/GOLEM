@@ -197,4 +197,4 @@ shape = SubResource( 3 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
-frame = 27
+frame = 31
