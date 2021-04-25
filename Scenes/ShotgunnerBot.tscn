@@ -314,7 +314,7 @@ anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
-frame = 22
+frame = 12
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
 rotation = -1.08909

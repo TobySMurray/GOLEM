@@ -1,5 +1,7 @@
 extends Node
 
+onready var explosion = load("res://Scenes/Explosion.tscn")
+
 var timescale = 1
 var target_timescale = 1
 
@@ -20,4 +22,13 @@ func lerp_to_timescale(scale):
 	
 func toggle_out_of_control(state):
 	out_of_control = state
+	
+func spawn_explosion(pos, size = 1, damage = 20, force = 200, delay = 0):
+	var new_explosion = explosion.instance().duplicate()
+	new_explosion.global_position = pos
+	new_explosion.scale = Vector2(size, size)
+	new_explosion.damage = damage
+	new_explosion.force = force
+	new_explosion.delay_timer = delay
+	get_node("/root").add_child(new_explosion)
 	
