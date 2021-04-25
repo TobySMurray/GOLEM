@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/SwapBar.gd" type="Script" id=1]
 [ext_resource path="res://Art/Progress Bar.png" type="Texture" id=2]
-[ext_resource path="res://Art/Caution Tape Test.png" type="Texture" id=3]
+[ext_resource path="res://Art/Caution Tape2.png" type="Texture" id=3]
 [ext_resource path="res://Art/FilledBarWhite.png" type="Texture" id=4]
 
 [node name="SwapBar" type="TextureProgress"]
