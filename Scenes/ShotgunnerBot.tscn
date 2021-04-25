@@ -288,8 +288,8 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=15]
-radius = 4.57404
-height = 9.97965
+radius = 5.0
+height = 7.0
 
 [node name="ShotgunnerBot" type="KinematicBody2D"]
 collision_layer = 0
@@ -297,8 +297,8 @@ script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 26, -4 )
-texture = ExtResource( 5 )
-vframes = 8
+texture = ExtResource( 7 )
+vframes = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.198425, 8.53022 )
@@ -314,8 +314,7 @@ anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
-frame = 10
-
+frame = 22
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
 rotation = -1.08909
@@ -327,10 +326,10 @@ offset = Vector2( 18, -3.5 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
-collision_layer = 6
-collision_mask = 6
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2( -0.198425, 3.87735 )
+position = Vector2( 0, 3.70812 )
 shape = SubResource( 15 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -18,7 +18,7 @@ func _on_Area2D_body_entered(body):
 
 func _on_Area2D_area_entered(area):
 	if (area.is_in_group("hitbox")):
-		var entity = area.parent
+		var entity = area.get_parent()
 		if not entity.invincible and entity != source:
 			entity.take_damage(damage)
 			entity.velocity += velocity*mass

@@ -60,7 +60,7 @@ func teleport():
 	invincible = true
 	
 func area_deflect():
-	deflect(deflector_shape, true)
+	melee_attack(deflector_shape, 20, 300, 2)
 	
 
 

@@ -393,11 +393,10 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=24]
 
 [sub_resource type="CapsuleShape2D" id=25]
-radius = 3.97119
-height = 29.5692
+radius = 5.0
+height = 25.0
 
 [node name="ExterminatorBot" type="KinematicBody2D"]
-collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -420,7 +419,7 @@ anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 22
+frame = 47
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )
@@ -439,10 +438,11 @@ shape = SubResource( 24 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
-collision_layer = 6
-collision_mask = 6
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2( 7.62939e-06, 5.29732 )
 shape = SubResource( 25 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]

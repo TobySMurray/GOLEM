@@ -133,27 +133,33 @@ func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):
 	new_bullet.lifetime = lifetime
 	get_node("/root").add_child(new_bullet)
 	
-func deflect(collider, superdeflect = false):
+func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 	var space_rid = get_world_2d().space
 	var space_state = Physics2DServer.space_get_direct_state(space_rid)
 	
 	var query = Physics2DShapeQueryParameters.new()
 	query.collide_with_areas = true
 	query.collide_with_bodies = false
-	query.collision_layer =  2
+	query.collision_layer =  6 if deflect_power > 0 else 4
 	query.exclude = []
 	query.transform = collider.global_transform
 	query.set_shape(collider.shape)
 	
 	var results = space_state.intersect_shape(query, 32)
 	for col in results:
-		var bullet = col['collider']
-		if bullet.is_in_group("bullet"):
+		if col['collider'].is_in_group("hitbox"):
+			var enemy = col['collider'].get_parent()
+			if not enemy.invincible and not enemy == self:
+				enemy.take_damage(damage)
+				enemy.velocity += (enemy.global_position - global_position).normalized() * force
+			
+		elif col['collider'].is_in_group("bullet") and deflect_power > 0:
+			var bullet = col['collider']
 			var target = bullet.source
-			if target != self:
+			if target and target != self:
 				bullet.source = self
 				bullet.lifetime += 2
-				if superdeflect:
+				if deflect_power > 1:
 					bullet.velocity = (target.global_position - bullet.global_position).normalized() * bullet.velocity.length()*2
 				else:
 					bullet.velocity = -bullet.velocity

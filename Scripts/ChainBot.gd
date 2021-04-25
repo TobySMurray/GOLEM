@@ -58,7 +58,7 @@ func swing_attack():
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 		shoot_bullet(pellet_dir*pellet_speed, 10, 2, 1)
 		
-	deflect(attack_collider, charge_level > 1)
+	melee_attack(attack_collider, 30*charge_level, 300*charge_level, 2 if charge_level > 1 else 1)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":

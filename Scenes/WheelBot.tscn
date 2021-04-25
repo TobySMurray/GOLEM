@@ -361,7 +361,7 @@ shape = SubResource( 8 )
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 0.0102234, -0.932678 )
-frame = 1
+frame = 44
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
@@ -372,6 +372,8 @@ offset = Vector2( 35, -2 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 17 )
