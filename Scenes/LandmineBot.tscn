@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Art/Characters/Landmine Bot/all.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/LandmineBot.gd" type="Script" id=2]
@@ -38,9 +38,8 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-resource_name = "Expode"
-length = 0.8
-loop = true
+resource_name = "Explode"
+length = 0.9
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -48,10 +47,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 23, 24, 25, 26, 27, 28, 29, 30 ]
+"values": [ 23, 24, 25, 26, 27, 28, 29, 30, 31 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -83,6 +82,22 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1 ]
 }
 
+[sub_resource type="Animation" id=7]
+resource_name = "Undig"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 13, 12, 10, 9 ]
+}
+
 [sub_resource type="Animation" id=5]
 resource_name = "Walk"
 length = 0.4
@@ -110,23 +125,25 @@ script = ExtResource( 2 )
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 0.625, -1.5 )
-frame = 12
+frame = 51
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 3, -36 )
 texture = ExtResource( 1 )
 vframes = 4
 hframes = 8
-frame = 17
+frame = 9
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/BuryIdle = SubResource( 1 )
 anims/Dig = SubResource( 2 )
-anims/Expode = SubResource( 3 )
+anims/Explode = SubResource( 3 )
 anims/Idle = SubResource( 4 )
+anims/Undig = SubResource( 7 )
 anims/Walk = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.198425, 0.496956 )
 rotation = 1.5708
 shape = SubResource( 6 )
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

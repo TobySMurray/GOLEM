@@ -55,7 +55,7 @@ func _physics_process(delta):
 		ai_action()
 		
 	attack_cooldown -= delta
-	special_cooldown -= delta	
+	special_cooldown -= delta
 	
 	animate()
 	move(delta)
@@ -117,12 +117,13 @@ func animate():
 		animplayer.play("Walk")
 		
 		
-func shoot_bullet(vel, damage):
+func shoot_bullet(vel, damage, lifetime = 10):
 	var new_bullet = bullet.instance().duplicate()
 	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
 	new_bullet.source = self
 	new_bullet.velocity = vel
 	new_bullet.damage = damage
+	new_bullet.lifetime = lifetime
 	get_node("/root").add_child(new_bullet)
 		
 func take_damage(damage):

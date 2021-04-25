@@ -2,7 +2,7 @@ extends "res://Scripts/Enemy.gd"
 
 onready var muzzle_flash = $MuzzleFlash
 
-var shot_speed = 200
+var shot_speed = 150
 var shot_spread = 15
 var num_pellets = 6
 var max_range = 200
