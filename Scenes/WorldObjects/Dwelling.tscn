@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Art/Environment/Sci-fi Tileset re-imagined.png" type="Texture" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 48.4745, 8.48204 )
+
+[node name="Dwelling" type="StaticBody2D"]
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( -0.235931, -16.9897 )
+scale = Vector2( 1, 0.32159 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( -1.202, 224.131, 98, 32 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.886275, 0.886275, 0.886275, 1 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( -1.202, 224.131, 98, 32 )
+
+[node name="Sprite" type="Sprite" parent="Sprite"]
+position = Vector2( -50.5585, -0.222725 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 107.139, 210.856, 5, 30 )
+
+[node name="Sprite4" type="Sprite" parent="Sprite"]
+position = Vector2( 23.7716, 15.8231 )
+rotation = 1.5708
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 107.139, 210.856, 5, 30 )
+
+[node name="Sprite2" type="Sprite" parent="Sprite"]
+position = Vector2( -14.5678, -1.4865 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 98.567, 178.827, 50, 25 )
+
+[node name="Sprite3" type="Sprite" parent="Sprite"]
+position = Vector2( 23.2322, -0.0800552 )
+scale = Vector2( 1, 1.30919 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 225.126, 133.169, 16, 20 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1.41583, 7.07906 )
+shape = SubResource( 1 )

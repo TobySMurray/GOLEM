@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/attack.png-f0695ab1744eb6f479574419691b122a.stex"
+path="res://.import/healthbar-Sheet.png-6f8ed272ac722982f4d046a8e10080f7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Characters/attack.png"
-dest_files=[ "res://.import/attack.png-f0695ab1744eb6f479574419691b122a.stex" ]
+source_file="res://Art/healthbar-Sheet.png"
+dest_files=[ "res://.import/healthbar-Sheet.png-6f8ed272ac722982f4d046a8e10080f7.stex" ]
 
 [params]
 

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Art/Environment/Sci-fi Tileset re-imagined.png" type="Texture" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 12.274, 4.5063 )
+
+[node name="Medium Rock" type="Sprite"]
+position = Vector2( 0, -1.45676 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 1.725, 86.999, 30, 25 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -0.264877, 7.68111 )
+shape = SubResource( 1 )
