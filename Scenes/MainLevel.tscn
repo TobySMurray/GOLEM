@@ -77,7 +77,6 @@ margin_top = -20.2962
 margin_right = -119.358
 margin_bottom = -12.2962
 rect_scale = Vector2( 5, 2 )
-max_value = 100.0
 value = 10.0
 
 [node name="Extra" parent="." instance=ExtResource( 16 )]

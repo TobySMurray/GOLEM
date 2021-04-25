@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Art/Characters/Sorcerer Bot/death.png" type="Texture" id=1]
 [ext_resource path="res://Art/Characters/Sorcerer Bot/damaged.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Art/Characters/Sorcerer Bot/attack 1.png" type="Texture" id=5]
 [ext_resource path="res://Art/Characters/Sorcerer Bot/walk.png" type="Texture" id=6]
 [ext_resource path="res://Scripts/SorcererBot.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.2459
@@ -37,6 +38,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -242,12 +255,17 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
+[sub_resource type="CapsuleShape2D" id=8]
+radius = 6.3286
+height = 13.1582
+
 [node name="SorcererBot" type="KinematicBody2D"]
+collision_layer = 0
 script = ExtResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 7, -37 )
-texture = ExtResource( 6 )
+texture = ExtResource( 3 )
 hframes = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -261,3 +279,16 @@ anims/Hit = SubResource( 4 )
 anims/Idle = SubResource( 5 )
 anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
+
+[node name="BloodMoon" parent="." instance=ExtResource( 8 )]
+visible = false
+frame = 5
+
+[node name="Hitbox" type="Area2D" parent="." groups=[
+"hitbox",
+]]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource( 8 )

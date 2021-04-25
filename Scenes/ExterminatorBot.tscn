@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/ExterminatorBot.gd" type="Script" id=2]
@@ -378,13 +378,18 @@ animations = [ {
 
 [sub_resource type="CircleShape2D" id=24]
 
+[sub_resource type="CapsuleShape2D" id=25]
+radius = 3.97119
+height = 29.5692
+
 [node name="ExterminatorBot" type="KinematicBody2D"]
+collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -12, -30 )
-texture = ExtResource( 8 )
-vframes = 7
+texture = ExtResource( 5 )
+vframes = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.210236, 16.6077 )
@@ -401,7 +406,7 @@ anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 42
+frame = 22
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )
@@ -415,4 +420,13 @@ offset = Vector2( -13, -26 )
 position = Vector2( 0, 10 )
 scale = Vector2( 10, 10 )
 shape = SubResource( 24 )
+
+[node name="Hitbox" type="Area2D" parent="." groups=[
+"hitbox",
+]]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource( 25 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
