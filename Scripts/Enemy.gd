@@ -102,15 +102,14 @@ func choose_swap_target():
 			
 		
 func animate():
-	if not attacking:
-		if aim_direction.x > 0:
-			facing_left = false
-			sprite.flip_h = false
-			sprite.offset.x = 0
-		else:
-			facing_left = true
-			sprite.flip_h = true
-			sprite.offset.x = flip_offset
+	if aim_direction.x > 0:
+		facing_left = false
+		sprite.flip_h = false
+		sprite.offset.x = 0
+	else:
+		facing_left = true
+		sprite.flip_h = true
+		sprite.offset.x = flip_offset
 
 	if abs(velocity.x) <= 20 and !attacking:
 		animplayer.play("Idle")
