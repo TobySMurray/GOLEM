@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Art/Characters/Shotgunner/idle.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/ShotgunnerBot.gd" type="Script" id=2]
@@ -287,14 +287,18 @@ animations = [ {
 "speed": 10.0
 } ]
 
+[sub_resource type="CapsuleShape2D" id=15]
+radius = 4.57404
+height = 9.97965
+
 [node name="ShotgunnerBot" type="KinematicBody2D"]
 collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 26, -4 )
-texture = ExtResource( 7 )
-vframes = 11
+texture = ExtResource( 5 )
+vframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.198425, 8.53022 )
@@ -312,10 +316,21 @@ anims/Walk = SubResource( 7 )
 visible = false
 frame = 10
 
+
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
 rotation = -1.08909
 frames = SubResource( 14 )
 animation = "Flash"
 frame = 6
 offset = Vector2( 18, -3.5 )
+
+[node name="Hitbox" type="Area2D" parent="." groups=[
+"hitbox",
+]]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2( -0.198425, 3.87735 )
+shape = SubResource( 15 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

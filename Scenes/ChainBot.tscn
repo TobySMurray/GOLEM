@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/idle.png" type="Texture" id=2]
@@ -277,11 +277,16 @@ radius = 4.76478
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 28.0975, 9.08869 )
 
+[sub_resource type="CapsuleShape2D" id=9]
+radius = 4.94826
+height = 6.09468
+
 [node name="ChainBot" type="KinematicBody2D"]
+collision_layer = 0
 script = ExtResource( 8 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 vframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -298,7 +303,7 @@ shape = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 32
+frame = 5
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_mask = 3
@@ -306,4 +311,14 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackCollider"]
 position = Vector2( 34, 6 )
 shape = SubResource( 8 )
+
+[node name="Hitbox" type="Area2D" parent="." groups=[
+"hitbox",
+]]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2( 0.441948, 4.68458 )
+shape = SubResource( 9 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

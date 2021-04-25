@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Art/Characters/Landmine Bot/all.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/LandmineBot.gd" type="Script" id=2]
@@ -82,7 +82,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 resource_name = "Undig"
 length = 0.5
 tracks/0/type = "value"
@@ -98,8 +98,7 @@ tracks/0/keys = {
 "values": [ 14, 13, 12, 10, 9 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Walk"
+[sub_resource type="Animation" id=6]
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -115,11 +114,16 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=6]
+[sub_resource type="CapsuleShape2D" id=7]
 radius = 1.37782
 height = 10.5343
 
+[sub_resource type="CapsuleShape2D" id=8]
+radius = 3.6638
+height = 0.0
+
 [node name="LandmineBot" type="KinematicBody2D"]
+collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
@@ -139,11 +143,21 @@ anims/BuryIdle = SubResource( 1 )
 anims/Dig = SubResource( 2 )
 anims/Explode = SubResource( 3 )
 anims/Idle = SubResource( 4 )
-anims/Undig = SubResource( 7 )
-anims/Walk = SubResource( 5 )
+anims/Undig = SubResource( 5 )
+anims/Walk = SubResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.198425, 0.496956 )
 rotation = 1.5708
-shape = SubResource( 6 )
+shape = SubResource( 7 )
+
+[node name="Hitbox" type="Area2D" parent="." groups=[
+"hitbox",
+]]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2( -0.0992126, -1.5874 )
+shape = SubResource( 8 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
