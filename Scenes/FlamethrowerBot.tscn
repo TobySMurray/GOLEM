@@ -90,7 +90,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=3]
 resource_name = "Cooldown"
 length = 0.5
 tracks/0/type = "value"
@@ -130,8 +130,7 @@ tracks/2/keys = {
 "values": [ 5, 4, 3, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Die"
+[sub_resource type="Animation" id=4]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -170,8 +169,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "Hit"
+[sub_resource type="Animation" id=5]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -210,7 +208,7 @@ tracks/2/keys = {
 "values": [ 2 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -250,7 +248,7 @@ tracks/2/keys = {
 "values": [ 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -290,7 +288,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=8]
 radius = 6.17851
 
 [node name="FlamethrowerBot" type="KinematicBody2D"]
@@ -299,11 +297,11 @@ script = ExtResource( 1 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
 anims/Charge = SubResource( 2 )
-anims/Cooldown = SubResource( 8 )
-anims/Die = SubResource( 3 )
-anims/Hit = SubResource( 4 )
-anims/Idle = SubResource( 5 )
-anims/Walk = SubResource( 6 )
+anims/Cooldown = SubResource( 3 )
+anims/Die = SubResource( 4 )
+anims/Hit = SubResource( 5 )
+anims/Idle = SubResource( 6 )
+anims/Walk = SubResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 22, -19 )
@@ -313,9 +311,8 @@ frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.44545, 3.34087 )
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
 visible = false
-frame = 15
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

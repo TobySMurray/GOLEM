@@ -9,7 +9,7 @@ onready var bullet = load("res://Scenes/Bullet.tscn")
 onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
 
-var health
+var health = 100
 var max_speed = 100
 var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
@@ -21,11 +21,13 @@ var about_to_swap = false
 var attack_cooldown = 0
 var special_cooldown = 0
 
-var aim_direction
+var aim_direction = Vector2.ZERO
 var lock_aim = false
 
 var flip_offset = 0
 var bullet_spawn_offset = 0
+
+var invincible = false
 
 signal draw_transcender
 signal clear_transcender
@@ -35,6 +37,9 @@ func _ready():
 	self.connect("clear_transcender", transcender, "clear_transcender")
 
 func _physics_process(delta):
+	if health <= 0:
+		return
+	
 	if not is_in_group("enemy"):
 		if not lock_aim:
 			aim_direction = (get_global_mouse_position() - global_position).normalized()
@@ -50,9 +55,10 @@ func _physics_process(delta):
 			player_action()
 		
 	else:
-		aim_direction = Vector2.RIGHT #Will aim at player when defined
-		ai_move()
-		ai_action()
+		if GameManager.player:
+			#aim_direction = Vector2.RIGHT #Will aim at player when defined
+			ai_move()
+			ai_action()
 		
 	attack_cooldown -= delta
 	special_cooldown -= delta
@@ -62,7 +68,7 @@ func _physics_process(delta):
 	
 	
 func move(delta):
-	velocity = lerp(velocity, target_velocity, accel*delta)	
+	velocity = lerp(velocity, target_velocity.normalized()*max_speed, accel*delta)	
 	velocity = move_and_slide(velocity)
 
 func player_move(delta):
@@ -111,27 +117,54 @@ func animate():
 		sprite.flip_h = true
 		sprite.offset.x = flip_offset
 
-	if abs(velocity.x) <= 20 and !attacking:
+	if abs(velocity.x) < 20 and abs(velocity.y) < 20 and !attacking:
 		animplayer.play("Idle")
 	elif !attacking:
 		animplayer.play("Walk")
 		
 		
-func shoot_bullet(vel, damage, lifetime = 10):
+func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):
 	var new_bullet = bullet.instance().duplicate()
 	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
 	new_bullet.source = self
 	new_bullet.velocity = vel
 	new_bullet.damage = damage
+	new_bullet.mass = mass
 	new_bullet.lifetime = lifetime
 	get_node("/root").add_child(new_bullet)
+	
+func deflect(collider, superdeflect = false):
+	var space_rid = get_world_2d().space
+	var space_state = Physics2DServer.space_get_direct_state(space_rid)
+	
+	var query = Physics2DShapeQueryParameters.new()
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	query.collision_layer =  2
+	query.exclude = []
+	query.transform = collider.global_transform
+	query.set_shape(collider.shape)
+	
+	var results = space_state.intersect_shape(query, 32)
+	for col in results:
+		var bullet = col['collider']
+		if bullet.is_in_group("bullet"):
+			var target = bullet.source
+			if target != self:
+				bullet.source = self
+				bullet.lifetime += 2
+				if superdeflect:
+					bullet.velocity = (target.global_position - bullet.global_position).normalized() * bullet.velocity.length()*2
+				else:
+					bullet.velocity = -bullet.velocity
 		
 func take_damage(damage):
 	health -= damage
 	if health <= 0:
 		die()
 	else:
-		animplayer.play("Hit")
+		pass
+		#animplayer.play("Hit")
 		
 func toggle_swap(state):
 	about_to_swap = state
@@ -150,9 +183,11 @@ func toggle_swap(state):
 func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
+		add_to_group("player")
 		get_node("../../../Camera2D").anchor = self
 		GameManager.player = self
 	else:
+		remove_from_group("player")
 		add_to_group("enemy")
 		
 	#is_player = state
@@ -197,7 +232,8 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die():
-	queue_free()
+	attacking = true
+	animplayer.play("Die")
 		
 	
 

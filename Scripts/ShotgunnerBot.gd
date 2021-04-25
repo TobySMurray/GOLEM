@@ -9,6 +9,7 @@ var max_range = 200
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	health = 120
 	max_speed = 120
 	bullet_spawn_offset = 10
 	flip_offset = -53
@@ -39,7 +40,7 @@ func shoot():
 	for i in range(num_pellets):
 		var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-		shoot_bullet(pellet_dir*pellet_speed, 10)
+		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 3)
 			
 func show_muzzle_flash():
 	muzzle_flash.rotation = aim_direction.angle();
@@ -53,3 +54,5 @@ func show_muzzle_flash():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":
 		attacking = false
+	elif anim_name == "Die":
+		queue_free()

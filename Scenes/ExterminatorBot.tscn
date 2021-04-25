@@ -65,13 +65,14 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "deflect"
+"method": "area_deflect"
 } ]
 }
 
 [sub_resource type="Animation" id=3]
 resource_name = "Attack"
-length = 1.8
+length = 1.42
+step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
@@ -103,7 +104,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7 ),
+"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56, 0.64, 0.72, 0.8, 0.88, 0.96, 1.04, 1.12, 1.2, 1.28, 1.36 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
@@ -112,7 +113,6 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=4]
 resource_name = "Die"
 length = 0.7
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
@@ -233,9 +233,8 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id=7]
 resource_name = "Vanish"
-length = 1.4
 loop = true
-step = 0.05
+step = 0.02
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
@@ -267,7 +266,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2 ),
+"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56, 0.64, 0.72, 0.8, 0.88, 0.96 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13 ]
@@ -313,79 +312,79 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 }
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 108, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=25]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 216, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=26]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 324, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=27]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 432, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=28]
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 540, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=29]
+[sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 648, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=30]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 756, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=31]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 864, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=32]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 972, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=33]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 1080, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=34]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 1188, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=35]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 1296, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=36]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 1404, 97, 108 )
 
-[sub_resource type="SpriteFrames" id=22]
+[sub_resource type="SpriteFrames" id=23]
 animations = [ {
-"frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), null ],
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), null ],
 "loop": false,
 "name": "Vanish",
 "speed": 10.0
 } ]
 
-[sub_resource type="CircleShape2D" id=37]
+[sub_resource type="CircleShape2D" id=24]
 
 [node name="ExterminatorBot" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -12, -30 )
-texture = ExtResource( 5 )
-vframes = 10
+texture = ExtResource( 8 )
+vframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.210236, 16.6077 )
@@ -402,10 +401,10 @@ anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
-frame = 40
+frame = 42
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 22 )
+frames = SubResource( 23 )
 animation = "Vanish"
 frame = 14
 offset = Vector2( -13, -26 )
@@ -415,5 +414,5 @@ offset = Vector2( -13, -26 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Deflector"]
 position = Vector2( 0, 10 )
 scale = Vector2( 10, 10 )
-shape = SubResource( 37 )
+shape = SubResource( 24 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
