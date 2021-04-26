@@ -30,6 +30,7 @@ var audio
 onready var game_time = 0
 var spawn_timer = 0
 var enemy_count = 5
+var player_bullets = []
 
 func _process(delta):
 	game_time += delta
@@ -58,6 +59,8 @@ func spawn_explosion(pos, size = 1, damage = 20, force = 200, delay = 0):
 	get_node("/root").add_child(new_explosion)
 	
 func spawn_enemy():
+	if not player: return
+	
 	enemy_count += 1
 	var new_enemy = choose_weighted(enemies, weights).instance().duplicate()
 	
@@ -65,8 +68,8 @@ func spawn_enemy():
 	new_enemy.add_to_group("enemy")
 	
 	while(1 == 1): #Non-algorithmic function LOL
-		var point = Vector2(-500 + randf()*1500, -250 + randf()*650)
-		if is_point_in_bounds(point):
+		var point = Vector2(-500 + randf()*2500, -250 + randf()*1150)
+		if is_point_in_bounds(point) and is_point_offscreen(point):
 			new_enemy.global_position = point
 			get_node("/root/MainLevel/WorldObjects/Characters").add_child(new_enemy)
 			break
@@ -84,6 +87,10 @@ func increase_score(value):
 func is_point_in_bounds(global_point):
 	var tile_point = ground.world_to_map(global_point)
 	return tile_point in ground.get_used_cells()
+	
+func is_point_offscreen(point):
+	var from_player = point - player.global_position
+	return abs(from_player.x) > 340 and abs(from_player.y) > 210
 	
 static func choose_weighted(values, weights):
 	var cumu_weights = [weights[0]]

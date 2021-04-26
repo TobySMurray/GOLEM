@@ -5,6 +5,7 @@
 [ext_resource path="res://Scripts/DeathScreen.gd" type="Script" id=3]
 
 [node name="DeathScreen" type="Popup"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
@@ -64,9 +65,11 @@ __meta__ = {
 
 [node name="ScoreLabel" type="Label" parent="."]
 margin_left = 192.0
-margin_top = 160.0
+
+margin_top = 157.431
 margin_right = 454.0
-margin_bottom = 195.0
+margin_bottom = 192.431
+
 custom_fonts/font = ExtResource( 2 )
 text = "Score"
 align = 1

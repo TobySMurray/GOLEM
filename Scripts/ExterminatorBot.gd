@@ -31,7 +31,25 @@ func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
 		attack()
 	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not attacking:
-		start_teleport()
+		start_teleport(get_global_mouse_position())
+		
+func ai_move():
+	if randf() < 0.01:
+		if randf() < 0.5 or target_velocity == Vector2.ZERO:
+			target_velocity = Vector2(randf(), randf())
+		else:
+			target_velocity = Vector2.ZERO
+			
+func ai_action():
+	if special_cooldown < 0 and randf() < 0.02:
+		for i in range(len(GameManager.player_bullets) > 0):
+			bullet = GameManager.player_bullets[int(randf()*len(GameManager.player_bullets))]
+			var point = bullet.global_position + bullet.velocity
+			
+			if(GameManager.is_point_in_bounds(point)):
+				start_teleport(point)
+				special_cooldown = 3
+				break
 		
 func attack():
 	attacking = true
@@ -40,11 +58,11 @@ func attack():
 	attack_cooldown = 1.5
 	animplayer.play("Attack")
 	
-func start_teleport():
+func start_teleport(point):
 	charging_tp = true
 	attacking = true
 	teleport_start_point = global_position
-	teleport_end_point = get_global_mouse_position()
+	teleport_end_point = point
 	special_cooldown = 1.6
 	teleport_timer = 0.4
 	lock_aim = true
@@ -86,3 +104,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 func _on_Deflector_area_entered(area):
 	if area.is_in_group("bullet"):
 		area.velocity += (area.global_position - global_position).normalized()*area.velocity.length()/2
+		
+	if is_in_group("enemy") and randf() < 0.25 and attack_cooldown < 0 and not attacking:
+		attack()
+		attack_cooldown = 3
