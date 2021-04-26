@@ -114,8 +114,6 @@ func get_target_position():
 		else:
 			target_tile_position = enemy_tile_position + Vector2(3, 0)
 			
-		print(enemy_tile_position)
-		print(target_tile_position)
 		target_position = GameManager.ground.map_to_world(target_tile_position)
 		target_position.y = enemy_position.y
 		
