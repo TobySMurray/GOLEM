@@ -1,7 +1,7 @@
 extends TextureProgress
 
 var max_control_time = 30
-var swap_threshold = 5
+var swap_threshold = 0
 
 var control_timer = 0
 

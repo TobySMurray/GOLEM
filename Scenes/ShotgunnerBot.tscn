@@ -369,6 +369,7 @@ anims/Walk = SubResource( 7 )
 visible = false
 frame = 48
 
+
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
 rotation = -1.08909
 frames = SubResource( 14 )

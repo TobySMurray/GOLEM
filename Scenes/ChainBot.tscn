@@ -424,6 +424,7 @@ shape = SubResource( 7 )
 visible = false
 frame = 20
 
+
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_mask = 3
 

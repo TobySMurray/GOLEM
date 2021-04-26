@@ -394,9 +394,9 @@ position = Vector2( -0.117981, 4.83736 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
-visible = false
 position = Vector2( 0.0102234, -0.932678 )
 frame = 39
+
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
@@ -431,7 +431,7 @@ max_distance = 500.0
 
 [node name="Drive" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 15 )
-volume_db = -25.0
+volume_db = -20.0
 max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]

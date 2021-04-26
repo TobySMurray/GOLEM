@@ -444,6 +444,7 @@ visible = false
 position = Vector2( -0.453369, -3.22388 )
 frame = 21
 
+
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 11, -28 )
 texture = ExtResource( 6 )
@@ -526,8 +527,11 @@ scale = Vector2( 1.234, 0.1 )
 frames = SubResource( 24 )
 animation = "Flash"
 offset = Vector2( 40, 0 )
+<<<<<<< HEAD
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
 frame = 27
+=======
+>>>>>>> 93b73556e8a6f9f0155474d197156c01d04f402d
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

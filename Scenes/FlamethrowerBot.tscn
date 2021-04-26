@@ -390,8 +390,12 @@ position = Vector2( -0.44545, 3.34087 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
+<<<<<<< HEAD
 visible = false
 frame = 5
+=======
+frame = 34
+>>>>>>> 93b73556e8a6f9f0155474d197156c01d04f402d
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",

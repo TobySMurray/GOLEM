@@ -424,6 +424,7 @@ anims/Walk = SubResource( 8 )
 visible = false
 frame = 57
 
+
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )
 animation = "Vanish"

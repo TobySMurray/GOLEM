@@ -11,6 +11,9 @@ onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
 onready var healthbar = $HealthBar
 onready var astar = self.get_parent().get_node("AStar")
+onready var slow_audio = $BloodMoon/Slow
+onready var stopped_audio = $BloodMoon/Stopped
+onready var speed_audio = $BloodMoon/Speed
 
 var health = 100
 var max_speed = 100
@@ -191,12 +194,16 @@ func toggle_swap(state):
 	about_to_swap = state
 	
 	if(about_to_swap):
+		slow_audio.play()
 		GameManager.lerp_to_timescale(0.1)
-		swap_cursor.visible = true
+		swap_cursor.moon_visible = true
 		choose_swap_target()
 	else:
+		stopped_audio.stop()
+		slow_audio.stop()
 		GameManager.lerp_to_timescale(1)
-		swap_cursor.visible = false
+		speed_audio.play()
+		swap_cursor.moon_visible = false
 		swap_cursor.selected_enemy = null
 		swap_cursor.emit_selected_enemy_signal(false)
 		clear_transcender()
