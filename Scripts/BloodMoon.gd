@@ -16,12 +16,12 @@ func _physics_process(delta):
 		modulate = lerp(modulate, Color(1,1,1,0), 0.2)
 
 func _on_Area2D_body_entered(body):
-	if moon_visible and body.is_in_group("enemy") and body.swap_shield_health <= 0:
+	if moon_visible and body.is_in_group("enemy") and body.swap_shield_health <= 0 and body.health > 0:
 		selected_enemy = body
 		emit_selected_enemy_signal(true)
 		
 func _on_Area2D_body_exited(body):
-	if moon_visible and body.is_in_group("enemy") and body.swap_shield_health <= 0:
+	if moon_visible and body.is_in_group("enemy") and body.swap_shield_health <= 0 and body.health > 0:
 		selected_enemy = null
 		emit_selected_enemy_signal(false)
 
