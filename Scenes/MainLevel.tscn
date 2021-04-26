@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-[gd_scene load_steps=26 format=2]
-=======
 [gd_scene load_steps=29 format=2]
->>>>>>> lee
 
 [ext_resource path="res://Scenes/Tilesets/Sky.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
@@ -28,14 +24,10 @@
 [ext_resource path="res://Scenes/ExterminatorBot.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/FlamethrowerBot.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scenes/ChainBot.tscn" type="PackedScene" id=24]
-<<<<<<< HEAD
-[ext_resource path="res://Scenes/ArcherBot.tscn" type="PackedScene" id=25]
-=======
 [ext_resource path="res://Scenes/Tilesets/Obstacles.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
 [ext_resource path="res://Scenes/Tilesets/Ground.gd" type="Script" id=27]
 [ext_resource path="res://Scenes/AStar.tscn" type="PackedScene" id=28]
->>>>>>> lee
 
 [node name="MainLevel" type="Node2D"]
 

@@ -12,13 +12,10 @@ var swap_bar
 var player
 var camera
 var transcender
-<<<<<<< HEAD
 var total_score = 0
 var score_display
-=======
 var ground
 var obstacles
->>>>>>> lee
 
 func _process(delta):
 	timescale = lerp(timescale, target_timescale, delta*12)
