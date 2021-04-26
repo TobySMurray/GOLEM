@@ -88,4 +88,4 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		attacking = false
 		reload.play()
 	elif anim_name == "Die":
-		queue_free()
+		actually_die()

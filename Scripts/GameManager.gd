@@ -26,6 +26,7 @@ var total_score = 0
 var score_display
 var ground
 var obstacles
+var audio
 
 onready var game_time = 0
 var spawn_timer = 0
@@ -46,6 +47,7 @@ func _process(delta):
 
 func lerp_to_timescale(scale):
 	target_timescale = scale
+	audio.pitch_scale = scale
 	
 func toggle_out_of_control(state):
 	out_of_control = state
@@ -73,7 +75,10 @@ func spawn_enemy():
 			get_node("/root/MainLevel/WorldObjects/Characters").add_child(new_enemy)
 			break
 			
-	
+
+func kill():
+	player.die()
+
 func increase_score(value):
 	print("score")
 	enemy_count -= 1

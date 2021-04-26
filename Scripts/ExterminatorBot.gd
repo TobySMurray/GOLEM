@@ -80,7 +80,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		attacking = false
 		invincible = false
 	elif anim_name == "Die":
-		queue_free()
+		actually_die()
 
 
 func _on_Deflector_area_entered(area):
