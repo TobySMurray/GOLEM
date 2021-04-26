@@ -308,6 +308,8 @@ func actually_die():
 	elif GameManager.swappable:
 		force_swap = true
 		toggle_swap(true)
+	else:
+		game_over()
 		
 func game_over():
 	self.visible = false
