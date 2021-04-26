@@ -14,6 +14,8 @@ var camera
 var transcender
 var total_score = 0
 var score_display
+var ground
+var obstacles
 
 func _process(delta):
 	timescale = lerp(timescale, target_timescale, delta*12)
