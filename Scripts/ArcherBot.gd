@@ -2,22 +2,29 @@ extends "res://Scripts/Enemy.gd"
 
 onready var attack_fx = $AttackFX
 onready var attack_beam = $AttackBeam
+onready var sight_beam = $SightBeam
 onready var raycast = $RayCast2D
 onready var deflector_shape = $Deflector/CollisionShape2D
+
 
 var walk_speed = 140
 var charging = false
 var charge_timer = 0
 var raycast_endpoint = Vector2.ZERO
 
+onready var ai_target_point = global_position
+var ai_move_timer = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 50
+	health = 80
 	max_speed = walk_speed
 	flip_offset = -23
 	init_healthbar()
 	
 func _process(delta):
+	ai_move_timer -= delta
+	
 	if charging:
 		charge_timer -= delta
 		if charge_timer < 0:
@@ -27,11 +34,32 @@ func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
 		charge_attack()
 	elif Input.is_action_just_pressed("attack2") and charging:
-		charging = false
-		animplayer.play("Special")
+		special()
 		
-	raycast.cast_to = aim_direction*1000
-	raycast_endpoint = raycast.get_collision_point() if raycast.is_colliding() else (global_position + aim_direction.normalized()*1000)
+	update_raycast()
+	update_sight()
+	
+func ai_action():
+	var to_target_point = ai_target_point - global_position
+	
+	var to_player = GameManager.player.global_position - global_position
+	var player_dist = to_player.length()
+	
+	if not lock_aim:
+		aim_direction = to_player/player_dist
+		update_raycast()
+		update_sight()
+	
+	if(to_target_point.length() > 5) and ai_move_timer > 0:
+		target_velocity = to_target_point
+		
+	else:
+		ai_target_point = global_position
+		
+		if attack_cooldown < 0 and (raycast_endpoint - global_position).length() > player_dist:
+			ai_move_timer = 4
+			ai_target_point = global_position - aim_direction.rotated((randf()-0.5)*PI)*(50 + 50*randf())
+			charge_attack()
 	
 	
 func charge_attack():
@@ -43,10 +71,15 @@ func charge_attack():
 	
 	charge_timer = 2
 	animplayer.play("Ready")
+	sight_beam.play("flash")
+	sight_beam.modulate = Color(1, 0, 0, 0.5)
 	
 func release_attack():
 	charging = false
 	animplayer.play("Attack")
+	
+	sight_beam.stop()
+	sight_beam.frame = 1
 	
 	attack_fx.flip_h = aim_direction.x < 0
 	attack_fx.offset.x = -10 if attack_fx.flip_h else 7
@@ -56,7 +89,7 @@ func release_attack():
 	var beam_length = (raycast_endpoint - global_position).length()
 	var beam_dir = (raycast_endpoint - global_position)/beam_length
 	
-	attack_beam.rotation = aim_direction.angle()
+	attack_beam.rotation = beam_dir.angle()
 	attack_beam.scale.x = beam_length/85
 
 	var attack_anim = attack_beam.get_node("AnimatedSprite")
@@ -72,6 +105,12 @@ func release_attack():
 		GameManager.spawn_explosion(point, 0.5, 20, 200, delay)
 		dist += 50
 		delay += 0.05
+		
+func special():
+	charging = false
+	sight_beam.stop()
+	sight_beam.frame = 1
+	animplayer.play("Special")
 	
 func area_attack():
 	invincible = true
@@ -81,6 +120,16 @@ func area_attack():
 #func _process(delta):
 #	pass
 
+func update_raycast():
+	raycast.cast_to = aim_direction*5000
+	raycast_endpoint = raycast.get_collision_point() if raycast.is_colliding() else (global_position + aim_direction.normalized()*1000)
+
+func update_sight():
+	var beam_length = (raycast_endpoint - global_position).length()
+	var beam_dir = (raycast_endpoint - global_position)/beam_length
+	
+	sight_beam.rotation = beam_dir.angle()
+	sight_beam.scale.x = beam_length/80
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Ready":
@@ -91,6 +140,9 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		lock_aim = false
 		invincible = false
 		max_speed = walk_speed
+		
+		sight_beam.frame = 0
+		sight_beam.modulate = Color(1, 1, 1, 0.5)
 		
 	elif anim_name == "Die":
 		queue_free()

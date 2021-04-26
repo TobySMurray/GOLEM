@@ -4,7 +4,7 @@ var num_pellets = 5
 
 var shot_spread = 15
 var shot_speed = 175
-var walk_speed = 120
+var walk_speed = 140
 
 var fuel = 200
 var shot_timer = 0
@@ -27,7 +27,7 @@ func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
 		attacking = true
 		lock_aim = true
-		max_speed = 20
+		max_speed = 40
 		animplayer.play("Charge")
 		flamethrower.play()
 	if Input.is_action_just_released("attack1"):
@@ -44,7 +44,7 @@ func _physics_process(delta):
 			flamethrower()
 			
 	elif not attacking and fuel < 200:
-		fuel += 2
+		fuel += 5
 		
 	if fuel <= 0:
 		flamethrowing = false
@@ -64,7 +64,7 @@ func flamethrower():
 	for i in range(pellets):
 		var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-		shoot_bullet(pellet_dir*pellet_speed, 3, 0, 0.5)
+		shoot_bullet(pellet_dir*pellet_speed, 5, 0, 0.6)
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
@@ -73,6 +73,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Cooldown":
 		attacking = false
 		lock_aim = false
-		max_speed = 100
+		max_speed = walk_speed
 	elif anim_name == "Die":
 		queue_free()

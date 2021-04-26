@@ -395,7 +395,7 @@ shape = SubResource( 8 )
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 0.0102234, -0.932678 )
-frame = 3
+
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )

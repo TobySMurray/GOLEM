@@ -7,7 +7,12 @@ onready var reload = $Reload
 var shot_speed = 150
 var shot_spread = 15
 var num_pellets = 6
-var max_range = 200
+
+var max_range = 250
+var ai_can_shoot = false
+var ai_move_timer = 0
+var ai_shoot_timer = 0
+var ai_target_point = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,6 +23,9 @@ func _ready():
 	healthbar.max_value = health
 	init_healthbar()
 	
+func _process(delta):
+	ai_move_timer -= delta
+	
 	
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
@@ -25,13 +33,33 @@ func player_action():
 		
 func ai_move():
 	var to_player = GameManager.player.position - global_position
-	#if to_player.length() > max_range:
+	if to_player.length() > max_range:
+		ai_can_shoot = false
+		ai_move_timer = -1
+		target_velocity = to_player
+	else:
+		ai_can_shoot = true
+		
+		if ai_move_timer < 0:
+			ai_move_timer = 0.7 + randf()
+			if randf() < 0.5:
+				ai_target_point = global_position + Vector2(randf()-0.5, randf()-0.5)*150
+				print(ai_target_point)
+		
+		var to_target_point = ai_target_point - global_position
+		if to_target_point.length() > 5:
+			target_velocity = to_target_point
+		else:
+			ai_target_point = global_position
+			target_velocity = Vector2.ZERO
+		
 		
 		
 func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position).normalized()
-	if attack_cooldown < 0:
+	if ai_can_shoot and attack_cooldown < 0:
 		shoot()
+		attack_cooldown = 2
 		
 func shoot():
 	attacking = true
