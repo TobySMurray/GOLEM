@@ -4,7 +4,7 @@ onready var muzzle_flash = $MuzzleFlash
 onready var audio = $AudioStreamPlayer2D
 onready var reload = $Reload
 
-var shot_speed = 180
+var shot_speed = 150
 var shot_spread = 15
 var num_pellets = 6
 
@@ -71,8 +71,8 @@ func shoot():
 	
 	for i in range(num_pellets):
 		var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
-		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 3)
+		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5)) + (100 if is_in_group("player") else 0)
+		shoot_bullet(pellet_dir*pellet_speed, 10, 0.3, 4)
 			
 func show_muzzle_flash():
 	muzzle_flash.rotation = aim_direction.angle();

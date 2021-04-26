@@ -116,9 +116,11 @@ func swing_attack():
 		var pellet_dir = dir.rotated(deg2rad(angle))
 		angle += delta_angle
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-		shoot_bullet(pellet_dir*pellet_speed, 10, 2, 1)
+		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1)
 		
-	melee_attack(attack_collider, 30*charge_level, 300*charge_level, 2 if charge_level > 1 else 1)
+	melee_attack(attack_collider, 30*charge_level, 900*charge_level, 2 if charge_level > 1 else 1)
+	if charge_level > 2:
+		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), 1, 5)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":

@@ -92,7 +92,8 @@ func shoot():
 	animplayer.seek(0)
 	
 	velocity -= aim_direction*30
-	shoot_bullet(aim_direction*250 + velocity/2, 10)
+	var bullet_speed = 300 if is_in_group("player") else 200
+	shoot_bullet(aim_direction*bullet_speed + velocity/2, 10)
 	
 	burst_timer = 0.15
 	burst_count -= 1

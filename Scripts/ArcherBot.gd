@@ -58,18 +58,20 @@ func ai_action():
 		
 		if attack_cooldown < 0 and (raycast_endpoint - global_position).length() > player_dist:
 			ai_move_timer = 4
-			ai_target_point = global_position - aim_direction.rotated((randf()-0.5)*PI)*(50 + 50*randf())
+			if player_dist < 400:
+				ai_target_point = global_position - aim_direction.rotated((randf()-0.5)*PI)*(20 + 50*randf())
+				
 			charge_attack()
 	
 	
 func charge_attack():
 	attacking = true
 	charging = true
-	attack_cooldown = 3
+	attack_cooldown = 2.5
 	lock_aim = true
 	max_speed = 0
 	
-	charge_timer = 2
+	charge_timer = 1.5
 	animplayer.play("Ready")
 	sight_beam.play("flash")
 	sight_beam.modulate = Color(1, 0, 0, 0.5)

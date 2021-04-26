@@ -57,15 +57,13 @@ func _ready():
 	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
 
 func _physics_process(delta):
-		
-	if health <= 0 and is_in_group("enemy"):
-		return
-	
+
 	if not is_in_group("enemy"):
 		if not lock_aim:
 			aim_direction = (get_global_mouse_position() - global_position).normalized()
 		
-		player_move(delta)
+		if health > 0:
+			player_move(delta)
 		
 		if about_to_swap:
 			choose_swap_target()
@@ -76,7 +74,7 @@ func _physics_process(delta):
 			player_action()
 		
 	else:
-		if GameManager.player:
+		if GameManager.player and health > 0:
 			#aim_direction = Vector2.RIGHT #Will aim at player when defined
 			ai_move()
 			ai_action()
@@ -236,8 +234,8 @@ func toggle_playerhood(state):
 	else:
 		remove_from_group("player")
 		add_to_group("enemy")
-		attack_cooldown = 1
-		special_cooldown = 1
+		attack_cooldown = max(attack_cooldown, 1)
+		special_cooldown = max(special_cooldown, 1)
 		
 	#is_player = state
 	#Whatever else has to happen
@@ -293,23 +291,27 @@ func toggle_selected_enemy(enemy_is_selected):
 
 func die():
 	invincible = true
-	if is_in_group("enemy"):
-		GameManager.increase_score(score)
 	attacking = true
 	animplayer.play("Die")
+	
+	if is_in_group("enemy"):
+		GameManager.increase_score(score)
+	else:
+		if GameManager.swappable:
+			force_swap = true
+			toggle_swap(true)
+		else:
+			game_over()
 		
 
 func actually_die():
 	if game_over:
 		GameManager.lerp_to_timescale(0.1)
 		game_over()
-	if is_in_group("enemy"):
+		
+	elif is_in_group("enemy"):
 		queue_free()
-	elif GameManager.swappable:
-		force_swap = true
-		toggle_swap(true)
-	else:
-		game_over()
+	
 		
 func game_over():
 	self.visible = false
