@@ -5,6 +5,7 @@
 [ext_resource path="res://Scripts/DeathScreen.gd" type="Script" id=3]
 
 [node name="DeathScreen" type="Popup"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
@@ -80,7 +81,7 @@ margin_top = 213.0
 margin_right = 315.0
 margin_bottom = 248.0
 custom_fonts/font = ExtResource( 2 )
-text = "Play Again"
+text = "Menu"
 align = 1
 valign = 1
 __meta__ = {

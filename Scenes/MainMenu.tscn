@@ -258,7 +258,7 @@ animations = [ {
 
 [sub_resource type="Animation" id=62]
 resource_name = "FadeIn"
-length = 2.0
+length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("CanvasModulate:color")
 tracks/0/interp = 1
@@ -266,7 +266,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6, 2 ),
+"times": PoolRealArray( 0, 0.6, 2.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
@@ -278,7 +278,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 2 ),
+"times": PoolRealArray( 2.5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -290,7 +290,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 2 ),
+"times": PoolRealArray( 2.5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -302,7 +302,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 2 ),
+"times": PoolRealArray( 2.5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -314,7 +314,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 2 ),
+"times": PoolRealArray( 2.5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -326,7 +326,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 2 ),
+"times": PoolRealArray( 2.5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -508,10 +508,10 @@ position = Vector2( 320, 180 )
 texture = ExtResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 311.716, 106.502 )
+position = Vector2( 311.216, 106.502 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 61 )
-frame = 7
+frame = 22
 speed_scale = 4.0
 playing = true
 
@@ -559,6 +559,26 @@ __meta__ = {
 }
 
 [node name="ControlsButton" type="Button" parent="Controls"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 92.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="Label" parent="."]
+margin_left = 14.305
+margin_top = 10.2481
+margin_right = 106.305
+margin_bottom = 26.2481
+custom_fonts/font = ExtResource( 2 )
+text = "Quit"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="Button" parent="Quit"]
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 92.0
 margin_bottom = 20.0
@@ -686,10 +706,10 @@ __meta__ = {
 }
 
 [node name="Controls" type="Label" parent="ControlsPopup"]
-margin_left = 222.0
-margin_top = 46.0
-margin_right = 670.0
-margin_bottom = 373.0
+margin_left = 221.056
+margin_top = 36.5613
+margin_right = 669.056
+margin_bottom = 375.561
 rect_scale = Vector2( 0.75, 0.75 )
 custom_fonts/font = ExtResource( 2 )
 text = "- WASD to move
@@ -707,15 +727,17 @@ text = "- WASD to move
 - Release Space to confirm Swap
 
 
-- ESC to pause"
+- ESC to pause
+
+- Press Space to skip intro"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
-position = Vector2( 193.419, 207.483 )
+position = Vector2( 194.835, 198.044 )
 frames = SubResource( 61 )
-frame = 14
+frame = 29
 speed_scale = 4.0
 playing = true
 
@@ -741,11 +763,9 @@ __meta__ = {
 }
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0, 0, 0, 1 )
 
 [node name="StoryText1" type="RichTextLabel" parent="."]
 visible = false
-modulate = Color( 1, 1, 1, 0 )
 margin_left = 171.5
 margin_top = 278.5
 margin_right = 600.5
@@ -760,10 +780,10 @@ __meta__ = {
 [node name="StoryText2" type="RichTextLabel" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
-margin_left = 201.0
-margin_top = 275.0
-margin_right = 630.0
-margin_bottom = 356.0
+margin_left = 205.0
+margin_top = 274.0
+margin_right = 634.0
+margin_bottom = 355.0
 custom_fonts/normal_font = ExtResource( 2 )
 text = "I must find another"
 script = ExtResource( 7 )
@@ -792,7 +812,9 @@ anims/Story = SubResource( 64 )
 anims/Transition = SubResource( 65 )
 [connection signal="pressed" from="Start/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="Controls/ControlsButton" to="." method="_on_ControlsButton_pressed"]
+[connection signal="pressed" from="Quit/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="Credits/CreditsButton" to="." method="_on_CreditsButton_pressed"]
 [connection signal="pressed" from="CreditsPopup/Label/ReturnButton" to="." method="_on_ReturnButton_pressed"]
 [connection signal="pressed" from="ControlsPopup/Label/ControlsReturnButton" to="." method="_on_ControlsReturnButton_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]

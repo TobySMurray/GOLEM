@@ -1,7 +1,6 @@
 extends RichTextLabel
 
 
-onready var timer = get_node("../Timer")
 
 #thanks to Ragnar on the godot engine forums!
 
