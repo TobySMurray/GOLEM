@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wheeldie.wav-86ec7bcebbdb42bdf0c2b992e262da1f.sample"
+
+[deps]
+
+source_file="res://Sounds/SoundEffects/wheeldie.wav"
+dest_files=[ "res://.import/wheeldie.wav-86ec7bcebbdb42bdf0c2b992e262da1f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
