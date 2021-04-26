@@ -22,6 +22,7 @@ func _ready():
 	max_speed = walk_speed
 	bullet_spawn_offset = 20
 	flip_offset = 0
+	score = 100
 	init_healthbar()
 
 func _process(delta):

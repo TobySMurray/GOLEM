@@ -18,6 +18,7 @@ var accel = 10
 var facing_left = false
 var attacking = false
 var about_to_swap = false
+var score = 0
 
 var attack_cooldown = 0
 var special_cooldown = 0
@@ -245,6 +246,7 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die():
+	GameManager.increase_score(score)
 	attacking = true
 	animplayer.play("Die")
 		

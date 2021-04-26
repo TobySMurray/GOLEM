@@ -18,6 +18,7 @@ func _ready():
 	bullet_spawn_offset = 10
 	flip_offset = -46
 	healthbar.max_value = health
+	score = 75
 	init_healthbar()
 
 func player_action():

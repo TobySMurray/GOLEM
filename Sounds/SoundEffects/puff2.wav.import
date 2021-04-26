@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/puff2.wav-a5496a35632d141ab552c9a9fa17b3ee.sample"
+
+[deps]
+
+source_file="res://Sounds/SoundEffects/puff2.wav"
+dest_files=[ "res://.import/puff2.wav-a5496a35632d141ab552c9a9fa17b3ee.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

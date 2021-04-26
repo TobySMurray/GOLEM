@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/ScoreDisplay.gd" type="Script" id=1]
+[ext_resource path="res://Art/Fonts/Text.tres" type="DynamicFont" id=2]
 
 [sub_resource type="Theme" id=1]
 
@@ -17,9 +18,9 @@ margin_top = 17.3529
 margin_right = 124.025
 margin_bottom = 40.3529
 theme = SubResource( 1 )
-text = "TEST"
+custom_fonts/font = ExtResource( 2 )
+text = "0"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-score = 10000

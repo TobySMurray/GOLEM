@@ -17,7 +17,7 @@ var ai_move_timer = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 100
+	health = 80
 	max_speed = walk_speed
 	flip_offset = -23
 	init_healthbar()
