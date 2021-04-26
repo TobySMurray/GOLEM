@@ -1,6 +1,8 @@
 extends "res://Scripts/Enemy.gd"
 
 onready var dash_fx = $DashFX
+onready var audio = $AudioStreamPlayer2D
+onready var dash = $Dash
 
 var walk_speed = 250
 var burst_count = 0
@@ -85,6 +87,7 @@ func start_burst():
 	
 func shoot():
 	attacking = true
+	audio.play()
 	animplayer.play("Attack")
 	animplayer.seek(0)
 	
@@ -97,6 +100,7 @@ func shoot():
 func dash():
 	dashing = true
 	lock_aim = true
+	dash.play()
 	velocity = Vector2(sign(aim_direction.x)*150, 0)
 	
 	dash_timer = 0.8
