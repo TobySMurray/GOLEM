@@ -9,12 +9,12 @@ var mass = 0.25
 func _physics_process(delta):
 	lifetime -= delta
 	if lifetime < 0:
-		queue_free()
+		despawn()
 	position += velocity*delta
 
 func _on_Area2D_body_entered(body):
 	if not body.is_in_group("player") or body.is_in_group("enemy"):
-		queue_free();
+		despawn()
 
 
 func _on_Area2D_area_entered(area):
@@ -23,4 +23,8 @@ func _on_Area2D_area_entered(area):
 		if not entity.invincible and entity != source:
 			entity.take_damage(damage)
 			entity.velocity += velocity*mass
-			queue_free()
+			despawn()
+			
+func despawn():
+	GameManager.player_bullets.erase(self)
+	queue_free()

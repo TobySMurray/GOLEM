@@ -150,6 +150,9 @@ func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):
 	new_bullet.lifetime = lifetime
 	get_node("/root").add_child(new_bullet)
 	
+	if is_in_group("player"):
+		GameManager.player_bullets.append(new_bullet)
+	
 func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 	var space_rid = get_world_2d().space
 	var space_state = Physics2DServer.space_get_direct_state(space_rid)
@@ -220,9 +223,13 @@ func toggle_playerhood(state):
 		add_to_group("player")
 		GameManager.camera.anchor = self
 		GameManager.player = self
+		attack_cooldown = -1
+		special_cooldown = -1
 	else:
 		remove_from_group("player")
 		add_to_group("enemy")
+		attack_cooldown = 1
+		special_cooldown = 1
 		
 	#is_player = state
 	#Whatever else has to happen
