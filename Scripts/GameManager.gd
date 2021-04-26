@@ -47,3 +47,7 @@ func spawn_explosion(pos, size = 1, damage = 20, force = 200, delay = 0):
 func increase_score(value):
 	total_score += value
 	score_display.score = total_score
+	
+func is_point_in_bounds(global_point):
+	var tile_point = ground.world_to_map(global_point)
+	return !(tile_point in ground.get_used_cells())
