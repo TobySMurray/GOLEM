@@ -125,9 +125,7 @@ position = Vector2( 287.658, 104.785 )
 [node name="ExterminatorBot" parent="WorldObjects/Characters" groups=[
 "enemy",
 ] instance=ExtResource( 22 )]
-
 position = Vector2( -315.66, -38.362 )
-
 
 [node name="FlamethrowerBot" parent="WorldObjects/Characters" groups=[
 "enemy",

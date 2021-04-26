@@ -30,6 +30,8 @@ var attacking = false
 var about_to_swap = false
 var score = 0
 
+var game_over = false
+
 var max_swap_shield_health = 0
 var swap_shield_health = 0
 
@@ -47,13 +49,16 @@ var invincible = false
 signal draw_transcender
 signal clear_transcender
 
+var force_swap = false
+
 func _ready():
 	self.connect("draw_transcender", transcender, "draw_transcender")
 	self.connect("clear_transcender", transcender, "clear_transcender")
 	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
 
 func _physics_process(delta):
-	if health <= 0:
+		
+	if health <= 0 and is_in_group("enemy"):
 		return
 	
 	if not is_in_group("enemy"):
@@ -119,7 +124,8 @@ func choose_swap_target():
 			toggle_playerhood(false)
 			GameManager.swap_bar.control_timer = 0
 			clear_transcender()
-		toggle_swap(false)
+		if !force_swap or swap_cursor.selected_enemy:
+			toggle_swap(false)
 	else:
 		draw_transcender()
 			
@@ -216,6 +222,8 @@ func toggle_swap(state):
 		swap_cursor.selected_enemy = null
 		swap_cursor.emit_selected_enemy_signal(false)
 		clear_transcender()
+		if health <= 0:
+			queue_free()
 		
 func toggle_playerhood(state):
 	if state == true:
@@ -285,22 +293,29 @@ func toggle_selected_enemy(enemy_is_selected):
 
 func die():
 	invincible = true
-	GameManager.increase_score(score)
+	if is_in_group("enemy"):
+		GameManager.increase_score(score)
 	attacking = true
 	animplayer.play("Die")
 		
 
 func actually_die():
+	if game_over:
+		GameManager.lerp_to_timescale(0.1)
+		game_over()
 	if is_in_group("enemy"):
 		queue_free()
-	else:
-		self.visible = false
-		GameManager.swap_bar.visible = false
-		score = 0
-		ScoreDisplay.visible = false
-		ScoreLabel.set_text(str(GameManager.total_score))
-		death_screen.popup()
-		GameManager.lerp_to_timescale(0.1)
-
+	elif GameManager.swappable:
+		force_swap = true
+		toggle_swap(true)
+		
+func game_over():
+	self.visible = false
+	GameManager.swap_bar.visible = false
+	score = 0
+	ScoreDisplay.visible = false
+	ScoreLabel.set_text(str(GameManager.total_score))
+	death_screen.popup()
+	
 
 

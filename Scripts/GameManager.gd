@@ -76,10 +76,12 @@ func spawn_enemy():
 			
 
 func kill():
+	player.max_speed = 0
+	swappable = false
 	player.die()
+	player.game_over = true
 
 func increase_score(value):
-	print("score")
 	enemy_count -= 1
 	total_score += value
 	score_display.score = total_score
