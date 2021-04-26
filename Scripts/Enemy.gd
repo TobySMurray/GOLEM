@@ -9,6 +9,7 @@ onready var bullet = load("res://Scenes/Bullet.tscn")
 onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
 onready var healthbar = $HealthBar
+onready var astar = self.get_parent().get_node("AStar")
 
 var health = 100
 var max_speed = 100
