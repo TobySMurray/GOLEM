@@ -86,6 +86,11 @@ tile_data = PoolIntArray( -524295, 0, 3, -524294, 0, 5, -458761, 0, 10, -458760,
 
 [node name="Transcender" parent="WorldObjects/Characters" instance=ExtResource( 19 )]
 
+[node name="ArcherBot" parent="WorldObjects/Characters" groups=[
+"enemy",
+] instance=ExtResource( 25 )]
+position = Vector2( 599.559, 91.6577 )
+
 [node name="ChainBot" parent="WorldObjects/Characters" groups=[
 "enemy",
 ] instance=ExtResource( 24 )]
@@ -107,9 +112,6 @@ position = Vector2( 100.319, 129.618 )
 position = Vector2( 139.295, 11.1118 )
 
 [node name="ShotgunnerBot" parent="WorldObjects/Characters" instance=ExtResource( 2 )]
-
-[node name="ArcherBot" parent="WorldObjects/Characters" instance=ExtResource( 25 )]
-position = Vector2( 0, 288 )
 
 [node name="Marble Orb" parent="WorldObjects" instance=ExtResource( 14 )]
 position = Vector2( -265.342, 580.376 )

@@ -6,6 +6,14 @@ var num_pellets = 6
 var shot_speed = 150
 var walk_speed = 160
 
+var ai_side = 1
+var ai_target_dist= 0
+var ai_target_angle = 0
+var ai_move_timer = 0
+var ai_delay_timer = 0
+var ai_charge_timer = 0
+onready var ai_target_point = global_position
+
 var charging = false
 var charge_level = 0
 # Called when the node enters the scene tree for the first time.
@@ -17,6 +25,10 @@ func _ready():
 	init_healthbar()
 
 func _process(delta):
+	ai_charge_timer -= delta
+	ai_move_timer -= delta
+	ai_delay_timer -= delta
+	
 	if charging:
 		charge_level += delta
 		
@@ -25,15 +37,65 @@ func _process(delta):
 func player_action():
 	aim_direction.y = 0
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
-		charging = true
-		attacking = true
-		lock_aim = true
-		max_speed = 20
-		charge_level = 0.3
-		animplayer.play("Charge")
+		charge()
 		
 	elif Input.is_action_just_released("attack1") and charging:
 		attack()
+		
+func ai_action():
+	if not lock_aim:
+		aim_direction = (GameManager.player.global_position - global_position).normalized()
+	
+	if charging and ai_charge_timer < 0:
+		attack()
+	
+func ai_move():
+	if attacking:
+		return
+	
+	var to_target_point = ai_target_point - global_position
+	if to_target_point.length() > 5 and ai_move_timer > 0:
+		target_velocity = to_target_point
+	
+	else:
+		ai_move_timer = 2
+		ai_target_point = global_position
+		
+		var player_pos = GameManager.player.global_position
+		var to_player = player_pos - global_position
+		var dist = to_player.length()
+		var angle = (-to_player).angle()
+		ai_side = 1 if to_player.x > 0 else -1
+		
+		if dist > 200:
+			ai_target_dist = 150
+			ai_target_angle = (randf()-0.5)*PI/2
+
+		else:
+			if abs(angle) < 30 and (randf() < 0.4 or dist < 50):
+				ai_charge_timer = 0.3 + randf()*0.7
+				charge()	
+				
+			else:
+				ai_target_angle = (randf()-0.5)*PI/2 * -sign(ai_target_angle)
+				ai_target_dist = max(dist - 50, 30)
+		
+		var target_angle = ai_target_angle if ai_side == 1 else ai_target_angle + 180
+		ai_target_point = player_pos - Vector2(cos(ai_target_angle), sin(ai_target_angle))*ai_target_dist
+					
+		
+				
+	
+	 
+	
+		
+func charge():
+	charging = true
+	attacking = true
+	lock_aim = true
+	max_speed = 20
+	charge_level = 0.3
+	animplayer.play("Charge")
 	
 func attack():
 	charging = false
