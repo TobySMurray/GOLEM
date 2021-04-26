@@ -122,7 +122,7 @@ func choose_swap_target():
 		if swap_cursor.selected_enemy:
 			swap_cursor.selected_enemy.toggle_playerhood(true)
 			toggle_playerhood(false)
-			GameManager.swap_bar.control_timer = 0
+			GameManager.swap_bar.reset()
 			clear_transcender()
 		if !force_swap or swap_cursor.selected_enemy:
 			toggle_swap(false)

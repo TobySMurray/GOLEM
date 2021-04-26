@@ -31,6 +31,13 @@ func _physics_process(delta):
 	if control_timer > max_control_time - 1:
 		GameManager.kill()
 
+func reset(init_timer = 0):
+	control_timer = init_timer
+	set_swap_threshold(swap_threshold + 3)
+	
+func set_swap_threshold(value):
+	swap_threshold = clamp(value, 0, 15)
+	threshold.value = swap_threshold
 
 func out_of_control():
 	tint_progress = lerp(tint_progress, colors[randi() % colors.size()], 0.9)
