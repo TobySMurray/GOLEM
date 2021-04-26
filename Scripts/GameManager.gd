@@ -12,6 +12,8 @@ var swap_bar
 var player
 var camera
 var transcender
+var ground
+var obstacles
 
 func _process(delta):
 	timescale = lerp(timescale, target_timescale, delta*12)
