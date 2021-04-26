@@ -84,12 +84,7 @@ func ai_move():
 		
 		var target_angle = ai_target_angle if ai_side == 1 else ai_target_angle + 180
 		ai_target_point = player_pos - Vector2(cos(ai_target_angle), sin(ai_target_angle))*ai_target_dist
-					
-		
-				
-	
-	 
-	
+
 		
 func charge():
 	charging = true
@@ -134,5 +129,5 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		max_speed = walk_speed
 		
 	elif anim_name == "Die":
-		queue_free()
+		actually_die()
 		

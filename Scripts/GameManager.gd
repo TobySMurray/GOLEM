@@ -16,6 +16,7 @@ var total_score = 0
 var score_display
 var ground
 var obstacles
+var audio
 
 func _process(delta):
 	timescale = lerp(timescale, target_timescale, delta*12)
@@ -23,6 +24,7 @@ func _process(delta):
 
 func lerp_to_timescale(scale):
 	target_timescale = scale
+	audio.pitch_scale = scale
 	
 func toggle_out_of_control(state):
 	out_of_control = state
@@ -35,6 +37,9 @@ func spawn_explosion(pos, size = 1, damage = 20, force = 200, delay = 0):
 	new_explosion.force = force
 	new_explosion.delay_timer = delay
 	get_node("/root").add_child(new_explosion)
+	
+func kill():
+	player.die()
 	
 func increase_score(value):
 	total_score += value

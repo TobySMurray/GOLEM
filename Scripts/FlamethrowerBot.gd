@@ -75,4 +75,4 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		lock_aim = false
 		max_speed = walk_speed
 	elif anim_name == "Die":
-		queue_free()
+		actually_die()

@@ -26,4 +26,7 @@ func _physics_process(delta):
 	
 	if control_timer > max_control_time - 5:
 		GameManager.toggle_out_of_control(true)
+	if control_timer > max_control_time - 1:
+		print("Killing player")
+		GameManager.kill()
 

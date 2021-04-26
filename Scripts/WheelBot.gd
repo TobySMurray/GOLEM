@@ -127,4 +127,4 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack":
 		attacking = false
 	elif anim_name == "Die":
-		queue_free()
+		actually_die()

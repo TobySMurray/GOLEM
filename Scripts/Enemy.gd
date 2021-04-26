@@ -14,6 +14,11 @@ onready var slow_audio = $BloodMoon/Slow
 onready var stopped_audio = $BloodMoon/Stopped
 onready var speed_audio = $BloodMoon/Speed
 
+onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
+onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
+onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay")
+
+
 var health = 100
 var max_speed = 100
 var velocity = Vector2.ZERO
@@ -41,6 +46,7 @@ signal clear_transcender
 func _ready():
 	self.connect("draw_transcender", transcender, "draw_transcender")
 	self.connect("clear_transcender", transcender, "clear_transcender")
+	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
 
 func _physics_process(delta):
 	if health <= 0:
@@ -258,7 +264,17 @@ func die():
 	attacking = true
 	animplayer.play("Die")
 		
-	
+
+func actually_die():
+	if is_in_group("enemy"):
+		queue_free()
+	else:
+		self.visible = false
+		score = 0
+		ScoreDisplay.visible = false
+		ScoreLabel.set_text(str(GameManager.total_score))
+		death_screen.popup()
+		GameManager.lerp_to_timescale(0.1)
 
 
 

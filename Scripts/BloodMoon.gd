@@ -16,7 +16,7 @@ func _physics_process(delta):
 		modulate = lerp(modulate, Color(1,1,1,0), 0.2)
 
 func _on_Area2D_body_entered(body):
-	if visible and body.is_in_group("enemy"):
+	if moon_visible and body.is_in_group("enemy"):
 		selected_enemy = body
 		emit_selected_enemy_signal(true)
 		
