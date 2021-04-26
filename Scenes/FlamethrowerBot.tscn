@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scripts/FlamethrowerBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/flamethrower bot/run.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Sounds/SoundEffects/flamethrower.wav" type="AudioStream" id=10]
 [ext_resource path="res://Sounds/SoundEffects/explode1.wav" type="AudioStream" id=11]
 [ext_resource path="res://Sounds/SoundEffects/heavystep.wav" type="AudioStream" id=12]
+[ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -390,7 +391,7 @@ shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
 visible = false
-frame = 42
+frame = 5
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -416,4 +417,8 @@ max_distance = 500.0
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 11 )
 volume_db = -30.0
+
+[node name="ClearMoon" parent="." instance=ExtResource( 13 )]
+position = Vector2( 0, 8.46354 )
+frame = 21
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

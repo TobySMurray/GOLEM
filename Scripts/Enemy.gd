@@ -5,6 +5,7 @@ class_name Enemy
 onready var animplayer = $AnimationPlayer
 onready var sprite = $Sprite
 onready var swap_cursor = $BloodMoon
+onready var swap_shield = $ClearMoon
 onready var bullet = load("res://Scenes/Bullet.tscn")
 onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
@@ -20,6 +21,9 @@ var facing_left = false
 var attacking = false
 var about_to_swap = false
 var score = 0
+
+var max_swap_shield_health = 0
+var swap_shield_health = 0
 
 var attack_cooldown = 0
 var special_cooldown = 0
@@ -66,6 +70,7 @@ func _physics_process(delta):
 	attack_cooldown -= delta
 	special_cooldown -= delta
 	
+	update_swap_shield()
 	animate()
 	move(delta)
 	
@@ -169,6 +174,7 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 		
 func take_damage(damage):
 	health -= damage
+	swap_shield_health -= damage
 	healthbar.value = health
 	if health <= 0:
 		die()
@@ -207,6 +213,18 @@ func toggle_playerhood(state):
 		
 	#is_player = state
 	#Whatever else has to happen
+	
+func add_swap_shield(resistance):
+	max_swap_shield_health = health*resistance
+	swap_shield_health = max_swap_shield_health
+	update_swap_shield()
+	
+func update_swap_shield():
+	if swap_shield_health > 0:
+		var health_ratio = swap_shield_health/max_swap_shield_health
+		swap_shield.modulate = Color(0.5+health_ratio*0.5, health_ratio, health_ratio, 0.3 + health_ratio*0.7)
+	else:
+		swap_shield.visible = false;
 
 func draw_transcender():
 	
@@ -250,8 +268,7 @@ func die():
 	GameManager.increase_score(score)
 	attacking = true
 	animplayer.play("Die")
-		
-	
+
 
 
 

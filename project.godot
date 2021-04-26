@@ -21,7 +21,6 @@ _global_script_class_icons={
 [application]
 
 config/name="Ludumdare 48"
-run/main_scene="res://Scenes/MainLevel.tscn"
 config/icon="res://icon.png"
 
 [autoload]

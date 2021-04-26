@@ -8,12 +8,12 @@ func _ready():
 	self.connect("selected_enemy_signal", GameManager.transcender, "toggle_selected_enemy")
 
 func _on_Area2D_body_entered(body):
-	if visible and body.is_in_group("enemy"):
+	if visible and body.is_in_group("enemy") and body.swap_shield_health <= 0:
 		selected_enemy = body
 		emit_selected_enemy_signal(true)
 		
 func _on_Area2D_body_exited(body):
-	if body.is_in_group("enemy"):
+	if body.is_in_group("enemy") and body.swap_shield_health <= 0:
 		selected_enemy = null
 		emit_selected_enemy_signal(false)
 

@@ -17,6 +17,7 @@ func _ready():
 	healthbar.max_value = health
 	init_healthbar()
 	score = 100
+	add_swap_shield(0.5)
 	
 func _process(delta):
 	if charging_tp:
