@@ -213,23 +213,37 @@ position = Vector2( 0, 12.9326 )
 shape = SubResource( 4 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
-frame = 10
+frame = 23
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 volume_db = -25.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 6 )]
-frame = 59
+frame = 58
 
 [node name="Label" type="Label" parent="."]
 visible = false
-margin_left = -62.5543
-margin_top = -45.6984
-margin_right = 67.4457
-margin_bottom = -29.6984
+margin_left = -64.5186
+margin_top = -51.8719
+margin_right = 65.4814
+margin_bottom = -35.8719
 custom_fonts/font = ExtResource( 7 )
 text = "Press Space"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+visible = false
+margin_left = -76.0238
+margin_top = -61.1322
+margin_right = 73.9762
+margin_bottom = -26.1322
+custom_fonts/font = ExtResource( 7 )
+text = "Release Space
+over enemy"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

@@ -5,7 +5,7 @@ onready var audio = $AudioStreamPlayer2D
 
 var num_pellets = 6
 var shot_speed = 150
-var walk_speed = 160
+var walk_speed = 100
 
 var ai_side = 1
 var ai_target_dist= 0
@@ -19,11 +19,11 @@ var charging = false
 var charge_level = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 150
+	health = 100
 	max_speed = walk_speed
 	bullet_spawn_offset = 20
 	flip_offset = 0
-	score = 100
+	score = 50
 	init_healthbar()
 
 func _process(delta):

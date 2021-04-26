@@ -16,12 +16,13 @@ var ai_target_point = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 120
+	health = 75
 	max_speed = 120
 	bullet_spawn_offset = 10
 	flip_offset = -53
 	healthbar.max_value = health
 	init_healthbar()
+	score = 50
 	
 func _process(delta):
 	ai_move_timer -= delta

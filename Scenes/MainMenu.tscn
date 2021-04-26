@@ -1,0 +1,798 @@
+[gd_scene load_steps=73 format=2]
+
+[ext_resource path="res://Sounds/Music/cuuuu b3.wav" type="AudioStream" id=1]
+[ext_resource path="res://Art/Fonts/Text.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Art/menubg.png" type="Texture" id=4]
+[ext_resource path="res://Art/Environment/Sci-fi Animations/blood moon sprite Opacity low.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/StoryText.gd" type="Script" id=7]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 512, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 5 )
+region = Rect2( 640, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 5 )
+region = Rect2( 768, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 5 )
+region = Rect2( 896, 0, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 5 )
+region = Rect2( 512, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 5 )
+region = Rect2( 640, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 5 )
+region = Rect2( 768, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 5 )
+region = Rect2( 896, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 5 )
+region = Rect2( 512, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 5 )
+region = Rect2( 640, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 5 )
+region = Rect2( 768, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 5 )
+region = Rect2( 896, 256, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 5 )
+region = Rect2( 512, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 5 )
+region = Rect2( 640, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 5 )
+region = Rect2( 768, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=32]
+atlas = ExtResource( 5 )
+region = Rect2( 896, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 512, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 512, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 512, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 512, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 5 )
+region = Rect2( 512, 512, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 5 )
+region = Rect2( 640, 512, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 5 )
+region = Rect2( 768, 512, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = ExtResource( 5 )
+region = Rect2( 896, 512, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=42]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=44]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=45]
+atlas = ExtResource( 5 )
+region = Rect2( 512, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = ExtResource( 5 )
+region = Rect2( 640, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=47]
+atlas = ExtResource( 5 )
+region = Rect2( 768, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=48]
+atlas = ExtResource( 5 )
+region = Rect2( 896, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=49]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=50]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=51]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 5 )
+region = Rect2( 512, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 5 )
+region = Rect2( 640, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 5 )
+region = Rect2( 768, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 5 )
+region = Rect2( 896, 768, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=57]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=58]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=59]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=60]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 896, 128, 128 )
+
+[sub_resource type="SpriteFrames" id=61]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=62]
+resource_name = "FadeIn"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Title:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Controls:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Credits:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("AnimatedSprite:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Start:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=63]
+resource_name = "FadeOut"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Title:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Start:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Controls:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Credits:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=64]
+resource_name = "Story"
+length = 15.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("StoryText1:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 4.2, 4.21 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("StoryText1")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "start_text"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("StoryText2:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4.3, 4.5, 7.7, 7.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("StoryText2")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 4.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "start_text"
+} ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("StoryText3:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 7.9, 8.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("StoryText3")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 7.9 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "start_text"
+} ]
+}
+
+[sub_resource type="Animation" id=65]
+resource_name = "Transition"
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.9 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "start_game"
+} ]
+}
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="menubg" type="Sprite" parent="."]
+position = Vector2( 320, 180 )
+texture = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 311.716, 106.502 )
+scale = Vector2( 5, 5 )
+frames = SubResource( 61 )
+frame = 7
+speed_scale = 4.0
+playing = true
+
+[node name="Title" type="Label" parent="."]
+margin_left = 103.123
+margin_top = 81.6405
+margin_right = 191.123
+margin_bottom = 99.6405
+rect_scale = Vector2( 5, 5 )
+custom_fonts/font = ExtResource( 3 )
+text = "Golem"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Label" parent="."]
+margin_left = 257.939
+margin_top = 227.14
+margin_right = 317.939
+margin_bottom = 243.14
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 2 )
+text = "Start"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartButton" type="Button" parent="Start"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 58.0
+margin_bottom = 20.0
+
+[node name="Controls" type="Label" parent="."]
+margin_left = 269.623
+margin_top = 281.14
+margin_right = 361.623
+margin_bottom = 297.14
+custom_fonts/font = ExtResource( 2 )
+text = "Controls"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ControlsButton" type="Button" parent="Controls"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 92.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" type="Label" parent="."]
+margin_left = 269.123
+margin_top = 312.64
+margin_right = 361.123
+margin_bottom = 328.64
+custom_fonts/font = ExtResource( 2 )
+text = "Credits"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreditsButton" type="Button" parent="Credits"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 86.0
+margin_bottom = 20.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -10.0
+autoplay = true
+
+[node name="CreditsPopup" type="Popup" parent="."]
+margin_right = 639.0
+margin_bottom = 359.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="CreditsPopup"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 139.806
+margin_top = 8.51016
+margin_right = 508.806
+margin_bottom = 331.51
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Titles" type="Label" parent="CreditsPopup"]
+margin_left = 210.355
+margin_top = 46.0266
+margin_right = 320.355
+margin_bottom = 171.027
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 3 )
+text = "Developers
+
+
+
+Music
+
+Art"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Names" type="Label" parent="CreditsPopup"]
+margin_left = 200.29
+margin_top = 70.7035
+margin_right = 442.29
+margin_bottom = 314.703
+custom_fonts/font = ExtResource( 2 )
+text = "
+Andrew Cunningham
+Toby Murray
+Lee Zeitz
+
+
+
+Keaton House
+
+
+
+Penusmbic"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CreditsPopup"]
+margin_left = 238.523
+margin_top = 321.585
+margin_right = 402.523
+margin_bottom = 337.585
+custom_fonts/font = ExtResource( 2 )
+text = "Return to Menu"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReturnButton" type="Button" parent="CreditsPopup/Label"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -2.24493
+margin_right = 165.755
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ControlsPopup" type="Popup" parent="."]
+margin_right = 639.0
+margin_bottom = 359.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="ControlsPopup"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 139.806
+margin_top = 8.51016
+margin_right = 508.806
+margin_bottom = 331.51
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Controls" type="Label" parent="ControlsPopup"]
+margin_left = 222.0
+margin_top = 46.0
+margin_right = 670.0
+margin_bottom = 373.0
+rect_scale = Vector2( 0.75, 0.75 )
+custom_fonts/font = ExtResource( 2 )
+text = "- WASD to move
+
+
+- Left Click to Attack
+
+
+- Right Click to Special
+  (if your golem has one)
+
+
+- Press Space to initiate Swap
+
+- Release Space to confirm Swap
+
+
+- ESC to pause"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
+position = Vector2( 193.419, 207.483 )
+frames = SubResource( 61 )
+frame = 14
+speed_scale = 4.0
+playing = true
+
+[node name="Label" type="Label" parent="ControlsPopup"]
+margin_left = 224.492
+margin_top = 320.463
+margin_right = 388.492
+margin_bottom = 336.463
+custom_fonts/font = ExtResource( 2 )
+text = "Return to Menu"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ControlsReturnButton" type="Button" parent="ControlsPopup/Label"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -2.24493
+margin_right = 165.755
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0, 0, 0, 1 )
+
+[node name="StoryText1" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 171.5
+margin_top = 278.5
+margin_right = 600.5
+margin_bottom = 359.5
+custom_fonts/normal_font = ExtResource( 2 )
+text = "... This body is too frail"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StoryText2" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 201.0
+margin_top = 275.0
+margin_right = 630.0
+margin_bottom = 356.0
+custom_fonts/normal_font = ExtResource( 2 )
+text = "I must find another"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StoryText3" type="RichTextLabel" parent="."]
+visible = false
+margin_left = 193.0
+margin_top = 281.5
+margin_right = 622.0
+margin_bottom = 362.5
+custom_fonts/normal_font = ExtResource( 2 )
+text = "I will search deep into 
+the souls of my enemies"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/FadeIn = SubResource( 62 )
+anims/FadeOut = SubResource( 63 )
+anims/Story = SubResource( 64 )
+anims/Transition = SubResource( 65 )
+[connection signal="pressed" from="Start/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="Controls/ControlsButton" to="." method="_on_ControlsButton_pressed"]
+[connection signal="pressed" from="Credits/CreditsButton" to="." method="_on_CreditsButton_pressed"]
+[connection signal="pressed" from="CreditsPopup/Label/ReturnButton" to="." method="_on_ReturnButton_pressed"]
+[connection signal="pressed" from="ControlsPopup/Label/ControlsReturnButton" to="." method="_on_ControlsReturnButton_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

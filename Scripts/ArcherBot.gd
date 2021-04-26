@@ -21,6 +21,7 @@ func _ready():
 	max_speed = walk_speed
 	flip_offset = -23
 	init_healthbar()
+	score = 50
 	
 func _process(delta):
 	ai_move_timer -= delta

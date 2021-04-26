@@ -392,7 +392,7 @@ position = Vector2( -0.44545, 3.34087 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
-frame = 56
+frame = 20
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -422,5 +422,5 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 8.46354 )
-frame = 59
+frame = 50
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

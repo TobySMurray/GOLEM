@@ -255,11 +255,11 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=62]
-radius = 14.9115
+radius = 18.5885
 
 [node name="BloodMoon" type="AnimatedSprite"]
 frames = SubResource( 61 )
-frame = 32
+frame = 55
 speed_scale = 30.0
 playing = true
 offset = Vector2( -1, 0 )

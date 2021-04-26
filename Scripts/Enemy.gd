@@ -297,6 +297,7 @@ func die():
 	if is_in_group("enemy"):
 		GameManager.increase_score(score)
 	else:
+		GameManager.lerp_to_timescale(0.1)
 		if GameManager.swappable:
 			force_swap = true
 			toggle_swap(true)
@@ -306,7 +307,8 @@ func die():
 
 func actually_die():
 	if game_over:
-		GameManager.lerp_to_timescale(0.1)
+		
+		max_speed = 0
 		game_over()
 		
 	elif is_in_group("enemy"):

@@ -4,7 +4,7 @@ var num_pellets = 5
 
 var shot_spread = 15
 var shot_speed = 175
-var walk_speed = 140
+var walk_speed = 100
 
 var fuel = 200
 var shot_timer = 0

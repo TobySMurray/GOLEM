@@ -27,6 +27,8 @@ var ground
 var obstacles
 var audio
 
+var out_of_control = false
+
 onready var game_time = 0
 var spawn_timer = 0
 var enemy_soft_cap
@@ -40,7 +42,7 @@ func _process(delta):
 	Engine.time_scale =  timescale
 	
 	if spawn_timer < 0:
-		print(enemy_count)
+		#print(enemy_count)
 		spawn_timer = 1
 		enemy_soft_cap = 8 + game_time/20 #pow(1.3, game_time/60)
 		
@@ -78,7 +80,6 @@ func spawn_enemy():
 			
 
 func kill():
-	player.max_speed = 0
 	swappable = false
 	player.die()
 	player.game_over = true
