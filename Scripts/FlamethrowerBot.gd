@@ -12,7 +12,6 @@ var flamethrowing = false
 var ai_shoot = false
 
 onready var flamethrower = $Flamethrower
-onready var explosion = $Explosion/CollisionShape2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,10 +36,6 @@ func player_action():
 		
 
 func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
 	if flamethrowing and fuel > 0:
 		fuel -= 1
 		
@@ -124,9 +119,6 @@ func get_target_position():
 		
 	return target_position
 
-func explode():
-	melee_attack(explosion, 20, 300, 2)
-
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
 		animplayer.play("Attack")
@@ -136,7 +128,3 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		max_speed = walk_speed
 	elif anim_name == "Die":
 		actually_die()
-
-
-func _on_Timer_timeout():
-	invincible = false

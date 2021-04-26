@@ -27,11 +27,6 @@ func _ready():
 func _process(delta):
 	ai_move_timer -= delta
 	
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
 	
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
@@ -42,7 +37,7 @@ func ai_move():
 	if to_player.length() > max_range:
 		ai_can_shoot = false
 		ai_move_timer = -1
-		target_velocity = to_player
+		target_velocity = astar.get_astar_target_velocity(global_position, GameManager.player.position)
 	else:
 		ai_can_shoot = true
 		
@@ -94,7 +89,3 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		reload.play()
 	elif anim_name == "Die":
 		actually_die()
-
-
-func _on_Timer_timeout():
-	invincible = false

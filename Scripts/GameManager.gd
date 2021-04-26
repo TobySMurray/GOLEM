@@ -25,6 +25,7 @@ var total_score = 0
 var score_display
 var ground
 var obstacles
+var marble
 var audio
 
 var out_of_control = false
@@ -90,8 +91,11 @@ func increase_score(value):
 	swap_bar.set_swap_threshold(swap_bar.swap_threshold - 3)
 	
 func is_point_in_bounds(global_point):
-	var tile_point = ground.world_to_map(global_point)
-	return tile_point in ground.get_used_cells()
+	var ground_point = ground.world_to_map(global_point)
+	var marble_point = marble.world_to_map(global_point)
+	var obstacles_point = obstacles.world_to_map(global_point)
+	
+	return ground_point in ground.get_used_cells() and not marble_point in marble.get_used_cells() and not obstacles_point in obstacles.get_used_cells()
 	
 func is_point_offscreen(point):
 	var from_player = point - player.global_position

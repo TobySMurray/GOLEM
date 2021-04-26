@@ -27,12 +27,6 @@ func _ready():
 	healthbar.max_value = health
 	score = 25
 	init_healthbar()
-
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
 	
 func _process(delta):
 	ai_retarget_timer -= delta
@@ -70,14 +64,10 @@ func ai_move():
 			retarget_angle = from_player.angle() + (randf()-0.5)*PI/2
 
 		ai_target_point = 150*Vector2(cos(retarget_angle), sin(retarget_angle))
-	target_velocity = ai_target_point - global_position
+		target_velocity = ai_target_point - global_position
+	else:
+		target_velocity = astar.get_astar_target_velocity(global_position, GameManager.player.global_position)
 		
-#		path = astar.find_path(global_position, GameManager.player.position)
-#
-#	if len(path) > 1:
-#		target_velocity = walk_speed * (path[1] - global_position).normalized()
-#	else:
-#		target_velocity = Vector2.ZERO
 	
 	
 func ai_action():
@@ -135,7 +125,3 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		attacking = false
 	elif anim_name == "Die":
 		actually_die()
-
-
-func _on_Timer_timeout():
-	invincible = false

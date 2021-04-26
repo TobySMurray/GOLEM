@@ -34,10 +34,6 @@ func _ready():
 			min_y = point.y
 		elif point.y > max_y:
 			max_y = point.y
-	print(min_x)
-	print(max_x)
-	print(min_y)
-	print(max_y)
 		
 	var walkable_cells = build_walkable_cells_list()
 	connect_walkable_cells(walkable_cells)
@@ -92,10 +88,26 @@ func find_path(global_start, global_end):
 	var end_index = calculate_point_index(end)
 	
 	var tile_path = astar_node.get_point_path(start_index, end_index)
-
 	
 	var world_path = []
 	for point in tile_path:
 		world_path.append(ground_tm.map_to_world(point))
 
 	return world_path
+
+func get_astar_target_velocity(my_position, target):
+	var path = find_path(my_position, target)
+	var target_position
+	if len(path) == 0:
+		target_position = my_position
+	else:
+		if GameManager.ground.world_to_map(path[0]) == GameManager.ground.world_to_map(my_position):
+			if len(path) == 1:
+				target_position = path[0]
+			else:
+				target_position = path[1]
+		else:
+			target_position = path[0]
+			
+	var target_velocity = target_position - my_position
+	return target_velocity

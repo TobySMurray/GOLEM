@@ -25,11 +25,6 @@ func _ready():
 	flip_offset = 0
 	score = 50
 	init_healthbar()
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
 
 func _process(delta):
 	ai_charge_timer -= delta
@@ -60,10 +55,6 @@ func ai_move():
 	if attacking:
 		return
 	
-	var to_target_point = ai_target_point - global_position
-	if to_target_point.length() > 5 and ai_move_timer > 0:
-		target_velocity = to_target_point
-	
 	else:
 		ai_move_timer = 2
 		ai_target_point = global_position
@@ -74,9 +65,10 @@ func ai_move():
 		var angle = (-to_player).angle()
 		ai_side = 1 if to_player.x > 0 else -1
 		
+		# use A* to get close
 		if dist > 200:
-			ai_target_dist = 150
-			ai_target_angle = (randf()-0.5)*PI/2
+			target_velocity = astar.get_astar_target_velocity(global_position, player_pos)
+			return
 
 		else:
 			if abs(angle) < 30 and (randf() < 0.4 or dist < 50):
@@ -89,6 +81,10 @@ func ai_move():
 		
 		var target_angle = ai_target_angle if ai_side == 1 else ai_target_angle + 180
 		ai_target_point = player_pos - Vector2(cos(ai_target_angle), sin(ai_target_angle))*ai_target_dist
+		
+		var to_target_point = ai_target_point - global_position
+		if to_target_point.length() > 5 and ai_move_timer > 0:
+			target_velocity = to_target_point
 
 		
 func charge():
@@ -138,7 +134,3 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	elif anim_name == "Die":
 		actually_die()
 		
-
-
-func _on_Timer_timeout():
-	invincible = false
