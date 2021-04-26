@@ -18,7 +18,7 @@ func _ready():
 	init_healthbar()
 	score = 100
 	swap_cursor.visible = true
-	
+
 func _process(delta):
 	if charging_tp:
 		teleport_timer -= delta
@@ -26,25 +26,35 @@ func _process(delta):
 			animplayer.play("Appear")
 			if teleport_timer < 0:
 				teleport()
+<<<<<<< HEAD
 			
 func _physics_process(delta):
 	if invincible:
 		modulate = Color(1,0,0,1)
 	if !invincible:
 		modulate = Color(1,1,1,1)
+=======
+
+>>>>>>> cc664a7fb163ec9fd18cefcc9aebea9697655242
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
 		attack()
 	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not attacking:
 		start_teleport(get_global_mouse_position())
-		
+
 func ai_move():
 	if randf() < 0.01:
 		if randf() < 0.5 or target_velocity == Vector2.ZERO:
 			target_velocity = Vector2(randf(), randf())
 		else:
 			target_velocity = Vector2.ZERO
-			
+	else:
+		var player_pos = GameManager.player.global_position
+		var to_player = player_pos - global_position
+		var dist = to_player.length()
+		if dist > 200:
+			target_velocity = astar.get_astar_target_velocity(global_position, player_pos)
+
 func ai_action():
 	if special_cooldown < 0 and randf() < 0.02:
 		for i in range(len(GameManager.player_bullets) > 0):
@@ -113,7 +123,3 @@ func _on_Deflector_area_entered(area):
 	if is_in_group("enemy") and randf() < 0.25 and attack_cooldown < 0 and not attacking:
 		attack()
 		attack_cooldown = 3
-
-
-func _on_Timer_timeout():
-	invincible = false
