@@ -350,6 +350,16 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
+tracks/3/type = "audio"
+tracks/3/path = NodePath("AudioStreamPlayer2D")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": [  ],
+"times": PoolRealArray(  )
+}
 
 [sub_resource type="CircleShape2D" id=9]
 radius = 5.54396
@@ -422,12 +432,13 @@ script = ExtResource( 2 )
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 visible = false
 position = Vector2( -0.453369, -3.22388 )
-frame = 41
+frame = 4
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 11, -28 )
-texture = ExtResource( 4 )
-vframes = 14
+texture = ExtResource( 6 )
+vframes = 8
+frame = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -452,6 +463,7 @@ offset = Vector2( 7, -28 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
+visible = false
 collision_layer = 6
 collision_mask = 6
 
@@ -460,6 +472,7 @@ position = Vector2( -0.883881, -0.176777 )
 shape = SubResource( 15 )
 
 [node name="Deflector" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 0
 
@@ -468,6 +481,7 @@ scale = Vector2( 5, 5 )
 shape = SubResource( 16 )
 
 [node name="AttackBeam" type="Area2D" parent="."]
+visible = false
 rotation = -6.28319
 scale = Vector2( 1, 2 )
 collision_layer = 0
@@ -484,6 +498,7 @@ position = Vector2( 43.7028, 0.132431 )
 shape = SubResource( 23 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
 enabled = true
 
 [node name="HealthBar" parent="." instance=ExtResource( 13 )]
@@ -492,4 +507,6 @@ margin_top = -18.0
 margin_right = 40.0
 margin_bottom = -10.0
 rect_pivot_offset = Vector2( 40, 0 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -1,6 +1,7 @@
 extends "res://Scripts/Enemy.gd"
 
 onready var attack_collider = $AttackCollider/CollisionShape2D
+onready var audio = $AudioStreamPlayer2D
 
 var num_pellets = 6
 var shot_speed = 150

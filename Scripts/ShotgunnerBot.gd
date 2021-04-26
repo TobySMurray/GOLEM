@@ -1,6 +1,8 @@
 extends "res://Scripts/Enemy.gd"
 
 onready var muzzle_flash = $MuzzleFlash
+onready var audio = $AudioStreamPlayer2D
+onready var reload = $Reload
 
 var shot_speed = 150
 var shot_spread = 15
@@ -56,5 +58,6 @@ func show_muzzle_flash():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":
 		attacking = false
+		reload.play()
 	elif anim_name == "Die":
 		queue_free()
