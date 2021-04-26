@@ -40,9 +40,9 @@ func _process(delta):
 	
 	if spawn_timer < 0:
 		print(enemy_count)
-		spawn_timer = 5/pow(2, game_time/60)
+		spawn_timer = 8.0/pow(2, game_time/60)
 		
-		if randf() < (1 - enemy_count/(5.0 + enemy_count)):
+		if randf() < (1 - enemy_count/(20.0 + enemy_count)):
 			spawn_enemy()
 
 func lerp_to_timescale(scale):
@@ -83,6 +83,7 @@ func increase_score(value):
 	enemy_count -= 1
 	total_score += value
 	score_display.score = total_score
+	swap_bar.set_swap_threshold(swap_bar.swap_threshold - 3)
 	
 func is_point_in_bounds(global_point):
 	var tile_point = ground.world_to_map(global_point)
