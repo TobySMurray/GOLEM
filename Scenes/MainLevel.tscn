@@ -174,6 +174,21 @@ position = Vector2( 336, 656 )
 [node name="Merchant" parent="WorldObjects/Characters" instance=ExtResource( 31 )]
 position = Vector2( 86, 578 )
 
+[node name="ShotgunnerBot2" parent="WorldObjects/Characters" groups=[
+"enemy",
+] instance=ExtResource( 2 )]
+position = Vector2( 1552, 296 )
+
+[node name="ExterminatorBot2" parent="WorldObjects/Characters" groups=[
+"enemy",
+] instance=ExtResource( 22 )]
+position = Vector2( 1632, 744 )
+
+[node name="WheelBot2" parent="WorldObjects/Characters" groups=[
+"enemy",
+] instance=ExtResource( 20 )]
+position = Vector2( 936, 288 )
+
 [node name="Marble Orb" parent="WorldObjects" instance=ExtResource( 14 )]
 position = Vector2( -265.342, 580.376 )
 

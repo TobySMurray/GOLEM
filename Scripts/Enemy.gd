@@ -15,6 +15,8 @@ onready var slow_audio = $BloodMoon/Slow
 onready var stopped_audio = $BloodMoon/Stopped
 onready var speed_audio = $BloodMoon/Speed
 
+onready var invinc_timer = $Timer
+
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
 onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay")
@@ -57,6 +59,7 @@ func _ready():
 	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
 
 func _physics_process(delta):
+
 
 	if not is_in_group("enemy"):
 		if not lock_aim:
@@ -189,6 +192,8 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 					bullet.velocity = -bullet.velocity
 		
 func take_damage(damage):
+	invinc_timer.start()
+	invincible = true
 	health -= damage
 	swap_shield_health -= damage
 	healthbar.value = health
@@ -292,6 +297,7 @@ func toggle_selected_enemy(enemy_is_selected):
 func die():
 	invincible = true
 	attacking = true
+	max_speed = 0
 	animplayer.play("Die")
 	
 	if is_in_group("enemy"):

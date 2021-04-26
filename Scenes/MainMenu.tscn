@@ -331,6 +331,18 @@ tracks/5/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("Skip:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=63]
 resource_name = "FadeOut"
@@ -465,6 +477,18 @@ tracks/5/keys = {
 "method": "start_text"
 } ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("Skip:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.470588 ) ]
+}
 
 [sub_resource type="Animation" id=65]
 resource_name = "Transition"
@@ -511,7 +535,7 @@ texture = ExtResource( 4 )
 position = Vector2( 311.216, 106.502 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 61 )
-frame = 22
+frame = 9
 speed_scale = 4.0
 playing = true
 
@@ -737,7 +761,7 @@ __meta__ = {
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
 position = Vector2( 194.835, 198.044 )
 frames = SubResource( 61 )
-frame = 29
+frame = 16
 speed_scale = 4.0
 playing = true
 
@@ -763,6 +787,7 @@ __meta__ = {
 }
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0, 0, 0, 1 )
 
 [node name="StoryText1" type="RichTextLabel" parent="."]
 visible = false
@@ -810,6 +835,18 @@ anims/FadeIn = SubResource( 62 )
 anims/FadeOut = SubResource( 63 )
 anims/Story = SubResource( 64 )
 anims/Transition = SubResource( 65 )
+
+[node name="Skip" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 234.976
+margin_top = 335.992
+margin_right = 392.976
+margin_bottom = 351.992
+custom_fonts/font = ExtResource( 2 )
+text = "[Space to Skip]"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="Start/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="Controls/ControlsButton" to="." method="_on_ControlsButton_pressed"]
 [connection signal="pressed" from="Quit/QuitButton" to="." method="_on_QuitButton_pressed"]

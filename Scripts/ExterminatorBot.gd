@@ -27,7 +27,12 @@ func _process(delta):
 			if teleport_timer < 0:
 				teleport()
 			
-func player_action():
+func _physics_process(delta):
+	if invincible:
+		modulate = Color(1,0,0,1)
+	if !invincible:
+		modulate = Color(1,1,1,1)
+func splayer_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
 		attack()
 	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not attacking:
@@ -108,3 +113,7 @@ func _on_Deflector_area_entered(area):
 	if is_in_group("enemy") and randf() < 0.25 and attack_cooldown < 0 and not attacking:
 		attack()
 		attack_cooldown = 3
+
+
+func _on_Timer_timeout():
+	invincible = false
