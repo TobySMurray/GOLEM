@@ -15,6 +15,8 @@ var dash_timer = 0
 var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
 
+var path = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	health = 75
@@ -52,17 +54,25 @@ func player_action():
 		
 func ai_move():
 	if (ai_target_point - global_position).length_squared() < 100 or ai_retarget_timer < 0:
-		ai_retarget_timer = 3
-		var from_player = global_position - GameManager.player.global_position 
-		var retarget_angle
-		if randf() < 0.25:
-			retarget_angle = from_player.angle() - PI + (randf()-0.5)*PI
-		else:
-			retarget_angle = from_player.angle() + (randf()-0.5)*PI/2
+		
+		#ai_retarget_timer = 3
+		#var from_player = global_position - GameManager.player.global_position 
+		#var retarget_angle
+		#if randf() < 0.25:
+		#	retarget_angle = from_player.angle() - PI + (randf()-0.5)*PI
+		#else:
+		#	retarget_angle = from_player.angle() + (randf()-0.5)*PI/2
 			
-		ai_target_point = 150*Vector2(cos(retarget_angle), sin(retarget_angle))
-			
-	target_velocity = ai_target_point - global_position
+		#ai_target_point = 150*Vector2(cos(retarget_angle), sin(retarget_angle))
+	#target_velocity = ai_target_point - global_position
+		
+		path = astar.find_path(global_position, GameManager.player.position)
+		
+	if len(path) > 1:
+		target_velocity = walk_speed * (path[1] - global_position).normalized()
+	else:
+		target_velocity = Vector2.ZERO
+	
 	
 func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position).normalized()
