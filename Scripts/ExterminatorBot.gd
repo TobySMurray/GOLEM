@@ -18,6 +18,7 @@ func _ready():
 	init_healthbar()
 	score = 100
 	add_swap_shield(0.5)
+	swap_cursor.visible = true
 	
 func _process(delta):
 	if charging_tp:

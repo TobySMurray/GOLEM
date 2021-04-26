@@ -421,9 +421,7 @@ anims/Vanish = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-visible = false
-frame = 57
-
+frame = 2
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )
@@ -458,6 +456,6 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 32
+frame = 16
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]

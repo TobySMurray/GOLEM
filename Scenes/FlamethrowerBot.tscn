@@ -390,12 +390,7 @@ position = Vector2( -0.44545, 3.34087 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
-<<<<<<< HEAD
-visible = false
-frame = 5
-=======
-frame = 34
->>>>>>> 93b73556e8a6f9f0155474d197156c01d04f402d
+frame = 18
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -424,5 +419,5 @@ volume_db = -30.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 8.46354 )
-frame = 21
+frame = 58
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

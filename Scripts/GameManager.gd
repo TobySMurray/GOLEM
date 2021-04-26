@@ -17,9 +17,17 @@ var score_display
 var ground
 var obstacles
 
+onready var game_time = 0
+var spawn_timer = 0
+
 func _process(delta):
+	game_time += delta
+	spawn_timer -= delta
 	timescale = lerp(timescale, target_timescale, delta*12)
 	Engine.time_scale =  timescale
+	
+	if spawn_timer < 0:
+		pass
 
 func lerp_to_timescale(scale):
 	target_timescale = scale
