@@ -10,6 +10,7 @@ var fuel = 200
 var shot_timer = 0
 var flamethrowing = false
 
+onready var flamethrower = $Flamethrower
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,6 +29,7 @@ func player_action():
 		lock_aim = true
 		max_speed = 40
 		animplayer.play("Charge")
+		flamethrower.play()
 	if Input.is_action_just_released("attack1"):
 		flamethrowing = false
 		animplayer.play("Cooldown")
@@ -47,6 +49,7 @@ func _physics_process(delta):
 	if fuel <= 0:
 		flamethrowing = false
 		animplayer.play("Cooldown")
+		flamethrower.stop()
 		attack_cooldown = 1
 
 func attack():
@@ -55,6 +58,7 @@ func attack():
 	flamethrowing = true
 	
 func flamethrower():
+	flamethrower.play(0.5)
 	var pellets = max(fuel/50, 1)
 	shot_timer = 40.0/(fuel+200)
 	for i in range(pellets):

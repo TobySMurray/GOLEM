@@ -27,7 +27,6 @@
 [ext_resource path="res://Scenes/ArcherBot.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
-[ext_resource path="res://Scenes/Tilesets/Ground.gd" type="Script" id=27]
 [ext_resource path="res://Scenes/AStar.tscn" type="PackedScene" id=28]
 
 [node name="MainLevel" type="Node2D"]
@@ -259,3 +258,8 @@ position = Vector2( 1760, 728 )
 
 [node name="Tower2" parent="WorldObjects" instance=ExtResource( 12 )]
 position = Vector2( 1784, 784 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 29 )
+volume_db = -15.0
+autoplay = true
