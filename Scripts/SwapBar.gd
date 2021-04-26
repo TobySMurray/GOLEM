@@ -44,6 +44,6 @@ func out_of_control():
 
 func in_control():
 	if control_timer < swap_threshold:
-		tint_progress = lerp(tint_progress, Color(sin(control_timer*6)*0.5,0,0.2,1), 0.5)
+		tint_progress = lerp(tint_progress, Color(0.58,0.43,0.1,1), 0.5)
 	else:
 		tint_progress = lerp(tint_progress, Color(0.58,0.1,0.1,1), 0.1)

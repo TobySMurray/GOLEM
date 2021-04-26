@@ -10,8 +10,8 @@
 [ext_resource path="res://Scripts/ChainBot.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sounds/SoundEffects/whip1.wav" type="AudioStream" id=10]
-[ext_resource path="res://Sounds/SoundEffects/step.wav" type="AudioStream" id=11]
-[ext_resource path="res://Sounds/SoundEffects/step3.wav" type="AudioStream" id=12]
+[ext_resource path="res://Sounds/SoundEffects/heavystep.wav" type="AudioStream" id=11]
+[ext_resource path="res://Sounds/SoundEffects/step5.wav" type="AudioStream" id=12]
 [ext_resource path="res://Sounds/SoundEffects/charge1.wav" type="AudioStream" id=13]
 [ext_resource path="res://Sounds/SoundEffects/chaindie.wav" type="AudioStream" id=14]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=15]
@@ -369,11 +369,11 @@ tracks/3/keys = {
 "clips": [ {
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource( 12 )
+"stream": ExtResource( 11 )
 }, {
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource( 11 )
+"stream": ExtResource( 12 )
 } ],
 "times": PoolRealArray( 0.1, 0.5 )
 }
@@ -405,8 +405,8 @@ collision_layer = 0
 script = ExtResource( 8 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 3 )
-vframes = 5
+texture = ExtResource( 7 )
+vframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -421,7 +421,7 @@ position = Vector2( 0.375, 7.625 )
 shape = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 9
+frame = 35
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_mask = 3
@@ -448,11 +448,11 @@ margin_bottom = -8.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 14 )
-volume_db = -10.0
+stream = ExtResource( 12 )
+volume_db = -30.0
 max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 2.19092, 10.5634 )
-frame = 31
+frame = 6
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

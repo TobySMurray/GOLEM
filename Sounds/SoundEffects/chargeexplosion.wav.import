@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/chargeexplosion.wav-c40148ca6d4648ea38ee8a0f1d1a5d74.sample"
+
+[deps]
+
+source_file="res://Sounds/SoundEffects/chargeexplosion.wav"
+dest_files=[ "res://.import/chargeexplosion.wav-c40148ca6d4648ea38ee8a0f1d1a5d74.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
