@@ -420,8 +420,7 @@ anims/Vanish = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-visible = false
-
+frame = 10
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )

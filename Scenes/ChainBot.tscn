@@ -420,8 +420,7 @@ position = Vector2( 0.375, 7.625 )
 shape = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-visible = false
-frame = 24
+frame = 40
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_mask = 3

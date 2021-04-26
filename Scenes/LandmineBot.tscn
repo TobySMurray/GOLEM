@@ -127,9 +127,8 @@ collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
-visible = false
 position = Vector2( 0.625, -1.5 )
-frame = 13
+frame = 30
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 3, -36 )

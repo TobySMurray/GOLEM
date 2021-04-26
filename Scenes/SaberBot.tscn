@@ -263,9 +263,8 @@ height = 16.3953
 collision_layer = 0
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-visible = false
 position = Vector2( -0.34697, -0.158186 )
-frame = 37
+frame = 0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 8, -19.057 )
