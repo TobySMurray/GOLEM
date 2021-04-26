@@ -32,7 +32,7 @@ func _physics_process(delta):
 		modulate = Color(1,0,0,1)
 	if !invincible:
 		modulate = Color(1,1,1,1)
-func splayer_action():
+func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
 		attack()
 	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not attacking:
