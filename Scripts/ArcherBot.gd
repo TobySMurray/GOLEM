@@ -74,7 +74,7 @@ func charge_attack():
 	
 	charge_timer = 1.5
 	animplayer.play("Ready")
-	sight_beam.play("flash")
+	sight_beam.play("Flash")
 	sight_beam.modulate = Color(1, 0, 0, 0.5)
 	
 func release_attack():

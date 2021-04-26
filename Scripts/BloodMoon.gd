@@ -6,7 +6,10 @@ onready var stopped = $Stopped
 var moon_visible = false
 
 func _ready():
+<<<<<<< HEAD
 	#print(self.get_parent().get_parent())
+=======
+>>>>>>> 13da89642770a33d7a41b57255e763cb7eb662ae
 	self.connect("selected_enemy_signal", GameManager.transcender, "toggle_selected_enemy")
 
 func _physics_process(delta):

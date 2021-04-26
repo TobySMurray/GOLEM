@@ -45,7 +45,6 @@ func ai_move():
 			ai_move_timer = 0.7 + randf()
 			if randf() < 0.5:
 				ai_target_point = global_position + Vector2(randf()-0.5, randf()-0.5)*150
-				print(ai_target_point)
 		
 		var to_target_point = ai_target_point - global_position
 		if to_target_point.length() > 5:
