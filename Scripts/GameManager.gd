@@ -16,7 +16,6 @@ var timescale = 1
 var target_timescale = 1
 
 var swappable = false
-var out_of_control = false
 
 var swap_bar
 var player
@@ -48,9 +47,6 @@ func _process(delta):
 func lerp_to_timescale(scale):
 	target_timescale = scale
 	audio.pitch_scale = scale
-	
-func toggle_out_of_control(state):
-	out_of_control = state
 	
 func spawn_explosion(pos, size = 1, damage = 20, force = 200, delay = 0):
 	var new_explosion = explosion.instance().duplicate()

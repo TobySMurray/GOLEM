@@ -288,6 +288,7 @@ func actually_die():
 		queue_free()
 	else:
 		self.visible = false
+		GameManager.swap_bar.visible = false
 		score = 0
 		ScoreDisplay.visible = false
 		ScoreLabel.set_text(str(GameManager.total_score))
