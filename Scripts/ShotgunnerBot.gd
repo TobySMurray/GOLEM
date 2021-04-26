@@ -4,7 +4,7 @@ onready var muzzle_flash = $MuzzleFlash
 onready var audio = $AudioStreamPlayer2D
 onready var reload = $Reload
 
-var shot_speed = 150
+var shot_speed = 180
 var shot_spread = 15
 var num_pellets = 6
 

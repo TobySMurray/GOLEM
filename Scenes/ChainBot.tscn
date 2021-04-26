@@ -421,9 +421,7 @@ position = Vector2( 0.375, 7.625 )
 shape = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-visible = false
-frame = 20
-
+frame = 9
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_mask = 3
@@ -456,5 +454,5 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 2.19092, 10.5634 )
-frame = 1
+frame = 31
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

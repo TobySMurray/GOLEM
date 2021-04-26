@@ -30,6 +30,7 @@ func player_action():
 		max_speed = 40
 		animplayer.play("Charge")
 		flamethrower.play()
+		attack()
 	if Input.is_action_just_released("attack1"):
 		flamethrowing = false
 		animplayer.play("Cooldown")
@@ -53,7 +54,6 @@ func _physics_process(delta):
 		attack_cooldown = 1
 
 func attack():
-	animplayer.play("Attack")
 	shot_timer = -1
 	flamethrowing = true
 	
@@ -69,7 +69,7 @@ func flamethrower():
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
-		attack()
+		animplayer.play("Attack")
 	if anim_name == "Cooldown":
 		attacking = false
 		lock_aim = false

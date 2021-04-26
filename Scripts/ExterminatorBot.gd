@@ -17,7 +17,6 @@ func _ready():
 	healthbar.max_value = health
 	init_healthbar()
 	score = 100
-	add_swap_shield(0.5)
 	swap_cursor.visible = true
 	
 func _process(delta):

@@ -12,7 +12,8 @@ func _ready():
 
 func _physics_process(delta):
 	if self.is_in_group("enemy"):
-		die()
+		if not invincible:
+			die()
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):

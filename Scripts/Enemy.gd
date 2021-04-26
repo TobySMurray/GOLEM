@@ -212,7 +212,7 @@ func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
 		add_to_group("player")
-		get_node("../../../Camera2D").anchor = self
+		GameManager.camera.anchor = self
 		GameManager.player = self
 	else:
 		remove_from_group("player")
@@ -224,7 +224,6 @@ func toggle_playerhood(state):
 func add_swap_shield(resistance):
 	max_swap_shield_health = health*resistance
 	swap_shield_health = max_swap_shield_health
-	update_swap_shield()
 	
 func update_swap_shield():
 	if swap_shield_health > 0:
@@ -272,6 +271,7 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die():
+	invincible = true
 	GameManager.increase_score(score)
 	attacking = true
 	animplayer.play("Die")

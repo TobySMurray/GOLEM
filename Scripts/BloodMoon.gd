@@ -26,8 +26,9 @@ func _on_Area2D_body_exited(body):
 		emit_selected_enemy_signal(false)
 
 func emit_selected_enemy_signal(state):
-	self.modulate.a = 1 if state else 0.3
-	emit_signal("selected_enemy_signal", state)
+	if moon_visible:
+		self.modulate.a = 1 if state else 0.3
+		emit_signal("selected_enemy_signal", state)
 
 func _on_Slow_finished():
 	stopped.play()
