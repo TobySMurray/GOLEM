@@ -22,7 +22,13 @@ func _ready():
 	flip_offset = -23
 	init_healthbar()
 	score = 50
-	
+
+func _physics_process(delta):
+	if invincible:
+		modulate = Color(1,0,0,1)
+	if !invincible:
+		modulate = Color(1,1,1,1)
+		
 func _process(delta):
 	ai_move_timer -= delta
 	
@@ -149,3 +155,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		
 	elif anim_name == "Die":
 		actually_die()
+
+
+func _on_Timer_timeout():
+	invincible = false

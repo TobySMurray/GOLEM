@@ -366,7 +366,7 @@ anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
-frame = 4
+frame = 48
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
 rotation = -1.08909
@@ -404,7 +404,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 0, 11.3892 )
-frame = 51
+frame = 28
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

@@ -119,3 +119,7 @@ func _on_Deflector_area_entered(area):
 	if is_in_group("enemy") and randf() < 0.25 and attack_cooldown < 0 and not attacking:
 		attack()
 		attack_cooldown = 3
+
+
+func _on_Timer_timeout():
+	invincible = false

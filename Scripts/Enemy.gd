@@ -14,6 +14,7 @@ onready var astar = self.get_parent().get_node("AStar")
 onready var slow_audio = $BloodMoon/Slow
 onready var stopped_audio = $BloodMoon/Stopped
 onready var speed_audio = $BloodMoon/Speed
+onready var timer = $Timer
 
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
@@ -191,6 +192,8 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 					bullet.velocity = -bullet.velocity
 		
 func take_damage(damage):
+	invincible = true
+	timer.start()
 	health -= damage
 	swap_shield_health -= damage
 	healthbar.value = health

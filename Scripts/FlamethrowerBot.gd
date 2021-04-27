@@ -36,6 +36,10 @@ func player_action():
 		
 
 func _physics_process(delta):
+	if invincible:
+		modulate = Color(1,0,0,1)
+	if !invincible:
+		modulate = Color(1,1,1,1)
 	if flamethrowing and fuel > 0:
 		fuel -= 1
 		
@@ -128,3 +132,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		max_speed = walk_speed
 	elif anim_name == "Die":
 		actually_die()
+
+
+func _on_Timer_timeout():
+	invincible = false
