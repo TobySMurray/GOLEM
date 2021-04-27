@@ -49,6 +49,7 @@ var invincible = false
 signal draw_transcender
 signal clear_transcender
 
+var dead = false
 var force_swap = false
 
 func _ready():
@@ -57,7 +58,8 @@ func _ready():
 	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
 
 func _physics_process(delta):
-
+	if dead and is_in_group("enemy"):
+		queue_free()
 	if not is_in_group("enemy"):
 		if not lock_aim:
 			aim_direction = (get_global_mouse_position() - global_position).normalized()
@@ -148,7 +150,7 @@ func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):
 	var new_bullet = bullet.instance().duplicate()
 	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
 	new_bullet.source = self
-	new_bullet.velocity = vel
+	new_bullet.velocity = vel * 0.8
 	new_bullet.damage = damage
 	new_bullet.mass = mass
 	new_bullet.lifetime = lifetime
@@ -290,6 +292,7 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die():
+	max_speed = 0
 	invincible = true
 	attacking = true
 	animplayer.play("Die")
@@ -297,7 +300,7 @@ func die():
 	if is_in_group("enemy"):
 		GameManager.increase_score(score)
 	else:
-		GameManager.lerp_to_timescale(0.1)
+		GameManager.lerp_to_timescale(0.5)
 		if GameManager.swappable:
 			force_swap = true
 			toggle_swap(true)
@@ -306,6 +309,7 @@ func die():
 		
 
 func actually_die():
+	dead = true
 	if game_over:
 		max_speed = 0
 		game_over()

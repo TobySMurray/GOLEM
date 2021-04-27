@@ -553,12 +553,11 @@ script = ExtResource( 2 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 13
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 11, -28 )
-texture = ExtResource( 5 )
-vframes = 4
+texture = ExtResource( 7 )
+vframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -642,7 +641,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 35
+frame = 28
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
