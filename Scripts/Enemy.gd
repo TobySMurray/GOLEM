@@ -192,8 +192,9 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 					bullet.velocity = -bullet.velocity
 		
 func take_damage(damage):
-	invincible = true
-	timer.start()
+	if !is_in_group("enemy"):
+		invincible = true
+		timer.start()
 	health -= damage
 	swap_shield_health -= damage
 	healthbar.value = health

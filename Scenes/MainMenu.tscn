@@ -559,7 +559,7 @@ texture = ExtResource( 4 )
 position = Vector2( 311.216, 106.502 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 61 )
-frame = 48
+frame = 30
 speed_scale = 4.0
 playing = true
 
@@ -657,6 +657,7 @@ volume_db = -10.0
 autoplay = true
 
 [node name="CreditsPopup" type="Popup" parent="."]
+visible = true
 margin_right = 639.0
 margin_bottom = 359.0
 __meta__ = {
@@ -709,7 +710,7 @@ Keaton House
 
 
 
-Penusmbic"
+Penusbmic"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -785,7 +786,7 @@ __meta__ = {
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
 position = Vector2( 194.835, 198.044 )
 frames = SubResource( 61 )
-frame = 55
+frame = 37
 speed_scale = 4.0
 playing = true
 
@@ -811,7 +812,6 @@ __meta__ = {
 }
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0, 0, 0, 1 )
 
 [node name="StoryText1" type="RichTextLabel" parent="."]
 visible = false
