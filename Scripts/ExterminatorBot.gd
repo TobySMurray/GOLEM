@@ -26,16 +26,12 @@ func _process(delta):
 			animplayer.play("Appear")
 			if teleport_timer < 0:
 				teleport()
-<<<<<<< HEAD
-			
 func _physics_process(delta):
 	if invincible:
 		modulate = Color(1,0,0,1)
 	if !invincible:
 		modulate = Color(1,1,1,1)
-=======
 
->>>>>>> cc664a7fb163ec9fd18cefcc9aebea9697655242
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
 		attack()

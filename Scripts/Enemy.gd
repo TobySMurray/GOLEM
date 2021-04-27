@@ -302,12 +302,11 @@ func die():
 			force_swap = true
 			toggle_swap(true)
 		else:
-			game_over()
+			game_over = true
 		
 
 func actually_die():
 	if game_over:
-		
 		max_speed = 0
 		game_over()
 		

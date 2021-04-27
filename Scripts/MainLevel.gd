@@ -6,3 +6,4 @@ onready var canvas = $CanvasModulate
 func _ready():
 	animplayer.play("FadeIn")
 	
+
