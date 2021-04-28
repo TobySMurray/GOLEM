@@ -34,7 +34,6 @@ func _physics_process(delta):
 	if !invincible:
 		modulate = Color(1,1,1,1)
 		
-func _process(delta):
 	ai_retarget_timer -= delta
 	
 	if burst_count > 0:
@@ -72,7 +71,7 @@ func ai_move():
 		ai_target_point = 150*Vector2(cos(retarget_angle), sin(retarget_angle))
 		target_velocity = ai_target_point - global_position
 	else:
-		target_velocity = astar.get_astar_target_velocity(global_position, GameManager.player.global_position)
+		target_velocity = astar.get_astar_target_velocity(shape.global_position, GameManager.player.shape.global_position)
 		
 	
 	

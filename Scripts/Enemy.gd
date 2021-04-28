@@ -15,6 +15,7 @@ onready var slow_audio = $BloodMoon/Slow
 onready var stopped_audio = $BloodMoon/Stopped
 onready var speed_audio = $BloodMoon/Speed
 onready var timer = $Timer
+onready var shape = $CollisionShape2D
 
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
@@ -213,6 +214,8 @@ func init_healthbar():
 	
 
 func toggle_swap(state):
+	if !GameManager.swappable:
+		state = false
 	about_to_swap = state
 	
 	if(about_to_swap):
@@ -299,10 +302,11 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die():
-	GameManager.swappable = false
 	invincible = true
 	if is_in_group("enemy"):
 		GameManager.increase_score(score)
+	else:
+		GameManager.swappable = false
 	attacking = true
 	GameManager.swappable = false
 	animplayer.play("Die")

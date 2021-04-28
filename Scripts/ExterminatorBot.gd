@@ -11,7 +11,7 @@ var walk_speed = 50
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 200
+	health = 175
 	max_speed = walk_speed
 	flip_offset = 24
 	healthbar.max_value = health
@@ -19,18 +19,14 @@ func _ready():
 	score = 100
 	swap_cursor.visible = true
 
-func _process(delta):
+func _physics_process(delta):
 	if charging_tp:
 		teleport_timer -= delta
 		if teleport_timer < 0.1:
 			animplayer.play("Appear")
 			if teleport_timer < 0:
 				teleport()
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
+
 
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
@@ -45,11 +41,11 @@ func ai_move():
 		else:
 			target_velocity = Vector2.ZERO
 	else:
-		var player_pos = GameManager.player.global_position
-		var to_player = player_pos - global_position
+		var player_pos = GameManager.player.shape.global_position
+		var to_player = player_pos - shape.global_position
 		var dist = to_player.length()
 		if dist > 200:
-			target_velocity = astar.get_astar_target_velocity(global_position, player_pos)
+			target_velocity = astar.get_astar_target_velocity(shape.global_position, player_pos)
 
 func ai_action():
 	if special_cooldown < 0 and randf() < 0.02:

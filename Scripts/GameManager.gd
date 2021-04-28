@@ -10,7 +10,7 @@ onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
 onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
 
 onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot]
-var weights = [1, 1, 0.5, 1, 0.5, 0]
+var weights = [1, 1, 0.5, 1, 0.5, 0.3]
 
 var timescale = 1
 var target_timescale = 1
@@ -81,6 +81,7 @@ func spawn_enemy():
 			
 
 func reset():
+	total_score = 0
 	timescale = 0
 	game_time = 0
 	spawn_timer = 0

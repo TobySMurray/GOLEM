@@ -3,6 +3,7 @@ extends "res://Scripts/Enemy.gd"
 onready var attack_collider = $AttackCollider/CollisionShape2D
 onready var audio = $AudioStreamPlayer2D
 
+
 var num_pellets = 6
 var shot_speed = 150
 var walk_speed = 100
@@ -64,7 +65,7 @@ func ai_move():
 		ai_move_timer = 2
 		ai_target_point = global_position
 		
-		var player_pos = GameManager.player.global_position
+		var player_pos = GameManager.player.shape.global_position
 		var to_player = player_pos - global_position
 		var dist = to_player.length()
 		var angle = (-to_player).angle()
@@ -72,7 +73,7 @@ func ai_move():
 		
 		# use A* to get close
 		if dist > 200:
-			target_velocity = astar.get_astar_target_velocity(global_position, player_pos)
+			target_velocity = astar.get_astar_target_velocity(shape.global_position, player_pos)
 			return
 
 		else:

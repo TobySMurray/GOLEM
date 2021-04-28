@@ -16,19 +16,17 @@ onready var flamethrower = $Flamethrower
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 150
+	health = 110
 	max_speed = walk_speed
 	bullet_spawn_offset = 10
 	flip_offset = -46
-	healthbar.max_value = health
 	score = 75
 	init_healthbar()
 
 func player_action():
-	aim_direction.y = 0
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
 		attacking = true
-		lock_aim = true
+		lock_aim = false
 		max_speed = 40
 		attack()
 	if Input.is_action_just_released("attack1"):
@@ -75,7 +73,7 @@ func flamethrower():
 func ai_move():
 	aim_direction = (GameManager.player.global_position - global_position).normalized()
 	var target_position = get_target_position()
-	var path = astar.find_path(global_position, target_position)
+	var path = astar.find_path(shape.global_position, target_position)
 
 	if len(path) == 0:
 		target_position = global_position
@@ -106,7 +104,7 @@ func ai_move():
 		animplayer.play("Cooldown")
 			
 func get_target_position():
-	var enemy_position = GameManager.player.position
+	var enemy_position = GameManager.player.shape.position
 	var target_position
 	
 	if health < 25:

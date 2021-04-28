@@ -38,18 +38,18 @@ func player_action():
 		shoot()
 		
 func ai_move():
-	var to_player = GameManager.player.position - global_position
+	var to_player = GameManager.player.shape.position - shape.global_position
 	if to_player.length() > max_range:
 		ai_can_shoot = false
 		ai_move_timer = -1
-		target_velocity = astar.get_astar_target_velocity(global_position, GameManager.player.position)
+		target_velocity = astar.get_astar_target_velocity(shape.global_position, GameManager.player.shape.position)
 	else:
 		ai_can_shoot = true
 		
 		if ai_move_timer < 0:
 			ai_move_timer = 0.7 + randf()
 			if randf() < 0.5:
-				ai_target_point = global_position + Vector2(randf()-0.5, randf()-0.5)*150
+				ai_target_point = shape.global_position + Vector2(randf()-0.5, randf()-0.5)*150
 		
 		var to_target_point = ai_target_point - global_position
 		if to_target_point.length() > 5:
