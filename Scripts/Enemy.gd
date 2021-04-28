@@ -44,6 +44,7 @@ var lock_aim = false
 
 var flip_offset = 0
 var bullet_spawn_offset = 0
+var foot_offset = 0
 
 var invincible = false
 
@@ -57,24 +58,26 @@ func _ready():
 	self.connect("draw_transcender", transcender, "draw_transcender")
 	self.connect("clear_transcender", transcender, "clear_transcender")
 	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
+	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 
 func _physics_process(delta):
-	if dead and is_in_group("enemy"):
-		queue_free()
-	if not is_in_group("enemy"):
-		if not lock_aim:
-			aim_direction = (get_global_mouse_position() - global_position).normalized()
+	if health > 0:
+		misc_update(delta)
 		
+	if not is_in_group("enemy"):
 		if health > 0:
 			player_move(delta)
-		
+			
+			if not lock_aim:
+				aim_direction = (get_global_mouse_position() - global_position).normalized()
+			
 		if about_to_swap:
 			choose_swap_target()
 		else:
 			if Input.is_action_just_pressed("swap") and GameManager.swappable:
 				toggle_swap(true)
-				
-			player_action()
+			elif health > 0:
+				player_action()
 		
 	else:
 		if GameManager.player and health > 0:
@@ -106,7 +109,9 @@ func player_move(delta):
 		input.y -= 1
 		
 	target_velocity = max_speed * input.normalized()
-		
+	
+func misc_update(delta):
+	pass
 		
 func player_action():
 	pass
@@ -145,6 +150,8 @@ func animate():
 		animplayer.play("Idle")
 	elif !attacking:
 		animplayer.play("Walk")
+		
+	sprite.modulate = lerp(sprite.modulate, Color.white, 0.2)
 		
 		
 func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):
@@ -192,17 +199,20 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 					bullet.velocity = -bullet.velocity
 		
 func take_damage(damage):
+	if invincible:
+		return
+	
 	if !is_in_group("enemy"):
 		invincible = true
 		timer.start()
+		
 	health -= damage
 	swap_shield_health -= damage
 	healthbar.value = health
+	sprite.modulate = Color.red
 	if health <= 0:
 		die()
-	else:
-		pass
-		#animplayer.play("Hit")
+
 func init_healthbar():
 	healthbar.max_value = health
 	healthbar.value = health
@@ -296,7 +306,7 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die():
-	max_speed = 0
+	target_velocity = Vector2.ZERO
 	invincible = true
 	attacking = true
 	animplayer.play("Die")

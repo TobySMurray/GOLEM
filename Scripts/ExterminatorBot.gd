@@ -19,18 +19,13 @@ func _ready():
 	score = 100
 	swap_cursor.visible = true
 
-func _process(delta):
+func misc_update(delta):
 	if charging_tp:
 		teleport_timer -= delta
 		if teleport_timer < 0.1:
 			animplayer.play("Appear")
 			if teleport_timer < 0:
 				teleport()
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
 
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:

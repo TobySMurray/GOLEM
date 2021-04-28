@@ -10,7 +10,7 @@ onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
 onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
 
 onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot]
-var weights = [1, 1, 0.5, 1, 1, 0.3]
+var enemy_weights = [1, 1, 0.5, 1, 1, 0.3]
 
 var timescale = 1
 var target_timescale = 1
@@ -44,7 +44,7 @@ func _process(delta):
 	
 	if spawn_timer < 0:
 		spawn_timer = 1
-		enemy_soft_cap = 8 + game_time/20 #pow(1.3, game_time/60)
+		enemy_soft_cap = 5 + game_time/20 #pow(1.3, game_time/60)
 		
 		if randf() < (1 - enemy_count/enemy_soft_cap):
 			spawn_enemy()
@@ -66,7 +66,7 @@ func spawn_enemy():
 	if not player: return
 	
 	enemy_count += 1
-	var new_enemy = choose_weighted(enemies, weights).instance().duplicate()
+	var new_enemy = choose_weighted(enemies, enemy_weights).instance().duplicate()
 	
 	new_enemy.add_swap_shield(max(randf()*((1*game_time/60)/(3 + game_time/60)) - 0.2, 0))
 	new_enemy.add_to_group("enemy")
@@ -74,7 +74,7 @@ func spawn_enemy():
 	while(1 == 1): #Non-algorithmic function LOL
 		var point = Vector2(-500 + randf()*2500, -250 + randf()*1150)
 		if is_point_in_bounds(point) and is_point_offscreen(point):
-			new_enemy.global_position = point
+			new_enemy.global_position = point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
 			get_node("/root/MainLevel/WorldObjects/Characters").add_child(new_enemy)
 			break
 			

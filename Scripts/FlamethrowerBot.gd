@@ -10,6 +10,8 @@ var fuel = 200
 var shot_timer = 0
 var flamethrowing = false
 var ai_shoot = false
+var ai_target_point = Vector2.ZERO
+var ai_retarget_timer = 0
 
 onready var flamethrower = $Flamethrower
 
@@ -26,20 +28,15 @@ func _ready():
 func player_action():
 	aim_direction.y = 0
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
-		attacking = true
-		lock_aim = true
-		max_speed = 40
 		attack()
 	if Input.is_action_just_released("attack1"):
 		flamethrowing = false
 		animplayer.play("Cooldown")
 		
 
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
+func misc_update(delta):
+	ai_retarget_timer -= delta
+	
 	if flamethrowing and fuel > 0:
 		fuel -= 1
 		
@@ -57,6 +54,9 @@ func _physics_process(delta):
 		attack_cooldown = 1
 
 func attack():
+	attacking = true
+	lock_aim = true
+	max_speed = 40
 	shot_timer = -1
 	flamethrowing = true
 	animplayer.play("Charge")
@@ -72,32 +72,40 @@ func flamethrower():
 		shoot_bullet(pellet_dir*pellet_speed, 5, 0, 0.6)
 
 func ai_move():
-	aim_direction = (GameManager.player.global_position - global_position).normalized()
+	if not lock_aim:
+		aim_direction = (GameManager.player.global_position - global_position).normalized()
+		
 	var target_position = get_target_position()
-	var path = astar.find_path(global_position, target_position)
-
-	if len(path) == 0:
-		target_position = global_position
-		
-	else:
-		if GameManager.ground.world_to_map(path[0]) == GameManager.ground.world_to_map(global_position):
-			if len(path) == 1:
-				target_position = path[0]
-			else:
-				target_position = path[1]
-		else:
-			target_position = path[0]
+	var target_dist = (target_position - global_position).length()
 	
-	target_velocity = target_position - global_position
+	if target_dist > 300:
+		if ai_retarget_timer < 0:
+			ai_retarget_timer = 1
+			var path = astar.find_path(global_position + foot_offset, target_position)
+
+			if len(path) == 0:
+				target_position = global_position
+				
+			else:
+				if GameManager.ground.world_to_map(path[0]) == GameManager.ground.world_to_map(global_position):
+					if len(path) == 1:
+						target_position = path[0]
+					else:
+						target_position = path[1]
+				else:
+					target_position = path[0]
+					
+			target_velocity = target_position - global_position
+	
+	else:
+		target_velocity = target_position - global_position
 		
-	if len(path) < 7:
+	if target_dist < 100:
 		if attack_cooldown < 0 and !ai_shoot:
 			ai_shoot = true
-			attacking = true
-			lock_aim = true
-			max_speed = 40
 			attack()
-		elif attack_cooldown > 0:
+		elif attack_cooldown > 0 and ai_shoot:
+			attack_cooldown = 1
 			ai_shoot = false
 	else:
 		ai_shoot = false

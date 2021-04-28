@@ -5,7 +5,7 @@ onready var audio = $AudioStreamPlayer2D
 
 var num_pellets = 6
 var shot_speed = 150
-var walk_speed = 100
+var walk_speed = 150
 
 var ai_side = 1
 var ai_target_dist= 0
@@ -25,13 +25,8 @@ func _ready():
 	flip_offset = 0
 	score = 50
 	init_healthbar()
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
 
-func _process(delta):
+func misc_update(delta):
 	ai_charge_timer -= delta
 	ai_move_timer -= delta
 	ai_delay_timer -= delta
@@ -58,9 +53,9 @@ func ai_action():
 	
 func ai_move():
 	if attacking:
-		return
-	
-	else:
+		target_velocity = (GameManager.player.global_position - global_position)
+
+	if (ai_target_point - global_position).length() < 5 or ai_move_timer < 0:
 		ai_move_timer = 2
 		ai_target_point = global_position
 		
@@ -72,7 +67,7 @@ func ai_move():
 		
 		# use A* to get close
 		if dist > 200:
-			target_velocity = astar.get_astar_target_velocity(global_position, player_pos)
+			target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, player_pos)
 			return
 
 		else:
