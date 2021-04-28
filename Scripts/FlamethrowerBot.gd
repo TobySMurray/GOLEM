@@ -13,6 +13,7 @@ var ai_shoot = false
 
 onready var flamethrower = $Flamethrower
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	health = 150
@@ -130,7 +131,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		attacking = false
 		lock_aim = false
 		max_speed = walk_speed
-	elif anim_name == "Die":
+	if anim_name == "Die":
+		dead = true
 		actually_die()
 
 

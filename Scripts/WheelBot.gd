@@ -129,7 +129,8 @@ func set_dash_fx_position():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack":
 		attacking = false
-	elif anim_name == "Die":
+	if anim_name == "Die":
+		dead = true
 		actually_die()
 
 

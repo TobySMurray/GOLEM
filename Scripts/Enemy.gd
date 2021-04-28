@@ -71,16 +71,19 @@ func _physics_process(delta):
 		if about_to_swap:
 			choose_swap_target()
 		else:
-			if Input.is_action_just_pressed("swap") and GameManager.swappable:
-				toggle_swap(true)
+			if GameManager.swappable:
+				if Input.is_action_just_pressed("swap"):
+					toggle_swap(true)
 				
 			player_action()
 		
 	else:
 		if GameManager.player and health > 0:
-			#aim_direction = Vector2.RIGHT #Will aim at player when defined
-			ai_move()
-			ai_action()
+			if !dead:
+				ai_move()
+				ai_action()
+		if health < 0:
+			queue_free()
 		
 	attack_cooldown -= delta
 	special_cooldown -= delta
@@ -296,39 +299,27 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die():
-	max_speed = 0
+	GameManager.swappable = false
 	invincible = true
-	attacking = true
-	animplayer.play("Die")
-	
 	if is_in_group("enemy"):
 		GameManager.increase_score(score)
-	else:
-		GameManager.lerp_to_timescale(0.5)
-		if GameManager.swappable:
-			force_swap = true
-			toggle_swap(true)
-		else:
-			game_over = true
+	attacking = true
+	GameManager.swappable = false
+	animplayer.play("Die")
 		
 
 func actually_die():
-	dead = true
-	if game_over:
-		max_speed = 0
-		game_over()
-		
-	elif is_in_group("enemy"):
+	if is_in_group("enemy"):
 		queue_free()
-	
-		
-func game_over():
-	self.visible = false
-	GameManager.swap_bar.visible = false
-	score = 0
-	ScoreDisplay.visible = false
-	ScoreLabel.set_text(str(GameManager.total_score))
-	death_screen.popup()
-	
+	else:
+		GameManager.swappable = false
+		GameManager.lerp_to_timescale(0.1)
+		self.visible = false
+		GameManager.swap_bar.visible = false
+		ScoreDisplay.visible = false
+		ScoreLabel.set_text(str(GameManager.total_score))
+		death_screen.popup()
+		GameManager.lerp_to_timescale(0.1)
+
 
 

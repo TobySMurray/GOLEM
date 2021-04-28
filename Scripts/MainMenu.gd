@@ -5,7 +5,6 @@ onready var credits = $CreditsPopup
 onready var controls = $ControlsPopup
 onready var Canvas = $CanvasModulate
 onready var animplayer = $AnimationPlayer
-onready var story = $Story
 
 var skippable = false
 
@@ -16,7 +15,7 @@ func _on_StartButton_pressed():
 	animplayer.play("FadeOut")
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if Input.is_action_just_pressed("swap") and skippable:
 		animplayer.play("Transition")
 		

@@ -10,7 +10,7 @@ onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
 onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
 
 onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot]
-var weights = [1, 1, 0.5, 1, 1, 0.3]
+var weights = [1, 1, 0.5, 1, 0.5, 0]
 
 var timescale = 1
 var target_timescale = 1
@@ -35,6 +35,7 @@ var spawn_timer = 0
 var enemy_soft_cap
 var enemy_count = 5
 var player_bullets = []
+var enemy_hard_cap = 10
 
 func _process(delta):
 	game_time += delta
@@ -45,9 +46,9 @@ func _process(delta):
 	if spawn_timer < 0:
 		spawn_timer = 1
 		enemy_soft_cap = 8 + game_time/20 #pow(1.3, game_time/60)
-		
-		if randf() < (1 - enemy_count/enemy_soft_cap):
-			spawn_enemy()
+		if enemy_count < enemy_hard_cap:
+			if randf() < (1 - enemy_count/enemy_soft_cap):
+				spawn_enemy()
 
 func lerp_to_timescale(scale):
 	target_timescale = scale
@@ -79,10 +80,15 @@ func spawn_enemy():
 			break
 			
 
+func reset():
+	timescale = 0
+	game_time = 0
+	spawn_timer = 0
+	enemy_count = 5
+
 func kill():
 	swappable = false
 	player.die()
-	player.game_over = true
 
 func increase_score(value):
 	enemy_count -= 1
