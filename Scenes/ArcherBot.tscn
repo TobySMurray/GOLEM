@@ -553,7 +553,7 @@ script = ExtResource( 2 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 10
+frame = 37
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 11, -28 )
@@ -601,7 +601,6 @@ scale = Vector2( 5, 5 )
 shape = SubResource( 16 )
 
 [node name="AttackBeam" type="Area2D" parent="."]
-visible = false
 rotation = -6.28319
 scale = Vector2( 1, 2 )
 collision_layer = 0
@@ -642,7 +641,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 54
+frame = 21
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

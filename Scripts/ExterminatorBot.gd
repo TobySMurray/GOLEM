@@ -19,7 +19,8 @@ func _ready():
 	score = 100
 	swap_cursor.visible = true
 
-func _physics_process(delta):
+
+func misc_update(delta):
 	if charging_tp:
 		teleport_timer -= delta
 		if teleport_timer < 0.1:

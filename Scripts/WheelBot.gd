@@ -27,13 +27,9 @@ func _ready():
 	healthbar.max_value = health
 	score = 25
 	init_healthbar()
-	
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
 		
+
+func misc_update(delta):
 	ai_retarget_timer -= delta
 	
 	if burst_count > 0:
@@ -58,20 +54,24 @@ func player_action():
 		dash()
 		
 func ai_move():
-	if (ai_target_point - global_position).length_squared() < 100 or ai_retarget_timer < 0:
-		
-		ai_retarget_timer = 3
-		var from_player = global_position - GameManager.player.global_position 
-		var retarget_angle
-		if randf() < 0.25:
-			retarget_angle = from_player.angle() - PI + (randf()-0.5)*PI
-		else:
-			retarget_angle = from_player.angle() + (randf()-0.5)*PI/2
+	if (GameManager.player.global_position - global_position).length() > 400:
+		if (ai_target_point - global_position).length_squared() < 10 or ai_retarget_timer < 0:
+			
+			ai_retarget_timer = 3
+			var from_player = global_position - GameManager.player.global_position 
+			var retarget_angle
+			if randf() < 0.25:
+				retarget_angle = from_player.angle() - PI + (randf()-0.5)*PI
+			else:
+				retarget_angle = from_player.angle() + (randf()-0.5)*PI/2
 
-		ai_target_point = 150*Vector2(cos(retarget_angle), sin(retarget_angle))
-		target_velocity = ai_target_point - global_position
-	else:
-		target_velocity = astar.get_astar_target_velocity(shape.global_position, GameManager.player.shape.global_position)
+
+			ai_target_point = 150*Vector2(cos(retarget_angle), sin(retarget_angle))
+			target_velocity = ai_target_point - global_position
+	elif ai_retarget_timer < 0:
+		ai_retarget_timer = 1
+		target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, GameManager.player.global_position)
+
 		
 	
 	

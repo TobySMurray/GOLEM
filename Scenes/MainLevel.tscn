@@ -200,7 +200,7 @@ position = Vector2( 86, 578 )
 [node name="ShotgunnerBot2" parent="WorldObjects/Characters" groups=[
 "enemy",
 ] instance=ExtResource( 2 )]
-position = Vector2( 1552, 296 )
+position = Vector2( 1528, 296 )
 
 [node name="WheelBot2" parent="WorldObjects/Characters" groups=[
 "enemy",

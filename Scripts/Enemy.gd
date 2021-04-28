@@ -45,6 +45,7 @@ var lock_aim = false
 
 var flip_offset = 0
 var bullet_spawn_offset = 0
+var foot_offset = 0
 
 var invincible = false
 
@@ -58,33 +59,33 @@ func _ready():
 	self.connect("draw_transcender", transcender, "draw_transcender")
 	self.connect("clear_transcender", transcender, "clear_transcender")
 	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
+	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 
 func _physics_process(delta):
-	if dead and is_in_group("enemy"):
-		queue_free()
-	if not is_in_group("enemy"):
-		if not lock_aim:
-			aim_direction = (get_global_mouse_position() - global_position).normalized()
+	if health > 0:
+		misc_update(delta)
 		
+	if not is_in_group("enemy"):
 		if health > 0:
 			player_move(delta)
-		
+			
+			if not lock_aim:
+				aim_direction = (get_global_mouse_position() - global_position).normalized()
+			
 		if about_to_swap:
 			choose_swap_target()
 		else:
+			if health > 0:
+				player_action()
 			if GameManager.swappable:
 				if Input.is_action_just_pressed("swap"):
 					toggle_swap(true)
-				
-			player_action()
+		
 		
 	else:
 		if GameManager.player and health > 0:
-			if !dead:
-				ai_move()
-				ai_action()
-		if health < 0:
-			queue_free()
+			ai_move()
+			ai_action()
 		
 	attack_cooldown -= delta
 	special_cooldown -= delta
@@ -110,7 +111,9 @@ func player_move(delta):
 		input.y -= 1
 		
 	target_velocity = max_speed * input.normalized()
-		
+	
+func misc_update(delta):
+	pass
 		
 func player_action():
 	pass
@@ -123,16 +126,17 @@ func ai_action():
 		
 func choose_swap_target():
 	swap_cursor.global_position = get_global_mouse_position()
-	if Input.is_action_just_released("swap"):
-		if swap_cursor.selected_enemy:
-			swap_cursor.selected_enemy.toggle_playerhood(true)
-			toggle_playerhood(false)
-			GameManager.swap_bar.reset()
-			clear_transcender()
-		if !force_swap or swap_cursor.selected_enemy:
-			toggle_swap(false)
-	else:
-		draw_transcender()
+	if GameManager.swappable and !dead:
+		if Input.is_action_just_released("swap"):
+			if swap_cursor.selected_enemy:
+				swap_cursor.selected_enemy.toggle_playerhood(true)
+				toggle_playerhood(false)
+				GameManager.swap_bar.reset()
+				clear_transcender()
+			if !force_swap or swap_cursor.selected_enemy:
+				toggle_swap(false)
+		else:
+			draw_transcender()
 			
 		
 func animate():
@@ -149,6 +153,8 @@ func animate():
 		animplayer.play("Idle")
 	elif !attacking:
 		animplayer.play("Walk")
+		
+	sprite.modulate = lerp(sprite.modulate, Color.white, 0.2)
 		
 		
 func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):
@@ -196,17 +202,20 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 					bullet.velocity = -bullet.velocity
 		
 func take_damage(damage):
+	if invincible:
+		return
+	
 	if !is_in_group("enemy"):
 		invincible = true
 		timer.start()
+		
 	health -= damage
 	swap_shield_health -= damage
 	healthbar.value = health
+	sprite.modulate = Color.red
 	if health <= 0:
 		die()
-	else:
-		pass
-		#animplayer.play("Hit")
+
 func init_healthbar():
 	healthbar.max_value = health
 	healthbar.value = health
@@ -302,13 +311,13 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die():
+	target_velocity = Vector2.ZERO
 	invincible = true
 	if is_in_group("enemy"):
 		GameManager.increase_score(score)
 	else:
 		GameManager.swappable = false
 	attacking = true
-	GameManager.swappable = false
 	animplayer.play("Die")
 		
 
@@ -316,6 +325,7 @@ func actually_die():
 	if is_in_group("enemy"):
 		queue_free()
 	else:
+		dead = true
 		GameManager.swappable = false
 		GameManager.lerp_to_timescale(0.1)
 		self.visible = false

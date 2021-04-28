@@ -24,25 +24,19 @@ func _ready():
 	init_healthbar()
 	score = 50
 	
-func _process(delta):
+func misc_update(delta):
 	ai_move_timer -= delta
-	
-func _physics_process(delta):
-	if invincible:
-		modulate = Color(1,0,0,1)
-	if !invincible:
-		modulate = Color(1,1,1,1)
 	
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
 		shoot()
 		
 func ai_move():
-	var to_player = GameManager.player.shape.position - shape.global_position
+	var to_player = GameManager.player.global_position - shape.global_position
 	if to_player.length() > max_range:
 		ai_can_shoot = false
 		ai_move_timer = -1
-		target_velocity = astar.get_astar_target_velocity(shape.global_position, GameManager.player.shape.position)
+		target_velocity = astar.get_astar_target_velocity(shape.global_position, GameManager.player.shape.global_position)
 	else:
 		ai_can_shoot = true
 		
@@ -51,11 +45,11 @@ func ai_move():
 			if randf() < 0.5:
 				ai_target_point = shape.global_position + Vector2(randf()-0.5, randf()-0.5)*150
 		
-		var to_target_point = ai_target_point - global_position
+		var to_target_point = ai_target_point - shape.global_position
 		if to_target_point.length() > 5:
 			target_velocity = to_target_point
 		else:
-			ai_target_point = global_position
+			ai_target_point = shape.global_position
 			target_velocity = Vector2.ZERO
 		
 		
@@ -85,9 +79,6 @@ func show_muzzle_flash():
 	muzzle_flash.frame = 0
 	muzzle_flash.play("Flash")
 	
-
-
-
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":
 		attacking = false
