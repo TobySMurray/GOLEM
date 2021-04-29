@@ -87,6 +87,9 @@ func find_path(global_start, global_end):
 	var start_index = calculate_point_index(start)
 	var end_index = calculate_point_index(end)
 	
+	if not astar_node.has_point(start_index) or not astar_node.has_point(end_index):
+		return []
+	
 	var tile_path = astar_node.get_point_path(start_index, end_index)
 	
 	var world_path = []
