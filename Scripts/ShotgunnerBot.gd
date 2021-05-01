@@ -1,12 +1,18 @@
 extends "res://Scripts/Enemy.gd"
 
 onready var muzzle_flash = $MuzzleFlash
-onready var audio = $AudioStreamPlayer2D
+onready var audio = $StepAudio
 onready var reload = $Reload
 
-var shot_speed = 150
+var shot_speed
+var num_pellets
+var reload_time
+
+var walk_speed_level = [110, 120, 130, 140, 150]
+var shot_speed_level = [175, 250, 325, 400, 475]
+var num_pellets_level = [6, 6, 7, 8, 9, 10]
+var reload_time_level = [2, 1.2, 1, 0.8, 0.7]
 var shot_spread = 15
-var num_pellets = 6
 
 var max_range = 250
 var ai_can_shoot = false
@@ -23,6 +29,17 @@ func _ready():
 	healthbar.max_value = health
 	init_healthbar()
 	score = 50
+	toggle_enhancement(false)
+	
+func toggle_enhancement(state):
+	.toggle_enhancement(state)
+	var level = int(GameManager.evolution_level) if state == true else 0
+	
+	max_speed = walk_speed_level[level]
+	shot_speed = shot_speed_level[level]
+	num_pellets = num_pellets_level[level]
+	reload_time = reload_time_level[level]
+	
 	
 func misc_update(delta):
 	ai_move_timer -= delta
@@ -32,24 +49,24 @@ func player_action():
 		shoot()
 		
 func ai_move():
-	var to_player = GameManager.player.position - global_position
+	var to_player = GameManager.player.global_position - shape.global_position
 	if to_player.length() > max_range:
 		ai_can_shoot = false
 		ai_move_timer = -1
-		target_velocity = astar.get_astar_target_velocity(global_position, GameManager.player.position)
+		target_velocity = astar.get_astar_target_velocity(shape.global_position, GameManager.player.shape.global_position)
 	else:
 		ai_can_shoot = true
 		
 		if ai_move_timer < 0:
 			ai_move_timer = 0.7 + randf()
 			if randf() < 0.5:
-				ai_target_point = global_position + Vector2(randf()-0.5, randf()-0.5)*150
+				ai_target_point = shape.global_position + Vector2(randf()-0.5, randf()-0.5)*150
 		
-		var to_target_point = ai_target_point - global_position
+		var to_target_point = ai_target_point - shape.global_position
 		if to_target_point.length() > 5:
 			target_velocity = to_target_point
 		else:
-			ai_target_point = global_position
+			ai_target_point = shape.global_position
 			target_velocity = Vector2.ZERO
 		
 		
@@ -79,9 +96,6 @@ func show_muzzle_flash():
 	muzzle_flash.frame = 0
 	muzzle_flash.play("Flash")
 	
-
-
-
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":
 		attacking = false

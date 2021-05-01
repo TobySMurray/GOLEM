@@ -4,7 +4,14 @@ onready var dash_fx = $DashFX
 onready var audio = $AudioStreamPlayer2D
 onready var dash = $Dash
 
-var walk_speed = 250
+var walk_speed
+var burst_size
+var shot_speed
+
+var walk_speed_levels = [250, 250, 275, 300, 325, 350]
+var burst_size_levels = [3, 4, 5, 6, 8]
+var shot_speed_levels = [200, 300, 400, 500, 550]
+
 var burst_count = 0
 var burst_timer = 0
 
@@ -19,7 +26,7 @@ var path = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 75
+	health = 50
 	max_speed = walk_speed
 	accel = 2.5
 	bullet_spawn_offset = 10
@@ -27,7 +34,18 @@ func _ready():
 	healthbar.max_value = health
 	score = 25
 	init_healthbar()
+	toggle_enhancement(false)
+	
+func toggle_enhancement(state):
+	.toggle_enhancement(state)
+	var level = int(GameManager.evolution_level) if state == true else 0
+	
+	walk_speed = walk_speed_levels[level]
+	max_speed = walk_speed
+	shot_speed = shot_speed_levels[level]
+	burst_size = burst_size_levels[level]
 		
+
 func misc_update(delta):
 	ai_retarget_timer -= delta
 	
@@ -64,11 +82,13 @@ func ai_move():
 			else:
 				retarget_angle = from_player.angle() + (randf()-0.5)*PI/2
 
+
 			ai_target_point = 150*Vector2(cos(retarget_angle), sin(retarget_angle))
 			target_velocity = ai_target_point - global_position
 	elif ai_retarget_timer < 0:
 		ai_retarget_timer = 1
 		target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, GameManager.player.global_position)
+
 		
 	
 	
@@ -78,9 +98,9 @@ func ai_action():
 		start_burst()
 	
 func start_burst():
-	lock_aim = true
+	lock_aim = is_in_group("enemy")
 	attack_cooldown = 1
-	burst_count = 3
+	burst_count = burst_size
 	shoot()
 	
 func shoot():
@@ -90,10 +110,9 @@ func shoot():
 	animplayer.seek(0)
 	
 	velocity -= aim_direction*30
-	var bullet_speed = 300 if is_in_group("player") else 200
-	shoot_bullet(aim_direction*bullet_speed + velocity/2, 10)
+	shoot_bullet(aim_direction*shot_speed + velocity/2, 10)
 	
-	burst_timer = 0.15
+	burst_timer = 0.45/burst_size
 	burst_count -= 1
 	
 func dash():
@@ -125,7 +144,8 @@ func set_dash_fx_position():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack":
 		attacking = false
-	elif anim_name == "Die":
+	if anim_name == "Die":
+		dead = true
 		actually_die()
 
 

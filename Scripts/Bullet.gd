@@ -21,7 +21,7 @@ func _on_Area2D_area_entered(area):
 	if (area.is_in_group("hitbox")):
 		var entity = area.get_parent()
 		if not entity.invincible and entity != source:
-			entity.take_damage(damage)
+			entity.take_damage(damage, source)
 			entity.velocity += velocity*mass
 			despawn()
 			

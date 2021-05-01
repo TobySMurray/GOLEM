@@ -5,6 +5,7 @@
 
 [node name="Cursor" type="Node2D"]
 pause_mode = 2
+scale = Vector2( 2, 2 )
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

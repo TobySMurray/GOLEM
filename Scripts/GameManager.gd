@@ -10,7 +10,9 @@ onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
 onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
 
 onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot]
-var enemy_weights = [1, 1, 0.5, 1, 1, 0.3]
+
+var enemy_weights = [1, 1, 0.5, 1, 0.5, 0.3]
+
 
 var timescale = 1
 var target_timescale = 1
@@ -35,6 +37,9 @@ var spawn_timer = 0
 var enemy_soft_cap
 var enemy_count = 5
 var player_bullets = []
+var enemy_hard_cap = 15
+
+var evolution_level = 1
 
 func _process(delta):
 	game_time += delta
@@ -44,18 +49,20 @@ func _process(delta):
 	
 	if spawn_timer < 0:
 		spawn_timer = 1
-		enemy_soft_cap = 5 + game_time/20 #pow(1.3, game_time/60)
+		enemy_soft_cap = 5 + game_time/15 #pow(1.3, game_time/60)
 		
 		if randf() < (1 - enemy_count/enemy_soft_cap):
 			spawn_enemy()
+
 
 func lerp_to_timescale(scale):
 	target_timescale = scale
 	audio.pitch_scale = scale
 	
-func spawn_explosion(pos, size = 1, damage = 20, force = 200, delay = 0):
+func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0):
 	var new_explosion = explosion.instance().duplicate()
 	new_explosion.global_position = pos
+	new_explosion.source = source
 	new_explosion.scale = Vector2(size, size)
 	new_explosion.damage = damage
 	new_explosion.force = force
@@ -68,7 +75,7 @@ func spawn_enemy():
 	enemy_count += 1
 	var new_enemy = choose_weighted(enemies, enemy_weights).instance().duplicate()
 	
-	new_enemy.add_swap_shield(max(randf()*((1*game_time/60)/(3 + game_time/60)) - 0.2, 0))
+	new_enemy.add_swap_shield(max(randf()*((game_time/30)/(3 + game_time/30)) - 0.2, 0))
 	new_enemy.add_to_group("enemy")
 	
 	while(1 == 1): #Non-algorithmic function LOL
@@ -79,16 +86,31 @@ func spawn_enemy():
 			break
 			
 
+func reset():
+	total_score = 0
+	timescale = 0
+	game_time = 0
+	spawn_timer = 0
+	enemy_count = 5
+
 func kill():
+	player.dead = true
 	swappable = false
 	player.die()
-	player.game_over = true
 
 func increase_score(value):
-	enemy_count -= 1
+	if swap_bar.swap_threshold == 0:
+		value *= 1.5
+	else:
+		var swap_thresh_reduction = value/30/(game_time/200)
+		swap_bar.set_swap_threshold(swap_bar.swap_threshold - swap_thresh_reduction)
+		
 	total_score += value
 	score_display.score = total_score
-	swap_bar.set_swap_threshold(swap_bar.swap_threshold - 3)
+	
+	evolution_level += value/(300.0*int(evolution_level)) 
+	print(evolution_level)
+	score_display.modulate = [Color.blue, Color.green, Color.yellow, Color.orange, Color.red][int(evolution_level)]
 	
 func is_point_in_bounds(global_point):
 	var ground_point = ground.world_to_map(global_point)

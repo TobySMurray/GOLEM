@@ -4,6 +4,7 @@ onready var anim = $AnimatedSprite
 
 var victims = []
 
+var source
 var damage = 0
 var force = 0
 var delay_timer = 0
@@ -30,7 +31,7 @@ func explode():
 	
 	for victim in victims:
 		if not victim.invincible:
-			victim.take_damage(damage)
+			victim.take_damage(damage, source)
 			victim.velocity += (victim.global_position - global_position).normalized() * force
 
 

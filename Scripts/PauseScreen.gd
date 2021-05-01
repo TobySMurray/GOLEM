@@ -20,4 +20,9 @@ func _on_PlayAgainButton_pressed():
 	toggle_pause(false)
 
 func _on_QuitButton_pressed():
-	get_tree().quit()
+	toggle_pause(false)
+	GameManager.lerp_to_timescale(1)
+	GameManager.reset()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().change_scene("res://Scenes/MainMenu.tscn")
+

@@ -15,6 +15,7 @@ onready var slow_audio = $BloodMoon/Slow
 onready var stopped_audio = $BloodMoon/Stopped
 onready var speed_audio = $BloodMoon/Speed
 onready var timer = $Timer
+onready var shape = $CollisionShape2D
 
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
@@ -38,6 +39,7 @@ var swap_shield_health = 0
 
 var attack_cooldown = 0
 var special_cooldown = 0
+var time_since_controlled = 1000
 
 var aim_direction = Vector2.ZERO
 var lock_aim = false
@@ -74,14 +76,16 @@ func _physics_process(delta):
 		if about_to_swap:
 			choose_swap_target()
 		else:
-			if Input.is_action_just_pressed("swap") and GameManager.swappable:
-				toggle_swap(true)
-			elif health > 0:
+			if health > 0:
 				player_action()
+			if GameManager.swappable:
+				if Input.is_action_just_pressed("swap"):
+					toggle_swap(true)
+		
 		
 	else:
+		time_since_controlled += delta
 		if GameManager.player and health > 0:
-			#aim_direction = Vector2.RIGHT #Will aim at player when defined
 			ai_move()
 			ai_action()
 		
@@ -124,16 +128,17 @@ func ai_action():
 		
 func choose_swap_target():
 	swap_cursor.global_position = get_global_mouse_position()
-	if Input.is_action_just_released("swap"):
-		if swap_cursor.selected_enemy:
-			swap_cursor.selected_enemy.toggle_playerhood(true)
-			toggle_playerhood(false)
-			GameManager.swap_bar.reset()
-			clear_transcender()
-		if !force_swap or swap_cursor.selected_enemy:
-			toggle_swap(false)
-	else:
-		draw_transcender()
+	if GameManager.swappable and !dead:
+		if Input.is_action_just_released("swap"):
+			if swap_cursor.selected_enemy:
+				swap_cursor.selected_enemy.toggle_playerhood(true)
+				toggle_playerhood(false)
+				GameManager.swap_bar.reset()
+				clear_transcender()
+			if !force_swap or swap_cursor.selected_enemy:
+				toggle_swap(false)
+		else:
+			draw_transcender()
 			
 		
 func animate():
@@ -184,7 +189,7 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 		if col['collider'].is_in_group("hitbox"):
 			var enemy = col['collider'].get_parent()
 			if not enemy.invincible and not enemy == self:
-				enemy.take_damage(damage)
+				enemy.take_damage(damage, self)
 				enemy.velocity += (enemy.global_position - global_position).normalized() * force
 			
 		elif col['collider'].is_in_group("bullet") and deflect_power > 0:
@@ -194,11 +199,11 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 				bullet.source = self
 				bullet.lifetime += 2
 				if deflect_power > 1:
-					bullet.velocity = (target.global_position - bullet.global_position).normalized() * bullet.velocity.length()*2
+					bullet.velocity = (target.global_position - bullet.global_position).normalized() * 100*deflect_power
 				else:
 					bullet.velocity = -bullet.velocity
 		
-func take_damage(damage):
+func take_damage(damage, source):
 	if invincible:
 		return
 	
@@ -211,7 +216,7 @@ func take_damage(damage):
 	healthbar.value = health
 	sprite.modulate = Color.red
 	if health <= 0:
-		die()
+		die(source)
 
 func init_healthbar():
 	healthbar.max_value = health
@@ -220,6 +225,8 @@ func init_healthbar():
 	
 
 func toggle_swap(state):
+	if !GameManager.swappable:
+		state = false
 	about_to_swap = state
 	
 	if(about_to_swap):
@@ -247,14 +254,20 @@ func toggle_playerhood(state):
 		GameManager.player = self
 		attack_cooldown = -1
 		special_cooldown = -1
+		time_since_controlled = 0
 	else:
 		remove_from_group("player")
 		add_to_group("enemy")
 		attack_cooldown = max(attack_cooldown, 1)
 		special_cooldown = max(special_cooldown, 1)
 		
-	#is_player = state
-	#Whatever else has to happen
+	toggle_enhancement(state)
+		
+func toggle_enhancement(state):
+	if state == true:
+		animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
+	else:
+		animplayer.playback_speed = 1
 	
 func add_swap_shield(resistance):
 	max_swap_shield_health = health*resistance
@@ -305,40 +318,37 @@ func toggle_selected_enemy(enemy_is_selected):
 	if enemy_is_selected:
 		emit_signal("toggle_selected_enemy")
 
-func die():
+func die(killer = null):
 	target_velocity = Vector2.ZERO
 	invincible = true
 	attacking = true
+	GameManager.enemy_count -= 1
 	animplayer.play("Die")
 	
 	if is_in_group("enemy"):
-		GameManager.increase_score(score)
+		if killer:
+			if killer == GameManager.player:
+				GameManager.increase_score(score)
+			elif time_since_controlled < 3 or killer.time_since_controlled < 3:
+				GameManager.increase_score(score*2)
 	else:
-		GameManager.lerp_to_timescale(0.5)
-		if GameManager.swappable:
-			force_swap = true
-			toggle_swap(true)
-		else:
-			game_over = true
+		GameManager.lerp_to_timescale(0.1)
+		
+	
 		
 
 func actually_die():
-	dead = true
-	if game_over:
-		max_speed = 0
-		game_over()
-		
-	elif is_in_group("enemy"):
+	if is_in_group("enemy"):
 		queue_free()
-	
-		
-func game_over():
-	self.visible = false
-	GameManager.swap_bar.visible = false
-	score = 0
-	ScoreDisplay.visible = false
-	ScoreLabel.set_text(str(GameManager.total_score))
-	death_screen.popup()
-	
+	else:
+		dead = true
+		GameManager.swappable = false
+		GameManager.lerp_to_timescale(0.1)
+		self.visible = false
+		GameManager.swap_bar.visible = false
+		ScoreDisplay.visible = false
+		ScoreLabel.set_text(str(GameManager.total_score))
+		death_screen.popup()
+
 
 

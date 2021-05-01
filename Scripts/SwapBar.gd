@@ -5,7 +5,6 @@ var swap_threshold = 1
 
 var control_timer = 0
 
-onready var tween = $Tween
 onready var threshold = $Threshold
 onready var audio = $AudioStreamPlayer
 onready var warning = preload("res://Sounds/SoundEffects/warning.wav")

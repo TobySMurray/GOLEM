@@ -7,7 +7,12 @@ onready var raycast = $RayCast2D
 onready var deflector_shape = $Deflector/CollisionShape2D
 
 
-var walk_speed = 140
+var walk_speed
+var charge_time
+
+var walk_speed_levels = [100, 110, 120, 130, 140]
+var charge_time_levels = [1.5, 1.5, 1.2, 0.9, 0.8]
+
 var charging = false
 var charge_timer = 0
 var raycast_endpoint = Vector2.ZERO
@@ -22,6 +27,19 @@ func _ready():
 	flip_offset = -23
 	init_healthbar()
 	score = 50
+	toggle_enhancement(false)
+	
+func toggle_enhancement(state):
+	.toggle_enhancement(state)
+	var level = int(GameManager.evolution_level) if state == true else 0
+	
+	walk_speed = walk_speed_levels[level]
+	max_speed = walk_speed
+	charge_time = charge_time_levels[level]
+	
+	if state == false:
+		charge_timer -= 0.75
+
 		
 func misc_update(delta):
 	ai_move_timer -= delta
@@ -68,11 +86,11 @@ func ai_action():
 func charge_attack():
 	attacking = true
 	charging = true
-	attack_cooldown = 2.5
+	attack_cooldown = charge_time + 1
 	lock_aim = true
 	max_speed = 0
 	
-	charge_timer = 1.5
+	charge_timer = charge_time
 	animplayer.play("Ready")
 	sight_beam.play("Flash")
 	sight_beam.modulate = Color(1, 0, 0, 0.5)
@@ -105,7 +123,7 @@ func release_attack():
 	var delay = 0.05
 	while dist < beam_length:
 		var point = global_position + beam_dir*dist
-		GameManager.spawn_explosion(point, 0.5, 20, 200, delay)
+		GameManager.spawn_explosion(point, self, 0.5, 20, 200, delay)
 		dist += 50
 		delay += 0.05
 		

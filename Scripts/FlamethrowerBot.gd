@@ -2,9 +2,16 @@ extends "res://Scripts/Enemy.gd"
 
 var num_pellets = 5
 
-var shot_spread = 15
-var shot_speed = 175
-var walk_speed = 100
+var walk_speed
+var shot_spread
+var shot_speed 
+var fire_volume
+
+
+var walk_speed_levels = [100, 110, 120, 130, 140]
+var shot_speed_levels = [150, 175, 200, 225, 250]
+var shot_spread_levels = [15, 15, 20, 25, 30]
+var fire_volume_levels = [1, 1.2, 1.4, 1.8, 2]
 
 var fuel = 200
 var shot_timer = 0
@@ -15,19 +22,31 @@ var ai_retarget_timer = 0
 
 onready var flamethrower = $Flamethrower
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 150
+	health = 110
 	max_speed = walk_speed
 	bullet_spawn_offset = 10
 	flip_offset = -46
-	healthbar.max_value = health
 	score = 75
 	init_healthbar()
+	toggle_enhancement(false)
+	
+func toggle_enhancement(state):
+	.toggle_enhancement(state)
+	var level = int(GameManager.evolution_level) if state == true else 0
+	
+	walk_speed = walk_speed_levels[level]
+	max_speed = walk_speed
+	shot_speed = shot_speed_levels[level]
+	shot_spread = shot_spread_levels[level]
+	fire_volume = fire_volume_levels[level]
 
 func player_action():
-	aim_direction.y = 0
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
+		attacking = true
+		max_speed = 40
 		attack()
 	if Input.is_action_just_released("attack1"):
 		flamethrowing = false
@@ -55,19 +74,20 @@ func misc_update(delta):
 
 func attack():
 	attacking = true
-	lock_aim = true
 	max_speed = 40
 	shot_timer = -1
-	flamethrowing = true
 	animplayer.play("Charge")
 	flamethrower.play()
 	
 func flamethrower():
 	flamethrower.play(0.5)
-	var pellets = max(fuel/50, 1)
+	
+	var limited_aim_direction = limit_aim_direction(aim_direction)
+	var pellets = max(fire_volume*fuel/50, 1)
 	shot_timer = 40.0/(fuel+200)
+	
 	for i in range(pellets):
-		var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
+		var pellet_dir = limited_aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 		shoot_bullet(pellet_dir*pellet_speed, 5, 0, 0.6)
 
@@ -113,7 +133,7 @@ func ai_move():
 		animplayer.play("Cooldown")
 			
 func get_target_position():
-	var enemy_position = GameManager.player.position
+	var enemy_position = GameManager.player.shape.global_position
 	var target_position
 	
 	if health < 25:
@@ -130,15 +150,27 @@ func get_target_position():
 		target_position.y = enemy_position.y
 		
 	return target_position
+	
+func limit_aim_direction(dir):
+	var angle = dir.angle()
+	if abs(angle) > PI/6 and abs(angle) < 5*PI/6:
+		if abs(angle) < PI/2:
+			angle = PI/6*sign(angle)
+		else:
+			angle = 5*PI/6*sign(angle)
+			
+	return Vector2(cos(angle), sin(angle))
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
 		animplayer.play("Attack")
+		flamethrowing = true
 	if anim_name == "Cooldown":
 		attacking = false
 		lock_aim = false
 		max_speed = walk_speed
-	elif anim_name == "Die":
+	if anim_name == "Die":
+		dead = true
 		actually_die()
 
 

@@ -3,9 +3,16 @@ extends "res://Scripts/Enemy.gd"
 onready var attack_collider = $AttackCollider/CollisionShape2D
 onready var audio = $AudioStreamPlayer2D
 
+
 var num_pellets = 6
-var shot_speed = 150
-var walk_speed = 150
+var walk_speed
+var shot_speed
+var charge_speed
+
+var shot_speed_levels = [150, 175, 200, 225, 250]
+var walk_speed_levels = [130, 160, 190, 220, 250]
+var charge_speed_levels = [1, 1.4, 1.8, 2.2, 2.7]
+
 
 var ai_side = 1
 var ai_target_dist= 0
@@ -20,11 +27,22 @@ var charge_level = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	health = 100
-	max_speed = walk_speed
 	bullet_spawn_offset = 20
 	flip_offset = 0
 	score = 50
 	init_healthbar()
+	
+	toggle_enhancement(false)
+	
+func toggle_enhancement(state):
+	.toggle_enhancement(state)
+	var level = int(GameManager.evolution_level) if state == true else 0
+	
+	walk_speed = walk_speed_levels[level]
+	max_speed = walk_speed
+	shot_speed = shot_speed_levels[level]
+	charge_speed = charge_speed_levels[level]
+	
 
 func misc_update(delta):
 	ai_charge_timer -= delta
@@ -32,7 +50,7 @@ func misc_update(delta):
 	ai_delay_timer -= delta
 	
 	if charging:
-		charge_level += delta
+		charge_level += delta*charge_speed
 		
 	attack_collider.position.x = -34 if facing_left else 34
 
@@ -59,7 +77,7 @@ func ai_move():
 		ai_move_timer = 2
 		ai_target_point = global_position
 		
-		var player_pos = GameManager.player.global_position
+		var player_pos = GameManager.player.shape.global_position
 		var to_player = player_pos - global_position
 		var dist = to_player.length()
 		var angle = (-to_player).angle()
@@ -119,9 +137,9 @@ func swing_attack():
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1)
 		
-	melee_attack(attack_collider, 30*charge_level, 900*charge_level, 2 if charge_level > 1 else 1)
+	melee_attack(attack_collider, 50*charge_level, 900*charge_level, 2 if charge_level > 1 else 1)
 	if charge_level > 2:
-		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), 1, 5)
+		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), self, 1, 10)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":

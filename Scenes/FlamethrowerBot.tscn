@@ -391,8 +391,8 @@ anims/Walk = SubResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 22, -19 )
-texture = ExtResource( 2 )
-hframes = 8
+texture = ExtResource( 8 )
+hframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -400,7 +400,7 @@ position = Vector2( -0.44545, 3.34087 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
-frame = 22
+frame = 40
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -431,7 +431,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 8.46354 )
-frame = 12
+frame = 6
 
 [node name="Explosion" type="Area2D" parent="."]
 visible = false
