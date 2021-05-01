@@ -13,6 +13,8 @@ var forced = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	label.visible = false
+	release.visible = false
 	max_speed = 30
 	score = 0
 
@@ -42,4 +44,6 @@ func force():
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Die":
+		label.visible = false
+		release.visible = false
 		actually_die()

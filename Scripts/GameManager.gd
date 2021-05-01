@@ -89,9 +89,17 @@ func reset():
 	game_time = 0
 	spawn_timer = 0
 	enemy_count = 5
+	swap_bar = null
+	player = null
+	camera = null
+	transcender = null
+	score_display = null
+	ground = null
+	obstacles = null
+	marble = null
+	audio = null
 
 func kill():
-	player.dead = true
 	swappable = false
 	player.die()
 
