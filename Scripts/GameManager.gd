@@ -102,7 +102,7 @@ func increase_score(value):
 	if swap_bar.swap_threshold == 0:
 		value *= 1.5
 	else:
-		var swap_thresh_reduction = value/30/(game_time/200)
+		var swap_thresh_reduction = value/20/(1 + game_time/200)
 		swap_bar.set_swap_threshold(swap_bar.swap_threshold - swap_thresh_reduction)
 		
 	total_score += value

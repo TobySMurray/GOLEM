@@ -2,19 +2,25 @@ extends "res://Scripts/Enemy.gd"
 
 onready var teleport_sprite = $TeleportSprite
 onready var deflector_shape = $Deflector/CollisionShape2D
+onready var deflector_visual = $Deflector/DeflectorVisual
 
 var walk_speed
 var deflect_power
 var shield_power
 
 var walk_speed_levels = [40, 50, 60, 65, 70]
-var deflect_power_levels = [2, 2, 3, 4, 5]
-var shield_power_levels = [200, 200, 250, 300, 350]
+var deflect_power_levels = [3, 3, 4, 5, 6]
+var shield_power_levels = [1200, 800, 900, 1000, 1100]
+
+var shield_active = true
+var shield_angle = 0
 
 var teleport_start_point = Vector2.ZERO
 var teleport_end_point = Vector2.ZERO
 var charging_tp = false
 var teleport_timer = 0
+
+var nearby_bullets = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -39,6 +45,28 @@ func toggle_enhancement(state):
 
 
 func misc_update(delta):
+	deflector_visual.rotation = shield_angle
+	
+	if shield_active:
+		for b in nearby_bullets:
+			var bullet_speed = b.velocity.length()
+			
+			if bullet_speed > 0:
+				var angle = (b.global_position - global_position).angle() - shield_angle
+				if angle > PI:
+					angle -= 2*PI
+				elif angle < -PI:
+					angle += 2*PI
+					
+				if abs(angle) < PI/4:
+					b.velocity -= (b.velocity/bullet_speed) * min(bullet_speed, shield_power*delta)
+				
+			else:
+				b.source = self
+				b.position += velocity*delta
+				b.lifetime = 3
+
+	
 	if charging_tp:
 		teleport_timer -= delta
 		if teleport_timer < 0.1:
@@ -48,6 +76,7 @@ func misc_update(delta):
 
 
 func player_action():
+	shield_angle = aim_direction.angle()
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
 		attack()
 	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not attacking:
@@ -67,19 +96,28 @@ func ai_move():
 			target_velocity = astar.get_astar_target_velocity(shape.global_position, player_pos)
 
 func ai_action():
-	if special_cooldown < 0 and randf() < 0.02:
+	aim_direction = GameManager.player.global_position - global_position
+	shield_angle += deg2rad(sign(aim_direction.angle() - shield_angle))
+	
+	if randf() < 0.002 * len(nearby_bullets) and attack_cooldown < 0:
+		attack_cooldown = 2
+		attack()
+		
+	if len(nearby_bullets) < 3 and randf() < 0.002 and special_cooldown < 0:
 		for i in range(len(GameManager.player_bullets) > 0):
 			bullet = GameManager.player_bullets[int(randf()*len(GameManager.player_bullets))]
 			var point = bullet.global_position + bullet.velocity
-			
+
 			if(GameManager.is_point_in_bounds(point)):
 				start_teleport(point)
-				special_cooldown = 3
+				special_cooldown = 8
 				break
 		
 func attack():
 	attacking = true
 	lock_aim = true
+	shield_active = false
+	deflector_visual.visible = false
 	max_speed = 0
 	attack_cooldown = 1.5
 	animplayer.play("Attack")
@@ -87,6 +125,8 @@ func attack():
 func start_teleport(point):
 	charging_tp = true
 	attacking = true
+	shield_active = false
+	deflector_visual.visible = false
 	teleport_start_point = global_position
 	teleport_end_point = point
 	special_cooldown = 1.6
@@ -94,6 +134,8 @@ func start_teleport(point):
 	lock_aim = true
 	max_speed = 0
 	sprite.visible = false
+	
+	expel_bullets(true)
 	
 	teleport_sprite.global_position = teleport_start_point
 	teleport_sprite.frame = 0
@@ -107,9 +149,26 @@ func teleport():
 	sprite.visible = true
 	invincible = true
 	
-func area_deflect():
-	melee_attack(deflector_shape, 20, 300, deflect_power)
+func expel_bullets(radial = false):
+	var target_pos = get_global_mouse_position() if is_in_group("player") else GameManager.player.global_position
+	for b in nearby_bullets:
+		b.source = self
+		b.lifetime = 5
+		
+		if radial:
+			b.velocity = (b.global_position - global_position).normalized() * deflect_power*100
+		else:
+			b.velocity = (target_pos - b.global_position).rotated((randf()-0.5)*deg2rad(len(nearby_bullets))).normalized() * deflect_power*100
 	
+	nearby_bullets = []
+		
+	
+func area_deflect(deflect_pow = deflect_power):
+	if is_in_group("player"):
+		GameManager.camera.set_trauma(0.5, 5)
+		
+	melee_attack(deflector_shape, 20, 300, deflect_pow)
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -122,20 +181,28 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		lock_aim = false
 		max_speed = walk_speed
 		attacking = false
+		shield_active = true
+		deflector_visual.visible = true
 		invincible = false
+		
 	elif anim_name == "Die":
 		actually_die()
 
 
 func _on_Deflector_area_entered(area):
 	if area.is_in_group("bullet"):
-		area.velocity *= 1.0 - min(1, randf()*shield_power / (1 + area.velocity.length()))
-		area.lifetime += 5
+		nearby_bullets.append(area)
+		area.lifetime = max(area.lifetime, 5)
 		
-	if is_in_group("enemy") and randf() < 0.25 and attack_cooldown < 0 and not attacking:
-		attack()
-		attack_cooldown = 3
+func _on_Deflector_area_exited(area):
+	if area.is_in_group("bullet"):
+		nearby_bullets.erase(area)
+		if area.velocity.x == 0 and area.velocity.y == 0:
+			area.despawn()
 
 
 func _on_Timer_timeout():
 	invincible = false
+
+
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/ExterminatorBot.gd" type="Script" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://Sounds/SoundEffects/step.wav" type="AudioStream" id=13]
 [ext_resource path="res://Sounds/SoundEffects/teleport.wav" type="AudioStream" id=14]
 [ext_resource path="res://Sounds/SoundEffects/step2.wav" type="AudioStream" id=15]
+[ext_resource path="res://Art/QuarterCircle.png" type="Texture" id=16]
+[ext_resource path="res://Shaders/Noise.tres" type="Material" id=17]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.67502
@@ -136,10 +138,13 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.48 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.48, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
+"method": "expel_bullets"
+}, {
+"args": [ 0.0 ],
 "method": "area_deflect"
 } ]
 }
@@ -475,7 +480,7 @@ anims/Vanish = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 36
+frame = 58
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )
@@ -484,12 +489,18 @@ frame = 14
 offset = Vector2( -13, -26 )
 
 [node name="Deflector" type="Area2D" parent="."]
+show_behind_parent = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Deflector"]
-visible = false
 position = Vector2( 0, 5 )
-scale = Vector2( 8, 8 )
+scale = Vector2( 6.5, 6.5 )
 shape = SubResource( 24 )
+
+[node name="DeflectorVisual" type="Sprite" parent="Deflector"]
+show_behind_parent = true
+material = ExtResource( 17 )
+position = Vector2( 0, 5 )
+texture = ExtResource( 16 )
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -510,7 +521,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 26
+frame = 33
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 14 )
@@ -519,3 +530,4 @@ max_distance = 500.0
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]
+[connection signal="area_exited" from="Deflector" to="." method="_on_Deflector_area_exited"]

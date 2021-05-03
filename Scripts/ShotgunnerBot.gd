@@ -85,6 +85,9 @@ func shoot():
 	
 	velocity -= aim_direction*180
 	
+	if is_in_group("player"):
+		GameManager.camera.set_trauma(0.55, 5)
+	
 	for i in range(num_pellets):
 		var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5)) + (100 if is_in_group("player") else 0)

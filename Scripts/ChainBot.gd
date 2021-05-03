@@ -126,6 +126,9 @@ func swing_attack():
 	var angle = -spread/2
 	var delta_angle = spread/(num_pellets)
 	
+	if is_in_group("player"):
+		GameManager.camera.set_trauma(0.4 + charge_level*0.3)
+	
 	if facing_left:
 		angle *= -1
 		delta_angle *= -1
@@ -137,7 +140,7 @@ func swing_attack():
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1)
 		
-	melee_attack(attack_collider, 50*charge_level, 900*charge_level, 2 if charge_level > 1 else 1)
+	melee_attack(attack_collider, 50*charge_level, 900*charge_level, charge_level+1)
 	if charge_level > 2:
 		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), self, 1, 10)
 

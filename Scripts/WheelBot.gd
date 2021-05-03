@@ -109,6 +109,9 @@ func shoot():
 	animplayer.play("Attack")
 	animplayer.seek(0)
 	
+	if is_in_group("player"):
+		GameManager.camera.set_trauma(0.3)
+	
 	velocity -= aim_direction*30
 	shoot_bullet(aim_direction*shot_speed + velocity/2, 10)
 	

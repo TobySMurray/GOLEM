@@ -117,6 +117,9 @@ func release_attack():
 	attack_anim.frame = 0
 	attack_anim.play("Shoot")
 	
+	if is_in_group("player"):
+		GameManager.camera.set_trauma(0.7, 4)
+	
 	melee_attack(attack_beam.get_node("CollisionShape2D"), 150, 500, 0)
 	
 	var dist = 50

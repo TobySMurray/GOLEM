@@ -184,7 +184,7 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 	query.transform = collider.global_transform
 	query.set_shape(collider.shape)
 	
-	var results = space_state.intersect_shape(query, 32)
+	var results = space_state.intersect_shape(query, 512)
 	for col in results:
 		if col['collider'].is_in_group("hitbox"):
 			var enemy = col['collider'].get_parent()
@@ -199,7 +199,8 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 				bullet.source = self
 				bullet.lifetime += 2
 				if deflect_power > 1:
-					bullet.velocity = (target.global_position - bullet.global_position).normalized() * 100*deflect_power
+					var bullet_speed = bullet.velocity.length()
+					bullet.velocity = (target.global_position - bullet.global_position).normalized() * max(50, bullet_speed)*deflect_power
 				else:
 					bullet.velocity = -bullet.velocity
 		
@@ -210,6 +211,7 @@ func take_damage(damage, source):
 	if !is_in_group("enemy"):
 		invincible = true
 		timer.start()
+		GameManager.camera.set_trauma(0.6)
 		
 	health -= damage
 	swap_shield_health -= damage
@@ -332,6 +334,7 @@ func die(killer = null):
 			elif time_since_controlled < 3 or killer.time_since_controlled < 3:
 				GameManager.increase_score(score*2)
 	else:
+		GameManager.camera.set_trauma(1, 4)
 		GameManager.lerp_to_timescale(0.1)
 		
 	
