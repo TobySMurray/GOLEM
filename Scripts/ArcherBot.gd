@@ -22,7 +22,7 @@ var ai_move_timer = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	health = 80
+	health = 70
 	max_speed = walk_speed
 	flip_offset = -23
 	init_healthbar()
@@ -57,6 +57,9 @@ func player_action():
 		
 	update_raycast()
 	update_sight()
+	
+	if is_in_group("player"):
+		GameManager.camera.offset = lerp(GameManager.camera.offset, (get_global_mouse_position() - global_position)/2, 0.1)
 	
 func ai_action():
 	var to_target_point = ai_target_point - global_position

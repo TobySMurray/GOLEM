@@ -553,7 +553,7 @@ script = ExtResource( 2 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 22
+frame = 47
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 11, -28 )
@@ -583,7 +583,6 @@ offset = Vector2( 7, -28 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
-visible = false
 collision_layer = 6
 collision_mask = 6
 
@@ -592,7 +591,6 @@ position = Vector2( -0.883881, -0.176777 )
 shape = SubResource( 15 )
 
 [node name="Deflector" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 0
 
@@ -641,7 +639,6 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 43
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

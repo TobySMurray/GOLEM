@@ -559,7 +559,7 @@ texture = ExtResource( 4 )
 position = Vector2( 311.216, 106.502 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 61 )
-frame = 17
+frame = 5
 speed_scale = 4.0
 playing = true
 
@@ -786,7 +786,7 @@ __meta__ = {
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
 position = Vector2( 194.835, 198.044 )
 frames = SubResource( 61 )
-frame = 24
+frame = 12
 speed_scale = 4.0
 playing = true
 

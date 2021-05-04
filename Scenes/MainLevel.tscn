@@ -36,7 +36,7 @@
 [ext_resource path="res://Scenes/PauseScreen.tscn" type="PackedScene" id=34]
 [ext_resource path="res://Scripts/MainLevel.gd" type="Script" id=35]
 [ext_resource path="res://Scripts/Marble.gd" type="Script" id=36]
-[ext_resource path="res://Scenes/ArcherBot.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Scenes/SorcererBot.tscn" type="PackedScene" id=38]
 
 [sub_resource type="Animation" id=1]
 resource_name = "FadeIn"
@@ -71,7 +71,7 @@ script = ExtResource( 35 )
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="BackgroundModulate" type="CanvasModulate" parent="ParallaxBackground"]
-color = Color( 0, 0, 0, 1 )
+color = Color( 0.7, 0.7, 0.7, 1 )
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
 modulate = Color( 0.541176, 0.411765, 0.411765, 1 )
@@ -179,10 +179,10 @@ tile_data = PoolIntArray( -524295, 0, 3, -524294, 0, 5, -458761, 0, 10, -458760,
 
 [node name="Transcender" parent="WorldObjects/Characters" instance=ExtResource( 19 )]
 
-[node name="ArcherBot" parent="WorldObjects/Characters" groups=[
+[node name="SorcererBot" parent="WorldObjects/Characters" groups=[
 "enemy",
-] instance=ExtResource( 37 )]
-position = Vector2( -75.1058, 478.894 )
+] instance=ExtResource( 38 )]
+position = Vector2( 728.478, 205.411 )
 
 [node name="ChainBot" parent="WorldObjects/Characters" groups=[
 "enemy",
@@ -208,11 +208,6 @@ position = Vector2( 86, 578 )
 "enemy",
 ] instance=ExtResource( 2 )]
 position = Vector2( 1528, 296 )
-
-[node name="WheelBot2" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 20 )]
-position = Vector2( 936, 288 )
 
 [node name="ExterminatorBot" parent="WorldObjects/Characters" groups=[
 "enemy",
@@ -365,4 +360,4 @@ volume_db = -15.0
 anims/FadeIn = SubResource( 1 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0, 0, 0, 1 )
+color = Color( 0.7, 0.7, 0.7, 1 )

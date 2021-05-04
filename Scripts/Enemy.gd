@@ -24,6 +24,7 @@ onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay"
 
 var health = 100
 var max_speed = 100
+var mass = 1
 var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
 var accel = 10
@@ -49,6 +50,7 @@ var bullet_spawn_offset = 0
 var foot_offset = 0
 
 var invincible = false
+var invincibility_timer = 0
 
 signal draw_transcender
 signal clear_transcender
@@ -63,11 +65,11 @@ func _ready():
 	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 
 func _physics_process(delta):
-	if health > 0:
+	if not dead:
 		misc_update(delta)
 		
 	if not is_in_group("enemy"):
-		if health > 0:
+		if not dead:
 			player_move(delta)
 			
 			if not lock_aim:
@@ -76,8 +78,9 @@ func _physics_process(delta):
 		if about_to_swap:
 			choose_swap_target()
 		else:
-			if health > 0:
+			if not dead:
 				player_action()
+				
 			if GameManager.swappable:
 				if Input.is_action_just_pressed("swap"):
 					toggle_swap(true)
@@ -85,12 +88,17 @@ func _physics_process(delta):
 		
 	else:
 		time_since_controlled += delta
-		if GameManager.player and health > 0:
+		if GameManager.player and not dead:
 			ai_move()
 			ai_action()
 		
 	attack_cooldown -= delta
 	special_cooldown -= delta
+	
+	if invincible:
+		invincibility_timer -= delta
+		if invincibility_timer < 0:
+			invincible = false
 	
 	update_swap_shield()
 	animate()
@@ -128,7 +136,7 @@ func ai_action():
 		
 func choose_swap_target():
 	swap_cursor.global_position = get_global_mouse_position()
-	if GameManager.swappable and !dead:
+	if GameManager.swappable:
 		if Input.is_action_just_released("swap"):
 			if swap_cursor.selected_enemy:
 				swap_cursor.selected_enemy.toggle_playerhood(true)
@@ -210,7 +218,7 @@ func take_damage(damage, source):
 	
 	if !is_in_group("enemy"):
 		invincible = true
-		timer.start()
+		invincibility_timer = 0.05
 		GameManager.camera.set_trauma(0.6)
 		
 	health -= damage
@@ -245,15 +253,15 @@ func toggle_swap(state):
 		swap_cursor.selected_enemy = null
 		swap_cursor.emit_selected_enemy_signal(false)
 		clear_transcender()
-		if health <= 0:
-			queue_free()
 		
 func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
 		add_to_group("player")
-		GameManager.camera.anchor = self
 		GameManager.player = self
+		GameManager.camera.anchor = self
+		GameManager.camera.offset = Vector2.ZERO
+		GameManager.camera.zoom = Vector2.ONE
 		attack_cooldown = -1
 		special_cooldown = -1
 		time_since_controlled = 0
@@ -321,9 +329,12 @@ func toggle_selected_enemy(enemy_is_selected):
 		emit_signal("toggle_selected_enemy")
 
 func die(killer = null):
-	target_velocity = Vector2.ZERO
+	if dead: return
+	
+	dead = true
 	invincible = true
 	attacking = true
+	target_velocity = Vector2.ZERO
 	GameManager.enemy_count -= 1
 	animplayer.play("Die")
 	
@@ -336,6 +347,9 @@ func die(killer = null):
 	else:
 		GameManager.camera.set_trauma(1, 4)
 		GameManager.lerp_to_timescale(0.1)
+		GameManager.swap_bar.swap_threshold_penalty = 2
+		if not GameManager.swappable:
+			actually_die()
 		
 	
 		
@@ -347,7 +361,7 @@ func actually_die():
 		dead = true
 		GameManager.swappable = false
 		GameManager.lerp_to_timescale(0.1)
-		self.visible = false
+		#self.visible = false
 		GameManager.swap_bar.visible = false
 		ScoreDisplay.visible = false
 		ScoreLabel.set_text(str(GameManager.total_score))

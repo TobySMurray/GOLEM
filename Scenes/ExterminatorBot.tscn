@@ -480,7 +480,7 @@ anims/Vanish = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 58
+frame = 56
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 23 )
@@ -521,7 +521,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 33
+frame = 4
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 14 )
