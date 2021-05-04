@@ -92,6 +92,7 @@ func reset():
 	game_time = 0
 	spawn_timer = 0
 	enemy_count = 5
+	player = null
 
 func kill():
 	player.dead = true
