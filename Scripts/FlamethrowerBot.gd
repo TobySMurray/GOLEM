@@ -29,6 +29,7 @@ func _ready():
 	max_speed = walk_speed
 	bullet_spawn_offset = 10
 	flip_offset = -46
+	max_attack_cooldown = 1
 	score = 75
 	init_healthbar()
 	toggle_enhancement(false)

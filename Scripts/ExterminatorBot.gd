@@ -10,7 +10,7 @@ var shield_power
 
 var walk_speed_levels = [40, 50, 60, 65, 70]
 var deflect_power_levels = [3, 3, 4, 5, 6]
-var shield_power_levels = [1200, 800, 900, 1000, 1100]
+var shield_power_levels = [1200, 700, 800, 900, 1000]
 
 var shield_active = true
 var shield_angle = 0
@@ -27,6 +27,8 @@ var nearby_bullets = []
 func _ready():
 	health = 150
 	max_speed = walk_speed
+	max_attack_cooldown = 1.5
+	max_special_cooldown = 1.6
 	flip_offset = 24
 	healthbar.max_value = health
 	init_healthbar()

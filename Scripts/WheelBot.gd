@@ -17,7 +17,6 @@ var burst_timer = 0
 
 var dash_start_point = Vector2.ZERO
 var dashing = false
-var dash_timer = 0
 
 var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
@@ -32,6 +31,8 @@ func _ready():
 	bullet_spawn_offset = 10
 	flip_offset = -71
 	healthbar.max_value = health
+	max_attack_cooldown = 1
+	max_special_cooldown = 0.8
 	score = 25
 	init_healthbar()
 	toggle_enhancement(false)
@@ -56,8 +57,8 @@ func misc_update(delta):
 	else:
 		lock_aim = false
 		
-	dash_timer -= delta
-	if dash_timer < 0 and dashing:
+	special_cooldown -= delta
+	if special_cooldown < 0 and dashing:
 		dashing = false
 		lock_aim = false
 		
@@ -124,7 +125,7 @@ func dash():
 	dash.play()
 	velocity = Vector2(sign(aim_direction.x)*150, 0)
 	
-	dash_timer = 0.8
+	special_cooldown = 0.8
 	dash_start_point = global_position + Vector2((-70 if aim_direction.x < 0 else 0), 0)
 	global_position += Vector2(83*sign(aim_direction.x), 0)
 	

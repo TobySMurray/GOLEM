@@ -39,6 +39,7 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_level[level]
 	num_pellets = num_pellets_level[level]
 	reload_time = reload_time_level[level]
+	max_attack_cooldown = reload_time
 	
 	
 func misc_update(delta):

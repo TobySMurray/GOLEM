@@ -395,7 +395,7 @@ shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0.0102234, -0.932678 )
-frame = 53
+frame = 48
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
@@ -435,9 +435,10 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 56
+frame = 42
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

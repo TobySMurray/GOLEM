@@ -8,10 +8,11 @@ onready var archer_bot = load("res://Scenes/ArcherBot.tscn")
 onready var chain_bot = load("res://Scenes/ChainBot.tscn")
 onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
 onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
+onready var sorcerer_bot = load("res://Scenes/SorcererBot.tscn")
 
-onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot]
+onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot, sorcerer_bot]
 
-var enemy_weights = [1, 1, 0.5, 1, 0.5, 0.3]
+var enemy_weights = [1, 1, 0.3, 1, 0.5, 0.3, 0.2]
 
 
 var timescale = 1
@@ -35,29 +36,31 @@ var out_of_control = false
 onready var game_time = 0
 var spawn_timer = 0
 var enemy_soft_cap
-var enemy_count = 5
+var enemy_count = 7
 var player_bullets = []
 var enemy_hard_cap = 15
 
 var evolution_level = 1
 
 func _process(delta):
-	game_time += delta
-	spawn_timer -= delta
-	timescale = lerp(timescale, target_timescale, delta*12)
-	Engine.time_scale =  timescale
-	
-	if spawn_timer < 0:
-		spawn_timer = 1
-		enemy_soft_cap = 5 + game_time/15 #pow(1.3, game_time/60)
+	if player:
+		game_time += delta
+		spawn_timer -= delta
+		timescale = lerp(timescale, target_timescale, delta*12)
+		audio.pitch_scale = timescale
+		Engine.time_scale =  timescale
 		
-		if randf() < (1 - enemy_count/enemy_soft_cap):
-			spawn_enemy()
+		if spawn_timer < 0:
+			spawn_timer = 1
+			enemy_soft_cap = 5 + game_time/15 #pow(1.3, game_time/60)
+			
+			if randf() < (1 - enemy_count/enemy_soft_cap):
+				print("SPAWN (" + str(enemy_count + 1) +")")
+				spawn_enemy()
 
 
 func lerp_to_timescale(scale):
 	target_timescale = scale
-	audio.pitch_scale = scale
 	
 func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0):
 	var new_explosion = explosion.instance().duplicate()
@@ -88,14 +91,13 @@ func spawn_enemy():
 
 func reset():
 	total_score = 0
-	timescale = 0
+	timescale = 1
 	game_time = 0
 	spawn_timer = 0
-	enemy_count = 5
+	enemy_count = 7
 	player = null
 
 func kill():
-	player.dead = true
 	swappable = false
 	player.die()
 
@@ -109,7 +111,7 @@ func increase_score(value):
 	total_score += value
 	score_display.score = total_score
 	
-	evolution_level += value/(300.0*int(evolution_level)) 
+	evolution_level = min(evolution_level + value/(300.0*int(evolution_level)), 4) 
 	print(evolution_level)
 	score_display.modulate = [Color.blue, Color.green, Color.yellow, Color.orange, Color.red][int(evolution_level)]
 	
@@ -126,10 +128,10 @@ func is_point_offscreen(point):
 	
 static func choose_weighted(values, weights):
 	var cumu_weights = [weights[0]]
-	for i in range(1, weights.size()):
+	for i in range(1, len(weights)):
 		cumu_weights.append(weights[i] + cumu_weights[i-1])
 	
-	var rand = randf()*cumu_weights[cumu_weights.size()-1]
+	var rand = randf()*cumu_weights[-1]
 	for i in range(cumu_weights.size()):
 		if rand < cumu_weights[i]:
 			return values[i]
