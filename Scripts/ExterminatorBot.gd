@@ -27,6 +27,8 @@ var nearby_bullets = []
 func _ready():
 	health = 150
 	max_speed = walk_speed
+	max_attack_cooldown = 1.5
+	max_special_cooldown = 1.6
 	flip_offset = 24
 	healthbar.max_value = health
 	init_healthbar()

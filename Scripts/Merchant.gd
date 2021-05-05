@@ -15,8 +15,11 @@ var forced = false
 func _ready():
 	max_speed = 30
 	score = 0
+	max_attack_cooldown = 1
+	attack_cooldown = 0
 
 func _physics_process(delta):
+	attack_cooldown = -1
 	if !about_to_swap and GameManager.swappable:
 		label.visible = true
 		release.visible = false

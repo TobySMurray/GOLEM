@@ -39,7 +39,9 @@ var max_swap_shield_health = 0
 var swap_shield_health = 0
 
 var attack_cooldown = 0
+var max_attack_cooldown
 var special_cooldown = 0
+var max_special_cooldown = 0
 var time_since_controlled = 1000
 
 var aim_direction = Vector2.ZERO

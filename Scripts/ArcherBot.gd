@@ -36,6 +36,7 @@ func toggle_enhancement(state):
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
 	charge_time = charge_time_levels[level]
+	max_attack_cooldown = charge_time + 1
 	
 	if state == false:
 		charge_timer -= 0.75

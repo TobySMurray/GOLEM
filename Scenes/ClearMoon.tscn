@@ -253,6 +253,6 @@ animations = [ {
 [node name="ClearMoon" type="AnimatedSprite"]
 show_behind_parent = true
 frames = SubResource( 61 )
-frame = 18
+frame = 43
 playing = true
 offset = Vector2( -1, -1 )

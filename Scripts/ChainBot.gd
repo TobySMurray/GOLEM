@@ -31,7 +31,7 @@ func _ready():
 	flip_offset = 0
 	score = 50
 	init_healthbar()
-	
+	max_attack_cooldown = 1
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):

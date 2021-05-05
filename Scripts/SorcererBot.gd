@@ -25,6 +25,7 @@ func _ready():
 	init_healthbar()
 	hide_stand()
 	toggle_enhancement(false)
+	max_special_cooldown = 2
 	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
@@ -34,6 +35,7 @@ func toggle_enhancement(state):
 	max_speed = walk_speed
 	smack_recharge = smack_recharge_levels[level]
 	smack_speed = smack_speed_levels[level]
+	max_attack_cooldown = smack_recharge
 	
 func misc_update(delta):
 #	if orb:

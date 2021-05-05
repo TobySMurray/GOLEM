@@ -119,5 +119,6 @@ margin_bottom = 43.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="PlayAgain/PlayAgainButton" to="." method="_on_PlayAgainButton_pressed"]
 [connection signal="pressed" from="Quit/QuitButton" to="." method="_on_QuitButton_pressed"]

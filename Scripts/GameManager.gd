@@ -43,19 +43,20 @@ var enemy_hard_cap = 15
 var evolution_level = 1
 
 func _process(delta):
-	game_time += delta
-	spawn_timer -= delta
-	timescale = lerp(timescale, target_timescale, delta*12)
-	audio.pitch_scale = timescale
-	Engine.time_scale =  timescale
-	
-	if spawn_timer < 0:
-		spawn_timer = 1
-		enemy_soft_cap = 5 + game_time/15 #pow(1.3, game_time/60)
+	if player:
+		game_time += delta
+		spawn_timer -= delta
+		timescale = lerp(timescale, target_timescale, delta*12)
+		audio.pitch_scale = timescale
+		Engine.time_scale =  timescale
 		
-		if randf() < (1 - enemy_count/enemy_soft_cap):
-			print("SPAWN (" + str(enemy_count + 1) +")")
-			spawn_enemy()
+		if spawn_timer < 0:
+			spawn_timer = 1
+			enemy_soft_cap = 5 + game_time/15 #pow(1.3, game_time/60)
+			
+			if randf() < (1 - enemy_count/enemy_soft_cap):
+				print("SPAWN (" + str(enemy_count + 1) +")")
+				spawn_enemy()
 
 
 func lerp_to_timescale(scale):

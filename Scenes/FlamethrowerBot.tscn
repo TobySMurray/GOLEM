@@ -400,7 +400,7 @@ position = Vector2( -0.44545, 3.34087 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
-frame = 40
+frame = 35
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -431,7 +431,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 8.46354 )
-frame = 6
+frame = 13
 
 [node name="Explosion" type="Area2D" parent="."]
 visible = false
@@ -441,5 +441,6 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Explosion"]
 position = Vector2( 0.187286, 0.561867 )
 shape = SubResource( 10 )
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
