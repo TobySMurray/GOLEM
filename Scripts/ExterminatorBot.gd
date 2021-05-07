@@ -21,6 +21,7 @@ var charging_tp = false
 var teleport_timer = 0
 
 var nearby_bullets = []
+var nearby_death_orbs = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -32,7 +33,7 @@ func _ready():
 	flip_offset = 24
 	healthbar.max_value = health
 	init_healthbar()
-	score = 100
+	score = 80
 	swap_cursor.visible = true
 	toggle_enhancement(false)
 	
@@ -67,6 +68,9 @@ func misc_update(delta):
 				b.source = self
 				b.position += velocity*delta
 				b.lifetime = 3
+				
+		for o in nearby_death_orbs:
+			o.velocity *= 0.9
 
 	
 	if charging_tp:
@@ -153,7 +157,10 @@ func teleport():
 	
 func expel_bullets(radial = false):
 	var target_pos = get_global_mouse_position() if is_in_group("player") else GameManager.player.global_position
-	for b in nearby_bullets:
+	for o in nearby_death_orbs:
+		o.modulate = Color(0.7, 0.2, 1)
+		
+	for b in nearby_bullets + nearby_death_orbs:
 		b.source = self
 		b.lifetime = 5
 		
@@ -195,12 +202,16 @@ func _on_Deflector_area_entered(area):
 	if area.is_in_group("bullet"):
 		nearby_bullets.append(area)
 		area.lifetime = max(area.lifetime, 5)
+	elif area.is_in_group("death orb"):
+		nearby_death_orbs.append(area.get_parent())
 		
 func _on_Deflector_area_exited(area):
 	if area.is_in_group("bullet"):
 		nearby_bullets.erase(area)
 		if area.velocity.x == 0 and area.velocity.y == 0:
 			area.despawn()
+	elif area.is_in_group("death orb"):
+		nearby_death_orbs.erase(area.get_parent())
 
 
 func _on_Timer_timeout():

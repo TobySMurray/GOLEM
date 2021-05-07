@@ -21,6 +21,7 @@ var stand_pos = Vector2.ZERO
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	health = 180
+	score = 100
 	flip_offset = -13
 	init_healthbar()
 	hide_stand()
@@ -51,6 +52,7 @@ func misc_update(delta):
 		if stand_timer < 0.9 and smack_velocity.x != 0:
 			if orb:
 				orb.velocity = smack_velocity
+				orb.decel_timer = 0
 			smack_velocity = Vector2.ZERO
 			
 		if stand_timer == 0:
@@ -70,13 +72,14 @@ func player_action():
 		attacking = true
 		animplayer.play("Special")
 		
-	if orb:
-		var to_orb = orb.global_position - global_position
-		var zoom = 1 + clamp(max((abs(to_orb.x)-300)/250, (abs(to_orb.y)-100)/250), 0, 1)
-		GameManager.camera.zoom = Vector2(zoom, zoom)
-	else:
-		var zoom = lerp(GameManager.camera.zoom.x, 1, 0.1)
-		GameManager.camera.zoom = Vector2(zoom, zoom)
+	
+#	if orb:
+#		var to_orb = orb.global_position - global_position
+#		var zoom = 1 + clamp(max((abs(to_orb.x)-300)/250, (abs(to_orb.y)-100)/250), 0, 1)
+#		GameManager.camera.zoom = Vector2(zoom, zoom)
+#	else:
+#		var zoom = lerp(GameManager.camera.zoom.x, 1, 0.1)
+#		GameManager.camera.zoom = Vector2(zoom, zoom)
 		
 func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position)

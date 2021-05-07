@@ -52,7 +52,7 @@ func _process(delta):
 		
 		if spawn_timer < 0:
 			spawn_timer = 1
-			enemy_soft_cap = 5 + game_time/15 #pow(1.3, game_time/60)
+			enemy_soft_cap = 7 + game_time/10 #pow(1.3, game_time/60)
 			
 			if randf() < (1 - enemy_count/enemy_soft_cap):
 				print("SPAWN (" + str(enemy_count + 1) +")")
@@ -91,6 +91,7 @@ func spawn_enemy():
 
 func reset():
 	total_score = 0
+	evolution_level = 1
 	timescale = 1
 	game_time = 0
 	spawn_timer = 0

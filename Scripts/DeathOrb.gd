@@ -3,12 +3,22 @@ extends KinematicBody2D
 var source
 var velocity = Vector2(100, 0)
 var mass = 3
+var decel_timer = 0
 
 var lifetime = 0
 var invincible = false
 
 func _physics_process(delta):
 	var col = move_and_collide(velocity*delta)
+	
+	var speed = velocity.length()
+	if speed > 100 and decel_timer < 2:
+		var decel = pow(min(decel_timer, 1), 2)
+		velocity -= velocity*decel*delta
+		decel_timer += delta
+	elif source:
+		velocity += 150*delta*(source.global_position - global_position).normalized()
+		
 	if col:
 		velocity = velocity.bounce(col.normal) * 0.9
 
@@ -22,8 +32,10 @@ func _on_Area2D_area_entered(area):
 			var delta_vel = new_vel - velocity
 			velocity = new_vel * 1.05
 			entity.velocity -= delta_vel*2
+			decel_timer = 0
 			
 func take_damage(damage, source):
+	decel_timer = 0
 	pass
 	
 			

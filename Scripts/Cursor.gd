@@ -3,6 +3,9 @@ extends Node2D
 
 onready var attack_cooldown = $Attack
 onready var special_cooldown = $Special
+onready var sprite = $Sprite
+
+var flash_timer = 0
 
 
 func _ready():
@@ -15,11 +18,19 @@ func _process(delta):
 
 	
 func _physics_process(delta):
+	if flash_timer > 0:
+		flash_timer -= delta
+		sprite.modulate = Color.white if int(flash_timer*20)%2 == 0 else Color.black
+	else:
+		sprite.modulate = Color.black
+		
 	if GameManager.player:
 		attack_cooldown.max_value = GameManager.player.max_attack_cooldown
 		attack_cooldown.value = GameManager.player.attack_cooldown
 		if attack_cooldown.value <= 0:
-			attack_cooldown.visible = false
+			if attack_cooldown.visible:
+				attack_cooldown.visible = false
+				flash_timer = 0.2
 		else:
 			attack_cooldown.visible = true
 			

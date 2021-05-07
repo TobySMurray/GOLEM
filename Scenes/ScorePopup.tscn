@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/ScorePopup.gd" type="Script" id=1]
+[ext_resource path="res://Art/Fonts/Text.tres" type="DynamicFont" id=2]
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 2 )
+
+[node name="ScorePopup" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_right = 10.0
+margin_bottom = -20.0
+rect_scale = Vector2( 0.6, 0.6 )
+rect_pivot_offset = Vector2( 50, 0 )
+theme = SubResource( 1 )
+text = "+50"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Message" type="Label" parent="."]
+modulate = Color( 0.733333, 0.733333, 0.733333, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -75.0
+margin_top = 12.0
+margin_right = 35.0
+margin_bottom = -6.0
+rect_scale = Vector2( 0.4, 0.4 )
+rect_pivot_offset = Vector2( 75, 0 )
+theme = SubResource( 1 )
+text = "ULTRAKILL"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

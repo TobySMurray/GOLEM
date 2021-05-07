@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scripts/SwapBar.gd" type="Script" id=1]
 [ext_resource path="res://Art/Progress Bar.png" type="Texture" id=2]
-[ext_resource path="res://Art/Caution Tape2.png" type="Texture" id=3]
+[ext_resource path="res://Art/Caution Tape3-export.png" type="Texture" id=3]
 [ext_resource path="res://Art/FilledBarWhite.png" type="Texture" id=4]
 
 [node name="SwapBar" type="TextureProgress"]
@@ -18,7 +18,6 @@ max_value = 1000.0
 value = 925.0
 texture_over = ExtResource( 2 )
 texture_progress = ExtResource( 4 )
-tint_over = Color( 1, 1, 1, 0.172549 )
 tint_progress = Color( 0.584314, 0.0196078, 0.0196078, 1 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -33,8 +32,8 @@ margin_top = 4.95914
 margin_right = 0.314636
 margin_bottom = 4.95914
 rect_scale = Vector2( 1, 0.88 )
-max_value = 50.0
-value = 30.0
+max_value = 1000.0
+value = 1000.0
 texture_progress = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
