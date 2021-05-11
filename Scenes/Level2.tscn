@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/Camera.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Cursor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Transcender.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/SwapBar.tscn" type="PackedScene" id=6]
+
+[node name="Level2" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource( 1 )
+
+[node name="SwapBar" parent="Camera2D" instance=ExtResource( 6 )]
+
+[node name="Cursor" parent="Camera2D" instance=ExtResource( 4 )]
+
+[node name="WorldObjects" type="YSort" parent="."]
+scale = Vector2( 2, 2 )
+
+[node name="Characters" type="YSort" parent="WorldObjects"]
+
+[node name="ShotgunnerBot" parent="WorldObjects/Characters" instance=ExtResource( 3 )]
+position = Vector2( 73.5784, 41.4141 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Transcender" parent="WorldObjects/Characters" instance=ExtResource( 5 )]
