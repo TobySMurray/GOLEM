@@ -33,7 +33,7 @@ func _ready():
 	healthbar.max_value = health
 	max_attack_cooldown = 1
 	max_special_cooldown = 0.8
-	score = 25
+	score = 60
 	init_healthbar()
 	toggle_enhancement(false)
 	

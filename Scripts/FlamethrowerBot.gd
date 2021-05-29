@@ -30,7 +30,7 @@ func _ready():
 	bullet_spawn_offset = 10
 	flip_offset = -46
 	max_attack_cooldown = 1
-	score = 75
+	score = 50
 	init_healthbar()
 	toggle_enhancement(false)
 	

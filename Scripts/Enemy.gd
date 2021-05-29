@@ -7,6 +7,7 @@ onready var sprite = $Sprite
 onready var swap_cursor = $BloodMoon
 onready var swap_shield = $ClearMoon
 onready var bullet = load("res://Scenes/Bullet.tscn")
+onready var score_popup = load("res://Scenes/ScorePopup.tscn")
 onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
 onready var healthbar = $HealthBar
@@ -63,7 +64,7 @@ var force_swap = false
 func _ready():
 	self.connect("draw_transcender", transcender, "draw_transcender")
 	self.connect("clear_transcender", transcender, "clear_transcender")
-	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
+	GameManager.audio = get_node("/root/Level/AudioStreamPlayer")
 	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 
 func _physics_process(delta):
@@ -329,6 +330,13 @@ func clear_transcender():
 func toggle_selected_enemy(enemy_is_selected):
 	if enemy_is_selected:
 		emit_signal("toggle_selected_enemy")
+		
+func emit_score_popup(value, msg):
+	var popup = score_popup.instance().duplicate()
+	popup.get_node("Score").text = "+" + str(value)
+	popup.get_node("Message").text = ("- " + msg + " -") if len(msg) > 0 else msg
+	popup.rect_global_position = global_position + Vector2(0, -40)
+	get_node("/root").add_child(popup)
 
 func die(killer = null):
 	if dead: return
@@ -344,8 +352,15 @@ func die(killer = null):
 		if killer:
 			if killer == GameManager.player:
 				GameManager.increase_score(score)
-			elif time_since_controlled < 3 or killer.time_since_controlled < 3:
+				emit_score_popup(score, "")
+				
+			elif time_since_controlled < 2:
+				GameManager.increase_score(score*3)
+				emit_score_popup(score*2, "CLOSE CALL")
+				
+			elif killer.time_since_controlled < 2:
 				GameManager.increase_score(score*2)
+				emit_score_popup(score*2, "TRICKSHOT")
 	else:
 		GameManager.camera.set_trauma(1, 4)
 		GameManager.lerp_to_timescale(0.1)
