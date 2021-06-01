@@ -2,15 +2,16 @@ extends "res://Scripts/Enemy.gd"
 
 onready var dash_fx = $DashFX
 onready var audio = $AudioStreamPlayer2D
-onready var dash = $Dash
+onready var dash_audio = $Dash
 
 var walk_speed
 var burst_size
 var shot_speed
+var reload_time
 
-var walk_speed_levels = [250, 250, 275, 300, 325, 350]
-var burst_size_levels = [3, 4, 5, 6, 8]
-var shot_speed_levels = [200, 300, 400, 500, 550]
+var walk_speed_levels = [250, 250, 275, 300, 333, 366, 400, 450]
+var burst_size_levels = [3, 4, 5, 6, 8, 10, 12]
+var shot_speed_levels = [200, 300, 400, 500, 550, 600, 666]
 
 var burst_count = 0
 var burst_timer = 0
@@ -39,12 +40,13 @@ func _ready():
 	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
-	var level = int(GameManager.evolution_level) if state == true else 0
+	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
 	shot_speed = shot_speed_levels[level]
 	burst_size = burst_size_levels[level]
+	reload_time = 1 if state else 1.6
 		
 
 func misc_update(delta):
@@ -68,7 +70,8 @@ func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
 		start_burst()
 	
-	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not attacking and not dashing:
+	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not dashing:
+		special_cooldown = 0.8
 		dash()
 		
 func ai_move():
@@ -100,7 +103,7 @@ func ai_action():
 	
 func start_burst():
 	lock_aim = is_in_group("enemy")
-	attack_cooldown = 1
+	attack_cooldown = reload_time
 	burst_count = burst_size
 	shoot()
 	
@@ -120,15 +123,23 @@ func shoot():
 	burst_count -= 1
 	
 func dash():
+	var dash_end_point = global_position + Vector2(83*sign(aim_direction.x), 0)
+	var space_state = get_world_2d().direct_space_state
+	var result = space_state.intersect_ray(global_position + foot_offset, dash_end_point + foot_offset, [self], collision_mask)
+	if result:
+		dash_end_point = result['position'] - foot_offset - (dash_end_point - global_position).normalized()*10 
+	
+	attacking = false
+	burst_count = 0
 	dashing = true
 	lock_aim = true
-	dash.play()
 	velocity = Vector2(sign(aim_direction.x)*150, 0)
 	
-	special_cooldown = 0.8
 	dash_start_point = global_position + Vector2((-70 if aim_direction.x < 0 else 0), 0)
-	global_position += Vector2(83*sign(aim_direction.x), 0)
+	global_position = dash_end_point
+	set_dash_fx_position()
 	
+	dash_audio.play()
 	dash_fx.frame = 0
 	dash_fx.flip_h = aim_direction.x < 0
 	dash_fx.play("Swoosh")
@@ -139,10 +150,12 @@ func dash():
 func set_dash_fx_position():
 	dash_fx.global_position = dash_start_point
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func take_damage(damage, source):
+	if is_in_group('enemy') and special_cooldown < 0 and damage < health:
+		special_cooldown = 6
+		aim_direction = velocity
+		dash()
+	.take_damage(damage, source)
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):

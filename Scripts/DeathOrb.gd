@@ -13,7 +13,7 @@ func _physics_process(delta):
 	
 	var speed = velocity.length()
 	if speed > 100 and decel_timer < 2:
-		var decel = pow(min(decel_timer, 1), 2)
+		var decel = pow(min(decel_timer*(speed/200), 2), 1)
 		velocity -= velocity*decel*delta
 		decel_timer += delta
 	elif source:
@@ -27,7 +27,7 @@ func _on_Area2D_area_entered(area):
 	if area.is_in_group("hitbox"):
 		var entity = area.get_parent()
 		if not entity.invincible and entity != source:
-			entity.take_damage(pow(velocity.length(), 1.5)/100, source)
+			entity.take_damage(pow(velocity.length(), 1.3)/40, source)
 			var new_vel = (global_position - entity.global_position).normalized() * velocity.length()
 			var delta_vel = new_vel - velocity
 			velocity = new_vel * 1.05

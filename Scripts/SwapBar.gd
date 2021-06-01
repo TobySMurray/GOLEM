@@ -10,9 +10,13 @@ var thresh_max_value = 928
 var control_timer = 0.0
 var swap_threshold = 0.0
 var swap_threshold_penalty = 0
+var unlocked_last_frame = false
+
+var beep_timer = 0
 
 onready var threshold = $Threshold
-onready var audio = $AudioStreamPlayer
+onready var warning_audio = $WarningAudio
+onready var unlocked_audio = $UnlockedAudio
 onready var warning = preload("res://Sounds/SoundEffects/warning.wav")
 onready var ready = preload("res://Sounds/SoundEffects/moonready.wav")
 
@@ -27,6 +31,7 @@ func _ready():
 
 func _physics_process(delta):
 	control_timer = min(control_timer + delta, max_control_time)
+	beep_timer -= 0.016
 	
 	if not GameManager.player or not GameManager.player.dead:
 		self.value = (control_timer / max_control_time)*(bar_max_value - bar_min_value) + bar_min_value
@@ -38,12 +43,12 @@ func _physics_process(delta):
 		out_of_control()
 	elif GameManager.player and not GameManager.player.dead:
 		GameManager.kill()
-		audio.stop()
+		warning_audio.stop()
 		control_timer = 0
 
 func reset(init_timer = 0):
 	GameManager.out_of_control = false
-	audio.stop()
+	warning_audio.stop()
 	control_timer = init_timer
 	set_swap_threshold(swap_threshold + 2 + swap_threshold_penalty)
 	swap_threshold_penalty = 0
@@ -58,13 +63,20 @@ func set_swap_threshold(value):
 func out_of_control():
 	GameManager.out_of_control = true
 	tint_progress = lerp(tint_progress, colors[randi() % colors.size()], 0.9)
-	audio.stream = warning
-	audio.play()
+	
+	if beep_timer < 0:
+		beep_timer = 0.05 + (max_control_time - control_timer)*0.3/3
+		warning_audio.play()
 
 func in_control():
 	if control_timer < swap_threshold:
+		unlocked_last_frame = false
 		tint_progress = lerp(tint_progress, Color(0.58,0.1,0.1,1), 0.1)
 	else:
+		if not unlocked_last_frame:
+			unlocked_audio.play()
+		
+		unlocked_last_frame = true
 		var t = control_timer - swap_threshold
 		var f = 3 + control_timer / 3
 		var flash = pow(0.5 + 0.5*cos(t*f), 4)

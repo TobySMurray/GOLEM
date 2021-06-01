@@ -1,0 +1,37 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[sub_resource type="Shader" id=21]
+code = "shader_type canvas_item;
+
+uniform sampler2D noise: hint_white;
+uniform float resolution = 32.0;
+
+void fragment(){ 
+	float speed_factor = TIME / 5.0;
+	float thickness_factor = 0.2; // float thickness_factor = (1.0 - pow(COLOR.a, 2));
+	
+	float qUVy = float(int(UV.y * thickness_factor * resolution))/resolution;
+	float qUVx = float(int(COLOR.a * 300.0))/300.0 + speed_factor;
+	
+	vec2 fake_UV = vec2(qUVy, COLOR.a + speed_factor);
+	vec4 n = texture(noise, fake_UV);
+	float grey = 1.0 - (0.2126 * n.r + 0.7152 * n.g + 0.0722 * n.b);
+	if (grey < 0.55) { COLOR.a = COLOR.a * pow(grey, 1); }
+	if (grey < 0.5) { discard; } 
+}"
+
+[sub_resource type="OpenSimplexNoise" id=22]
+octaves = 2
+period = 32.0
+persistence = 0.75
+
+[sub_resource type="NoiseTexture" id=23]
+width = 256
+height = 256
+seamless = true
+noise = SubResource( 22 )
+
+[resource]
+shader = SubResource( 21 )
+shader_param/resolution = 32.0
+shader_param/noise = SubResource( 23 )

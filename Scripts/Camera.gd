@@ -8,6 +8,8 @@ var smooth_base_offset = base_offset
 
 var mouse_follow = 0
 
+var target_zoom = Vector2.ONE
+
 var trauma = 0
 var trauma_offset = Vector2.ZERO
 export var decay = 5  # How quickly the shaking stops [0, 1].
@@ -25,11 +27,16 @@ func _physics_process(delta):
 		smooth_base_offset = lerp(smooth_base_offset, base_offset, 0.5)
 		global_position = smooth_anchor_pos + trauma_offset
 		
+		zoom = lerp(zoom, target_zoom, 0.15)
+		
 		if trauma:
 			trauma = max(trauma - trauma*decay*delta, 0)
 			shake()
 		else:
 			trauma_offset = Vector2.ZERO
+			
+func lerp_zoom(z):
+	target_zoom = Vector2(z, z)
 			
 func set_trauma(amount, new_decay = 8):
 	decay = min(decay, new_decay)

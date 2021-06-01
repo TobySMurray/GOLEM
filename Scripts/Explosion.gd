@@ -2,8 +2,6 @@ extends Area2D
 
 onready var anim = $AnimatedSprite
 
-var victims = []
-
 var source
 var damage = 0
 var force = 0
@@ -29,19 +27,29 @@ func explode():
 	anim.frame = 0
 	anim.play("Explode")
 	
-	for victim in victims:
-		if not victim.invincible:
-			victim.take_damage(damage, source)
-			victim.velocity += (victim.global_position - global_position).normalized() * force
+	var space_rid = get_world_2d().space
+	var space_state = Physics2DServer.space_get_direct_state(space_rid)
+	var collider = $CollisionShape2D
+	
+	var query = Physics2DShapeQueryParameters.new()
+	query.collide_with_areas = true
+	query.collide_with_bodies = false
+	query.collision_layer =  6
+	query.exclude = []
+	query.transform = collider.global_transform
+	query.set_shape(collider.shape)
+	
+	var results = space_state.intersect_shape(query, 512)
+	for col in results:
+		if col['collider'].is_in_group("hitbox"):
+			var enemy = col['collider'].get_parent()
+			if not enemy.invincible and not enemy == source:
+				enemy.take_damage(damage, source)
+				enemy.velocity += (enemy.global_position - global_position).normalized() * force
+			
+		elif col['collider'].is_in_group("bullet"):
+			var bullet = col['collider']
+			if not bullet.source == source:
+				bullet.lifetime += 2
+				bullet.velocity = (bullet.global_position - global_position).normalized() * bullet.velocity.length()
 
-
-func _on_Explosion_area_entered(area):
-	if area.is_in_group("hitbox"):
-		if not area.get_parent() in victims:
-			victims.append(area.get_parent())
-
-
-func _on_Explosion_area_exited(area):
-	if area.is_in_group("hitbox"):
-		if area.get_parent() in victims:
-			victims.erase(area.get_parent())

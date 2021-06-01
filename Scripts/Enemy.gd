@@ -11,6 +11,7 @@ onready var score_popup = load("res://Scenes/ScorePopup.tscn")
 onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
 onready var healthbar = $HealthBar
+onready var EV_particles = $EVParticles
 onready var astar = self.get_parent().get_node("AStar")
 onready var slow_audio = $BloodMoon/Slow
 onready var stopped_audio = $BloodMoon/Stopped
@@ -36,6 +37,9 @@ var score = 0
 
 var game_over = false
 
+var is_boss = false
+var enemy_evolution_level = 0
+
 var max_swap_shield_health = 0
 var swap_shield_health = 0
 
@@ -55,38 +59,52 @@ var foot_offset = 0
 var invincible = false
 var invincibility_timer = 0
 
+var capturing_boss = false
+var boss_capture_timer = 0
+
 signal draw_transcender
 signal clear_transcender
 
 var dead = false
 var force_swap = false
 
+
 func _ready():
 	self.connect("draw_transcender", transcender, "draw_transcender")
 	self.connect("clear_transcender", transcender, "clear_transcender")
 	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
 	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
+	update_swap_shield()
 
 func _physics_process(delta):
 	if not dead:
 		misc_update(delta)
 		
 	if not is_in_group("enemy"):
-		if not dead:
-			player_move(delta)
+		if capturing_boss:
+			boss_capture_timer -= 0.016
+			GameManager.camera.trauma = 0.3
 			
-			if not lock_aim:
-				aim_direction = (get_global_mouse_position() - global_position).normalized()
-			
-		if about_to_swap:
-			choose_swap_target()
-		else:
-			if not dead:
-				player_action()
+			if boss_capture_timer < 0 or dead:
+				capturing_boss = false
+				on_boss_capture()
 				
-			if GameManager.swappable:
-				if Input.is_action_just_pressed("swap"):
-					toggle_swap(true)
+		if not capturing_boss:
+			if not dead:
+				player_move(delta)
+				
+				if not lock_aim:
+					aim_direction = (get_global_mouse_position() - global_position).normalized()
+				
+			if about_to_swap:
+				choose_swap_target()
+			else:
+				if not dead:
+					player_action()
+					
+				if GameManager.swappable:
+					if Input.is_action_just_pressed("swap"):
+						toggle_swap(true)
 		
 		
 	else:
@@ -103,7 +121,6 @@ func _physics_process(delta):
 		if invincibility_timer < 0:
 			invincible = false
 	
-	update_swap_shield()
 	animate()
 	move(delta)
 	
@@ -139,14 +156,18 @@ func ai_action():
 		
 func choose_swap_target():
 	swap_cursor.global_position = get_global_mouse_position()
+	
+	var swapbar = GameManager.swap_bar
+	GameManager.camera.lerp_zoom(1 + (swapbar.control_timer - swapbar.swap_threshold)/swapbar.max_control_time)
+	
 	if GameManager.swappable:
 		if Input.is_action_just_released("swap"):
 			if swap_cursor.selected_enemy:
 				swap_cursor.selected_enemy.toggle_playerhood(true)
 				toggle_playerhood(false)
 				GameManager.swap_bar.reset()
-				clear_transcender()
-			if !force_swap or swap_cursor.selected_enemy:
+				
+			if swap_cursor.selected_enemy or !dead:
 				toggle_swap(false)
 		else:
 			draw_transcender()
@@ -223,34 +244,45 @@ func take_damage(damage, source):
 		invincible = true
 		invincibility_timer = 0.05
 		GameManager.camera.set_trauma(0.6)
-		
+	
+	if swap_shield_health > 0:
+		var shield_damage = min(swap_shield_health, damage)
+		print("SHIELD DAMAGE: " + str(shield_damage))
+		swap_shield_health -= shield_damage
+		damage -= shield_damage
+		update_swap_shield()
+
 	health -= damage
-	swap_shield_health -= damage
 	healthbar.value = health
 	sprite.modulate = Color.red
 	if health <= 0:
 		die(source)
 
 func init_healthbar():
+	if is_boss:
+		health *= 2
 	healthbar.max_value = health
 	healthbar.value = health
 	healthbar.rect_scale.x = health / 200.0
 	
 
 func toggle_swap(state):
-	if !GameManager.swappable:
-		state = false
+	if state == true and !GameManager.swappable:
+		return
+		
 	about_to_swap = state
-	
 	if(about_to_swap):
-		slow_audio.play()
 		GameManager.lerp_to_timescale(0.1)
+		slow_audio.play()
 		swap_cursor.moon_visible = true
 		choose_swap_target()
 	else:
+		GameManager.camera.lerp_zoom(1)
+		GameManager.lerp_to_timescale(1)
+		
+		clear_transcender()
 		stopped_audio.stop()
 		slow_audio.stop()
-		GameManager.lerp_to_timescale(1)
 		speed_audio.play()
 		swap_cursor.moon_visible = false
 		swap_cursor.selected_enemy = null
@@ -264,10 +296,19 @@ func toggle_playerhood(state):
 		GameManager.player = self
 		GameManager.camera.anchor = self
 		GameManager.camera.offset = Vector2.ZERO
-		GameManager.camera.zoom = Vector2.ONE
+		GameManager.camera.lerp_zoom(1)
 		attack_cooldown = -1
 		special_cooldown = -1
 		time_since_controlled = 0
+		
+		if is_boss and enemy_evolution_level > GameManager.evolution_level:
+			capturing_boss = true
+			invincible = true
+			boss_capture_timer = 1.25
+			target_velocity = Vector2.ZERO
+			GameManager.lerp_to_timescale(0.1)
+			GameManager.camera.lerp_zoom(0.5)
+			swap_cursor.boss.play()
 	else:
 		remove_from_group("player")
 		add_to_group("enemy")
@@ -282,9 +323,29 @@ func toggle_enhancement(state):
 	else:
 		animplayer.playback_speed = 1
 	
-func add_swap_shield(resistance):
-	max_swap_shield_health = health*resistance
-	swap_shield_health = max_swap_shield_health
+	if state or is_boss:
+		var lv = max(GameManager.evolution_level, enemy_evolution_level)
+		EV_particles.emitting = true
+		EV_particles.amount = 8 + 2*lv
+		EV_particles.scale_amount = 1.5 + 0.4*lv
+		#var c1 = Color.from_hsv(1 - lv*0.033, 0.92, 1.0, 1.0) if state else Color(1, 1, 1, 0.85)
+		#var c2 = Color(0.50, 0, 0, 0.85) if state else Color(0.48, 0.72, 0.976, 0.85)
+		#EV_particles.color_ramp.set_color(0, c1)
+		#EV_particles.color_ramp.set_color(1, c2)
+	else:
+		EV_particles.emitting = false
+
+func on_boss_capture():
+	invincible = false
+	GameManager.spawn_explosion(global_position + Vector2(0, 20), self, 1.5, 100, 500)
+	GameManager.camera.set_trauma(0.8, 4)
+	GameManager.lerp_to_timescale(1)
+	GameManager.camera.lerp_zoom(1)
+	GameManager.set_evolution_level(enemy_evolution_level)
+	
+func add_swap_shield(hp):
+	max_swap_shield_health = hp
+	swap_shield_health = hp
 	
 func update_swap_shield():
 	if swap_shield_health > 0:
@@ -294,7 +355,6 @@ func update_swap_shield():
 		swap_shield.visible = false;
 
 func draw_transcender():
-	
 	transcender_curve = Curve2D.new()
 	
 	var enemy_position = get_global_mouse_position()
@@ -348,6 +408,10 @@ func die(killer = null):
 	GameManager.enemy_count -= 1
 	animplayer.play("Die")
 	
+	if is_boss:
+		score *= enemy_evolution_level
+		GameManager.cur_boss = null
+	
 	if is_in_group("enemy"):
 		if killer:
 			if killer == GameManager.player:
@@ -355,12 +419,12 @@ func die(killer = null):
 				emit_score_popup(score, "")
 				
 			elif time_since_controlled < 2:
-				GameManager.increase_score(score*3)
+				GameManager.increase_score(score*2)
 				emit_score_popup(score*2, "CLOSE CALL")
 				
 			elif killer.time_since_controlled < 2:
-				GameManager.increase_score(score*2)
-				emit_score_popup(score*2, "TRICKSHOT")
+				GameManager.increase_score(score*3)
+				emit_score_popup(score*3, "TRICKSHOT")
 	else:
 		GameManager.camera.set_trauma(1, 4)
 		GameManager.lerp_to_timescale(0.1)

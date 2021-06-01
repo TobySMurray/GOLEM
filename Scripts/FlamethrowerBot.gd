@@ -8,10 +8,10 @@ var shot_speed
 var fire_volume
 
 
-var walk_speed_levels = [100, 110, 120, 130, 140]
-var shot_speed_levels = [150, 175, 200, 225, 250]
-var shot_spread_levels = [15, 15, 20, 25, 30]
-var fire_volume_levels = [1, 1.2, 1.4, 1.8, 2]
+var walk_speed_levels = [100, 115, 130, 145, 160, 175, 190]
+var shot_speed_levels = [150, 175, 200, 225, 250, 280, 310]
+var shot_spread_levels = [15, 15, 20, 25, 30, 40, 50]
+var fire_volume_levels = [1, 1.2, 1.4, 1.8, 2.1, 2.4, 2.8]
 
 var fuel = 200
 var shot_timer = 0
@@ -36,7 +36,7 @@ func _ready():
 	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
-	var level = int(GameManager.evolution_level) if state == true else 0
+	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed

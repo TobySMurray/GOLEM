@@ -26,8 +26,7 @@ export var score = 0
 
 func _ready():
 	base_pos = rect_position
-	GameManager.score_display = self
-	#base_color = modulate
+	GameManager.score_display = get_parent()
 
 func _process(delta):
 	update_score_display(delta)

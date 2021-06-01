@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/ArcherBot.gd" type="Script" id=2]
@@ -11,7 +11,7 @@
 [ext_resource path="res://Art/Characters/Archer/idle.png" type="Texture" id=9]
 [ext_resource path="res://Art/Characters/Archer/attack ready.png" type="Texture" id=10]
 [ext_resource path="res://Art/Characters/Archer/Attack FX.png" type="Texture" id=11]
-[ext_resource path="res://Art/Environment/Sci-fi Animations/Ship Lightspeed.png" type="Texture" id=12]
+[ext_resource path="res://Art/Beam.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Art/healthbar-Sheet.png" type="Texture" id=14]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=15]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Sounds/SoundEffects/chargeshot.wav" type="AudioStream" id=19]
 [ext_resource path="res://Sounds/SoundEffects/warningbeep.wav" type="AudioStream" id=20]
 [ext_resource path="res://Sounds/SoundEffects/step2.wav" type="AudioStream" id=21]
+[ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=22]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -510,36 +511,52 @@ height = 11.3512
 
 [sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 12 )
-region = Rect2( 0, 80, 96, 16 )
+region = Rect2( 0, 0, 32, 16 )
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 12 )
-region = Rect2( 0, 96, 96, 16 )
+region = Rect2( 32, 0, 32, 16 )
 
 [sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 12 )
-region = Rect2( 0, 112, 96, 16 )
+region = Rect2( 64, 0, 32, 16 )
 
 [sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 12 )
-region = Rect2( 0, 128, 96, 16 )
+region = Rect2( 96, 0, 32, 16 )
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 12 )
-region = Rect2( 0, 144, 96, 16 )
+region = Rect2( 128, 0, 32, 16 )
 
-[sub_resource type="SpriteFrames" id=22]
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 12 )
+region = Rect2( 256, 0, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 12 )
+region = Rect2( 288, 0, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 12 )
+region = Rect2( 320, 0, 32, 16 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 12 )
+region = Rect2( 352, 0, 32, 16 )
+
+[sub_resource type="SpriteFrames" id=29]
 animations = [ {
-"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), null ],
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), null ],
 "loop": false,
 "name": "Shoot",
-"speed": 15.0
+"speed": 20.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=23]
-extents = Vector2( 47.4755, 2.78909 )
+[sub_resource type="RectangleShape2D" id=30]
+extents = Vector2( 16, 2.789 )
 
-[sub_resource type="SpriteFrames" id=24]
+[sub_resource type="SpriteFrames" id=31]
 animations = [ {
 "frames": [ ExtResource( 14 ), null ],
 "loop": true,
@@ -553,12 +570,11 @@ script = ExtResource( 2 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 43
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 11, -28 )
-texture = ExtResource( 7 )
-vframes = 6
+texture = ExtResource( 5 )
+vframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -583,6 +599,7 @@ offset = Vector2( 7, -28 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
+visible = false
 collision_layer = 6
 collision_mask = 6
 
@@ -591,6 +608,7 @@ position = Vector2( -0.883881, -0.176777 )
 shape = SubResource( 15 )
 
 [node name="Deflector" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 0
 
@@ -598,21 +616,23 @@ collision_mask = 0
 scale = Vector2( 5, 5 )
 shape = SubResource( 16 )
 
-[node name="AttackBeam" type="Area2D" parent="."]
-rotation = -6.28319
-scale = Vector2( 1, 2 )
+[node name="BeamRotator" type="Node2D" parent="."]
+
+[node name="AttackBeam" type="Area2D" parent="BeamRotator"]
+position = Vector2( 9, 0 )
 collision_layer = 0
 collision_mask = 0
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="AttackBeam"]
-position = Vector2( 41.0542, 2.64866 )
-frames = SubResource( 22 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="BeamRotator/AttackBeam"]
+position = Vector2( 16, 0 )
+frames = SubResource( 29 )
 animation = "Shoot"
-frame = 5
+frame = 9
+playing = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBeam"]
-position = Vector2( 43.7028, 0.132431 )
-shape = SubResource( 23 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BeamRotator/AttackBeam"]
+position = Vector2( 16, 0 )
+shape = SubResource( 30 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 visible = false
@@ -633,16 +653,17 @@ max_distance = 500.0
 [node name="SightBeam" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.501961 )
 scale = Vector2( 1.234, 0.1 )
-frames = SubResource( 24 )
+frames = SubResource( 31 )
 animation = "Flash"
 offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 0
+frame = 52
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
 
+[node name="EVParticles" parent="." instance=ExtResource( 22 )]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

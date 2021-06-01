@@ -7,10 +7,12 @@ onready var deflector_visual = $Deflector/DeflectorVisual
 var walk_speed
 var deflect_power
 var shield_power
+var deflect_cooldown
 
-var walk_speed_levels = [40, 50, 60, 65, 70]
-var deflect_power_levels = [3, 3, 4, 5, 6]
-var shield_power_levels = [1200, 700, 800, 900, 1000]
+var walk_speed_levels = [40, 50, 60, 65, 70, 75, 80]
+var deflect_power_levels = [3, 3, 4, 5, 6, 8, 10]
+var shield_power_levels = [1200, 400, 500, 600, 700, 800, 900]
+var deflect_cooldown_levels = [1.5, 1.5, 1.3, 1.1, 0.9, 0.7, 0.5]
 
 var shield_active = true
 var shield_angle = 0
@@ -33,25 +35,26 @@ func _ready():
 	flip_offset = 24
 	healthbar.max_value = health
 	init_healthbar()
-	score = 80
+	score = 100
 	swap_cursor.visible = true
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
-	var level = int(GameManager.evolution_level) if state == true else 0
+	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
 	deflect_power = deflect_power_levels[level]
 	shield_power = shield_power_levels[level]
+	deflect_cooldown = deflect_cooldown_levels[level]
 
 
 func misc_update(delta):
 	deflector_visual.rotation = shield_angle
 	
 	if shield_active:
-		for b in nearby_bullets:
+		for b in nearby_bullets + nearby_death_orbs:
 			var bullet_speed = b.velocity.length()
 			
 			if bullet_speed > 0:
@@ -69,8 +72,8 @@ func misc_update(delta):
 				b.position += velocity*delta
 				b.lifetime = 3
 				
-		for o in nearby_death_orbs:
-			o.velocity *= 0.9
+		#for o in nearby_death_orbs:
+		#	o.velocity *= 0.9
 
 	
 	if charging_tp:
@@ -85,7 +88,13 @@ func player_action():
 	shield_angle = aim_direction.angle()
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
 		attack()
-	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not attacking:
+	
+	if Input.is_action_pressed("attack2"):
+		GameManager.camera.lerp_zoom(2)
+	else:
+		GameManager.camera.lerp_zoom(1)
+		
+	if Input.is_action_just_released("attack2") and special_cooldown < 0 and not attacking:
 		start_teleport(get_global_mouse_position())
 
 func ai_move():
@@ -103,7 +112,9 @@ func ai_move():
 
 func ai_action():
 	aim_direction = GameManager.player.global_position - global_position
-	shield_angle += deg2rad(sign(aim_direction.angle() - shield_angle))
+	
+	var delta_angle = Util.signed_wrap(aim_direction.angle() - shield_angle)
+	shield_angle = Util.signed_wrap(shield_angle + sign(delta_angle)/60)
 	
 	if randf() < 0.002 * len(nearby_bullets) and attack_cooldown < 0:
 		attack_cooldown = 2
@@ -118,6 +129,13 @@ func ai_action():
 				start_teleport(point)
 				special_cooldown = 8
 				break
+				
+	elif special_cooldown < 0 and aim_direction.length() < 30:
+		special_cooldown = 8
+		var point = GameManager.random_map_point()
+		if point:
+			start_teleport(point)
+		
 		
 func attack():
 	attacking = true
@@ -125,27 +143,29 @@ func attack():
 	shield_active = false
 	deflector_visual.visible = false
 	max_speed = 0
-	attack_cooldown = 1.5
+	attack_cooldown = deflect_cooldown
 	animplayer.play("Attack")
 	
 func start_teleport(point):
-	charging_tp = true
-	attacking = true
-	shield_active = false
-	deflector_visual.visible = false
-	teleport_start_point = global_position
 	teleport_end_point = point
-	special_cooldown = 1.6
-	teleport_timer = 0.4
-	lock_aim = true
-	max_speed = 0
-	sprite.visible = false
-	
-	expel_bullets(true)
-	
-	teleport_sprite.global_position = teleport_start_point
-	teleport_sprite.frame = 0
-	teleport_sprite.play("Vanish")
+	if GameManager.is_point_in_bounds(point + foot_offset):
+		charging_tp = true
+		attacking = true
+		shield_active = false
+		deflector_visual.visible = false
+		teleport_start_point = global_position
+		
+		special_cooldown = 1.6
+		teleport_timer = 0.4
+		lock_aim = true
+		max_speed = 0
+		sprite.visible = false
+		
+		expel_bullets(true)
+		
+		teleport_sprite.global_position = teleport_start_point
+		teleport_sprite.frame = 0
+		teleport_sprite.play("Vanish")
 	
 func teleport():
 	charging_tp = false

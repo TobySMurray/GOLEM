@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Art/Characters/Sorcerer Bot/death.png" type="Texture" id=1]
 [ext_resource path="res://Art/Characters/Sorcerer Bot/damaged.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.2459
@@ -342,6 +343,42 @@ animations = [ {
 "speed": 10.0
 } ]
 
+[sub_resource type="Shader" id=21]
+code = "shader_type canvas_item;
+
+uniform float RESOLUTION = 1.0;
+uniform float FREQ = 1.0;
+uniform float ALPHA = 1.0;
+uniform float ALPHA_SHIFT = 0.0;
+uniform vec3 color = vec3(1, 1, 1);
+
+float rand(vec2 coord){
+	return fract(sin(dot(coord, vec2(21.6782397, 5.4359876739)))*1000.3475938);
+}
+
+vec2 quantize(vec2 v, float r){
+	return floor(v*r)/r;
+}
+
+void fragment(){
+	vec2 QUV = quantize(FRAGCOORD.xy, RESOLUTION);
+	float tex_alpha = texture(TEXTURE, UV).a;
+	COLOR = vec4(color, max(0, (rand(QUV + TIME*FREQ)+ALPHA_SHIFT)*ALPHA*tex_alpha));
+}
+
+"
+
+[sub_resource type="ShaderMaterial" id=22]
+shader = SubResource( 21 )
+shader_param/RESOLUTION = 0.2
+shader_param/FREQ = 0.002
+shader_param/ALPHA = 0.7
+shader_param/ALPHA_SHIFT = -0.336
+shader_param/color = Vector3( 1, 0.5, 0.5 )
+
+[sub_resource type="Curve" id=23]
+_data = [ Vector2( 0, 0.409091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.2 ), 0.0, 0.0, 0, 0 ]
+
 [node name="SorcererBot" type="KinematicBody2D"]
 collision_layer = 0
 script = ExtResource( 7 )
@@ -366,7 +403,7 @@ anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 8 )]
-frame = 43
+frame = 38
 
 [node name="HealthBar" parent="." instance=ExtResource( 9 )]
 margin_left = -40.0
@@ -376,9 +413,10 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 25
+frame = 28
 
 [node name="AttackCollider" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackCollider"]
 scale = Vector2( 4, 4 )
@@ -412,4 +450,17 @@ playing = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JojoReference"]
 shape = SubResource( 9 )
 
+[node name="Line2D" type="Line2D" parent="."]
+show_behind_parent = true
+material = SubResource( 22 )
+points = PoolVector2Array( 0, 0, 200, -100 )
+width = 5.0
+width_curve = SubResource( 23 )
+default_color = Color( 0.4, 0.501961, 1, 1 )
+texture_mode = 1
+joint_mode = 1
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="EVParticles" parent="." instance=ExtResource( 11 )]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

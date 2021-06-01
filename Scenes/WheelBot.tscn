@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scripts/WheelBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/Bot Wheel/move without FX.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Sounds/SoundEffects/wheel2.wav" type="AudioStream" id=14]
 [ext_resource path="res://Sounds/SoundEffects/wheeldie.wav" type="AudioStream" id=15]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=17]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -395,7 +396,7 @@ shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0.0102234, -0.932678 )
-frame = 48
+frame = 50
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
@@ -435,10 +436,11 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 42
+frame = 41
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
 
+[node name="EVParticles" parent="." instance=ExtResource( 17 )]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

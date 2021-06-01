@@ -1,7 +1,7 @@
 extends "res://Scripts/Enemy.gd"
 
 onready var attack_fx = $AttackFX
-onready var attack_beam = $AttackBeam
+onready var attack_beam = $BeamRotator/AttackBeam
 onready var sight_beam = $SightBeam
 onready var raycast = $RayCast2D
 onready var deflector_shape = $Deflector/CollisionShape2D
@@ -10,8 +10,8 @@ onready var deflector_shape = $Deflector/CollisionShape2D
 var walk_speed
 var charge_time
 
-var walk_speed_levels = [100, 110, 120, 130, 140]
-var charge_time_levels = [1.5, 1.5, 1.2, 0.9, 0.8]
+var walk_speed_levels = [100, 110, 120, 130, 140, 150, 160]
+var charge_time_levels = [1.5, 1.5, 1.2, 0.9, 0.8, 0.7, 0.6]
 
 var charging = false
 var charge_timer = 0
@@ -31,7 +31,7 @@ func _ready():
 	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
-	var level = int(GameManager.evolution_level) if state == true else 0
+	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
@@ -114,8 +114,8 @@ func release_attack():
 	var beam_length = (raycast_endpoint - global_position).length()
 	var beam_dir = (raycast_endpoint - global_position)/beam_length
 	
-	attack_beam.rotation = beam_dir.angle()
-	attack_beam.scale.x = beam_length/85
+	attack_beam.get_parent().rotation = beam_dir.angle()
+	attack_beam.scale.x = beam_length/32
 
 	var attack_anim = attack_beam.get_node("AnimatedSprite")
 	attack_anim.frame = 0

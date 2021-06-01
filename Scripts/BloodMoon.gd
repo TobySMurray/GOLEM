@@ -3,6 +3,7 @@ extends AnimatedSprite
 var selected_enemy
 signal selected_enemy_signal
 onready var stopped = $Stopped
+onready var boss = $Boss
 var moon_visible = false
 
 func _ready():

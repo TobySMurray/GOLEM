@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/SwapBar.gd" type="Script" id=1]
 [ext_resource path="res://Art/Progress Bar.png" type="Texture" id=2]
 [ext_resource path="res://Art/Caution Tape3-export.png" type="Texture" id=3]
 [ext_resource path="res://Art/FilledBarWhite.png" type="Texture" id=4]
+[ext_resource path="res://Sounds/SoundEffects/Wub1.wav" type="AudioStream" id=5]
+[ext_resource path="res://Sounds/SoundEffects/warningbeep.wav" type="AudioStream" id=6]
 
 [node name="SwapBar" type="TextureProgress"]
 anchor_top = 1.0
@@ -39,5 +41,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -10.0
+[node name="WarningAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -14.0
+
+[node name="UnlockedAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -2.0

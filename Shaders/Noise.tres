@@ -31,4 +31,4 @@ shader_param/RESOLUTION = 0.2
 shader_param/FREQ = 0.002
 shader_param/ALPHA = 0.7
 shader_param/ALPHA_SHIFT = -0.336
-shader_param/color = Vector3( 0.5, 0.5, 1 )
+shader_param/color = Vector3( 1, 0.5, 0.5 )

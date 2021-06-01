@@ -5,18 +5,22 @@ onready var death_orb = load("res://Scenes/DeathOrb.tscn")
 var orb = null
 onready var stand = $JojoReference
 onready var attack_collider = $AttackCollider/CollisionShape2D
+onready var tether = $Line2D
 
 var walk_speed = 0
 var smack_recharge = 0
 var smack_speed = 0
 
-var walk_speed_levels = [100, 120, 135, 150, 165]
-var smack_recharge_levels = [1.5, 1.2, 1, 0.8, 0.6]
-var smack_speed_levels = [250, 300, 333, 366, 400]
+var walk_speed_levels = [80, 120, 135, 150, 165, 180, 195]
+var smack_recharge_levels = [1.1, 1, 0.85, 0.7, 0.6, 0.5, 0.4]
+var smack_speed_levels = [300, 400, 450, 500, 533, 566, 600]
 
 var stand_timer = 0
 var smack_velocity
 var stand_pos = Vector2.ZERO
+
+var move_timer = 0
+var ai_target_pos = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,12 +29,13 @@ func _ready():
 	flip_offset = -13
 	init_healthbar()
 	hide_stand()
+	tether.visible = false
 	toggle_enhancement(false)
 	max_special_cooldown = 2
 	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
-	var level = int(GameManager.evolution_level) if state == true else 0
+	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
@@ -39,10 +44,14 @@ func toggle_enhancement(state):
 	max_attack_cooldown = smack_recharge
 	
 func misc_update(delta):
-#	if orb:
-#		var pull_vector = get_global_mouse_position() - orb.global_position
-#		orb.velocity += pull_vector.normalized()*250*delta
-		
+	move_timer -= delta
+	
+	if orb:
+		tether.visible = true
+		tether.set_point_position(1, orb.global_position - global_position)
+	else:
+		tether.visible = false
+
 	if stand.visible:
 		stand.global_position = stand_pos
 		
@@ -80,7 +89,29 @@ func player_action():
 #	else:
 #		var zoom = lerp(GameManager.camera.zoom.x, 1, 0.1)
 #		GameManager.camera.zoom = Vector2(zoom, zoom)
+
+func ai_move():
+	var to_player = GameManager.player.global_position - global_position
+	var player_dist = to_player.length()
+	var player_dir = to_player/player_dist
+	
+	if move_timer < 0:
+		move_timer = 2
+		ai_target_pos = global_position
 		
+		if orb:
+			if player_dist < 300:
+				ai_target_pos = global_position - 1000*player_dir.rotated((randf()-0.5)*60)
+				
+		elif player_dist > 200 and player_dist < 500:
+			ai_target_pos = GameManager.player.global_position
+			
+	elif move_timer < 1:
+		target_velocity = (ai_target_pos - global_position).normalized()*walk_speed
+	else:
+		target_velocity = Vector2.ZERO
+			
+
 func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position)
 	
@@ -94,7 +125,7 @@ func ai_action():
 				animplayer.play("Special")
 				
 			elif orb_dist > 50:
-				attack_cooldown = smack_recharge
+				attack_cooldown = smack_recharge*1.5
 				smack_orb(GameManager.player.global_position)
 				
 		elif aim_direction.length() < 400:
@@ -143,7 +174,7 @@ func area_attack():
 		GameManager.camera.set_trauma(0.5)
 	
 func detonate_orb():
-	GameManager.camera.offset = Vector2.ZERO
+	#GameManager.camera.offset = Vector2.ZERO
 	if orb:
 		GameManager.spawn_explosion(orb.global_position + Vector2(0, 10), self, 1.5, 30, 500)
 		orb.queue_free()

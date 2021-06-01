@@ -8,10 +8,10 @@ var shot_speed
 var num_pellets
 var reload_time
 
-var walk_speed_level = [110, 120, 130, 140, 150]
-var shot_speed_level = [175, 250, 325, 400, 475]
-var num_pellets_level = [6, 6, 7, 8, 9, 10]
-var reload_time_level = [2, 1.2, 1, 0.8, 0.7]
+var walk_speed_level = [110, 120, 130, 140, 150, 160, 170]
+var shot_speed_level = [175, 250, 325, 400, 475, 550, 600]
+var num_pellets_level = [6, 6, 7, 8, 9, 10, 12, 14]
+var reload_time_level = [1.33, 1.2, 1.1, 1, 0.95, 0.9, 0.85]
 var shot_spread = 15
 
 var max_range = 250
@@ -33,7 +33,7 @@ func _ready():
 	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
-	var level = int(GameManager.evolution_level) if state == true else 0
+	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	max_speed = walk_speed_level[level]
 	shot_speed = shot_speed_level[level]
@@ -76,11 +76,11 @@ func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position).normalized()
 	if ai_can_shoot and attack_cooldown < 0:
 		shoot()
-		attack_cooldown = 2
+		attack_cooldown = reload_time*1.5
 		
 func shoot():
 	attacking = true
-	attack_cooldown = 1.2
+	attack_cooldown = reload_time
 	animplayer.play("Shoot")
 	show_muzzle_flash()
 	
