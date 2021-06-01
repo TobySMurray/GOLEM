@@ -72,7 +72,7 @@ var force_swap = false
 func _ready():
 	self.connect("draw_transcender", transcender, "draw_transcender")
 	self.connect("clear_transcender", transcender, "clear_transcender")
-	GameManager.audio = get_node("/root/MainLevel/AudioStreamPlayer")
+	GameManager.audio = get_node("/root/Level/AudioStreamPlayer")
 	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 	update_swap_shield()
 

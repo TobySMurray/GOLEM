@@ -10,7 +10,7 @@ var flash_timer = 0
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	get_viewport().warp_mouse(Vector2(120, 80))
+	get_viewport().warp_mouse(get_global_mouse_position())
 	
 	
 func _process(delta):

@@ -34,7 +34,7 @@ var total_score = 0
 var score_display
 var ground
 var obstacles
-var marble
+var wall
 var audio
 var player_bullets = []
 
@@ -138,7 +138,6 @@ func spawn_enemy():
 
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
 	get_node("/root/MainLevel/WorldObjects/Characters").add_child(new_enemy)
-
 			
 
 func reset():
@@ -181,11 +180,11 @@ func random_map_point(off_screen_required = false):
 		
 	
 func is_point_in_bounds(global_point):
-	var ground_point = ground.world_to_map(global_point)
-	var marble_point = marble.world_to_map(global_point)
+	var ground_points = ground.world_to_map(global_point)
+	var marble_point = wall.world_to_map(global_point)
 	var obstacles_point = obstacles.world_to_map(global_point)
 	
-	return ground_point in ground.get_used_cells() and not marble_point in marble.get_used_cells() and not obstacles_point in obstacles.get_used_cells()
+	return ground_points in ground.get_used_cells() and not marble_point in wall.get_used_cells() and not obstacles_point in obstacles.get_used_cells()
 	
 func is_point_offscreen(point, margin = 0):
 	var bounds = camera_bounds()
