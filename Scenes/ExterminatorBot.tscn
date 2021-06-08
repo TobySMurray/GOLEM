@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/ExterminatorBot.gd" type="Script" id=2]
@@ -17,10 +17,11 @@
 [ext_resource path="res://Sounds/SoundEffects/step2.wav" type="AudioStream" id=15]
 [ext_resource path="res://Art/QuarterCircle.png" type="Texture" id=16]
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=18]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.67502
-height = 3.33954
+height = 9.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "Appear"
@@ -494,13 +495,14 @@ script = ExtResource( 2 )
 wait_time = 0.25
 
 [node name="Sprite" type="Sprite" parent="."]
+light_mask = 5
 position = Vector2( -12, -30 )
 texture = ExtResource( 3 )
 vframes = 18
 frame = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.210236, 16.6077 )
+position = Vector2( -0.21, 10 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -513,9 +515,10 @@ anims/Vanish = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 38
+frame = 2
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
+light_mask = 5
 frames = SubResource( 23 )
 animation = "Vanish"
 frame = 14
@@ -532,6 +535,7 @@ shape = SubResource( 24 )
 
 [node name="DeflectorVisual" type="Sprite" parent="Deflector"]
 show_behind_parent = true
+light_mask = 2
 material = SubResource( 26 )
 position = Vector2( 0, 5 )
 texture = ExtResource( 16 )
@@ -555,7 +559,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 36
+frame = 13
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 14 )
@@ -563,6 +567,9 @@ volume_db = -10.0
 max_distance = 500.0
 
 [node name="EVParticles" parent="." instance=ExtResource( 17 )]
+
+[node name="CharacterLights" parent="." instance=ExtResource( 18 )]
+visible = false
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]

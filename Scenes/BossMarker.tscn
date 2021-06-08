@@ -3,6 +3,7 @@
 [ext_resource path="res://Art/boss_icon.png" type="Texture" id=1]
 
 [node name="BossMarker" type="Sprite"]
+light_mask = 2
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 64, 0, 32, 32 )

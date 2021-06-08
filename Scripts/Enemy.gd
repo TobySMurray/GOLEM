@@ -18,6 +18,8 @@ onready var stopped_audio = $BloodMoon/Stopped
 onready var speed_audio = $BloodMoon/Speed
 onready var timer = $Timer
 onready var shape = $CollisionShape2D
+onready var light_circle = $CharacterLights/Radial
+onready var light_beam = $CharacterLights/Directed
 
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
@@ -30,6 +32,8 @@ var mass = 1
 var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
 var accel = 10
+var light_color = Color.white
+
 var facing_left = false
 var attacking = false
 var about_to_swap = false
@@ -93,8 +97,10 @@ func _physics_process(delta):
 			if not dead:
 				player_move(delta)
 				
+				
 				if not lock_aim:
 					aim_direction = (get_global_mouse_position() - global_position).normalized()
+					light_beam.rotation = aim_direction.angle() - PI/2
 				
 			if about_to_swap:
 				choose_swap_target()
@@ -318,6 +324,8 @@ func toggle_playerhood(state):
 	toggle_enhancement(state)
 		
 func toggle_enhancement(state):
+	toggle_light(state)
+	
 	if state == true:
 		animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
 	else:
@@ -334,6 +342,24 @@ func toggle_enhancement(state):
 		#EV_particles.color_ramp.set_color(1, c2)
 	else:
 		EV_particles.emitting = false
+		
+func toggle_light(is_player):
+	if GameManager.level['dark']:
+		light_circle.get_parent().visible = true
+		if is_player:
+			light_circle.texture_scale = 10
+			light_circle.energy = 0.8
+			light_circle.color = Color.white
+			
+			light_beam.texture_scale = 0.7
+			light_beam.energy = 1
+			light_beam.color = Color.white
+		else:
+			light_circle.get_parent().visible = false
+			#light.texture_scale = 3
+			#light.energy = 0.6
+	else:
+		light_circle.get_parent().visible = false
 
 func on_boss_capture():
 	invincible = false

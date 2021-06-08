@@ -15,6 +15,7 @@ __meta__ = {
 }
 
 [node name="Score" type="Label" parent="."]
+light_mask = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -50.0
@@ -31,6 +32,7 @@ __meta__ = {
 
 [node name="Message" type="Label" parent="."]
 modulate = Color( 0.733333, 0.733333, 0.733333, 1 )
+light_mask = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -75.0

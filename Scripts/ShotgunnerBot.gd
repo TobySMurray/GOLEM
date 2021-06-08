@@ -51,10 +51,15 @@ func player_action():
 		
 func ai_move():
 	var to_player = GameManager.player.global_position - shape.global_position
-	if to_player.length() > max_range:
+	var player_dist = to_player.length()
+	
+	if player_dist > 350:
+		target_velocity = Vector2.ZERO
+		
+	if to_player.length() > 300:
 		ai_can_shoot = false
 		ai_move_timer = -1
-		target_velocity = astar.get_astar_target_velocity(shape.global_position, GameManager.player.shape.global_position)
+		target_velocity = to_player  #astar.get_astar_target_velocity(shape.global_position, GameManager.player.shape.global_position)
 	else:
 		ai_can_shoot = true
 		

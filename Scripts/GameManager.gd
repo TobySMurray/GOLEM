@@ -18,7 +18,23 @@ var enemy_weights = [1, 1, 0.3, 1, 0.66, 0.3, 0.2]
 onready var SFX = AudioStreamPlayer.new()
 onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 
+const levels = [
+	{
+		'map_bounds': Rect2(-500, -250, 2500, 1150),
+		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2],
+		'enemy_density': 7,
+		'dark': false
+	},
+	{
+		'map_bounds': Rect2(-315, -260, 2140, 1510),
+		'enemy_weights': [1, 10, 0.3, 1, 0.66, 0.3, 0.2],
+		'enemy_density': 10,
+		'dark': true
+	}
+]
 
+var level_name = "Level1"
+var level = levels[0]
 
 
 var timescale = 1
@@ -43,7 +59,7 @@ var out_of_control = false
 onready var game_time = 0
 var spawn_timer = 0
 var enemy_soft_cap
-var enemy_count = 7
+var enemy_count = 1
 var enemy_hard_cap = 15
 var cur_boss = null
 
@@ -58,12 +74,12 @@ func _process(delta):
 		game_time += delta
 		spawn_timer -= delta
 		timescale = lerp(timescale, target_timescale, delta*12)
-		audio.pitch_scale = timescale
+		#audio.pitch_scale = timescale
 		Engine.time_scale =  timescale
 		
 		if spawn_timer < 0:
 			spawn_timer = 1
-			enemy_soft_cap = 7 + game_time/15 #pow(1.3, game_time/60)
+			enemy_soft_cap = (1 + game_time*0.01)*level['enemy_density'] #pow(1.3, game_time/60)
 			
 			if randf() < (1 - enemy_count/enemy_soft_cap):
 				print("SPAWN (" + str(enemy_count + 1) +")")
@@ -120,7 +136,7 @@ func spawn_enemy():
 	if not spawn_point: return
 	
 	enemy_count += 1
-	var new_enemy = choose_weighted(enemies, enemy_weights).instance().duplicate()
+	var new_enemy = choose_weighted(enemies, level['enemy_weights']).instance().duplicate()
 	new_enemy.add_to_group("enemy")
 	
 	if not cur_boss and total_score > evolution_thresholds[evolution_level] and not new_enemy.get_script() == enemies[2].get_script():
@@ -129,7 +145,7 @@ func spawn_enemy():
 		new_enemy.enemy_evolution_level = evolution_level+1
 		new_enemy.add_swap_shield(new_enemy.health*(evolution_level*0.5 + 1.5))
 		new_enemy.scale = Vector2(1.25, 1.25)
-		get_node("/root/MainLevel/Camera2D").add_child(boss_marker)
+		get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
 		
 	else:
 		var d = game_time/30
@@ -137,7 +153,8 @@ func spawn_enemy():
 			new_enemy.add_swap_shield(randf()*d*5)
 
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
-	get_node("/root/MainLevel/WorldObjects/Characters").add_child(new_enemy)
+	print("LN " + level_name)
+	get_node("/root/"+ level_name +"/WorldObjects/Characters").add_child(new_enemy)
 			
 
 func reset():
@@ -146,9 +163,14 @@ func reset():
 	timescale = 1
 	game_time = 0
 	spawn_timer = 0
-	enemy_count = 7
+	enemy_count = 1
 	player = null
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
+	
+func load_level_props(lv_name):
+	level_name = lv_name
+	if lv_name != "MainMenu":
+		level = levels[int(lv_name[-1])-1]
 
 func kill():
 	swappable = false
@@ -172,9 +194,10 @@ func increase_score(value):
 	
 func random_map_point(off_screen_required = false):
 	var i = 0
+	var bounds = level['map_bounds']
 	while(i < 1000):
 		i += 1
-		var point = Vector2(-500 + randf()*2500, -250 + randf()*1150)
+		var point = Vector2(bounds.position.x + randf()*bounds.size.x, bounds.position.y + randf()*bounds.size.y)
 		if is_point_in_bounds(point) and (not off_screen_required or is_point_offscreen(point, 20)):
 			return point
 		

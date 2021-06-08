@@ -539,7 +539,7 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "start_game"
+"method": "start_level"
 } ]
 }
 
@@ -559,7 +559,7 @@ texture = ExtResource( 4 )
 position = Vector2( 311.216, 106.502 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 61 )
-frame = 31
+frame = 43
 speed_scale = 4.0
 playing = true
 
@@ -593,6 +593,9 @@ __meta__ = {
 modulate = Color( 1, 1, 1, 0 )
 margin_right = 58.0
 margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Controls" type="Label" parent="."]
 margin_left = 269.623
@@ -656,6 +659,96 @@ margin_bottom = 20.0
 stream = ExtResource( 1 )
 volume_db = -10.0
 autoplay = true
+
+[node name="LevelSelectPopup" type="Popup" parent="."]
+visible = true
+margin_right = 639.0
+margin_bottom = 359.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="LevelSelectPopup"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 139.806
+margin_top = 8.51016
+margin_right = 508.806
+margin_bottom = 331.51
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Titles" type="Label" parent="LevelSelectPopup"]
+margin_left = 210.355
+margin_top = 46.0266
+margin_right = 320.355
+margin_bottom = 171.027
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 3 )
+text = "Select level"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level1" type="Label" parent="LevelSelectPopup"]
+margin_left = 200.0
+margin_top = 100.0
+margin_right = 442.0
+margin_bottom = 122.0
+custom_fonts/font = ExtResource( 2 )
+text = "Ruins"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level1Button" type="Button" parent="LevelSelectPopup/Level1"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 204.278
+margin_bottom = 21.585
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level2" type="Label" parent="LevelSelectPopup"]
+margin_left = 200.0
+margin_top = 150.0
+margin_right = 442.0
+margin_bottom = 172.0
+custom_fonts/font = ExtResource( 2 )
+text = "Labyrinth"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level2Button" type="Button" parent="LevelSelectPopup/Level2"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 168.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="LevelSelectPopup"]
+margin_left = 238.523
+margin_top = 321.585
+margin_right = 402.523
+margin_bottom = 337.585
+custom_fonts/font = ExtResource( 2 )
+text = "Return to Menu"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReturnButton" type="Button" parent="LevelSelectPopup/Label"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -2.24493
+margin_right = 165.755
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CreditsPopup" type="Popup" parent="."]
 margin_right = 639.0
@@ -786,7 +879,7 @@ __meta__ = {
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
 position = Vector2( 194.835, 198.044 )
 frames = SubResource( 61 )
-frame = 38
+frame = 50
 speed_scale = 4.0
 playing = true
 
@@ -875,6 +968,9 @@ __meta__ = {
 [connection signal="pressed" from="Controls/ControlsButton" to="." method="_on_ControlsButton_pressed"]
 [connection signal="pressed" from="Quit/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="Credits/CreditsButton" to="." method="_on_CreditsButton_pressed"]
+[connection signal="pressed" from="LevelSelectPopup/Level1/Level1Button" to="." method="begin_level_intro" binds= [ 1 ]]
+[connection signal="pressed" from="LevelSelectPopup/Level2/Level2Button" to="." method="begin_level_intro" binds= [ 2 ]]
+[connection signal="pressed" from="LevelSelectPopup/Label/ReturnButton" to="." method="_on_ReturnButton_pressed"]
 [connection signal="pressed" from="CreditsPopup/Label/ReturnButton" to="." method="_on_ReturnButton_pressed"]
 [connection signal="pressed" from="ControlsPopup/Label/ControlsReturnButton" to="." method="_on_ControlsReturnButton_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

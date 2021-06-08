@@ -7,6 +7,7 @@
 
 [node name="Cursor" type="Node2D"]
 pause_mode = 2
+light_mask = 2
 scale = Vector2( 2, 2 )
 script = ExtResource( 1 )
 
@@ -25,6 +26,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
+light_mask = 2
 position = Vector2( 0.476563, 0.515625 )
 texture = ExtResource( 2 )
 

@@ -82,9 +82,9 @@ func ai_move():
 	
 		match ai_state:
 			'approach':
-				if to_player.length() > 200:
+				if to_player.length() > 300:
 					if ai_move_timer < 0:
-						target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, player_pos)
+						#target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, player_pos)
 						ai_move_timer = 0.5
 				else:
 					ai_move_timer = 2

@@ -65,13 +65,13 @@ tracks/1/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="Level" type="Node2D"]
+[node name="Level1" type="Node2D"]
 script = ExtResource( 35 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="BackgroundModulate" type="CanvasModulate" parent="ParallaxBackground"]
-color = Color( 0.7, 0.7, 0.7, 1 )
+color = Color( 0, 0, 0, 1 )
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
 modulate = Color( 0.541176, 0.411765, 0.411765, 1 )
@@ -147,7 +147,7 @@ script = ExtResource( 26 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource( 5 )
-init_anchor = NodePath("../WorldObjects/Characters/Merchant")
+init_anchor = NodePath("../../Level1/WorldObjects/Characters/Merchant")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
 
@@ -362,4 +362,3 @@ volume_db = -15.0
 anims/FadeIn = SubResource( 1 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.7, 0.7, 0.7, 1 )

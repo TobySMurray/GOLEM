@@ -3,6 +3,7 @@ extends "res://Scripts/Enemy.gd"
 onready var dash_fx = $DashFX
 onready var audio = $AudioStreamPlayer2D
 onready var dash_audio = $Dash
+onready var movement_raycast = $RayCast2D
 
 var walk_speed
 var burst_size
@@ -21,6 +22,7 @@ var dashing = false
 
 var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
+var can_shoot = false
 
 var path = []
 
@@ -47,7 +49,8 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_levels[level]
 	burst_size = burst_size_levels[level]
 	reload_time = 1 if state else 1.6
-		
+	
+	movement_raycast.enabled = !state
 
 func misc_update(delta):
 	ai_retarget_timer -= delta
@@ -75,34 +78,42 @@ func player_action():
 		dash()
 		
 func ai_move():
-	if (GameManager.player.global_position - global_position).length() > 400:
-		if (ai_target_point - global_position).length_squared() < 10 or ai_retarget_timer < 0:
-			
+	var player_dist = (GameManager.player.global_position - global_position).length()
+	can_shoot = player_dist < 300
+	
+	if player_dist < 400:
+		if (ai_target_point - global_position).length_squared() < 225 or movement_raycast.is_colliding() or ai_retarget_timer < 0:
 			ai_retarget_timer = 3
 			var from_player = global_position - GameManager.player.global_position 
 			var retarget_angle
 			if randf() < 0.25:
 				retarget_angle = from_player.angle() - PI + (randf()-0.5)*PI
 			else:
-				retarget_angle = from_player.angle() + (randf()-0.5)*PI/2
+				retarget_angle = from_player.angle() + randf()*PI/2*sign(from_player.cross(velocity))
+				
+			ai_target_point = GameManager.player.global_position + 150*Vector2(cos(retarget_angle), sin(retarget_angle))
+			
+			#var col = get_world_2d().direct_space_state.intersect_ray(global_position + foot_offset, ai_target_point + foot_offset, [self], collision_mask)
+			#if col and (col['position'] - global_position).length_squared() < 400:
+			#	ai_retarget_timer = -1
+				
+		target_velocity = ai_target_point - global_position
+		movement_raycast.cast_to = target_velocity.normalized()*20
+				
+	else:
+		target_velocity = Vector2.ZERO
+		#target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, GameManager.player.global_position)
 
 
-			ai_target_point = 150*Vector2(cos(retarget_angle), sin(retarget_angle))
-			target_velocity = ai_target_point - global_position
-	elif ai_retarget_timer < 0:
-		ai_retarget_timer = 1
-		target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, GameManager.player.global_position)
-
-		
-	
-	
 func ai_action():
-	aim_direction = (GameManager.player.global_position - global_position).normalized()
-	if attack_cooldown < 0:
+	if not lock_aim:
+		aim_direction = (GameManager.player.global_position - global_position).normalized()
+		
+	if attack_cooldown < 0 and can_shoot:
 		start_burst()
 	
 func start_burst():
-	lock_aim = is_in_group("enemy")
+	#lock_aim = is_in_group("enemy")
 	attack_cooldown = reload_time
 	burst_count = burst_size
 	shoot()
@@ -151,7 +162,7 @@ func set_dash_fx_position():
 	dash_fx.global_position = dash_start_point
 
 func take_damage(damage, source):
-	if is_in_group('enemy') and special_cooldown < 0 and damage < health:
+	if is_in_group('enemy') and special_cooldown < 0 and damage < health and randf() < 0.5:
 		special_cooldown = 6
 		aim_direction = velocity
 		dash()

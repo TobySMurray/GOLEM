@@ -100,7 +100,9 @@ func ai_move():
 	var target_dist = (target_position - global_position).length()
 	
 	if target_dist > 300:
-		if ai_retarget_timer < 0:
+		
+		target_position = global_position
+		if ai_retarget_timer < 0 and false:
 			ai_retarget_timer = 1
 			var path = astar.find_path(global_position + foot_offset, target_position)
 

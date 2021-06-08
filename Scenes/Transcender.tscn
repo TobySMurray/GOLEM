@@ -3,4 +3,5 @@
 [ext_resource path="res://Scripts/Transcender.gd" type="Script" id=1]
 
 [node name="Transcender" type="Node2D"]
+light_mask = 2
 script = ExtResource( 1 )

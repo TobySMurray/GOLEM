@@ -4,6 +4,7 @@ onready var animplayer= $AnimationPlayer
 onready var canvas = $CanvasModulate
 
 func _ready():
-	animplayer.play("FadeIn")
+	#animplayer.play("FadeIn")
+	GameManager.load_level_props(name)
 	
 
