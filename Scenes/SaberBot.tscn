@@ -58,7 +58,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 20 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -96,8 +96,22 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "actually_die"
+} ]
+}
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -136,7 +150,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -176,7 +190,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "Idle Saberless"
 length = 0.6
 loop = true
@@ -217,7 +231,7 @@ tracks/2/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=6]
 resource_name = "Sheath"
 length = 0.55
 step = 0.05
@@ -325,8 +339,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Unsheath"
+[sub_resource type="Animation" id=8]
 length = 0.55
 step = 0.05
 tracks/0/type = "value"
@@ -380,7 +393,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -420,8 +433,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "Walk Saberless"
+[sub_resource type="Animation" id=10]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -461,10 +473,10 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="CircleShape2D" id=10]
+[sub_resource type="CircleShape2D" id=11]
 radius = 7.29989
 
-[sub_resource type="CapsuleShape2D" id=11]
+[sub_resource type="CapsuleShape2D" id=12]
 radius = 4.37527
 height = 16.3953
 
@@ -479,34 +491,34 @@ collision_layer = 0
 script = ExtResource( 13 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-visible = false
 position = Vector2( -0.34697, -0.158186 )
-frame = 37
+frame = 22
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
-frame = 33
+frame = 35
 
 [node name="Sprite" type="Sprite" parent="."]
+light_mask = 5
 position = Vector2( 8, -19.057 )
 texture = ExtResource( 2 )
 vframes = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
-anims/Die = SubResource( 3 )
-anims/Hit = SubResource( 4 )
-anims/Idle = SubResource( 5 )
-"anims/Idle Saberless" = SubResource( 6 )
-anims/Sheath = SubResource( 12 )
+anims/Die = SubResource( 2 )
+anims/Hit = SubResource( 3 )
+anims/Idle = SubResource( 4 )
+"anims/Idle Saberless" = SubResource( 5 )
+anims/Sheath = SubResource( 6 )
 anims/Special = SubResource( 7 )
-anims/Unsheath = SubResource( 2 )
-anims/Walk = SubResource( 8 )
-"anims/Walk Saberless" = SubResource( 9 )
+anims/Unsheath = SubResource( 8 )
+anims/Walk = SubResource( 9 )
+"anims/Walk Saberless" = SubResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( 0, 5 )
-shape = SubResource( 10 )
+shape = SubResource( 11 )
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -516,7 +528,7 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2( -0.472473, -0.629959 )
-shape = SubResource( 11 )
+shape = SubResource( 12 )
 
 [node name="SlashTrigger" type="Area2D" parent="."]
 collision_layer = 0
@@ -535,6 +547,8 @@ texture = ExtResource( 12 )
 position = Vector2( 10, 0 )
 shape = SubResource( 14 )
 disabled = true
+
+[node name="LineOfSightRaycast" type="RayCast2D" parent="."]
 
 [node name="CharacterLights" parent="." instance=ExtResource( 16 )]
 visible = false

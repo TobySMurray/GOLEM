@@ -251,8 +251,7 @@ func take_damage(damage, source):
 		return
 	
 	if !is_in_group("enemy"):
-		invincible = true
-		invincibility_timer = 0.05
+		set_invincibility_time(0.05)
 		GameManager.camera.set_trauma(0.6)
 	
 	if swap_shield_health > 0:
@@ -267,6 +266,10 @@ func take_damage(damage, source):
 	sprite.modulate = Color.red
 	if health <= 0:
 		die(source)
+		
+func set_invincibility_time(time):
+	invincible = true
+	invincibility_timer = time
 
 func init_healthbar():
 	if is_boss:
@@ -307,13 +310,16 @@ func toggle_playerhood(state):
 		GameManager.camera.anchor = self
 		GameManager.camera.offset = Vector2.ZERO
 		GameManager.camera.lerp_zoom(1)
+		GameManager.swap_history.append(name.lstrip('@').substr(0, 3))
+		GameManager.update_variety_bonus()
 		attack_cooldown = -1
 		special_cooldown = -1
 		time_since_controlled = 0
 		
 		if is_boss and enemy_evolution_level > GameManager.evolution_level:
+			GameManager.evolution_level = enemy_evolution_level #Does not update UI
 			capturing_boss = true
-			invincible = true
+			set_invincibility_time(1.25)
 			boss_capture_timer = 1.25
 			target_velocity = Vector2.ZERO
 			GameManager.lerp_to_timescale(0.1)
@@ -432,7 +438,7 @@ func die(killer = null):
 	if dead: return
 	
 	dead = true
-	invincible = true
+	set_invincibility_time(999)
 	attacking = true
 	target_velocity = Vector2.ZERO
 	GameManager.enemy_count -= 1
@@ -444,26 +450,26 @@ func die(killer = null):
 	
 	if is_in_group("enemy"):
 		if killer:
+			var effective_score = int(score*GameManager.variety_bonus*(1.5 if GameManager.swap_bar.swap_threshold == 0 else 1.0))
+			
 			if killer == GameManager.player:
-				GameManager.increase_score(score)
-				emit_score_popup(score, "")
+				GameManager.increase_score(effective_score)
+				emit_score_popup(effective_score, "")
 				
 			elif time_since_controlled < 2:
-				GameManager.increase_score(score*2)
-				emit_score_popup(score*2, "CLOSE CALL")
+				GameManager.increase_score(effective_score*2)
+				emit_score_popup(effective_score*2, "CLOSE CALL")
 				
 			elif killer.time_since_controlled < 2:
-				GameManager.increase_score(score*3)
-				emit_score_popup(score*3, "TRICKSHOT")
+				GameManager.increase_score(effective_score*2)
+				emit_score_popup(effective_score*2, "TRICKSHOT")
 	else:
 		GameManager.camera.set_trauma(1, 4)
 		GameManager.lerp_to_timescale(0.1)
 		GameManager.swap_bar.swap_threshold_penalty = 2
 		if not GameManager.swappable:
 			actually_die()
-		
-	
-		
+
 
 func actually_die():
 	if is_in_group("enemy"):

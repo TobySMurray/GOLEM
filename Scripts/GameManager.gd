@@ -27,7 +27,7 @@ const levels = [
 	},
 	{
 		'map_bounds': Rect2(-315, -260, 2140, 1510),
-		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0.3],
+		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0.5],
 		'enemy_density': 10,
 		'dark': true
 	}
@@ -54,6 +54,9 @@ var wall
 var audio
 var player_bullets = []
 
+var variety_bonus = 1.0
+var swap_history = []
+
 var out_of_control = false
 
 onready var game_time = 0
@@ -64,7 +67,7 @@ var enemy_hard_cap = 15
 var cur_boss = null
 
 var evolution_thresholds = [0, 300, 1000, 2000, 3500, 5000, 999999]
-var evolution_level = 6
+var evolution_level = 1
 
 func _ready():
 	add_child(SFX)
@@ -181,13 +184,18 @@ func set_evolution_level(lv):
 	score_display.get_node("EVL").text = str(int(evolution_level))
 	score_display.get_node("EVL").modulate = [Color.green, Color.yellow, Color.orange, Color.red, Color(1, 0, 0.5), Color(1, 0.2, 0.6)][int(evolution_level-1)]
 	score_display.get_node("EVL").set_trauma(evolution_level-1)
-
+	
+func update_variety_bonus():
+	variety_bonus = 0.9
+	var cur_name = swap_history[-1]
+	for i in range(2, min(len(swap_history), 8)):
+		if swap_history[-i] == cur_name:
+			break
+		variety_bonus += 0.1
+		
 func increase_score(value):
-	if swap_bar.swap_threshold == 0:
-		value *= 1.5
-	else:
-		var swap_thresh_reduction = value/25/(1 + game_time/250)
-		swap_bar.set_swap_threshold(swap_bar.swap_threshold - swap_thresh_reduction)
+	var swap_thresh_reduction = value/25/(1 + game_time/200)
+	swap_bar.set_swap_threshold(swap_bar.swap_threshold - swap_thresh_reduction)
 		
 	total_score += value
 	score_display.get_node("Score").score = total_score

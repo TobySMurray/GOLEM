@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/Sky.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
@@ -19,11 +19,7 @@
 [ext_resource path="res://Scenes/WorldObjects/Awning.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/WorldObjects/BrokenDweling.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Transcender.tscn" type="PackedScene" id=19]
-[ext_resource path="res://Scenes/WheelBot.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/SwapBar.tscn" type="PackedScene" id=21]
-[ext_resource path="res://Scenes/ExterminatorBot.tscn" type="PackedScene" id=22]
-[ext_resource path="res://Scenes/FlamethrowerBot.tscn" type="PackedScene" id=23]
-[ext_resource path="res://Scenes/ChainBot.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
 [ext_resource path="res://Scenes/Tilesets/Ground.gd" type="Script" id=27]
@@ -36,7 +32,6 @@
 [ext_resource path="res://Scenes/PauseScreen.tscn" type="PackedScene" id=34]
 [ext_resource path="res://Scripts/MainLevel.gd" type="Script" id=35]
 [ext_resource path="res://Scripts/Wall.gd" type="Script" id=36]
-[ext_resource path="res://Scenes/SorcererBot.tscn" type="PackedScene" id=38]
 
 [sub_resource type="Animation" id=1]
 resource_name = "FadeIn"
@@ -181,45 +176,15 @@ tile_data = PoolIntArray( -524295, 0, 3, -524294, 0, 5, -458761, 0, 10, -458760,
 
 [node name="Transcender" parent="WorldObjects/Characters" instance=ExtResource( 19 )]
 
-[node name="SorcererBot" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 38 )]
-position = Vector2( 728.478, 205.411 )
-
-[node name="ChainBot" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 24 )]
-position = Vector2( 287.658, 104.785 )
-
-[node name="WheelBot" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 20 )]
-position = Vector2( 139.295, 11.1118 )
+[node name="AStar" parent="WorldObjects/Characters" instance=ExtResource( 28 )]
 
 [node name="ShotgunnerBot" parent="WorldObjects/Characters" groups=[
 "enemy",
 ] instance=ExtResource( 2 )]
 position = Vector2( 336, 656 )
 
-[node name="AStar" parent="WorldObjects/Characters" instance=ExtResource( 28 )]
-
 [node name="Merchant" parent="WorldObjects/Characters" instance=ExtResource( 31 )]
 position = Vector2( 86, 578 )
-
-[node name="ShotgunnerBot2" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 2 )]
-position = Vector2( 1528, 296 )
-
-[node name="ExterminatorBot" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 22 )]
-position = Vector2( 848, 496 )
-
-[node name="FlamethrowerBot" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 23 )]
-position = Vector2( -136, 320 )
 
 [node name="Marble Orb" parent="WorldObjects" instance=ExtResource( 14 )]
 position = Vector2( -265.342, 580.376 )
