@@ -33,6 +33,7 @@ var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
 var accel = 10
 var light_color = Color.white
+var base_color = Color.white
 
 var facing_left = false
 var attacking = false
@@ -68,6 +69,9 @@ var boss_capture_timer = 0
 
 signal draw_transcender
 signal clear_transcender
+
+var idle_anim = "Idle"
+var walk_anim = "Walk"
 
 var dead = false
 var force_swap = false
@@ -190,11 +194,11 @@ func animate():
 		sprite.offset.x = flip_offset
 
 	if abs(velocity.x) < 20 and abs(velocity.y) < 20 and !attacking:
-		animplayer.play("Idle")
+		animplayer.play(idle_anim)
 	elif !attacking:
-		animplayer.play("Walk")
+		animplayer.play(walk_anim)
 		
-	sprite.modulate = lerp(sprite.modulate, Color.white, 0.2)
+	sprite.modulate = lerp(sprite.modulate, base_color, 0.2)
 		
 		
 func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):

@@ -10,10 +10,10 @@ onready var chain_bot = load("res://Scenes/ChainBot.tscn")
 onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
 onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
 onready var sorcerer_bot = load("res://Scenes/SorcererBot.tscn")
+onready var saber_bot = load("res://Scenes/SaberBot.tscn")
 onready var viewport = get_viewport()
 
-onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot, sorcerer_bot]
-var enemy_weights = [1, 1, 0.3, 1, 0.66, 0.3, 0.2]
+onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot, sorcerer_bot, saber_bot]
 
 onready var SFX = AudioStreamPlayer.new()
 onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
@@ -21,13 +21,13 @@ onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 const levels = [
 	{
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
-		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2],
+		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
 		'enemy_density': 7,
 		'dark': false
 	},
 	{
 		'map_bounds': Rect2(-315, -260, 2140, 1510),
-		'enemy_weights': [1, 10, 0.3, 1, 0.66, 0.3, 0.2],
+		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0.3],
 		'enemy_density': 10,
 		'dark': true
 	}
@@ -64,7 +64,7 @@ var enemy_hard_cap = 15
 var cur_boss = null
 
 var evolution_thresholds = [0, 300, 1000, 2000, 3500, 5000, 999999]
-var evolution_level = 1
+var evolution_level = 6
 
 func _ready():
 	add_child(SFX)

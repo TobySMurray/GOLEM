@@ -24,6 +24,7 @@ var teleport_timer = 0
 
 var nearby_bullets = []
 var nearby_death_orbs = []
+var nearby_enemies = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -71,6 +72,16 @@ func misc_update(delta):
 				b.source = self
 				b.position += velocity*delta
 				b.lifetime = 3
+		
+		for e in nearby_enemies:
+			var angle = (e.global_position - global_position).angle() - shield_angle
+			if angle > PI:
+				angle -= 2*PI
+			elif angle < -PI:
+				angle += 2*PI
+				
+			if abs(angle) < PI/4:
+				e.velocity += Vector2(cos(shield_angle), sin(shield_angle))*1200*delta
 				
 		#for o in nearby_death_orbs:
 		#	o.velocity *= 0.9
@@ -196,7 +207,7 @@ func area_deflect(deflect_pow = deflect_power):
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.5, 5)
 		
-	melee_attack(deflector_shape, 20, 300, deflect_pow)
+	melee_attack(deflector_shape, 20, 3000, deflect_pow)
 
 
 
@@ -224,6 +235,8 @@ func _on_Deflector_area_entered(area):
 		area.lifetime = max(area.lifetime, 5)
 	elif area.is_in_group("death orb"):
 		nearby_death_orbs.append(area.get_parent())
+	elif area.is_in_group("hitbox") and area.get_parent() != self:
+		nearby_enemies.append(area.get_parent())
 		
 func _on_Deflector_area_exited(area):
 	if area.is_in_group("bullet"):
@@ -232,6 +245,8 @@ func _on_Deflector_area_exited(area):
 			area.despawn()
 	elif area.is_in_group("death orb"):
 		nearby_death_orbs.erase(area.get_parent())
+	elif area.is_in_group("hitbox"):
+		nearby_enemies.erase(area.get_parent())
 
 
 func _on_Timer_timeout():

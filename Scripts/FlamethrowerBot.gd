@@ -9,8 +9,8 @@ var fire_volume
 
 
 var walk_speed_levels = [100, 115, 130, 145, 160, 175, 190]
-var shot_speed_levels = [150, 175, 200, 225, 250, 280, 310]
-var shot_spread_levels = [15, 15, 20, 25, 30, 40, 50]
+var shot_speed_levels = [200, 175, 200, 225, 250, 280, 310]
+var shot_spread_levels = [25, 15, 20, 25, 30, 40, 50]
 var fire_volume_levels = [1, 1.2, 1.4, 1.8, 2.1, 2.4, 2.8]
 
 var fuel = 200

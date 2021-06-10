@@ -392,7 +392,7 @@ tracks/4/keys = {
 "values": [ -30.0 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=10]
+[sub_resource type="CapsuleShape2D" id=7]
 radius = 5.0
 height = 3.0
 
@@ -422,10 +422,10 @@ anims/Walk = SubResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6 )
-shape = SubResource( 10 )
+shape = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 24
+frame = 35
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_mask = 3
@@ -458,7 +458,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 2.19092, 10.5634 )
-frame = 52
+frame = 53
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

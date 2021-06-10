@@ -23,7 +23,9 @@ func _on_Area2D_area_entered(area):
 		if not entity.invincible and entity != source:
 			entity.take_damage(damage, source)
 			entity.velocity += velocity*mass/entity.mass
-			despawn()
+			
+			if not area.is_in_group("deflector"):
+				despawn()
 			
 func despawn():
 	GameManager.player_bullets.erase(self)
