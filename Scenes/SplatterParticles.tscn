@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Art/TinyTexture.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/SplatterParticles.gd" type="Script" id=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.274074, 1 )
+colors = PoolColorArray( 0.911913, 0, 1, 1, 0.725926, 0, 0.432579, 1, 0, 0, 0, 0.0156863 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+max_value = 1024.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.056962, 1024 ), 526.667, 0.0, 0, 0, Vector2( 0.164557, 53.9067 ), -55362.2, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+width = 64
+curve = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+min_value = -1024.0
+max_value = 200.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.101266, -990.618 ), -14555.2, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="Curve" id=7]
+max_value = 1.2
+_data = [ Vector2( 0, 0.890909 ), 0.0, 0.0, 0, 0, Vector2( 0.14557, 0.709091 ), 0.738701, 0.738701, 0, 0, Vector2( 1, 1.2 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+width = 64
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+lifetime_randomness = 0.33
+emission_shape = 1
+emission_sphere_radius = 5.0
+flag_disable_z = true
+spread = 10.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 800.0
+initial_velocity_random = 0.8
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel_curve = SubResource( 6 )
+damping_curve = SubResource( 4 )
+angle = 720.0
+angle_random = 1.0
+scale_curve = SubResource( 8 )
+color_ramp = SubResource( 2 )
+hue_variation = 0.05
+hue_variation_random = 1.0
+
+[node name="Particles2D" type="Particles2D"]
+light_mask = 2
+amount = 150
+lifetime = 2.0
+explosiveness = 1.0
+fract_delta = false
+local_coords = false
+process_material = SubResource( 9 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )

@@ -233,6 +233,8 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 			if not enemy.invincible and not enemy == self:
 				enemy.take_damage(damage, self)
 				enemy.velocity += (enemy.global_position - global_position).normalized() * force
+				GameManager.spawn_blood(enemy.global_position, (enemy.global_position - global_position).angle(), pow(force, 0.5)*30, damage*0.75)
+				
 			
 		elif col['collider'].is_in_group("bullet") and deflect_power > 0:
 			var bullet = col['collider']

@@ -492,16 +492,16 @@ script = ExtResource( 13 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.34697, -0.158186 )
-frame = 22
+frame = 4
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
-frame = 35
+frame = 41
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
 position = Vector2( 8, -19.057 )
-texture = ExtResource( 2 )
-vframes = 5
+texture = ExtResource( 6 )
+vframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )

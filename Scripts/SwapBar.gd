@@ -1,6 +1,6 @@
 extends TextureProgress
 
-var max_control_time = 20.0
+var max_control_time = 2000.0
 var init_swap_threshold = 1
 var bar_min_value = 86
 var bar_max_value = 925

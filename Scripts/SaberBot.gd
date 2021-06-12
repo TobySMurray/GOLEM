@@ -117,30 +117,33 @@ func player_action():
 func ai_move():
 	var to_player = GameManager.player.global_position - global_position
 	var player_dist = to_player.length()
-	var player_on_screen = abs(to_player.x) < 250 and abs(to_player.y) < 130 
+	var player_on_screen = abs(to_player.x) < 200 and abs(to_player.y) < 140
 	aim_direction = to_player
 	LOS_raycast.cast_to = to_player
 	
 	#action
 	if special_cooldown < 0:
-		if player_on_screen:
+		if player_on_screen and not LOS_raycast.is_colliding():
 			if not sabers_sheathed and not waiting_for_saber_recall:
+				kill_mode_buffered = true
 				recall_sabers()
+			elif not attacking and sabers_sheathed:
+				start_kill_mode()
 			
-		if not in_kill_mode and sabers_sheathed and player_dist < 200 and not LOS_raycast.is_colliding():
-			start_kill_mode()
+		if not sabers_sheathed and not waiting_for_saber_recall:	
+			orbit_sabers()
 			
 	elif not in_kill_mode:
 		if sabers_sheathed:
-			if attack_cooldown < 0 and not attacking:
+			if attack_cooldown < 0 and not attacking and not kill_mode_buffered:
 				start_unsheath()
 		else:
 			if LOS_raycast.is_colliding():
-				var angle = sin(GameManager.game_time)*PI*2
-				saber_ring.target_pos = global_position + Vector2(cos(angle), sin(angle))*20
+				orbit_sabers()
 			else:
 				var angle_offset = sin(GameManager.game_time*3)*PI/9
 				saber_ring.target_pos = global_position + to_player.normalized().rotated(angle_offset)*60
+				
 	#move
 	if in_kill_mode:
 		if GameManager.player.dead:
@@ -151,7 +154,7 @@ func ai_move():
 			target_velocity = to_point
 	
 	elif special_cooldown < 0:
-		if not LOS_raycast.is_colliding():
+		if not LOS_raycast.is_colliding() and not attacking:
 			target_velocity = to_player
 		else:
 			target_velocity = Vector2.ZERO
@@ -163,6 +166,10 @@ func ai_move():
 				ai_target_point = global_position - to_player.rotated((randf()-0.5)*PI)*(20 + 30*randf())
 			else:
 				ai_target_point = global_position
+				
+func orbit_sabers():
+	var angle = sin(GameManager.game_time)*PI*2
+	saber_ring.target_pos = global_position + Vector2(cos(angle), sin(angle))*20
 	
 
 func start_kill_mode():

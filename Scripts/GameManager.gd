@@ -2,6 +2,7 @@ extends Node
 
 onready var explosion = load("res://Scenes/Explosion.tscn")
 onready var boss_marker = load("res://Scenes/BossMarker.tscn").instance()
+onready var splatter_particles = load("res://Scenes/SplatterParticles.tscn")
 
 onready var shotgun_bot = load("res://Scenes/ShotgunnerBot.tscn")
 onready var wheel_bot = load("res://Scenes/WheelBot.tscn")
@@ -47,7 +48,7 @@ var player
 var camera
 var transcender
 var total_score = 0
-var score_display
+var game_HUD
 var ground
 var obstacles
 var wall
@@ -132,17 +133,29 @@ func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0)
 	new_explosion.delay_timer = delay
 	get_node("/root").add_child(new_explosion)
 	
+func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):
+	var spray = splatter_particles.instance().duplicate()
+	get_node("/root/"+ level_name + "/WorldObjects").add_child(spray)
+	spray.global_position = origin
+	spray.rotation = rot
+	spray.process_material.initial_velocity = speed
+	spray.amount = amount
+	spray.process_material.spread = spread
+	spray.emitting = true
+	
 func spawn_enemy():
 	if not player: return
 	
 	var spawn_point = random_map_point(true)
 	if not spawn_point: return
 	
+	var spawning_boss = not cur_boss and total_score > evolution_thresholds[evolution_level]
+	
 	enemy_count += 1
 	var new_enemy = choose_weighted(enemies, level['enemy_weights']).instance().duplicate()
 	new_enemy.add_to_group("enemy")
 	
-	if not cur_boss and total_score > evolution_thresholds[evolution_level] and not new_enemy.get_script() == enemies[2].get_script():
+	if spawning_boss:
 		cur_boss = new_enemy
 		new_enemy.is_boss = true
 		new_enemy.enemy_evolution_level = evolution_level+1
@@ -181,9 +194,9 @@ func kill():
 	
 func set_evolution_level(lv):
 	evolution_level = min(lv, 6) #min(evolution_level + value/(200+200.0*int(evolution_level)), 5) 
-	score_display.get_node("EVL").text = str(int(evolution_level))
-	score_display.get_node("EVL").modulate = [Color.green, Color.yellow, Color.orange, Color.red, Color(1, 0, 0.5), Color(1, 0.2, 0.6)][int(evolution_level-1)]
-	score_display.get_node("EVL").set_trauma(evolution_level-1)
+	game_HUD.get_node("EVLShake").get_node("EVL").digit = evolution_level
+	#score_display.get_node("EVLBackground").modulate = [Color.green, Color.yellow, Color.orange, Color.red, Color(1, 0, 0.5), Color(1, 0.2, 0.6)][int(evolution_level-1)]
+	game_HUD.get_node("EVLShake").set_trauma(evolution_level*2)
 	
 func update_variety_bonus():
 	variety_bonus = 0.9
@@ -193,12 +206,14 @@ func update_variety_bonus():
 			break
 		variety_bonus += 0.1
 		
+	
+		
 func increase_score(value):
 	var swap_thresh_reduction = value/25/(1 + game_time/200)
 	swap_bar.set_swap_threshold(swap_bar.swap_threshold - swap_thresh_reduction)
 		
 	total_score += value
-	score_display.get_node("Score").score = total_score
+	game_HUD.get_node("ScoreDisplay").get_node("Score").score = total_score
 	
 func random_map_point(off_screen_required = false):
 	var i = 0
