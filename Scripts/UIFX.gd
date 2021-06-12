@@ -1,4 +1,4 @@
-extends Label
+extends Control
 
 export var decay = 1  # How quickly the shaking stops [0, 1].
 export var max_dist = 5  # Maximum hor/ver shake in pixels.

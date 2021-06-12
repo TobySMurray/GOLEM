@@ -49,6 +49,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 light_mask = 2
 frames = SubResource( 7 )
+frame = 2
 playing = true
 
 [node name="Area2D" type="Area2D" parent="." groups=[

@@ -1,5 +1,8 @@
 extends Label
 
+onready var mult_display_1 = get_node("../Multiplier1")
+onready var mult_display_2 = get_node("../Multiplier2")
+
 export var decay = 1  # How quickly the shaking stops [0, 1].
 export var max_dist = 5  # Maximum hor/ver shake in pixels.
 export var max_roll = 0  # Maximum rotation in radians (use sparingly).
@@ -22,14 +25,19 @@ var base_pos
 var trauma = 0.0  # Current shake strength.
 
 var displayed_score = 0
-export var score = 0
+var score = 0
+
+var variety_mult = 1.0
+var overkill_mult = 1.0
+
 
 func _ready():
 	base_pos = rect_position
-	GameManager.score_display = get_parent()
+	GameManager.game_HUD = get_parent().get_parent()
 
 func _process(delta):
 	update_score_display(delta)
+	update_multipliers()
 	
 	if trauma > 0:
 		shake()
@@ -68,4 +76,23 @@ func update_score_display(delta):
 			rect_pivot_offset.x = 7*len(str(displayed_score))
 		else:
 			increment_timer -= delta
+			
+func update_multipliers():
+	if GameManager.swap_bar:
+		var variety_mult = GameManager.variety_bonus
+		var overkill_mult = 1.5 if GameManager.swap_bar.swap_threshold == 0 else 1.0
+		
+		mult_display_1.text = ""
+		mult_display_2.text = ""
+		
+		if variety_mult != 1.0:
+			mult_display_1.text = "x" + str(variety_mult) + " Variety" if variety_mult > 1.0 else " Repeat"
+		
+		if overkill_mult != 1.0:
+			if variety_mult != 1.0:
+				mult_display_2.text = "x1.5 Overkill"
+			else:
+				mult_display_1.text = "x1.5 Overkill"
+			
+		
 

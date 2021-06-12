@@ -27,8 +27,8 @@ void fragment(){
 
 [resource]
 shader = SubResource( 1 )
-shader_param/RESOLUTION = 0.2
-shader_param/FREQ = 0.002
-shader_param/ALPHA = 0.7
-shader_param/ALPHA_SHIFT = -0.336
-shader_param/color = Vector3( 1, 0.5, 0.5 )
+shader_param/RESOLUTION = 0.5
+shader_param/FREQ = 0.004
+shader_param/ALPHA = 1.0
+shader_param/ALPHA_SHIFT = 0.2
+shader_param/color = Vector3( 1, 1, 1 )

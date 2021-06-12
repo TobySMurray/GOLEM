@@ -425,7 +425,7 @@ position = Vector2( 0, 6 )
 shape = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 35
+frame = 16
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_mask = 3
@@ -458,7 +458,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 2.19092, 10.5634 )
-frame = 53
+frame = 22
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

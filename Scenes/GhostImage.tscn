@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GhostImage.gd" type="Script" id=1]
+
+[node name="GhostImage" type="Sprite"]
+show_behind_parent = true
+light_mask = 5
+script = ExtResource( 1 )

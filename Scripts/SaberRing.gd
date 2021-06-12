@@ -31,7 +31,7 @@ func _physics_process(delta):
 		
 		modulate = Color.white.linear_interpolate(Color(1, 0, 0.45), float(accel)/max_accel)
 		if accel < max_accel:
-			accel += 1
+			accel += 0.5
 			
 		var to_target = target_pos - global_position
 		var target_dist = to_target.length()
@@ -54,11 +54,14 @@ func _on_Area2D_area_entered(area):
 		if not entity.invincible and entity != source:
 			entity.take_damage(damage, source)
 			var kb_vel= (entity.global_position - global_position).normalized() * kb_speed
+			if area.is_in_group("death orb"):
+				kb_vel /= 3
+			
 			entity.velocity += kb_vel
 			velocity -= kb_vel
 			accel -= 5/mass
 	
-	elif area.is_in_group("bullet"):
+	elif area.is_in_group("bullet") and area.source != source:
 		area.velocity = area.velocity.length()*(area.global_position - global_position).normalized()
 		area.source = source
 		area.lifetime = 2
