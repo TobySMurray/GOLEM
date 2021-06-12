@@ -266,7 +266,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6, 2.5 ),
+"times": PoolRealArray( 0, 0.6, 1.6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
@@ -278,7 +278,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 2.5 ),
+"times": PoolRealArray( 1.6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -290,7 +290,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 2.5 ),
+"times": PoolRealArray( 1.6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -302,7 +302,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 2.5 ),
+"times": PoolRealArray( 1.6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -314,7 +314,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 2.5 ),
+"times": PoolRealArray( 1.6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -326,7 +326,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 2.5 ),
+"times": PoolRealArray( 1.6 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
@@ -559,7 +559,7 @@ texture = ExtResource( 4 )
 position = Vector2( 311.216, 106.502 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 61 )
-frame = 9
+frame = 37
 speed_scale = 4.0
 playing = true
 
@@ -661,7 +661,6 @@ volume_db = -10.0
 autoplay = true
 
 [node name="LevelSelectPopup" type="Popup" parent="."]
-visible = true
 margin_right = 639.0
 margin_bottom = 359.0
 __meta__ = {
@@ -879,7 +878,7 @@ __meta__ = {
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
 position = Vector2( 194.835, 198.044 )
 frames = SubResource( 61 )
-frame = 16
+frame = 44
 speed_scale = 4.0
 playing = true
 
@@ -964,6 +963,7 @@ text = "[Space to Skip]"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="Start/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="Controls/ControlsButton" to="." method="_on_ControlsButton_pressed"]
 [connection signal="pressed" from="Quit/QuitButton" to="." method="_on_QuitButton_pressed"]
