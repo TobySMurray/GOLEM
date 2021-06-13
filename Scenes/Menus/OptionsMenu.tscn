@@ -1,0 +1,217 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/OptionsMenu.gd" type="Script" id=1]
+[ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
+
+[node name="Options Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+anchor_right = 0.998
+anchor_bottom = 0.35
+margin_right = -425.72
+margin_bottom = -72.0
+rect_scale = Vector2( 3, 3 )
+custom_fonts/font = ExtResource( 2 )
+text = "Options"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Video" type="Button" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 48.0
+margin_top = -44.0
+margin_right = 198.0
+margin_bottom = -24.0
+text = "Video"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Audio" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -80.0
+margin_top = -44.0
+margin_right = 70.0
+margin_bottom = -24.0
+text = "Audio"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Controls" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 112.0
+margin_top = -44.0
+margin_right = 262.0
+margin_bottom = -24.0
+text = "Controls"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -80.0
+margin_top = -40.0
+margin_right = 70.0
+margin_bottom = -20.0
+text = "Back"
+
+[node name="videoSettings" type="Control" parent="."]
+visible = false
+anchor_left = -0.012
+anchor_top = 0.422
+anchor_right = 1.0
+anchor_bottom = 0.844
+margin_left = 7.68
+margin_top = 16.08
+margin_bottom = 0.159973
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="resolutionButton" type="OptionButton" parent="videoSettings"]
+margin_left = 48.0
+margin_top = 45.0
+margin_right = 198.0
+margin_bottom = 65.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fullscreenButton" type="OptionButton" parent="videoSettings"]
+margin_left = 48.0
+margin_top = 8.0
+margin_right = 198.0
+margin_bottom = 28.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="audioSettings" type="Control" parent="."]
+anchor_left = -0.012
+anchor_top = 0.422
+anchor_right = 1.0
+anchor_bottom = 0.844
+margin_left = 7.68
+margin_top = 16.08
+margin_bottom = 0.159973
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="masterMute" type="Button" parent="audioSettings"]
+margin_left = 411.0
+margin_top = 16.0
+margin_right = 523.0
+margin_bottom = 36.0
+text = "Mute Audio"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="masterSlider" type="HSlider" parent="audioSettings"]
+margin_left = 243.0
+margin_top = 16.0
+margin_right = 393.0
+margin_bottom = 36.0
+max_value = 2000.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="musicMute" type="Button" parent="audioSettings"]
+margin_left = 411.0
+margin_top = 56.0
+margin_right = 523.0
+margin_bottom = 76.0
+text = "Mute Music"
+
+[node name="musicSlider" type="HSlider" parent="audioSettings"]
+margin_left = 243.0
+margin_top = 56.0
+margin_right = 393.0
+margin_bottom = 76.0
+max_value = 2000.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="effectsMute" type="Button" parent="audioSettings"]
+margin_left = 411.0
+margin_top = 96.0
+margin_right = 523.0
+margin_bottom = 116.0
+text = "Mute Effects"
+
+[node name="effectsSlider" type="HSlider" parent="audioSettings"]
+margin_left = 243.0
+margin_top = 96.0
+margin_right = 393.0
+margin_bottom = 116.0
+max_value = 2000.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Master" type="Label" parent="audioSettings"]
+margin_left = 128.0
+margin_top = 20.0
+margin_right = 225.0
+margin_bottom = 34.0
+text = "Master Volume"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Music" type="Label" parent="audioSettings"]
+margin_left = 132.0
+margin_top = 60.0
+margin_right = 229.0
+margin_bottom = 74.0
+text = "Music Volume"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Effects" type="Label" parent="audioSettings"]
+margin_left = 129.0
+margin_top = 98.0
+margin_right = 226.0
+margin_bottom = 112.0
+text = "Effects Volume"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="controlSettings" type="Control" parent="."]
+visible = false
+anchor_left = -0.012
+anchor_top = 0.422
+anchor_right = 1.0
+anchor_bottom = 0.844
+margin_left = 7.68
+margin_top = 16.08
+margin_bottom = 0.159973
+__meta__ = {
+"_edit_use_anchors_": false
+}
