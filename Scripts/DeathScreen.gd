@@ -14,4 +14,4 @@ func _on_QuitButton_pressed():
 	Engine.time_scale = 1
 	GameManager.reset()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	get_tree().change_scene("res://Scenes/MainMenu.tscn")
+	get_tree().change_scene("res://Scenes//Menus/MainMenu.tscn")

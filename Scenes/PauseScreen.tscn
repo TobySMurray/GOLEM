@@ -127,5 +127,6 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
 [connection signal="pressed" from="Resume/PlayAgainButton" to="." method="_on_PlayAgainButton_pressed"]
 [connection signal="pressed" from="Quit/QuitButton" to="." method="_on_QuitButton_pressed"]
