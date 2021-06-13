@@ -86,7 +86,7 @@ func update_multipliers():
 		mult_display_2.text = ""
 		
 		if variety_mult != 1.0:
-			mult_display_1.text = "x" + str(variety_mult) + " Variety" if variety_mult > 1.0 else " Repeat"
+			mult_display_1.text = "x" + str(variety_mult) + (" Variety" if variety_mult > 1.0 else " Repeat")
 		
 		if overkill_mult != 1.0:
 			if variety_mult != 1.0:

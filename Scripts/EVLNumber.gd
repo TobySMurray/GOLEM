@@ -3,10 +3,12 @@ extends Sprite
 onready var background = get_node("../../EVLBackground")
 
 var digit = 1
-var is_animating = true
 var anim_timer = 0
 var anim_speed = 5.0
 var digit_frame = 0
+
+var is_animating = false
+var is_flickering = true
 
 const digit_colors = [
 	Color(0, 1, 0.86),
@@ -31,6 +33,15 @@ func _process(delta):
 			anim_timer = 1/anim_speed
 			digit_frame = 0 if digit_frame == 1 else 1
 			update_sprite()
+			
+	elif is_flickering:
+		if digit_frame == 0 and randf() < 0.01:
+			digit_frame = 1
+			update_sprite()
+		elif digit_frame == 1 and randf() < 0.33:
+			digit_frame = 0
+			update_sprite()
+			
 			
 func update_sprite():
 	if digit < 1 or digit > 10:
