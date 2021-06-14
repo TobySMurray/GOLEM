@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scripts/OptionsMenu.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Art/menubg.png" type="Texture" id=3]
 
 [node name="Options Menu" type="Control"]
 anchor_right = 1.0
@@ -10,6 +11,10 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="MenuBG" type="Sprite" parent="."]
+position = Vector2( 320, 180 )
+texture = ExtResource( 3 )
 
 [node name="Title" type="Label" parent="."]
 anchor_right = 0.998
@@ -77,7 +82,6 @@ margin_bottom = -20.0
 text = "Back"
 
 [node name="videoSettings" type="Control" parent="."]
-visible = false
 anchor_left = -0.012
 anchor_top = 0.422
 anchor_right = 1.0
@@ -91,9 +95,9 @@ __meta__ = {
 
 [node name="resolutionButton" type="OptionButton" parent="videoSettings"]
 margin_left = 48.0
-margin_top = 45.0
+margin_top = 40.0
 margin_right = 198.0
-margin_bottom = 65.0
+margin_bottom = 60.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -108,6 +112,7 @@ __meta__ = {
 }
 
 [node name="audioSettings" type="Control" parent="."]
+visible = false
 anchor_left = -0.012
 anchor_top = 0.422
 anchor_right = 1.0
@@ -119,12 +124,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Master" type="Label" parent="audioSettings"]
+margin_left = 79.0
+margin_top = 13.0
+margin_right = 237.0
+margin_bottom = 37.0
+text = "Master Volume"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="masterMute" type="Button" parent="audioSettings"]
 margin_left = 411.0
-margin_top = 16.0
-margin_right = 523.0
-margin_bottom = 36.0
+margin_top = 15.0
+margin_right = 529.0
+margin_bottom = 35.0
 text = "Mute Audio"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Music" type="Label" parent="audioSettings"]
+margin_left = 95.0
+margin_top = 51.0
+margin_right = 237.0
+margin_bottom = 75.0
+text = "Music Volume"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -141,27 +166,40 @@ __meta__ = {
 
 [node name="musicMute" type="Button" parent="audioSettings"]
 margin_left = 411.0
-margin_top = 56.0
-margin_right = 523.0
-margin_bottom = 76.0
+margin_top = 55.0
+margin_right = 529.0
+margin_bottom = 75.0
 text = "Mute Music"
 
 [node name="musicSlider" type="HSlider" parent="audioSettings"]
 margin_left = 243.0
-margin_top = 56.0
+margin_top = 55.0
 margin_right = 393.0
-margin_bottom = 76.0
+margin_bottom = 75.0
 max_value = 2000.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Effects" type="Label" parent="audioSettings"]
+margin_left = 67.0
+margin_top = 88.0
+margin_right = 237.0
+margin_bottom = 112.0
+text = "Effects Volume"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="effectsMute" type="Button" parent="audioSettings"]
 margin_left = 411.0
-margin_top = 96.0
-margin_right = 523.0
-margin_bottom = 116.0
+margin_top = 95.0
+margin_right = 557.0
+margin_bottom = 115.0
 text = "Mute Effects"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="effectsSlider" type="HSlider" parent="audioSettings"]
 margin_left = 243.0
@@ -169,36 +207,6 @@ margin_top = 96.0
 margin_right = 393.0
 margin_bottom = 116.0
 max_value = 2000.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Master" type="Label" parent="audioSettings"]
-margin_left = 128.0
-margin_top = 20.0
-margin_right = 225.0
-margin_bottom = 34.0
-text = "Master Volume"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Music" type="Label" parent="audioSettings"]
-margin_left = 132.0
-margin_top = 60.0
-margin_right = 229.0
-margin_bottom = 74.0
-text = "Music Volume"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Effects" type="Label" parent="audioSettings"]
-margin_left = 129.0
-margin_top = 98.0
-margin_right = 226.0
-margin_bottom = 112.0
-text = "Effects Volume"
 __meta__ = {
 "_edit_use_anchors_": false
 }

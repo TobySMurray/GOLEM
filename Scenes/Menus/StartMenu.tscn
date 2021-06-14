@@ -1,10 +1,9 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Scripts/StartMenu.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Art/menubg.png" type="Texture" id=3]
 [ext_resource path="res://Art/Environment/Sci-fi Animations/blood moon sprite Opacity low.png" type="Texture" id=4]
-[ext_resource path="res://Art/EVL_backgrounds.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 4 )
@@ -254,14 +253,6 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="AtlasTexture" id=62]
-atlas = ExtResource( 5 )
-region = Rect2( 63.945, -12.083, 65.8824, 83.9325 )
-
-[sub_resource type="AtlasTexture" id=63]
-atlas = SubResource( 62 )
-region = Rect2( 0, 0, 65, 81 )
-
 [node name="StartMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -275,10 +266,14 @@ position = Vector2( 320, 180 )
 texture = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 312, 77 )
+position = Vector2( 312, 80 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 61 )
+<<<<<<< HEAD
 frame = 4
+=======
+frame = 52
+>>>>>>> dc826669108d7a9031643eb31d743ebf2a7ac0d1
 speed_scale = 4.0
 playing = true
 
@@ -287,24 +282,12 @@ anchor_right = 0.998
 anchor_bottom = 0.35
 margin_top = 2.0
 margin_right = -425.72
-margin_bottom = -70.0
+margin_bottom = -77.0
 rect_scale = Vector2( 3, 3 )
 custom_fonts/font = ExtResource( 2 )
 text = "Golem"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureButton" type="TextureButton" parent="."]
-margin_left = 224.0
-margin_top = 152.0
-margin_right = 289.0
-margin_bottom = 235.0
-rect_scale = Vector2( 3, 0.75 )
-texture_normal = SubResource( 62 )
-texture_hover = SubResource( 63 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
