@@ -13,7 +13,7 @@
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=12]
 
-[sub_resource type="CapsuleShape2D" id=24]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 6.0
 height = 3.0
 
@@ -394,7 +394,7 @@ frame = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 7 )
-shape = SubResource( 24 )
+shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 2 )
@@ -405,7 +405,7 @@ anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 8 )]
-frame = 55
+frame = 18
 
 [node name="HealthBar" parent="." instance=ExtResource( 9 )]
 margin_left = -40.0
@@ -415,7 +415,7 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 33
+frame = 16
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false

@@ -19,24 +19,27 @@ onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot,
 onready var SFX = AudioStreamPlayer.new()
 onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 
+signal on_swap
+
 const levels = [
 	{
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
 		'enemy_density': 7,
+		'pace': 1.0,
 		'dark': false
 	},
 	{
 		'map_bounds': Rect2(-315, -260, 2140, 1510),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0.5],
-		'enemy_density': 10,
+		'enemy_density': 11,
+		'pace': 0.6,
 		'dark': true
 	}
 ]
 
 var level_name = "Level1"
 var level = levels[0]
-
 
 var timescale = 1
 var target_timescale = 1
@@ -56,7 +59,7 @@ var audio
 var player_bullets = []
 
 var variety_bonus = 1.0
-var swap_history = []
+var swap_history = ['merchant']
 
 var out_of_control = false
 
@@ -83,7 +86,7 @@ func _process(delta):
 		
 		if spawn_timer < 0:
 			spawn_timer = 1
-			enemy_soft_cap = (1 + game_time*0.01)*level['enemy_density'] #pow(1.3, game_time/60)
+			enemy_soft_cap = level["enemy_density"]*(1 + game_time*0.01*level['pace']) #pow(1.3, game_time/60)
 			
 			if randf() < (1 - enemy_count/enemy_soft_cap):
 				print("SPAWN (" + str(enemy_count + 1) +")")
@@ -164,7 +167,7 @@ func spawn_enemy():
 		get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
 		
 	else:
-		var d = game_time/30
+		var d = game_time/30*level["pace"]
 		if randf() < (d/(d+3)/2):
 			new_enemy.add_swap_shield(randf()*d*5)
 
@@ -180,6 +183,7 @@ func reset():
 	game_time = 0
 	spawn_timer = 0
 	enemy_count = 1
+	swap_history = ['merchant']
 	player = null
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 	
@@ -194,26 +198,32 @@ func kill():
 	
 func set_evolution_level(lv):
 	evolution_level = min(lv, 6) #min(evolution_level + value/(200+200.0*int(evolution_level)), 5) 
-	game_HUD.get_node("EVLShake").get_node("EVL").digit = evolution_level
-	#score_display.get_node("EVLBackground").modulate = [Color.green, Color.yellow, Color.orange, Color.red, Color(1, 0, 0.5), Color(1, 0.2, 0.6)][int(evolution_level-1)]
+	game_HUD.get_node("EVLShake").get_node("EVL").set_digit(evolution_level)
+	game_HUD.get_node("EVLShake").get_node("EVL").express_hype()
 	game_HUD.get_node("EVLShake").set_trauma(evolution_level*2)
 	
 func update_variety_bonus():
-	variety_bonus = 0.9
 	var cur_name = swap_history[-1]
-	for i in range(2, min(len(swap_history), 8)):
-		if swap_history[-i] == cur_name:
-			break
-		variety_bonus += 0.1
-		
+	if swap_history[-2] == cur_name:
+		variety_bonus = 0.8
+		return
 	
+	variety_bonus = 0.9
+	var used = [cur_name]
+	for i in range(2, min(len(swap_history)+1, 8)):
+		if not swap_history[-i] in used:
+			used.append(swap_history[-i]) 
+			variety_bonus += 0.1
 		
 func increase_score(value):
-	var swap_thresh_reduction = value/25/(1 + game_time/200)
+	var swap_thresh_reduction = value/33/(1 + game_time/200*level["pace"])
 	swap_bar.set_swap_threshold(swap_bar.swap_threshold - swap_thresh_reduction)
 		
 	total_score += value
 	game_HUD.get_node("ScoreDisplay").get_node("Score").score = total_score
+	
+func signal_player_swap():
+	emit_signal("on_swap")
 	
 func random_map_point(off_screen_required = false):
 	var i = 0

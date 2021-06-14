@@ -7,6 +7,8 @@ var anim_timer = 0
 var anim_speed = 5.0
 var digit_frame = 0
 
+var hype_timer = 0
+
 var is_animating = false
 var is_flickering = true
 
@@ -19,6 +21,14 @@ const digit_colors = [
 	Color(1, 0, 0.5),
 	Color.white
 ]
+
+func set_digit(d):
+	digit = d
+	update_sprite()
+	
+func express_hype():
+	is_animating = true
+	hype_timer = 2
 
 func toggle_animation(state):
 	is_animating = state
@@ -33,7 +43,7 @@ func _process(delta):
 			anim_timer = 1/anim_speed
 			digit_frame = 0 if digit_frame == 1 else 1
 			update_sprite()
-			
+				
 	elif is_flickering:
 		if digit_frame == 0 and randf() < 0.01:
 			digit_frame = 1
@@ -41,6 +51,15 @@ func _process(delta):
 		elif digit_frame == 1 and randf() < 0.33:
 			digit_frame = 0
 			update_sprite()
+			
+	if hype_timer > 0:
+		hype_timer -= delta
+		var size = 1 + 0.3*hype_timer/2 
+		scale = Vector2(size, size)
+		
+		if hype_timer <= 0:
+			is_animating = false
+			scale = Vector2(1, 1)
 			
 			
 func update_sprite():

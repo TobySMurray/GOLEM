@@ -41,6 +41,7 @@ func _ready():
 	max_attack_cooldown = 2
 	score = 80
 	init_healthbar()
+	GameManager.connect("on_swap", self, "on_swap")
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
@@ -55,6 +56,12 @@ func toggle_enhancement(state):
 	saber_ring_durability = saber_ring_durability_levels[level]
 	
 	LOS_raycast.enabled = !state
+	if state == true and in_kill_mode:
+		end_kill_mode()
+		special_cooldown = 0
+	if state == false:
+		special_cooldown = 4
+		attack_cooldown = 0
 	
 func misc_update(delta):
 	.misc_update(delta)
@@ -117,33 +124,32 @@ func player_action():
 func ai_move():
 	var to_player = GameManager.player.global_position - global_position
 	var player_dist = to_player.length()
-	var player_on_screen = abs(to_player.x) < 200 and abs(to_player.y) < 140
+	var player_in_range = abs(to_player.x) < 200 and abs(to_player.y) < 120
+	var player_in_sight = not LOS_raycast.is_colliding()
 	aim_direction = to_player
 	LOS_raycast.cast_to = to_player
 	
 	#action
-	if special_cooldown < 0:
-		if player_on_screen and not LOS_raycast.is_colliding():
-			if not sabers_sheathed and not waiting_for_saber_recall:
-				kill_mode_buffered = true
-				recall_sabers()
-			elif not attacking and sabers_sheathed:
-				start_kill_mode()
-			
-		if not sabers_sheathed and not waiting_for_saber_recall:	
-			orbit_sabers()
-			
-	elif not in_kill_mode:
+	if not in_kill_mode:
+		if special_cooldown < 0:
+			if player_in_range and player_in_sight:
+				if not sabers_sheathed and not waiting_for_saber_recall:
+					kill_mode_buffered = true
+					recall_sabers()
+				elif not attacking and sabers_sheathed:
+					start_kill_mode()
+				
 		if sabers_sheathed:
 			if attack_cooldown < 0 and not attacking and not kill_mode_buffered:
 				start_unsheath()
-		else:
-			if LOS_raycast.is_colliding():
+				
+		elif not waiting_for_saber_recall:
+			if special_cooldown < 0 or not player_in_sight:	
 				orbit_sabers()
 			else:
 				var angle_offset = sin(GameManager.game_time*3)*PI/9
 				saber_ring.target_pos = global_position + to_player.normalized().rotated(angle_offset)*60
-				
+
 	#move
 	if in_kill_mode:
 		if GameManager.player.dead:
@@ -154,7 +160,7 @@ func ai_move():
 			target_velocity = to_point
 	
 	elif special_cooldown < 0:
-		if not LOS_raycast.is_colliding() and not attacking:
+		if player_in_sight and not attacking:
 			target_velocity = to_player
 		else:
 			target_velocity = Vector2.ZERO
@@ -168,8 +174,8 @@ func ai_move():
 				ai_target_point = global_position
 				
 func orbit_sabers():
-	var angle = sin(GameManager.game_time)*PI*2
-	saber_ring.target_pos = global_position + Vector2(cos(angle), sin(angle))*20
+	var angle = sin(GameManager.game_time)*PI
+	saber_ring.target_pos = global_position + Vector2(cos(angle), sin(angle))*15
 	
 
 func start_kill_mode():
@@ -256,6 +262,9 @@ func _on_SlashTrigger_area_entered(area):
 	if in_kill_mode and not attacking and not area.get_parent() == self and area.is_in_group("hitbox") and not area.get_parent().invincible:
 		velocity = (area.global_position - global_position).normalized() * 1000
 		slash()
+		
+func on_swap():
+	special_cooldown = 4
 		
 func spawn_ghost_image():
 	var new_ghost = GhostImage.instance().duplicate()

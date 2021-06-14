@@ -58,7 +58,7 @@ func misc_update(delta):
 		stand_timer -= delta
 		stand.modulate.a = 0.7*sqrt(max(stand_timer, 0))
 		
-		if stand_timer < 0.9 and smack_velocity.x != 0:
+		if stand_timer < 1.1 and smack_velocity.x != 0:
 			if orb:
 				orb.velocity = smack_velocity
 				orb.decel_timer = 0
@@ -155,9 +155,9 @@ func smack_orb(target_pos):
 		GameManager.camera.set_trauma(0.4)
 	
 func conjure_stand(pos, dir):
-	stand_timer = 1
+	stand_timer = 1.2
 	stand.visible = true
-	stand.monitorable = true
+	stand.get_node("CollisionShape2D").set_deferred("disabled", false)
 	stand.modulate.a = 0.7
 	
 	var stand_sprite = stand.get_node("AnimatedSprite")
@@ -182,7 +182,7 @@ func detonate_orb():
 	
 func hide_stand():
 	stand.visible = false
-	stand.monitorable = false
+	stand.get_node("CollisionShape2D").set_deferred("disabled", true)
 	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack" or anim_name == "Special":

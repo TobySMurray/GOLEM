@@ -314,6 +314,7 @@ func toggle_playerhood(state):
 		GameManager.camera.lerp_zoom(1)
 		GameManager.swap_history.append(name.lstrip('@').substr(0, 3))
 		GameManager.update_variety_bonus()
+		GameManager.signal_player_swap()
 		attack_cooldown = -1
 		special_cooldown = -1
 		time_since_controlled = 0

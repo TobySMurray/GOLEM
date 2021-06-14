@@ -5,7 +5,7 @@ var color
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	color = Color(0.968627, 0, 0.568627)
+	color = Color(0.97, 0, 0.57)
 	lifetime = 1.5
 	
 func _process(delta):

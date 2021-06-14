@@ -559,7 +559,7 @@ texture = ExtResource( 6 )
 position = Vector2( 311.216, 106.502 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 61 )
-frame = 43
+frame = 39
 speed_scale = 4.0
 playing = true
 
@@ -878,7 +878,7 @@ __meta__ = {
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
 position = Vector2( 194.835, 198.044 )
 frames = SubResource( 61 )
-frame = 50
+frame = 46
 speed_scale = 4.0
 playing = true
 
@@ -963,7 +963,6 @@ text = "[Space to Skip]"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
 [connection signal="pressed" from="Start/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="Controls/ControlsButton" to="." method="_on_ControlsButton_pressed"]
 [connection signal="pressed" from="Quit/QuitButton" to="." method="_on_QuitButton_pressed"]

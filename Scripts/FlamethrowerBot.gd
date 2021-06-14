@@ -43,6 +43,10 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_levels[level]
 	shot_spread = shot_spread_levels[level]
 	fire_volume = fire_volume_levels[level]
+	
+	if state == true and flamethrowing:
+		flamethrowing = false
+		animplayer.play("Cooldown")
 
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
