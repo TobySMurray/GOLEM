@@ -216,14 +216,15 @@ position = Vector2( 0, 12.9326 )
 shape = SubResource( 4 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
-frame = 51
+frame = 43
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
 volume_db = -25.0
+bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 6 )]
-frame = 31
+frame = 57
 
 [node name="Label" type="Label" parent="."]
 visible = false

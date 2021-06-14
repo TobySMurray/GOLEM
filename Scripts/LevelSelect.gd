@@ -1,25 +1,25 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
+const level_paths = {
+	0: "Menu",
+	1: "MainLevel",
+	2: "Level2"
+}
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$SkyRuins.connect("pressed", self, "skyRuins")
 	$Labyrinth.connect("pressed", self, "labyrinth")
 	$Desert.connect("pressed", self, "desert")
 	$Back.connect("pressed", self, "back")
 
-
 func skyRuins():
-	pass
+	get_tree().change_scene("res://Scenes/"+ level_paths[1] +".tscn")
 	
 func labyrinth():
-	pass
-	
+	get_tree().change_scene("res://Scenes/"+ level_paths[2] +".tscn")
+
 func desert():
 	pass
 	

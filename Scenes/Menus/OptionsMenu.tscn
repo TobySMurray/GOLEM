@@ -1,8 +1,79 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=23 format=2]
 
-[ext_resource path="res://Scripts/OptionsMenu.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/OptionsMainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
-[ext_resource path="res://Art/menubg.png" type="Texture" id=3]
+[ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/masterVolumeSlider.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/musicVolumeSlider.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/effectsVolumeSlider.gd" type="Script" id=6]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 640, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 1280, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 1920, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 3 )
+region = Rect2( 2560, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 3200, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 3840, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 4480, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 5120, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 3 )
+region = Rect2( 5760, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 3 )
+region = Rect2( 6400, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 3 )
+region = Rect2( 7040, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 3 )
+region = Rect2( 7680, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 3 )
+region = Rect2( 8320, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 3 )
+region = Rect2( 8960, 0, 640, 360 )
+
+[sub_resource type="SpriteFrames" id=16]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "bg",
+"speed": 10.0
+} ]
 
 [node name="Options Menu" type="Control"]
 anchor_right = 1.0
@@ -12,15 +83,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MenuBG" type="Sprite" parent="."]
+[node name="Background" type="AnimatedSprite" parent="."]
 position = Vector2( 320, 180 )
-texture = ExtResource( 3 )
+frames = SubResource( 16 )
+animation = "bg"
+frame = 1
+playing = true
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 72.0
+margin_top = 176.0
+margin_right = 560.0
+margin_bottom = 296.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Title" type="Label" parent="."]
 anchor_right = 0.998
 anchor_bottom = 0.35
 margin_right = -425.72
-margin_bottom = -72.0
+margin_bottom = -86.0
 rect_scale = Vector2( 3, 3 )
 custom_fonts/font = ExtResource( 2 )
 text = "Options"
@@ -36,7 +120,7 @@ anchor_bottom = 0.5
 margin_left = 48.0
 margin_top = -44.0
 margin_right = 198.0
-margin_bottom = -24.0
+margin_bottom = -20.0
 text = "Video"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -50,7 +134,7 @@ anchor_bottom = 0.5
 margin_left = -80.0
 margin_top = -44.0
 margin_right = 70.0
-margin_bottom = -24.0
+margin_bottom = -20.0
 text = "Audio"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -64,7 +148,7 @@ anchor_bottom = 0.5
 margin_left = 112.0
 margin_top = -44.0
 margin_right = 262.0
-margin_bottom = -24.0
+margin_bottom = -20.0
 text = "Controls"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -78,10 +162,14 @@ anchor_bottom = 1.0
 margin_left = -80.0
 margin_top = -40.0
 margin_right = 70.0
-margin_bottom = -20.0
+margin_bottom = -16.0
 text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="videoSettings" type="Control" parent="."]
+visible = false
 anchor_left = -0.012
 anchor_top = 0.422
 anchor_right = 1.0
@@ -112,7 +200,6 @@ __meta__ = {
 }
 
 [node name="audioSettings" type="Control" parent="."]
-visible = false
 anchor_left = -0.012
 anchor_top = 0.422
 anchor_right = 1.0
@@ -139,6 +226,7 @@ margin_left = 411.0
 margin_top = 15.0
 margin_right = 529.0
 margin_bottom = 35.0
+toggle_mode = true
 text = "Mute Audio"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -154,12 +242,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="masterSlider" type="HSlider" parent="audioSettings"]
+[node name="masterVolumeSlider" type="HSlider" parent="audioSettings"]
 margin_left = 243.0
 margin_top = 16.0
 margin_right = 393.0
 margin_bottom = 36.0
-max_value = 2000.0
+max_value = 1.0
+step = 0.05
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -169,14 +259,17 @@ margin_left = 411.0
 margin_top = 55.0
 margin_right = 529.0
 margin_bottom = 75.0
+toggle_mode = true
 text = "Mute Music"
 
-[node name="musicSlider" type="HSlider" parent="audioSettings"]
+[node name="musicVolumeSlider" type="HSlider" parent="audioSettings"]
 margin_left = 243.0
 margin_top = 55.0
 margin_right = 393.0
 margin_bottom = 75.0
-max_value = 2000.0
+max_value = 1.0
+step = 0.05
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -196,17 +289,20 @@ margin_left = 411.0
 margin_top = 95.0
 margin_right = 557.0
 margin_bottom = 115.0
+toggle_mode = true
 text = "Mute Effects"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="effectsSlider" type="HSlider" parent="audioSettings"]
+[node name="effectsVolumeSlider" type="HSlider" parent="audioSettings"]
 margin_left = 243.0
 margin_top = 96.0
 margin_right = 393.0
 margin_bottom = 116.0
-max_value = 2000.0
+max_value = 1.0
+step = 0.05
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -223,3 +319,7 @@ margin_bottom = 0.159973
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="value_changed" from="audioSettings/masterVolumeSlider" to="audioSettings/masterVolumeSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="audioSettings/musicVolumeSlider" to="audioSettings/musicVolumeSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="audioSettings/effectsVolumeSlider" to="audioSettings/effectsVolumeSlider" method="_on_value_changed"]

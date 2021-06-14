@@ -6,6 +6,7 @@ onready var timer = $Timer
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("pause") and not paused:
+		$"Options Menu".visible = false
 		toggle_pause(true)
 		timer.start()
 	if Input.is_action_just_pressed("pause") and paused and timer.is_stopped():
@@ -24,5 +25,9 @@ func _on_QuitButton_pressed():
 	GameManager.lerp_to_timescale(1)
 	GameManager.reset()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	get_tree().change_scene("res://Scenes/Menus/MainMenu.tscn")
+	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")
 
+
+
+func _on_OptionsButton_pressed():
+	$"Options Menu".visible = true

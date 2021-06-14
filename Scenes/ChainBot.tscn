@@ -455,6 +455,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 stream = ExtResource( 12 )
 volume_db = -30.0
 max_distance = 500.0
+bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 2.19092, 10.5634 )
@@ -467,5 +468,6 @@ wait_time = 0.25
 
 [node name="CharacterLights" parent="." instance=ExtResource( 17 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

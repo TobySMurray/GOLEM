@@ -427,19 +427,25 @@ rect_pivot_offset = Vector2( 40, 0 )
 stream = ExtResource( 12 )
 volume_db = -15.0
 max_distance = 500.0
+bus = "Effects"
 
 [node name="Dash" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 13 )
 max_distance = 500.0
+bus = "Effects"
 
 [node name="Drive" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 15 )
 volume_db = -20.0
 max_distance = 500.0
+bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
 frame = 7
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
 
 [node name="EVParticles" parent="." instance=ExtResource( 17 )]
 
@@ -449,4 +455,5 @@ visible = false
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 0, 4.8 )
 cast_to = Vector2( 0, 20 )
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

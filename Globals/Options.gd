@@ -8,11 +8,16 @@ var playMusic = 1
 var playEffects = 1
 var newChoice = 1
 var song
-var menu = true
+const level_paths = {
+	0: "Menu",
+	1: "MainLevel",
+	2: "Level2"
+}
+var level = level_paths[0]
 #Saved
-var masterVolume = 2000
-var musicVolume = 2000
-var effectsVolume = 2000
+var masterVolume = db2linear(AudioServer.get_bus_volume_db(0))
+var musicVolume = db2linear(AudioServer.get_bus_volume_db(1))
+var effectsVolume = db2linear(AudioServer.get_bus_volume_db(2))
 var masterMute = false
 var musicMute = false
 var effectsMute = false
@@ -26,20 +31,10 @@ func _ready():
 	resolution()
 
 func _process(delta):
-	if !$Music.is_playing():
-		chooseMusic()
-	if masterVolume > 0 and musicVolume > 0 and !masterMute and !musicMute:
-		playMusic = int((masterVolume/2000) * (musicVolume/2000) * 2000)
-	else:
-		playMusic = 1
-	if masterVolume > 0 and effectsVolume > 0 and !masterMute and !effectsMute:
-		playEffects = int((masterVolume/2000) * (effectsVolume/2000) * 2000)
-	else:
-		playEffects = 1
-	$Music.set_max_distance(playMusic)
+	pass
 
 func chooseMusic():
-	if menu:
+	if level == "Menu":
 		menuMusic()
 	else:
 		gameMusic()
@@ -51,7 +46,9 @@ func menuMusic():
 
 
 func gameMusic():
-	pass
+	song = load("res://Sounds/Music/melon b3.wav")
+	$Music.set_stream(song)
+	$Music.play(0.0)
 
 func resolution():
 	ProjectSettings.set_setting("display/window/size/width", resWidth)
