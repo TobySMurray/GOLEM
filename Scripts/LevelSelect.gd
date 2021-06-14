@@ -3,6 +3,7 @@ extends Control
 
 
 const level_paths = {
+	0: "Menu",
 	1: "MainLevel",
 	2: "Level2"
 }
@@ -18,7 +19,7 @@ func skyRuins():
 	
 func labyrinth():
 	get_tree().change_scene("res://Scenes/"+ level_paths[2] +".tscn")
-	
+
 func desert():
 	pass
 	

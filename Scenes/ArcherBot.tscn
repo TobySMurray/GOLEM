@@ -571,7 +571,7 @@ script = ExtResource( 2 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 33
+frame = 51
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
@@ -653,6 +653,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 stream = ExtResource( 17 )
 volume_db = -10.0
 max_distance = 500.0
+bus = "Effects"
 
 [node name="SightBeam" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.501961 )
@@ -664,7 +665,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 33
+frame = 7
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -673,5 +674,6 @@ wait_time = 0.25
 
 [node name="CharacterLights" parent="." instance=ExtResource( 23 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

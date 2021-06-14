@@ -425,7 +425,7 @@ position = Vector2( 0, 6 )
 shape = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 16
+frame = 5
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_mask = 3
@@ -455,10 +455,11 @@ rect_pivot_offset = Vector2( 40, 0 )
 stream = ExtResource( 12 )
 volume_db = -30.0
 max_distance = 500.0
+bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 2.19092, 10.5634 )
-frame = 22
+frame = 48
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -467,5 +468,6 @@ wait_time = 0.25
 
 [node name="CharacterLights" parent="." instance=ExtResource( 17 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

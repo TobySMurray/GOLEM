@@ -38,4 +38,4 @@ func take_damage(damage, source):
 	decel_timer = 0
 	pass
 	
-			
+
