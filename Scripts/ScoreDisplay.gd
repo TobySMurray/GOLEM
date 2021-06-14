@@ -34,6 +34,9 @@ var overkill_mult = 1.0
 func _ready():
 	base_pos = rect_position
 	GameManager.game_HUD = get_parent().get_parent()
+	
+	mult_display_1.trauma = 3
+	mult_display_2.trauma = 3
 
 func _process(delta):
 	update_score_display(delta)
@@ -85,8 +88,13 @@ func update_multipliers():
 		mult_display_1.text = ""
 		mult_display_2.text = ""
 		
+		var t = sin(GameManager.game_time*2)*0.5 + 0.5
+		mult_display_1.modulate = Color.white.linear_interpolate(Color(0.97, 0, 0.57) if variety_mult >= 1 else Color(0.43, 0, 1), t)
+		mult_display_2.modulate = Color.white.linear_interpolate(Color(0.97, 0, 0.57), 1-t)
+		
+		
 		if variety_mult != 1.0:
-			mult_display_1.text = "x" + str(variety_mult) + " Variety" if variety_mult > 1.0 else " Repeat"
+			mult_display_1.text = "x" + str(variety_mult) + (" Variety" if variety_mult > 1.0 else " Repeat")
 		
 		if overkill_mult != 1.0:
 			if variety_mult != 1.0:

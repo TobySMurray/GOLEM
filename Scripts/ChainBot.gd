@@ -47,6 +47,10 @@ func toggle_enhancement(state):
 	charge_speed = charge_speed_levels[level]
 	init_charge = init_charge_levels[level]
 	
+	if charging:
+		attack()
+		
+	
 
 func misc_update(delta):
 	ai_charge_timer -= delta
@@ -176,7 +180,7 @@ func swing_attack():
 	var delta_angle = spread/(num_pellets)
 	
 	if is_in_group("player"):
-		GameManager.camera.set_trauma(0.4 + charge_level*0.3)
+		GameManager.camera.set_trauma(min(0.4 + charge_level*0.3, 1))
 	
 	if facing_left:
 		angle *= -1
