@@ -23,7 +23,9 @@ func _on_Area2D_area_entered(area):
 		if not entity.invincible and entity != source:
 			entity.take_damage(damage, source)
 			entity.velocity += velocity*mass/entity.mass
-			GameManager.spawn_blood(entity.global_position, (velocity).angle(), sqrt(velocity.length())*30, damage, 30)
+			
+			if not entity.is_in_group("bloodless"):
+				GameManager.spawn_blood(entity.global_position, (velocity).angle(), sqrt(velocity.length())*30, damage, 30)
 			
 			if not area.is_in_group("deflector"):
 				despawn()

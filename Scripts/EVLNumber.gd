@@ -54,12 +54,12 @@ func _process(delta):
 			
 	if hype_timer > 0:
 		hype_timer -= delta
-		var size = 1 + 0.3*hype_timer/2 
+		var size = 0.8 + 0.3*hype_timer/2 
 		scale = Vector2(size, size)
 		
 		if hype_timer <= 0:
 			is_animating = false
-			scale = Vector2(1, 1)
+			scale = Vector2(0.8, 0.8)
 			
 			
 func update_sprite():

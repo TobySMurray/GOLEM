@@ -167,6 +167,9 @@ func limit_aim_direction(dir):
 			angle = 5*PI/6*sign(angle)
 			
 	return Vector2(cos(angle), sin(angle))
+	
+func explode():
+	GameManager.spawn_explosion(global_position, self, 1, 60, 1000, 0, false)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
@@ -177,9 +180,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		lock_aim = false
 		max_speed = walk_speed
 	if anim_name == "Die":
-		dead = true
-		actually_die()
+		if is_in_group("enemy"):
+			actually_die()
 
-
-func _on_Timer_timeout():
-	invincible = false

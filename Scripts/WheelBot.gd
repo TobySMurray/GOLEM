@@ -173,9 +173,5 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack":
 		attacking = false
 	if anim_name == "Die":
-		dead = true
-		actually_die()
-
-
-func _on_Timer_timeout():
-	invincible = false
+		if is_in_group("enemy"):
+			actually_die()

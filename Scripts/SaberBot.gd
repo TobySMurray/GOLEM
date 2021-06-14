@@ -276,8 +276,16 @@ func take_damage(damage, source):
 	if in_kill_mode:
 		damage /= 2
 	.take_damage(damage, source)
+	
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "Die":
+		if is_in_group("enemy"):
+			actually_die()
 		
 func actually_die():
 	if not sabers_sheathed:
 		saber_ring.queue_free()
 	.actually_die()
+
+
+

@@ -20,11 +20,11 @@ func _process(delta):
 func _physics_process(delta):
 	if flash_timer > 0:
 		flash_timer -= delta
-		sprite.modulate = Color.white if int(flash_timer*20)%2 == 0 else Color.black
+		sprite.modulate = Color.black if int(flash_timer*20)%2 == 0 else Color.white
 	else:
-		sprite.modulate = Color.black
+		sprite.modulate = Color.white 
 		
-	if GameManager.player:
+	if is_instance_valid(GameManager.player):
 		attack_cooldown.max_value = GameManager.player.max_attack_cooldown
 		attack_cooldown.value = GameManager.player.attack_cooldown
 		if attack_cooldown.value <= 0:

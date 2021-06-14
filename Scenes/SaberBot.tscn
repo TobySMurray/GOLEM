@@ -96,20 +96,6 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
-tracks/3/type = "method"
-tracks/3/path = NodePath(".")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.8 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "actually_die"
-} ]
-}
 
 [sub_resource type="Animation" id=3]
 length = 0.4
@@ -492,16 +478,16 @@ script = ExtResource( 13 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.34697, -0.158186 )
-frame = 4
+frame = 59
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
-frame = 41
+frame = 48
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
 position = Vector2( 8, -19.057 )
-texture = ExtResource( 6 )
-vframes = 6
+texture = ExtResource( 5 )
+vframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -561,4 +547,5 @@ margin_top = -27.0
 margin_right = 39.843
 margin_bottom = -19.0
 rect_pivot_offset = Vector2( 40, 0 )
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="SlashTrigger" to="." method="_on_SlashTrigger_area_entered"]

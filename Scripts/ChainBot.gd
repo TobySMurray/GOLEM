@@ -50,8 +50,7 @@ func toggle_enhancement(state):
 	if charging:
 		attack()
 		
-	
-
+		
 func misc_update(delta):
 	ai_charge_timer -= delta
 	ai_move_timer -= delta
@@ -206,7 +205,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		max_speed = walk_speed
 		
 	elif anim_name == "Die":
-		actually_die()
+		if is_in_group("enemy"):
+			actually_die()
 		
 
 

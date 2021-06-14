@@ -75,6 +75,7 @@ var walk_anim = "Walk"
 
 var dead = false
 var force_swap = false
+var death_timer = 0
 
 
 func _ready():
@@ -87,6 +88,10 @@ func _ready():
 func _physics_process(delta):
 	if not dead:
 		misc_update(delta)
+	elif is_in_group("player"):
+		death_timer -= delta
+		if death_timer < 0:
+			actually_die()
 		
 	if not is_in_group("enemy"):
 		if capturing_boss:
@@ -119,7 +124,7 @@ func _physics_process(delta):
 		
 	else:
 		time_since_controlled += delta
-		if GameManager.player and not dead:
+		if is_instance_valid(GameManager.player) and not dead:
 			ai_move()
 			ai_action()
 		
@@ -172,12 +177,12 @@ func choose_swap_target():
 	
 	if GameManager.swappable:
 		if Input.is_action_just_released("swap"):
-			if swap_cursor.selected_enemy:
+			if is_instance_valid(swap_cursor.selected_enemy):
 				swap_cursor.selected_enemy.toggle_playerhood(true)
 				toggle_playerhood(false)
 				GameManager.swap_bar.reset()
 				
-			if swap_cursor.selected_enemy or !dead:
+			if is_instance_valid(swap_cursor.selected_enemy) or !dead:
 				toggle_swap(false)
 		else:
 			draw_transcender()
@@ -233,20 +238,23 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 			if not enemy.invincible and not enemy == self:
 				enemy.take_damage(damage, self)
 				enemy.velocity += (enemy.global_position - global_position).normalized() * force
-				GameManager.spawn_blood(enemy.global_position, (enemy.global_position - global_position).angle(), pow(force, 0.5)*30, damage*0.75)
 				
-			
+				if not enemy.is_in_group("bloodless"):
+					GameManager.spawn_blood(enemy.global_position, (enemy.global_position - global_position).angle(), pow(force, 0.5)*30, damage*0.75)
+				
 		elif col['collider'].is_in_group("bullet") and deflect_power > 0:
 			var bullet = col['collider']
 			var target = bullet.source
-			if target and target != self:
-				bullet.source = self
-				bullet.lifetime += 2
-				if deflect_power > 1:
-					var bullet_speed = bullet.velocity.length()
-					bullet.velocity = (target.global_position - bullet.global_position).normalized() * max(50, bullet_speed)*deflect_power
-				else:
-					bullet.velocity = -bullet.velocity
+			if target:
+				if target != self:
+					bullet.source = self
+					bullet.lifetime += 2
+					if deflect_power > 1:
+						var bullet_speed = bullet.velocity.length()
+						var dir = (target.global_position - bullet.global_position).normalized() if is_instance_valid(target) else -bullet.velocity/bullet_speed
+						bullet.velocity =  dir*max(50, bullet_speed)*deflect_power
+					else:
+						bullet.velocity = -bullet.velocity
 		
 func take_damage(damage, source):
 	if invincible:
@@ -254,7 +262,7 @@ func take_damage(damage, source):
 	
 	if !is_in_group("enemy"):
 		set_invincibility_time(0.05)
-		GameManager.camera.set_trauma(0.6)
+		GameManager.camera.set_trauma(0.4)
 	
 	if swap_shield_health > 0:
 		var shield_damage = min(swap_shield_health, damage)
@@ -445,6 +453,7 @@ func die(killer = null):
 	attacking = true
 	target_velocity = Vector2.ZERO
 	GameManager.enemy_count -= 1
+	death_timer = 0.5
 	animplayer.play("Die")
 	
 	if is_boss:
@@ -452,7 +461,7 @@ func die(killer = null):
 		GameManager.cur_boss = null
 	
 	if is_in_group("enemy"):
-		if killer:
+		if is_instance_valid(killer):
 			var effective_score = int(score*GameManager.variety_bonus*(1.5 if GameManager.swap_bar.swap_threshold == 0 else 1.0))
 			
 			if killer == GameManager.player:
@@ -467,7 +476,7 @@ func die(killer = null):
 				GameManager.increase_score(effective_score*2)
 				emit_score_popup(effective_score*2, "TRICKSHOT")
 	else:
-		GameManager.camera.set_trauma(1, 4)
+		GameManager.camera.set_trauma(1, 16 if about_to_swap else 4)
 		GameManager.lerp_to_timescale(0.1)
 		GameManager.swap_bar.swap_threshold_penalty = 2
 		if not GameManager.swappable:

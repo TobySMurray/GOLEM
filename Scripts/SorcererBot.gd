@@ -192,4 +192,5 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		
 	elif anim_name == "Die":
 		detonate_orb()
-		actually_die()
+		if is_in_group("enemy"):
+			actually_die()

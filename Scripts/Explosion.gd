@@ -45,7 +45,11 @@ func explode():
 			var enemy = col['collider'].get_parent()
 			if not enemy.invincible and not enemy == source:
 				enemy.take_damage(damage, source)
-				enemy.velocity += (enemy.global_position - global_position).normalized() * force
+				var kb_vel = (enemy.global_position - global_position).normalized() * force
+				enemy.velocity += kb_vel
+				
+				if not enemy.is_in_group("bloodless"):
+					GameManager.spawn_blood(enemy.global_position, kb_vel.angle(), force, damage)
 			
 		elif col['collider'].is_in_group("bullet"):
 			var bullet = col['collider']

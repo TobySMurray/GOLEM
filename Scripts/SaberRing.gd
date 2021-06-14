@@ -60,6 +60,8 @@ func _on_Area2D_area_entered(area):
 			entity.velocity += kb_vel
 			velocity -= kb_vel
 			accel -= 5/mass
+			if not entity.is_in_group("bloodless"):
+				GameManager.spawn_blood(entity.global_position, (-kb_vel).angle(), 600, 5, 30)
 	
 	elif area.is_in_group("bullet") and area.source != source:
 		area.velocity = area.velocity.length()*(area.global_position - global_position).normalized()

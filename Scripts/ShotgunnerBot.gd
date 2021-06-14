@@ -110,7 +110,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		attacking = false
 		reload.play()
 	elif anim_name == "Die":
-		actually_die()
+		if is_in_group("enemy"):
+			actually_die()
 
 
 func _on_Timer_timeout():

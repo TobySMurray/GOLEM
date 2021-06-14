@@ -173,7 +173,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		sight_beam.modulate = Color(1, 1, 1, 0.5)
 		
 	elif anim_name == "Die":
-		actually_die()
+		if is_in_group("enemy"):
+			actually_die()
 
 
 func _on_Timer_timeout():

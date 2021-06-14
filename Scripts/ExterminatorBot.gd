@@ -56,37 +56,36 @@ func misc_update(delta):
 	
 	if shield_active:
 		for b in nearby_bullets + nearby_death_orbs:
-			var bullet_speed = b.velocity.length()
-			
-			if bullet_speed > 0:
-				var angle = (b.global_position - global_position).angle() - shield_angle
+			if is_instance_valid(b):
+				var bullet_speed = b.velocity.length()
+				
+				if bullet_speed > 0:
+					var angle = (b.global_position - global_position).angle() - shield_angle
+					if angle > PI:
+						angle -= 2*PI
+					elif angle < -PI:
+						angle += 2*PI
+						
+					if abs(angle) < PI/4:
+						b.velocity -= (b.velocity/bullet_speed) * min(bullet_speed, shield_power*delta)
+					
+				else:
+					b.source = self
+					b.position += velocity*delta
+					b.lifetime = 3
+					b.modulate = Color(0.7, 0.2, 1)
+		
+		for e in nearby_enemies:
+			if is_instance_valid(e):
+				var angle = (e.global_position - global_position).angle() - shield_angle
 				if angle > PI:
 					angle -= 2*PI
 				elif angle < -PI:
 					angle += 2*PI
 					
 				if abs(angle) < PI/4:
-					b.velocity -= (b.velocity/bullet_speed) * min(bullet_speed, shield_power*delta)
-				
-			else:
-				b.source = self
-				b.position += velocity*delta
-				b.lifetime = 3
+					e.velocity += Vector2(cos(shield_angle), sin(shield_angle))*1200*delta
 		
-		for e in nearby_enemies:
-			var angle = (e.global_position - global_position).angle() - shield_angle
-			if angle > PI:
-				angle -= 2*PI
-			elif angle < -PI:
-				angle += 2*PI
-				
-			if abs(angle) < PI/4:
-				e.velocity += Vector2(cos(shield_angle), sin(shield_angle))*1200*delta
-				
-		#for o in nearby_death_orbs:
-		#	o.velocity *= 0.9
-
-	
 	if charging_tp:
 		teleport_timer -= delta
 		if teleport_timer < 0.1:
@@ -194,6 +193,7 @@ func expel_bullets(radial = false):
 	for b in nearby_bullets + nearby_death_orbs:
 		b.source = self
 		b.lifetime = 5
+		b.modulate = Color(0.7, 0.2, 1)
 		
 		if radial:
 			b.velocity = (b.global_position - global_position).normalized() * deflect_power*100
@@ -226,7 +226,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		invincible = false
 		
 	elif anim_name == "Die":
-		actually_die()
+		visible = false
 
 
 func _on_Deflector_area_entered(area):

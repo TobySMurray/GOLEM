@@ -37,7 +37,9 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=8]
 radius = 15.0
 
-[node name="SaberRing" type="KinematicBody2D"]
+[node name="SaberRing" type="KinematicBody2D" groups=[
+"bloodless",
+]]
 modulate = Color( 1, 0, 0.537255, 1 )
 position = Vector2( 29, -8 )
 collision_layer = 2
@@ -49,7 +51,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 light_mask = 2
 frames = SubResource( 7 )
-frame = 2
+frame = 4
 playing = true
 
 [node name="Area2D" type="Area2D" parent="." groups=[

@@ -31,7 +31,7 @@ const levels = [
 	},
 	{
 		'map_bounds': Rect2(-315, -260, 2140, 1510),
-		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0.5],
+		'enemy_weights': [1, 0.66, 0.4, 1, 1, 0.2, 0.2, 0.5],
 		'enemy_density': 11,
 		'pace': 0.6,
 		'dark': true
@@ -77,7 +77,7 @@ func _ready():
 	add_child(SFX)
 
 func _process(delta):
-	if player:
+	if is_instance_valid(player):
 		game_time += delta
 		spawn_timer -= delta
 		timescale = lerp(timescale, target_timescale, delta*12)
@@ -92,7 +92,7 @@ func _process(delta):
 				print("SPAWN (" + str(enemy_count + 1) +")")
 				spawn_enemy()
 				
-		if cur_boss:
+		if is_instance_valid(cur_boss):
 			if is_point_offscreen(cur_boss.global_position):
 				boss_marker.visible = int(game_time*6)%2 == 0
 				
@@ -126,7 +126,7 @@ func _process(delta):
 func lerp_to_timescale(scale):
 	target_timescale = scale
 	
-func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0):
+func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0, show_visual = true):
 	var new_explosion = explosion.instance().duplicate()
 	new_explosion.global_position = pos
 	new_explosion.source = source
@@ -134,6 +134,7 @@ func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0)
 	new_explosion.damage = damage
 	new_explosion.force = force
 	new_explosion.delay_timer = delay
+	new_explosion.visible = show_visual
 	get_node("/root").add_child(new_explosion)
 	
 func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):

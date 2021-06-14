@@ -571,7 +571,7 @@ script = ExtResource( 2 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 33
+frame = 34
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
