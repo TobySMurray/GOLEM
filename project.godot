@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Ludumdare 48"
-run/main_scene="res://Scenes/Menus/MainMenu.tscn"
+run/main_scene="res://Scenes/Menus/StartMenu.tscn"
 boot_splash/image="res://Art/GolemCoverArt.PNG"
 config/icon="res://Art/GolemCoverArt.PNG"
 

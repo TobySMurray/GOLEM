@@ -41,6 +41,13 @@ func _ready():
 	musicSlider.set_value(Options.musicVolume)
 	effectsSlider.set_value(Options.effectsVolume)
 	
+	if Options.fullscreen:
+		$videoSettings/fullscreenButton.selected = 0
+		resolutionButton.visible = false
+	else:
+		$videoSettings/fullscreenButton.selected = 1
+		resolutionButton.visible = true
+	
 func video():
 	$videoSettings.show()
 	$audioSettings.hide()

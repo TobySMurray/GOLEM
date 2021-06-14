@@ -1,7 +1,78 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/LevelSelect.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=3]
+[ext_resource path="res://Art/Environment/SkyRuinsImageSmall.PNG" type="Texture" id=4]
+[ext_resource path="res://Art/Environment/LabyrinthImageSmall.PNG" type="Texture" id=5]
+
+[sub_resource type="AtlasTexture" id=62]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=63]
+atlas = ExtResource( 3 )
+region = Rect2( 640, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=64]
+atlas = ExtResource( 3 )
+region = Rect2( 1280, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=65]
+atlas = ExtResource( 3 )
+region = Rect2( 1920, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=66]
+atlas = ExtResource( 3 )
+region = Rect2( 2560, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=67]
+atlas = ExtResource( 3 )
+region = Rect2( 3200, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=68]
+atlas = ExtResource( 3 )
+region = Rect2( 3840, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=69]
+atlas = ExtResource( 3 )
+region = Rect2( 4480, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=70]
+atlas = ExtResource( 3 )
+region = Rect2( 5120, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=71]
+atlas = ExtResource( 3 )
+region = Rect2( 5760, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=72]
+atlas = ExtResource( 3 )
+region = Rect2( 6400, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=73]
+atlas = ExtResource( 3 )
+region = Rect2( 7040, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=74]
+atlas = ExtResource( 3 )
+region = Rect2( 7680, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=75]
+atlas = ExtResource( 3 )
+region = Rect2( 8320, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=76]
+atlas = ExtResource( 3 )
+region = Rect2( 8960, 0, 640, 360 )
+
+[sub_resource type="SpriteFrames" id=77]
+animations = [ {
+"frames": [ SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ) ],
+"loop": true,
+"name": "bg",
+"speed": 10.0
+} ]
 
 [node name="LevelSelect" type="Control"]
 anchor_right = 1.0
@@ -10,6 +81,13 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Background" type="AnimatedSprite" parent="."]
+position = Vector2( 320, 180 )
+frames = SubResource( 77 )
+animation = "bg"
+frame = 2
+playing = true
 
 [node name="Title" type="Label" parent="."]
 anchor_right = 0.998
@@ -26,13 +104,23 @@ valign = 1
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 32.0
-margin_top = 20.0
+margin_top = -12.0
 margin_right = 182.0
-margin_bottom = 40.0
-text = "Sky Ruins"
+margin_bottom = 92.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SkyRuinsImageSmall" type="Sprite" parent="SkyRuins"]
+position = Vector2( 73, 61 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 4 )
+
+[node name="SkyRuinsLabel" type="Label" parent="SkyRuins"]
+margin_right = 152.0
+margin_bottom = 24.0
+text = "Sky Ruins"
+align = 1
 
 [node name="Labyrinth" type="Button" parent="."]
 anchor_left = 0.5
@@ -40,13 +128,26 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -80.0
-margin_top = 20.0
+margin_top = -12.0
 margin_right = 70.0
-margin_bottom = 40.0
-text = "Labyrinth"
+margin_bottom = 92.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LabyrinthLabel" type="Label" parent="Labyrinth"]
+margin_right = 152.0
+margin_bottom = 24.0
+text = "Labyrinth"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabyrinthImageSmall" type="Sprite" parent="Labyrinth"]
+position = Vector2( 75, 61 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 5 )
 
 [node name="Desert" type="Button" parent="."]
 anchor_left = 0.5
