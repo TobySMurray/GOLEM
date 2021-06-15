@@ -57,6 +57,11 @@ func player_action():
 		flamethrowing = false
 		animplayer.play("Cooldown")
 		
+	if Input.is_action_just_pressed("attack2") and GameManager.swappable:
+		die()
+		GameManager.camera.trauma = 0.2
+		GameManager.swap_bar.swap_threshold_penalty = 0
+		
 
 func misc_update(delta):
 	ai_retarget_timer -= delta
@@ -94,7 +99,7 @@ func flamethrower():
 	for i in range(pellets):
 		var pellet_dir = limited_aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-		shoot_bullet(pellet_dir*pellet_speed, 5, 0, 0.6)
+		shoot_bullet(pellet_dir*pellet_speed, 5, 0, 0.6, "flame")
 
 func ai_move():
 	if not lock_aim:

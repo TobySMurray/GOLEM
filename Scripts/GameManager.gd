@@ -31,7 +31,7 @@ const levels = [
 	},
 	{
 		'map_bounds': Rect2(-315, -260, 2140, 1510),
-		'enemy_weights': [1, 0.66, 0.4, 1, 1, 0.2, 0.2, 0.5],
+		'enemy_weights': [1, 0.66, 0.4, 1, 1, 0.2, 0.2, 0.4],
 		'enemy_density': 11,
 		'pace': 0.6,
 		'dark': true
@@ -168,8 +168,8 @@ func spawn_enemy():
 		get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
 		
 	else:
-		var d = game_time/30*level["pace"]
-		if randf() < (d/(d+3)/2):
+		var d = game_time/30.0*level["pace"]
+		if randf() < (d/(d+4.0)/2.0):
 			new_enemy.add_swap_shield(randf()*d*5)
 
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
