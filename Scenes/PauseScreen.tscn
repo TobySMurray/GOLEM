@@ -73,7 +73,7 @@ script = ExtResource( 1 )
 
 [node name="Background" parent="Options Menu" index="0"]
 visible = false
-frame = 11
+frame = 7
 
 [node name="Panel" parent="Options Menu" index="1"]
 anchor_left = 0.5

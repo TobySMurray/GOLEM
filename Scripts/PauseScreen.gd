@@ -25,6 +25,8 @@ func _on_QuitButton_pressed():
 	GameManager.lerp_to_timescale(1)
 	GameManager.reset()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Options.level = "Menu"
+	Options.chooseMusic()
 	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")
 
 
