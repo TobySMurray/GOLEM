@@ -190,7 +190,7 @@ func swing_attack():
 		var pellet_dir = dir.rotated(deg2rad(angle))
 		angle += delta_angle
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1)
+		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave')
 		
 	melee_attack(attack_collider, 50*charge_level, 900*charge_level, charge_level+1)
 	if charge_level > 2:

@@ -206,7 +206,7 @@ func animate():
 	sprite.modulate = lerp(sprite.modulate, base_color, 0.2)
 		
 		
-func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):
+func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet"):
 	var new_bullet = bullet.instance().duplicate()
 	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
 	new_bullet.source = self
@@ -214,6 +214,7 @@ func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10):
 	new_bullet.damage = damage
 	new_bullet.mass = mass
 	new_bullet.lifetime = lifetime
+	new_bullet.set_appearance(type)
 	get_node("/root").add_child(new_bullet)
 	
 	if is_in_group("player"):
@@ -480,7 +481,7 @@ func die(killer = null):
 		GameManager.lerp_to_timescale(0.1)
 		GameManager.swap_bar.swap_threshold_penalty = 2
 		if not GameManager.swappable:
-			actually_die()
+			death_timer = 0.3
 
 
 func actually_die():

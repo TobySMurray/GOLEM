@@ -124,7 +124,7 @@ func player_action():
 func ai_move():
 	var to_player = GameManager.player.global_position - global_position
 	var player_dist = to_player.length()
-	var player_in_range = abs(to_player.x) < 200 and abs(to_player.y) < 120
+	var player_in_range = abs(to_player.x) < 200 and abs(to_player.y) < 140
 	var player_in_sight = not LOS_raycast.is_colliding()
 	aim_direction = to_player
 	LOS_raycast.cast_to = to_player
@@ -172,9 +172,10 @@ func ai_move():
 				ai_target_point = global_position - to_player.rotated((randf()-0.5)*PI)*(20 + 30*randf())
 			else:
 				ai_target_point = global_position
+		target_velocity = ai_target_point - global_position
 				
 func orbit_sabers():
-	var angle = sin(GameManager.game_time)*PI
+	var angle = GameManager.game_time*PI*2
 	saber_ring.target_pos = global_position + Vector2(cos(angle), sin(angle))*15
 	
 
@@ -264,7 +265,7 @@ func _on_SlashTrigger_area_entered(area):
 		slash()
 		
 func on_swap():
-	special_cooldown = 4
+	special_cooldown = 2
 		
 func spawn_ghost_image():
 	var new_ghost = GhostImage.instance().duplicate()

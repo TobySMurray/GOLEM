@@ -28,7 +28,7 @@ func _on_Area2D_area_entered(area):
 		var entity = area.get_parent()
 		if not entity.invincible and entity != source:
 			decel_timer = 0
-			var damage = pow(velocity.length(), 1.3)/40
+			var damage = pow(velocity.length(), 1.2)/30
 			entity.take_damage(damage, source)
 			var new_vel = (global_position - entity.global_position).normalized() * velocity.length()
 			var delta_vel = new_vel - velocity
@@ -36,7 +36,7 @@ func _on_Area2D_area_entered(area):
 			entity.velocity -= delta_vel*2
 			
 			if not entity.is_in_group("bloodless"):
-				GameManager.spawn_blood(entity.global_position, (-delta_vel).angle(), sqrt(delta_vel.length()*2)*30, damage, 30)
+				GameManager.spawn_blood(entity.global_position, (-delta_vel).angle(), sqrt(delta_vel.length())*30, damage, 30)
 			
 			
 func take_damage(damage, source):

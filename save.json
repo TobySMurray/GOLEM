@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"effectsMute":false,"effectsVolume":0.5,"fullscreen":true,"masterMute":true,"masterVolume":0.45,"musicMute":true,"musicVolume":0.45,"resolution":{"height":1080,"width":1920}}
+=======
+{"effectsMute":false,"effectsVolume":1,"fullscreen":false,"masterMute":true,"masterVolume":1,"musicMute":true,"musicVolume":1,"resolution":{"height":1080,"width":1920}}
+>>>>>>> 75b4fee56159faea0d01f147cd27b0365c6c6635
