@@ -29,6 +29,7 @@ var charging = false
 var charge_level = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	enemy_type = "chain"
 	health = 100
 	bullet_spawn_offset = 20
 	flip_offset = 0

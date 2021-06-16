@@ -29,6 +29,7 @@ var nearby_enemies = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	enemy_type = "exterminator"
 	health = 150
 	max_speed = walk_speed
 	max_attack_cooldown = 1.5

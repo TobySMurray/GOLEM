@@ -13,6 +13,7 @@ var forced = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	enemy_type = "merchant"
 	max_speed = 30
 	score = 0
 	max_attack_cooldown = 1

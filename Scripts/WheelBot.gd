@@ -28,6 +28,7 @@ var path = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	enemy_type = "wheel"
 	health = 50
 	max_speed = walk_speed
 	accel = 2.5
