@@ -85,11 +85,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-<<<<<<< HEAD
-frame = 7
-=======
-frame = 8
->>>>>>> 75b4fee56159faea0d01f147cd27b0365c6c6635
+frame = 5
 playing = true
 
 [node name="Panel" type="Panel" parent="Background"]
