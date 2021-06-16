@@ -1,11 +1,8 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scripts/OptionsMainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=3]
-[ext_resource path="res://Scripts/masterVolumeSlider.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/musicVolumeSlider.gd" type="Script" id=5]
-[ext_resource path="res://Scripts/effectsVolumeSlider.gd" type="Script" id=6]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -87,7 +84,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 1
+frame = 6
 playing = true
 
 [node name="Panel" type="Panel" parent="."]
@@ -249,7 +246,6 @@ margin_right = 393.0
 margin_bottom = 36.0
 max_value = 1.0
 step = 0.05
-script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -269,7 +265,6 @@ margin_right = 393.0
 margin_bottom = 75.0
 max_value = 1.0
 step = 0.05
-script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -302,7 +297,6 @@ margin_right = 393.0
 margin_bottom = 116.0
 max_value = 1.0
 step = 0.05
-script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -319,7 +313,6 @@ margin_bottom = 0.159973
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
 [connection signal="value_changed" from="audioSettings/masterVolumeSlider" to="audioSettings/masterVolumeSlider" method="_on_value_changed"]
 [connection signal="value_changed" from="audioSettings/musicVolumeSlider" to="audioSettings/musicVolumeSlider" method="_on_value_changed"]
 [connection signal="value_changed" from="audioSettings/effectsVolumeSlider" to="audioSettings/effectsVolumeSlider" method="_on_value_changed"]

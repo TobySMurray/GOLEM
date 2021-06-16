@@ -25,7 +25,7 @@ onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/Sco
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
 onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay")
 
-
+var enemy_type = ""
 var health = 100
 var max_speed = 100
 var mass = 1
@@ -321,9 +321,10 @@ func toggle_playerhood(state):
 		GameManager.camera.anchor = self
 		GameManager.camera.offset = Vector2.ZERO
 		GameManager.camera.lerp_zoom(1)
-		GameManager.swap_history.append(name.lstrip('@').substr(0, 3))
+		GameManager.swap_history.append(enemy_type)
 		GameManager.update_variety_bonus()
 		GameManager.signal_player_swap()
+		Options.enemy_swaps[enemy_type] += 1
 		attack_cooldown = -1
 		special_cooldown = -1
 		time_since_controlled = 0
@@ -467,7 +468,9 @@ func die(killer = null):
 			
 			if killer == GameManager.player:
 				GameManager.increase_score(effective_score)
+				GameManager.kills += 1
 				emit_score_popup(effective_score, "")
+				Options.enemy_kills[enemy_type] += 1
 				
 			elif time_since_controlled < 2:
 				GameManager.increase_score(effective_score*2)
@@ -475,13 +478,19 @@ func die(killer = null):
 				
 			elif killer.time_since_controlled < 2:
 				GameManager.increase_score(effective_score*2)
+				GameManager.kills += 1
 				emit_score_popup(effective_score*2, "TRICKSHOT")
+				Options.enemy_kills[enemy_type] += 1
+				
 	else:
 		GameManager.camera.set_trauma(1, 16 if about_to_swap else 4)
 		GameManager.lerp_to_timescale(0.1)
 		GameManager.swap_bar.swap_threshold_penalty = 2
 		if not GameManager.swappable:
 			death_timer = 0.3
+		if is_instance_valid(killer):
+			Options.enemy_deaths[killer.enemy_type] += 1
+			
 
 
 func actually_die():

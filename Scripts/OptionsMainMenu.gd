@@ -9,6 +9,10 @@ onready var masterSlider = $audioSettings/masterVolumeSlider
 onready var musicSlider = $audioSettings/musicVolumeSlider
 onready var effectsSlider = $audioSettings/effectsVolumeSlider
 
+onready var master_mute_btn = $audioSettings/masterMute
+onready var music_mute_btn = $audioSettings/musicMute
+onready var effects_mute_btn = $audioSettings/effectsMute
+
 
 func _ready():
 	$Video.connect("pressed", self, "video")
@@ -17,13 +21,12 @@ func _ready():
 	$Back.connect("pressed", self, "back")
 	resolutionButton.connect("item_selected", self, "resolution")
 	fullscreenButton.connect("item_selected", self, "fullscreen")
-	$audioSettings/masterMute.connect("pressed",self, "muteMaster")
+	master_mute_btn.connect("pressed",self, "muteMaster")
 	masterSlider.connect("value_changed",self, "masterVolume")
-	$audioSettings/musicMute.connect("pressed",self, "muteMusic")
+	music_mute_btn.connect("pressed",self, "muteMusic")
 	musicSlider.connect("value_changed",self, "musicVolume")
-	$audioSettings/effectsMute.connect("pressed",self, "muteEffects")
+	effects_mute_btn.connect("pressed",self, "muteEffects")
 	effectsSlider.connect("value_changed",self, "effectsVolume")
-	
 	
 	resolutionButton.add_item("640 x 360", 0)
 	resolutionButton.add_item("1920 x 1080", 1)
@@ -40,6 +43,10 @@ func _ready():
 	masterSlider.set_value(Options.masterVolume)
 	musicSlider.set_value(Options.musicVolume)
 	effectsSlider.set_value(Options.effectsVolume)
+	
+	master_mute_btn.pressed = Options.masterMute
+	music_mute_btn.pressed = Options.musicMute
+	effects_mute_btn.pressed = Options.effectsMute
 	
 	if Options.fullscreen:
 		$videoSettings/fullscreenButton.selected = 0
@@ -64,6 +71,7 @@ func controls():
 	$videoSettings.hide()
 	
 func back():
+	Options.saveSettings()
 	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")
 	
 func resolution(item):
@@ -71,56 +79,55 @@ func resolution(item):
 		0:
 			Options.resWidth = 640
 			Options.resHeight = 360
-			Options.resolution()
-			Options.saveSettings()
+
 		1:
 			Options.resWidth = 1920
 			Options.resHeight = 1080
-			Options.resolution()
-			Options.saveSettings()
+			
+	Options.resolution()
+
 
 func fullscreen(item):
 	match item:
 		0:
 			Options.fullscreen = true
 			resolutionButton.visible = false
-			Options.resolution()
-			Options.saveSettings()
+
 		1:
 			Options.fullscreen = false
 			resolutionButton.visible = true
-			Options.resolution()
-			Options.saveSettings()
+			
+	Options.resolution()
 
 func muteMaster():
 	if !Options.masterMute:
 		Options.masterMute = true
 	else:
 		Options.masterMute = false
-	Options.saveSettings()
+	Options.apply_audio_settings()
 
 func masterVolume(value):
 	Options.masterVolume = masterSlider.get_value()
-	Options.saveSettings()
+	Options.apply_audio_settings()
 
 func muteMusic():
 	if !Options.musicMute:
 		Options.musicMute = true
 	else:
 		Options.musicMute = false
-	Options.saveSettings()
+	Options.apply_audio_settings()
 
 func musicVolume(value):
 	Options.musicVolume = musicSlider.get_value()
-	Options.saveSettings()
+	Options.apply_audio_settings()
 
 func muteEffects():
 	if !Options.effectsMute:
 		Options.effectsMute = true
 	else:
 		Options.effectsMute = false
-	Options.saveSettings()
+	Options.apply_audio_settings()
 
 func effectsVolume(value):
 	Options.effectsVolume = effectsSlider.get_value()
-	Options.saveSettings()
+	Options.apply_audio_settings()

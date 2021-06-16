@@ -28,7 +28,7 @@
 [ext_resource path="res://Art/Lights/Spotlight.png" type="Texture" id=26]
 [ext_resource path="res://Scenes/SaberBot.tscn" type="PackedScene" id=27]
 
-[node name="Level2" type="Node2D"]
+[node name="LabyrinthLevel" type="Node2D"]
 script = ExtResource( 18 )
 
 [node name="BG" type="Sprite" parent="."]
@@ -59,7 +59,7 @@ script = ExtResource( 16 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource( 1 )
-init_anchor = NodePath("../../Level2/WorldObjects/Characters/Merchant")
+init_anchor = NodePath("../WorldObjects/Characters/Merchant")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
 

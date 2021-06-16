@@ -21,25 +21,26 @@ onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 
 signal on_swap
 
-const levels = [
-	{
+const levels = {
+	"RuinsLevel": {
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
 		'enemy_density': 7,
 		'pace': 1.0,
 		'dark': false
 	},
-	{
+	
+	"LabyrinthLevel": {
 		'map_bounds': Rect2(-315, -260, 2140, 1510),
 		'enemy_weights': [1, 0.66, 0.4, 1, 1, 0.2, 0.2, 0.4],
 		'enemy_density': 11,
 		'pace': 0.6,
 		'dark': true
 	}
-]
+}
 
-var level_name = "Level1"
-var level = levels[0]
+var level_name = "RuinsLevel"
+var level = levels[level_name]
 
 var timescale = 1
 var target_timescale = 1
@@ -50,16 +51,12 @@ var swap_bar
 var player
 var camera
 var transcender
-var total_score = 0
 var game_HUD
 var ground
 var obstacles
 var wall
 var audio
 var player_bullets = []
-
-var variety_bonus = 1.0
-var swap_history = ['merchant']
 
 var out_of_control = false
 
@@ -69,6 +66,12 @@ var enemy_soft_cap
 var enemy_count = 1
 var enemy_hard_cap = 15
 var cur_boss = null
+
+var total_score = 0
+var variety_bonus = 1.0
+var swap_history = ['merchant']
+
+var kills = 0
 
 var evolution_thresholds = [0, 300, 1000, 2000, 3500, 5000, 999999]
 var evolution_level = 1
@@ -178,7 +181,10 @@ func spawn_enemy():
 			
 
 func reset():
+	save_game_stats()
+	
 	total_score = 0
+	kills = 0
 	set_evolution_level(1)
 	timescale = 1
 	game_time = 0
@@ -191,7 +197,7 @@ func reset():
 func load_level_props(lv_name):
 	level_name = lv_name
 	if lv_name != "MainMenu":
-		level = levels[int(lv_name[-1])-1]
+		level = levels[lv_name]
 
 func kill():
 	swappable = false
@@ -222,6 +228,13 @@ func increase_score(value):
 		
 	total_score += value
 	game_HUD.get_node("ScoreDisplay").get_node("Score").score = total_score
+	
+func save_game_stats():
+	Options.high_scores[level_name] = max(Options.high_scores[level_name], total_score)
+	Options.max_kills[level_name] = max(Options.max_kills[level_name], kills)
+	Options.max_time[level_name] = max(Options.max_time[level_name], game_time)
+	Options.max_EVL[level_name] = max(Options.max_EVL[level_name], evolution_level)
+	Options.saveSettings()
 	
 func signal_player_swap():
 	emit_signal("on_swap")

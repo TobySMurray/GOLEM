@@ -135,7 +135,7 @@ shader_param/ALPHA = 0.15
 shader_param/ALPHA_OFFSET = -0.25
 shader_param/color = Vector3( 1, 0.8, 0.9 )
 
-[node name="Level1" type="Node2D"]
+[node name="RuinsLevel" type="Node2D"]
 script = ExtResource( 35 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
@@ -216,7 +216,7 @@ script = ExtResource( 26 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 script = ExtResource( 5 )
-init_anchor = NodePath("../../Level1/WorldObjects/Characters/Merchant")
+init_anchor = NodePath("../WorldObjects/Characters/Merchant")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
 

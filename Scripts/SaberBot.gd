@@ -34,6 +34,7 @@ var ghost_timer = 0
 var rage_color = Color(1, 0, 0.45)
 
 func _ready():
+	enemy_type = "saber"
 	health = 75
 	max_speed = walk_speed
 	flip_offset = -16
