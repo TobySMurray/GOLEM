@@ -36,6 +36,13 @@ const levels = {
 		'enemy_density': 11,
 		'pace': 0.6,
 		'dark': true
+	},
+	"Tutorial": {
+		'map_bounds': Rect2(-500, -250, 2500, 1150),
+		'enemy_weights': [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
+		'enemy_density': 1,
+		'pace': 0.1,
+		'dark': false
 	}
 }
 
@@ -90,11 +97,11 @@ func _process(delta):
 		if spawn_timer < 0:
 			spawn_timer = 1
 			enemy_soft_cap = level["enemy_density"]*(1 + game_time*0.01*level['pace']) #pow(1.3, game_time/60)
-			
-			if randf() < (1 - enemy_count/enemy_soft_cap):
-				print("SPAWN (" + str(enemy_count + 1) +")")
-				spawn_enemy()
-				
+			if level_name != "Tutorial":
+				if randf() < (1 - enemy_count/enemy_soft_cap):
+					print("SPAWN (" + str(enemy_count + 1) +")")
+					spawn_enemy()
+					
 		if is_instance_valid(cur_boss):
 			if is_point_offscreen(cur_boss.global_position):
 				boss_marker.visible = int(game_time*6)%2 == 0

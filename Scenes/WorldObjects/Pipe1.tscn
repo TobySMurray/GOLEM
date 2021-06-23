@@ -1,18 +1,68 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Art/Environment/Sci-fi Tileset re-imagined.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/DestructibleObject.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4.54129, 2.74169 )
 
-[node name="Pipe1" type="Sprite"]
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+direction = Vector3( 1, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 75.0
+angular_velocity = 5.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+radial_accel = 5.0
+damping = 100.21
+scale = 3.0
+scale_random = 1.0
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 4.57753, 10 )
+
+[node name="Pipe1" type="Node2D"]
 position = Vector2( -4.86948, -1.12373 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 540.051, 210.59, 20, 32 )
+region_rect = Rect2( 540.179, 212.448, 19.0739, 27.7316 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 2.77193, 10.8549 )
 shape = SubResource( 1 )
+
+[node name="Destroyed" type="Sprite" parent="."]
+visible = false
+position = Vector2( 4.22357, 7.49387 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 481.845, 143.727, 12.0305, 18.1477 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+modulate = Color( 0.305882, 0.286275, 0.286275, 1 )
+position = Vector2( 3.06731, 2.17484 )
+emitting = false
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+process_material = SubResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="." groups=[
+"destructible",
+]]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 2.52838, 0.18729 )
+shape = SubResource( 3 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/ArcherBot.gd" type="Script" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Sounds/SoundEffects/step2.wav" type="AudioStream" id=21]
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Art/medShadow.png" type="Texture" id=24]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -569,15 +570,23 @@ animations = [ {
 collision_layer = 0
 script = ExtResource( 2 )
 
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
+position = Vector2( -0.683655, 9.3755 )
+scale = Vector2( 0.8, 0.8 )
+z_index = -1
+texture = ExtResource( 24 )
+
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 34
+frame = 59
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
 position = Vector2( 11, -28 )
 texture = ExtResource( 5 )
 vframes = 4
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -602,7 +611,6 @@ offset = Vector2( 7, -28 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
-visible = false
 collision_layer = 6
 collision_mask = 6
 
@@ -611,7 +619,6 @@ position = Vector2( -0.883881, -0.176777 )
 shape = SubResource( 15 )
 
 [node name="Deflector" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 0
 
@@ -665,7 +672,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 7
+frame = 57
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

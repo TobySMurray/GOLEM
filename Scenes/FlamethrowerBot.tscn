@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scripts/FlamethrowerBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/flamethrower bot/run.png" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Art/medShadow.png" type="Texture" id=16]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -392,6 +393,13 @@ radius = 28.4803
 collision_layer = 0
 script = ExtResource( 1 )
 
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
+position = Vector2( -0.138649, 8.63379 )
+scale = Vector2( 0.8, 1 )
+z_index = -1
+texture = ExtResource( 16 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
 anims/Charge = SubResource( 2 )
@@ -404,22 +412,20 @@ anims/Walk = SubResource( 7 )
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
 position = Vector2( 22, -19 )
-texture = ExtResource( 6 )
-hframes = 15
-frame = 5
+texture = ExtResource( 2 )
+hframes = 8
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( -0.44545, 3.34087 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
-frame = 3
+frame = 37
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
-visible = false
 collision_layer = 6
 collision_mask = 6
 
@@ -440,14 +446,14 @@ max_distance = 500.0
 bus = "Effects"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 11 )
-volume_db = -10.0
+stream = ExtResource( 12 )
+volume_db = -30.0
 max_distance = 500.0
 bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 8.46354 )
-frame = 5
+frame = 25
 
 [node name="Explosion" type="Area2D" parent="."]
 visible = false
@@ -462,4 +468,5 @@ shape = SubResource( 10 )
 
 [node name="CharacterLights" parent="." instance=ExtResource( 15 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

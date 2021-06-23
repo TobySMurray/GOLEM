@@ -61,6 +61,10 @@ func misc_update(delta):
 		charge_level += delta*charge_speed
 		
 	attack_collider.position.x = -34 if facing_left else 34
+	if facing_left:
+		$Shadow.offset.x = -8
+	if !facing_left:
+		$Shadow.offset.x = 0
 
 func player_action():
 	aim_direction.y = 0

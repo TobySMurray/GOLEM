@@ -1,24 +1,78 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Art/Environment/Sci-fi Tileset re-imagined.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/DestructibleObject.gd" type="Script" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 12.274, 4.5063 )
+[sub_resource type="ParticlesMaterial" id=1]
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+direction = Vector3( 1, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 75.0
+angular_velocity = 5.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+radial_accel = 5.0
+damping = 100.21
+scale = 3.0
+scale_random = 1.0
 
-[sub_resource type="OccluderPolygon2D" id=2]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 11.0192, 9.10456 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10.5906, 4.5063 )
+
+[sub_resource type="OccluderPolygon2D" id=4]
 polygon = PoolVector2Array( -10, 4, 10, 4, 10, 12, -10, 12 )
 
-[node name="Medium Rock" type="Sprite"]
+[node name="Medium Rock" type="Node2D"]
 position = Vector2( 0, -1.45676 )
+script = ExtResource( 2 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+modulate = Color( 0.564706, 0.564706, 0.564706, 1 )
+position = Vector2( 0.17189, -0.163769 )
+emitting = false
+amount = 15
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+process_material = SubResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="." groups=[
+"destructible",
+]]
+position = Vector2( -5.18587, 8.28374 )
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 4.71514, -5.80855 )
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -1.33379, 2.2449 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 1.725, 86.999, 30, 25 )
+region_rect = Rect2( 1.44295, 87.3709, 29.4055, 28.9762 )
+
+[node name="Destroyed" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0.612, 5.77023 )
+scale = Vector2( 1.1, 1.4 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 51.8831, 98.9614, 24.4688, 16.0979 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( -0.264877, 7.68111 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-occluder = SubResource( 2 )
+occluder = SubResource( 4 )

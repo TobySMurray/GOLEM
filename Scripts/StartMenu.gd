@@ -8,6 +8,7 @@ onready var credits = $CreditsPopup
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Options.level = "Menu"
 	$Play.connect("pressed", self, "play")
 	$Options.connect("pressed",self, "options")
 	$Quit.connect("pressed", self, "quit")
