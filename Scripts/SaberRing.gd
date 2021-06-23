@@ -26,6 +26,9 @@ func recall():
 	recall_timer = 0.3
 
 func _physics_process(delta):
+	if not is_instance_valid(source):
+		queue_free()
+	
 	if not being_recalled:
 		velocity = move_and_slide(velocity)
 		

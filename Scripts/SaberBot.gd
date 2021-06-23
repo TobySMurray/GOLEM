@@ -61,6 +61,7 @@ func toggle_enhancement(state):
 		end_kill_mode()
 		special_cooldown = 0
 	if state == false:
+		remaining_slashes = min(remaining_slashes, 1)
 		special_cooldown = 4
 		attack_cooldown = 0
 	

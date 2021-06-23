@@ -334,7 +334,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 13
+frame = 4
 playing = true
 
 [node name="Panel" type="Panel" parent="Background"]
@@ -350,9 +350,9 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.501961 )
 position = Vector2( 312, 80 )
-scale = Vector2( 3, 3 )
+scale = Vector2( 4, 4 )
 frames = SubResource( 77 )
-frame = 10
+frame = 24
 speed_scale = 4.0
 playing = true
 
@@ -360,9 +360,9 @@ playing = true
 anchor_right = 0.998
 anchor_bottom = 0.35
 margin_top = 2.0
-margin_right = -425.72
-margin_bottom = -77.0
-rect_scale = Vector2( 3, 3 )
+margin_right = -478.72
+margin_bottom = -89.0
+rect_scale = Vector2( 4, 4 )
 custom_fonts/font = ExtResource( 2 )
 text = "Golem"
 align = 1
