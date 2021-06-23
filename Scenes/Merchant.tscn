@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Art/Characters/Merchant/walk.png" type="Texture" id=1]
 [ext_resource path="res://Art/Characters/Merchant/idle.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Art/Fonts/Text.tres" type="DynamicFont" id=7]
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Art/medShadow.png" type="Texture" id=10]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"
@@ -200,6 +201,13 @@ height = 0.0
 collision_layer = 0
 script = ExtResource( 4 )
 
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
+position = Vector2( -3.14117, 15.6721 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 10 )
+offset = Vector2( 8, 0 )
+
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
 texture = ExtResource( 1 )
@@ -216,7 +224,7 @@ position = Vector2( 0, 12.9326 )
 shape = SubResource( 4 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
-frame = 43
+frame = 5
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
@@ -224,7 +232,7 @@ volume_db = -25.0
 bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 6 )]
-frame = 57
+frame = 34
 
 [node name="Label" type="Label" parent="."]
 visible = false

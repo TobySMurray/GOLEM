@@ -31,6 +31,10 @@ func _on_Area2D_body_entered(body):
 		despawn()
 
 func _on_Area2D_area_entered(area):
+	if area.is_in_group("destructible"):
+		var entity = area.get_parent()
+		entity.destroy()
+		despawn()
 	if area.is_in_group("hitbox"):
 		var entity = area.get_parent()
 		if not entity.invincible and entity != source:

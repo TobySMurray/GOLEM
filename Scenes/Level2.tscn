@@ -35,6 +35,7 @@ script = ExtResource( 18 )
 modulate = Color( 0.588235, 0.588235, 0.588235, 1 )
 position = Vector2( 509.124, 147.723 )
 scale = Vector2( 3000, 3000 )
+z_index = -1
 texture = ExtResource( 25 )
 
 [node name="Obstacles" parent="." instance=ExtResource( 14 )]
@@ -245,6 +246,7 @@ mode = 2
 range_item_cull_mask = 4
 
 [node name="Fog" parent="." instance=ExtResource( 19 )]
+visible = false
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.0980392, 0.133333, 0.109804, 1 )

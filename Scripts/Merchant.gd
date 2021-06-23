@@ -21,23 +21,31 @@ func _ready():
 
 func _physics_process(delta):
 	attack_cooldown = -1
-	if !about_to_swap and GameManager.swappable:
-		label.visible = true
-		release.visible = false
-	
-	if about_to_swap:
-		label.visible = false
-		release.visible = true
+	if GameManager.level_name == "Tutorial":
+		if !about_to_swap and GameManager.swappable:
+			label.visible = true
+			release.visible = false
 		
+		if about_to_swap:
+			label.visible = false
+			release.visible = true
+			
 	if self.is_in_group("enemy"):
-		label.visible = false
-		release.visible = false
+		if GameManager.level_name == "Tutorial":
+			label.visible = false
+			release.visible = false
 		if not invincible:
 			die()
 	if GameManager.out_of_control and not forced:
 		forced = true
-		label.visible = false
+		if GameManager.level_name == "Tutorial":
+			label.visible = false
 		force()
+func misc_update(delta):
+	if facing_left:
+		$Shadow.offset.x = 8
+	if !facing_left:
+		$Shadow.offset.x = 0
 
 func force():
 	release.visible = true

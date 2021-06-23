@@ -1,18 +1,73 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Art/Environment/SCi-fi assets planet one.png" type="Texture" id=1]
+[ext_resource path="res://Art/Environment/Sci-fi Tileset re-imagined.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/DestructibleObject.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 25.8167, 4.76163 )
 
-[node name="Container" type="Sprite"]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 23.8276, 9.66364 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+direction = Vector3( 1, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 75.0
+angular_velocity = 5.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+radial_accel = 5.0
+damping = 100.21
+scale = 3.0
+scale_random = 1.0
+
+[node name="Container" type="Node2D"]
 position = Vector2( 0, -4.01147 )
-texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 179.51, 227.986, 75, 25 )
+script = ExtResource( 3 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 4.24747, 5.66326 )
 shape = SubResource( 1 )
+
+[node name="Area2D" type="Area2D" parent="." groups=[
+"destructible",
+]]
+position = Vector2( -4.96314, 6.83603 )
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 11.4241, -5.33611 )
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -0.587341, 1.24561 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 177.428, 228.207, 77.7914, 27.9619 )
+
+[node name="Destroyed" type="Sprite" parent="."]
+visible = false
+position = Vector2( 7.28786, 1.03566 )
+scale = Vector2( 2, 1.25 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 411.379, 142.921, 23.0692, 18.5505 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+modulate = Color( 0.360784, 0.32549, 0.298039, 1 )
+position = Vector2( 3.8619, 0.0559158 )
+emitting = false
+amount = 15
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+process_material = SubResource( 3 )
