@@ -7,16 +7,23 @@ onready var slash_collider = $SlashCollider
 onready var LOS_raycast = $LineOfSightRaycast
 
 
+var walk_speed_levels = [90, 100, 110, 120, 130, 140, 150]
+var dash_speed_levels = [250, 300, 333, 366, 400, 450, 500]
+var slash_charges_levels = [1, 1, 2, 3, 4, 5, 5]
+var max_special_cooldown_levels = [10, 6, 6, 6, 6, 6, 5]
+var saber_ring_durability_levels = [0.1, 0.15, 0.175, 0.2, 0.225, 0.250, 0.275]
+
 var walk_speed
 var dash_speed
 var slash_charges
 var saber_ring_durability
 
-var walk_speed_levels = [90, 100, 110, 120, 130, 140, 150]
-var dash_speed_levels = [250, 300, 333, 366, 400, 450, 500]
-var slash_charges_levels = [1, 1, 2, 3, 4, 5, 5]
-var max_special_cooldown_levels = [10, 6, 6, 6, 6, 6, 4]
-var saber_ring_durability_levels = [0.1, 0.15, 0.175, 0.2, 0.225, 0.250, 0.275]
+var fractured_mind = false
+var true_focus = false
+var slash_damage = 150
+var dash_time_dilation = 0.75
+var saber_ring_deflect_level = 1
+var saber_ring_enemy_kb = 1000
 
 var saber_ring = null
 var sabers_sheathed = true
@@ -55,6 +62,32 @@ func toggle_enhancement(state):
 	slash_charges = slash_charges_levels[level]
 	max_special_cooldown = max_special_cooldown_levels[level]
 	saber_ring_durability = saber_ring_durability_levels[level]
+	fractured_mind = false
+	true_focus = false
+	slash_damage = 150
+	dash_time_dilation = 0.75
+	saber_ring_deflect_level = 1
+	saber_ring_enemy_kb = 1000
+	
+	if state == true:
+		if GameManager.player_upgrades['true_focus'] > 0:
+			fractured_mind = true
+			saber_ring_enemy_kb *= 0.66
+			
+		if GameManager.player_upgrades['true_focus'] > 0:
+			true_focus == true
+			slash_damage = 444
+			dash_speed *= 1.5
+			dash_time_dilation = 0.5
+			
+		max_special_cooldown -= GameManager.player_upgrades['overclocked_cooling']
+		
+		saber_ring_deflect_level += GameManager.player_upgrades['ricochet_simulation']
+		
+		saber_ring_durability *= 1 + 0.6*GameManager.player_upgrades['supple_telekinesis']
+		for i in range(GameManager.player_upgrades['supple_telekinesis']):
+			saber_ring_enemy_kb *= 0.8
+			
 	
 	LOS_raycast.enabled = !state
 	if state == true and in_kill_mode:
@@ -192,7 +225,7 @@ func start_kill_mode():
 	kill_mode_timer = 1
 	
 	if is_in_group("player"):
-		GameManager.lerp_to_timescale(0.75)
+		GameManager.lerp_to_timescale(dash_time_dilation)
 	
 func end_kill_mode():
 	in_kill_mode = false
@@ -209,12 +242,15 @@ func slash():
 	kill_mode_timer = 1
 	animplayer.play("Special")
 	slash_collider.position.x = -10 if facing_left else 10
-	melee_attack(slash_collider, 150, 1000, 5)
+	melee_attack(slash_collider, slash_damage, 1000, 5)
 	set_invincibility_time(0.25)
 	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.6)
-		GameManager.timescale = 0.0
+		if true_focus:
+			GameManager.set_timescale(0.02, 0.3)
+		else:
+			GameManager.timescale = 0.0
 		
 func end_slash():
 	attacking = false
@@ -256,6 +292,8 @@ func on_sabers_unsheathed():
 	saber_ring.global_position = global_position + Vector2(-29 if facing_left else 29, -8)
 	saber_ring.visible = true
 	saber_ring.mass = saber_ring_durability
+	saber_ring.deflect_level = saber_ring_deflect_level
+	saber_ring.kb_speed = saber_ring_enemy_kb
 	lock_aim = false
 	attacking = false
 	walk_anim = "Walk Saberless"
@@ -275,10 +313,10 @@ func spawn_ghost_image():
 	new_ghost.copy_sprite(sprite)
 	new_ghost.set_lifetime(0.4)
 	
-func take_damage(damage, source):
+func take_damage(damage, source, stun = 0):
 	if in_kill_mode:
 		damage /= 2
-	.take_damage(damage, source)
+	.take_damage(damage, source, stun)
 	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Die":

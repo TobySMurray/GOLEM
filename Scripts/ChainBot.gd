@@ -13,7 +13,14 @@ var init_charge
 var shot_speed_levels = [150, 175, 200, 225, 250, 275, 300]
 var walk_speed_levels = [130, 160, 190, 220, 250, 270, 280]
 var charge_speed_levels = [1, 1.4, 1.8, 2.2, 2.3, 2.4, 2.5]
-var init_charge_levels = [0.3, 0.3, 0.3, 0.3, 0.6, 1, 1.4]
+var init_charge_levels = [0.3, 0.3, 0.3, 0.3, 0.5, 0.7, 1.0]
+
+var kb_mult = 1
+var damage_mult = 1
+var melee_stun = 0
+var laminar_shockwave = false
+var speed_while_charging = 20
+
 
 
 var ai_state = 'approach'
@@ -47,6 +54,22 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_levels[level]
 	charge_speed = charge_speed_levels[level]
 	init_charge = init_charge_levels[level]
+	kb_mult = 1
+	damage_mult = 1
+	speed_while_charging = 20
+	melee_stun = 0
+	
+	if state == true:
+		init_charge += charge_speed*0.33*GameManager.player_upgrades['precompressed_hydraulics']
+		for i in range(GameManager.player_upgrades['precompressed_hydraulics']):
+			charge_speed *= 0.8
+		
+		kb_mult -= min(0.95, 0.5*GameManager.player_upgrades['adaptive_wrists'])
+		damage_mult += 0.2*GameManager.player_upgrades['adaptive_wrists']
+		
+		melee_stun = 0.3*GameManager.player_upgrades['discharge_flail']
+		
+		speed_while_charging = max(20, GameManager.player_upgrades['footwork_scheduler']*walk_speed/3.0)
 	
 	if charging:
 		attack()
@@ -130,48 +153,18 @@ func ai_move():
 					ai_target_point = null
 					ai_state = ['start_attack', 'backstep'][int(randf()*1.6)]
 
-#	if (ai_target_point - global_position).length() < 5 or ai_move_timer < 0:
-#		ai_move_timer = 2
-#		ai_target_point = global_position
-#
-#		var player_pos = GameManager.player.shape.global_position
-#		var to_player = player_pos - global_position
-#		var dist = to_player.length()
-#		var angle = (-to_player).angle()
-#		ai_side = 1 if to_player.x > 0 else -1
-#
-#		# use A* to get close
-#		if dist > 200:
-#			target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, player_pos)
-#			return
-#
-#		else:
-#			if abs(angle) < 30 and (randf() < 0.4 or dist < 50):
-#				ai_charge_timer = 0.3 + randf()*0.7
-#				charge()	
-#
-#			else:
-#				ai_target_angle = (randf()-0.5)*PI/2 * -sign(ai_target_angle)
-#				ai_target_dist = max(dist - 50, 30)
-#
-#		var target_angle = ai_target_angle if ai_side == 1 else ai_target_angle + 180
-#		ai_target_point = player_pos - Vector2(cos(ai_target_angle), sin(ai_target_angle))*ai_target_dist
-#
-#		var to_target_point = ai_target_point - global_position
-#		if to_target_point.length() > 5 and ai_move_timer > 0:
-#			target_velocity = to_target_point
-
-		
 func charge():
 	charging = true
 	attacking = true
-	lock_aim = true
-	max_speed = 20
+	if not is_in_group('player') or GameManager.player_upgrades['footwork_scheduler'] == 0: 
+		lock_aim = true
+	max_speed = speed_while_charging
 	charge_level = init_charge
 	animplayer.play("Charge")
 	
 func attack():
 	charging = false
+	lock_aim = true
 	attack_cooldown = 1
 	animplayer.play("Attack")
 	
@@ -197,7 +190,7 @@ func swing_attack():
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave')
 		
-	melee_attack(attack_collider, 50*charge_level, 900*charge_level, charge_level+1)
+	melee_attack(attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, melee_stun*charge_level)
 	if charge_level > 2:
 		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), self, 1, 10)
 

@@ -9,6 +9,7 @@ var max_speed = 5000
 var damage = 5
 var kb_speed = 1000
 var mass = 0.1
+var deflect_level = 1
 
 var target_pos = Vector2.ZERO
 
@@ -67,10 +68,16 @@ func _on_Area2D_area_entered(area):
 				GameManager.spawn_blood(entity.global_position, (-kb_vel).angle(), 600, 5, 30)
 	
 	elif area.is_in_group("bullet") and area.source != source:
-		area.velocity = area.velocity.length()*(area.global_position - global_position).normalized()
+		if deflect_level == 1:
+			area.velocity = area.velocity.length()*(area.global_position - global_position).normalized()
+		else:
+			if is_instance_valid(area.source):
+				area.velocity = area.velocity.length()*(deflect_level-1)*(area.source.global_position - area.global_position).normalized()
+			else:
+				area.velocity *= -(deflect_level-1)
 		area.source = source
 		area.lifetime = 2
 			
-func take_damage(damage, source):
+func take_damage(damage, source, stun = 0):
 	accel -= damage/(mass*3)
 	pass

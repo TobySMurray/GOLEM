@@ -39,7 +39,7 @@ func _on_Area2D_area_entered(area):
 				GameManager.spawn_blood(entity.global_position, (-delta_vel).angle(), sqrt(delta_vel.length())*30, damage, 30)
 			
 			
-func take_damage(damage, source):
+func take_damage(damage, source, stun = 0):
 	decel_timer = 0
 	pass
 	

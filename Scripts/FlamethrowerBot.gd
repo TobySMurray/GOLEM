@@ -11,9 +11,16 @@ var fire_volume
 var walk_speed_levels = [100, 115, 130, 145, 160, 175, 190]
 var shot_speed_levels = [200, 175, 200, 225, 250, 280, 310]
 var shot_spread_levels = [25, 15, 20, 25, 30, 40, 50]
-var fire_volume_levels = [1, 1.2, 1.4, 1.8, 2.1, 2.4, 2.8]
+var fire_volume_levels = [4, 4.8, 5.6, 6.2, 8,4, 9.6, 11.2]
 
-var fuel = 200
+var startup_lag = 0.5
+var pressure_dropoff = 0.3
+var recoil = 0
+var speed_while_attacking = 40 
+var thermobaric_mode = false
+var nuclear_suicide = false
+
+var pressure = 1
 var shot_timer = 0
 var flamethrowing = false
 var ai_shoot = false
@@ -44,18 +51,40 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_levels[level]
 	shot_spread = shot_spread_levels[level]
 	fire_volume = fire_volume_levels[level]
+	startup_lag = 0.5 - 0.03*level
+	pressure_dropoff = 0.3
+	recoil = 0
+	speed_while_attacking = 40
+	thermobaric_mode = false
+	nuclear_suicide = false
 	
-	if state == true and flamethrowing:
-		flamethrowing = false
-		animplayer.play("Cooldown")
+	if state == true:
+		fire_volume *= 1.0 + 0.2*GameManager.player_upgrades['pressurized_hose']
+		pressure_dropoff *= 1.0 + 0.4*GameManager.player_upgrades['pressurized_hose'] 
+		for i in range(GameManager.player_upgrades['pressurized_hose']):
+			startup_lag *= 0.5
+			
+		speed_while_attacking *= min(walk_speed, 1.0 + 0.75*GameManager.player_upgrades['optimized_regulator'])
+		for i in range(GameManager.player_upgrades['optimized_regulator']):
+			fire_volume *= 0.85
+			pressure_dropoff *= 0.5
+			
+		if GameManager.player_upgrades['internal_combustion'] > 0:
+			shot_speed *= 2
+			shot_spread = 10
+			recoil = 500
+	
+		if flamethrowing:
+			flamethrowing = false
+			animplayer.play("Cooldown")
 
 func player_action():
-	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
+	if Input.is_action_pressed("attack1") and not attacking and attack_cooldown < 0:
 		attacking = true
-		max_speed = 40
 		attack()
-	if Input.is_action_just_released("attack1"):
+	if Input.is_action_just_released("attack1") and attacking:
 		flamethrowing = false
+		attack_cooldown = 0.8
 		animplayer.play("Cooldown")
 		
 	if Input.is_action_just_pressed("attack2") and GameManager.swappable:
@@ -67,17 +96,18 @@ func player_action():
 func misc_update(delta):
 	ai_retarget_timer -= delta
 	
-	if flamethrowing and fuel > 0:
-		fuel -= 1
+	if flamethrowing and pressure > 0:
+		pressure -= delta*pressure_dropoff
+		velocity -= aim_direction.normalized() * recoil * pressure * delta
 		
 		shot_timer -= delta
 		if shot_timer < 0:
 			flamethrower()
 			
-	elif not attacking and fuel < 200:
-		fuel += 5
+	elif not attacking:
+		pressure = 1.0
 		
-	if fuel <= 0:
+	if pressure <= 0:
 		flamethrowing = false
 		animplayer.play("Cooldown")
 		flamethrower.stop()
@@ -85,8 +115,12 @@ func misc_update(delta):
 
 func attack():
 	attacking = true
-	max_speed = 40
+	max_speed = speed_while_attacking
 	shot_timer = -1
+	if is_in_group('player'):
+		animplayer.playback_speed = 0.5 / startup_lag
+		if recoil > 0:
+			accel = 3
 	animplayer.play("Charge")
 	flamethrower.play()
 	
@@ -94,8 +128,8 @@ func flamethrower():
 	flamethrower.play(0.5)
 	
 	var limited_aim_direction = limit_aim_direction(aim_direction)
-	var pellets = max(fire_volume*fuel/50, 1)
-	shot_timer = 40.0/(fuel+200)
+	var pellets = ceil(max(fire_volume*pressure, 1))
+	shot_timer = 0.2/(pressure+1)
 	
 	for i in range(pellets):
 		var pellet_dir = limited_aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
@@ -181,10 +215,16 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
 		animplayer.play("Attack")
 		flamethrowing = true
+		if is_in_group('player'):
+			animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
+		else:
+			animplayer.playback_speed = 1
+			
 	if anim_name == "Cooldown":
 		attacking = false
 		lock_aim = false
 		max_speed = walk_speed
+		accel = 10
 	if anim_name == "Die":
 		if is_in_group("enemy"):
 			actually_die()

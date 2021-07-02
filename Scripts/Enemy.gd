@@ -73,6 +73,8 @@ signal clear_transcender
 var idle_anim = "Idle"
 var walk_anim = "Walk"
 
+var stun_timer = -1
+
 var dead = false
 var force_swap = false
 var death_timer = 0
@@ -103,7 +105,7 @@ func _physics_process(delta):
 				on_boss_capture()
 				
 		if not capturing_boss:
-			if not dead:
+			if not dead and stun_timer < 0:
 				player_move(delta)
 				
 				
@@ -114,7 +116,7 @@ func _physics_process(delta):
 			if about_to_swap:
 				choose_swap_target()
 			else:
-				if not dead:
+				if not dead and stun_timer < 0:
 					player_action()
 					
 				if GameManager.swappable:
@@ -124,12 +126,13 @@ func _physics_process(delta):
 		
 	else:
 		time_since_controlled += delta
-		if is_instance_valid(GameManager.player) and not dead:
+		if is_instance_valid(GameManager.player) and not dead and stun_timer < 0:
 			ai_move()
 			ai_action()
 		
 	attack_cooldown -= delta
 	special_cooldown -= delta
+	stun_timer -= delta
 	
 	if invincible:
 		invincibility_timer -= delta
@@ -220,7 +223,7 @@ func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet")
 	if is_in_group("player"):
 		GameManager.player_bullets.append(new_bullet)
 	
-func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
+func melee_attack(collider, damage = 10, force = 50, deflect_power = 0, stun = 0):
 	var space_rid = get_world_2d().space
 	var space_state = Physics2DServer.space_get_direct_state(space_rid)
 	
@@ -237,7 +240,7 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 		if col['collider'].is_in_group("hitbox"):
 			var enemy = col['collider'].get_parent()
 			if not enemy.invincible and not enemy == self:
-				enemy.take_damage(damage, self)
+				enemy.take_damage(damage, self, stun)
 				enemy.velocity += (enemy.global_position - global_position).normalized() * force
 				
 				if not enemy.is_in_group("bloodless"):
@@ -257,7 +260,7 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0):
 					else:
 						bullet.velocity = -bullet.velocity
 		
-func take_damage(damage, source):
+func take_damage(damage, source, stun = 0):
 	if invincible:
 		return
 	
@@ -271,10 +274,15 @@ func take_damage(damage, source):
 		swap_shield_health -= shield_damage
 		damage -= shield_damage
 		update_swap_shield()
+		
+	if stun > 0:
+		target_velocity = Vector2.ZERO
+		stun_timer = max(stun_timer, stun)
 
 	health -= damage
 	healthbar.value = health
 	sprite.modulate = Color.red
+	
 	if health <= 0:
 		die(source)
 		

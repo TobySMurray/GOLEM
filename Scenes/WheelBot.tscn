@@ -407,7 +407,7 @@ shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0.0102234, -0.932678 )
-frame = 52
+frame = 43
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
 light_mask = 5
@@ -420,7 +420,7 @@ offset = Vector2( 35, -2 )
 "hitbox",
 ]]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 17 )
@@ -451,7 +451,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 11
+frame = 49
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -464,5 +464,5 @@ visible = false
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 0, 4.8 )
 cast_to = Vector2( 0, 20 )
-
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
