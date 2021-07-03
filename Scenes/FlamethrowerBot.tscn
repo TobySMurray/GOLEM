@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scripts/FlamethrowerBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/flamethrower bot/run.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=16]
+[ext_resource path="res://Shaders/Flash.tres" type="Material" id=17]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -411,6 +412,7 @@ anims/Walk = SubResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
+material = ExtResource( 17 )
 position = Vector2( 22, -19 )
 texture = ExtResource( 7 )
 hframes = 6
@@ -420,7 +422,7 @@ position = Vector2( -0.44545, 3.34087 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
-frame = 0
+frame = 34
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -452,7 +454,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 8.46354 )
-frame = 32
+frame = 4
 
 [node name="Explosion" type="Area2D" parent="."]
 visible = false

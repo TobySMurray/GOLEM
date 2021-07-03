@@ -3,6 +3,7 @@ extends "res://Scripts/Enemy.gd"
 onready var muzzle_flash = $MuzzleFlash
 onready var audio = $StepAudio
 onready var reload = $Reload
+onready var melee_collider = $MeleeCollider/CollisionShape2D
 
 var shot_speed
 var num_pellets
@@ -34,6 +35,7 @@ func _ready():
 	max_speed = 120
 	bullet_spawn_offset = 10
 	flip_offset = -53
+	max_special_cooldown = 1.5
 	healthbar.max_value = health
 	init_healthbar()
 	score = 50
@@ -63,7 +65,7 @@ func toggle_enhancement(state):
 		num_pellets *= 1.0 + GameManager.player_upgrades['stacked_shells']
 		recoil *= 1.0 + 1.5*GameManager.player_upgrades['stacked_shells']
 		
-		melee_stun = 0.5*GameManager.player_upgrades['shock_stock']
+		melee_stun = GameManager.player_upgrades['shock_stock']
 		
 		flak_mode = GameManager.player_upgrades['soldering_fingers'] > 0
 		
@@ -72,14 +74,17 @@ func toggle_enhancement(state):
 			reload_time *= 0.8
 		
 	
-	
 func misc_update(delta):
 	ai_move_timer -= delta
+	melee_collider.position.x = -15 if facing_left else 15
 	
 func player_action():
-	if (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and attack_cooldown < 0:
+	if (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and not attacking and attack_cooldown < 0:
 		shoot()
 		
+	elif Input.is_action_just_pressed("attack2") and not attacking and special_cooldown < 0:
+		start_bash()
+			
 func ai_move():
 	var to_player = GameManager.player.global_position - shape.global_position
 	var player_dist = to_player.length()
@@ -105,8 +110,6 @@ func ai_move():
 		else:
 			ai_target_point = shape.global_position
 			target_velocity = Vector2.ZERO
-		
-		
 		
 func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position).normalized()
@@ -137,10 +140,25 @@ func show_muzzle_flash():
 	muzzle_flash.frame = 0
 	muzzle_flash.play("Flash")
 	
+func start_bash():	
+	attacking = true
+	lock_aim = true
+	special_cooldown = max_special_cooldown
+	animplayer.play('Special')
+	
+func bash():
+	if is_in_group("player"):
+		GameManager.camera.set_trauma(0.4)
+	velocity.x += 250*sign(aim_direction.x)
+	melee_attack(melee_collider, 20, 1000, 1, melee_stun)
+	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":
 		attacking = false
 		reload.play()
+	elif anim_name == 'Special':
+		attacking = false
+		lock_aim = false
 	elif anim_name == "Die":
 		if is_in_group("enemy"):
 			actually_die()

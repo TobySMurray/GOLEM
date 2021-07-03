@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Scripts/WheelBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/Bot Wheel/move without FX.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=19]
+[ext_resource path="res://Shaders/Flash.tres" type="Material" id=20]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
@@ -387,6 +388,7 @@ texture = ExtResource( 19 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
+material = ExtResource( 20 )
 position = Vector2( 36, -2 )
 texture = ExtResource( 7 )
 vframes = 8
@@ -407,7 +409,6 @@ shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0.0102234, -0.932678 )
-frame = 43
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
 light_mask = 5
@@ -451,7 +452,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 49
+frame = 31
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

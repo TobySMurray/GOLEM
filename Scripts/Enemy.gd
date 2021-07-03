@@ -35,6 +35,10 @@ var accel = 10
 var light_color = Color.white
 var base_color = Color.white
 
+var is_flashing = false
+var flash_timer = 0
+var flash_color = Color.white
+
 var facing_left = false
 var attacking = false
 var about_to_swap = false
@@ -130,9 +134,12 @@ func _physics_process(delta):
 			ai_move()
 			ai_action()
 		
+	update_flash(delta)
+	
 	attack_cooldown -= delta
 	special_cooldown -= delta
 	stun_timer -= delta
+	
 	
 	if invincible:
 		invincibility_timer -= delta
@@ -264,7 +271,7 @@ func take_damage(damage, source, stun = 0):
 	if invincible:
 		return
 	
-	if !is_in_group("enemy"):
+	if is_in_group("player"):
 		set_invincibility_time(0.05)
 		GameManager.camera.set_trauma(0.4)
 	
@@ -281,7 +288,8 @@ func take_damage(damage, source, stun = 0):
 
 	health -= damage
 	healthbar.value = health
-	sprite.modulate = Color.red
+	flash_timer = 0.066
+	is_flashing = true
 	
 	if health <= 0:
 		die(source)
@@ -447,6 +455,14 @@ func clear_transcender():
 func toggle_selected_enemy(enemy_is_selected):
 	if enemy_is_selected:
 		emit_signal("toggle_selected_enemy")
+	
+func update_flash(delta):	
+	if is_flashing:
+		flash_timer -= delta
+		sprite.material.set_shader_param('intensity', 1 if int(flash_timer*15)%2 == 0 else 0)
+		if flash_timer < 0:
+			is_flashing = false
+			sprite.material.set_shader_param('intensity', 0)
 		
 func emit_score_popup(value, msg):
 	var popup = score_popup.instance().duplicate()
