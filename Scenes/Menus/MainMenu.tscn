@@ -879,13 +879,7 @@ __meta__ = {
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="ControlsPopup"]
 position = Vector2( 194.835, 198.044 )
 frames = SubResource( 61 )
-<<<<<<< HEAD
 frame = 6
-=======
-
-frame = 46
-
->>>>>>> 6f347fbae798fac7cd357f4c50ae21b64058068a
 speed_scale = 4.0
 playing = true
 
