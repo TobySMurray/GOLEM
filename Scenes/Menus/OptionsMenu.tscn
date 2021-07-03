@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scripts/OptionsMainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/controlSettings.gd" type="Script" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -84,7 +85,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 8
+frame = 12
 playing = true
 
 [node name="Panel" type="Panel" parent="."]
@@ -197,6 +198,7 @@ __meta__ = {
 }
 
 [node name="audioSettings" type="Control" parent="."]
+visible = false
 anchor_left = -0.012
 anchor_top = 0.422
 anchor_right = 1.0
@@ -302,14 +304,37 @@ __meta__ = {
 }
 
 [node name="controlSettings" type="Control" parent="."]
-visible = false
-anchor_left = -0.012
-anchor_top = 0.422
+anchor_top = 0.467
 anchor_right = 1.0
 anchor_bottom = 0.844
-margin_left = 7.68
-margin_top = 16.08
-margin_bottom = 0.159973
+margin_left = 48.0
+margin_top = -0.119995
+margin_right = -56.0
+margin_bottom = 0.160004
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="controlSettings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Binds" type="VBoxContainer" parent="controlSettings/ScrollContainer"]
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveKeybinds" type="Button" parent="controlSettings"]
+margin_left = 376.0
+margin_top = 152.0
+margin_right = 546.0
+margin_bottom = 176.0
+text = "Save Keybinds"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -317,3 +342,4 @@ __meta__ = {
 [connection signal="value_changed" from="audioSettings/masterVolumeSlider" to="audioSettings/masterVolumeSlider" method="_on_value_changed"]
 [connection signal="value_changed" from="audioSettings/musicVolumeSlider" to="audioSettings/musicVolumeSlider" method="_on_value_changed"]
 [connection signal="value_changed" from="audioSettings/effectsVolumeSlider" to="audioSettings/effectsVolumeSlider" method="_on_value_changed"]
+[connection signal="pressed" from="controlSettings/SaveKeybinds" to="controlSettings" method="_on_SaveKeybinds_pressed"]

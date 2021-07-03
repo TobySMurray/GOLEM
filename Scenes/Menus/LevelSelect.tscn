@@ -86,7 +86,11 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
+<<<<<<< HEAD
+frame = 12
+=======
 frame = 14
+>>>>>>> 2113f5956f9b45ab1a84aa02b055121eb0c36cd0
 playing = true
 
 [node name="Title" type="Label" parent="."]

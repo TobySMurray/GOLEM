@@ -10,8 +10,8 @@ var newChoice = 1
 var song
 const level_paths = {
 	0: "Menu",
-	1: "MainLevel",
-	2: "Level2"
+	1: "SkyRuins",
+	2: "Labyrinth"
 }
 var level = level_paths[0]
 #Saved
@@ -24,6 +24,15 @@ var effectsMute = false
 var resWidth = 1920
 var resHeight = 1080
 var fullscreen = false
+
+var keybinds = {
+	'move_up': KEY_W,
+	'move_down': KEY_S,
+	'move_left': KEY_A,
+	'move_right': KEY_D,
+	'swap': KEY_SPACE,
+	'pause': KEY_ESCAPE,
+}
 
 #Game Stats
 var high_scores = {
@@ -84,6 +93,7 @@ func _ready():
 	chooseMusic()
 	apply_audio_settings()
 	resolution()
+	set_keybinds()
 
 func _process(delta):
 	pass
@@ -124,7 +134,17 @@ func apply_audio_settings():
 	AudioServer.set_bus_volume_db(0, linear2db(0 if masterMute else masterVolume))
 	AudioServer.set_bus_volume_db(1, linear2db(0 if musicMute else musicVolume))
 	AudioServer.set_bus_volume_db(2, linear2db(0 if effectsMute else effectsVolume))
-		
+
+func set_keybinds(): #modified from https://www.youtube.com/watch?v=I_Kzb-d-SvM
+	for key in keybinds.keys():
+		var scancode = keybinds[key]
+		var actionlist = InputMap.get_action_list(key)
+		if !actionlist.empty():
+			InputMap.action_erase_event(key, actionlist[0])
+		var new_key = InputEventKey.new()
+		new_key.set_scancode(scancode)
+		InputMap.action_add_event(key, new_key)
+
 func saveSettings():
 	var settings = {
 		resolution = {
@@ -138,7 +158,7 @@ func saveSettings():
 		"musicMute": musicMute,
 		"effectsVolume": effectsVolume,
 		"effectsMute": effectsMute,
-		
+		"keybinds": keybinds,
 		"high_scores": high_scores,
 		"max_kills": max_kills,
 		"max_time": max_time,
@@ -170,7 +190,7 @@ func loadSettings():
 	resWidth = data['resolution']['width']
 	resHeight = data['resolution']['height']
 	fullscreen = data['fullscreen']
-	
+	keybinds = data['keybinds']
 	high_scores = data['high_scores']
 	max_kills = data['max_kills']
 	max_time = data['max_time']

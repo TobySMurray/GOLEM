@@ -4,8 +4,8 @@ extends Control
 
 const level_paths = {
 	0: "Menu",
-	1: "MainLevel",
-	2: "Level2"
+	1: "SkyRuins1",
+	2: "Labyrinth1"
 }
 
 func _ready():
@@ -15,10 +15,10 @@ func _ready():
 	$Back.connect("pressed", self, "back")
 
 func skyRuins():
-	get_tree().change_scene("res://Scenes/"+ level_paths[1] +".tscn")
+	get_tree().change_scene("res://Scenes/Levels/"+ level_paths[1] +".tscn")
 	
 func labyrinth():
-	get_tree().change_scene("res://Scenes/"+ level_paths[2] +".tscn")
+	get_tree().change_scene("res://Scenes/Levels/"+ level_paths[2] +".tscn")
 
 func desert():
 	pass
