@@ -412,15 +412,15 @@ anims/Walk = SubResource( 7 )
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
 position = Vector2( 22, -19 )
-texture = ExtResource( 7 )
-hframes = 6
+texture = ExtResource( 2 )
+hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.44545, 3.34087 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 4 )]
-frame = 0
+frame = 20
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -452,7 +452,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 8.46354 )
-frame = 32
+frame = 50
 
 [node name="Explosion" type="Area2D" parent="."]
 visible = false
@@ -467,4 +467,5 @@ shape = SubResource( 10 )
 
 [node name="CharacterLights" parent="." instance=ExtResource( 15 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

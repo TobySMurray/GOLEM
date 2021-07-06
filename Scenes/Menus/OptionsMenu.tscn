@@ -85,7 +85,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 12
+frame = 3
 playing = true
 
 [node name="Panel" type="Panel" parent="."]
@@ -198,7 +198,6 @@ __meta__ = {
 }
 
 [node name="audioSettings" type="Control" parent="."]
-visible = false
 anchor_left = -0.012
 anchor_top = 0.422
 anchor_right = 1.0
@@ -304,6 +303,7 @@ __meta__ = {
 }
 
 [node name="controlSettings" type="Control" parent="."]
+visible = false
 anchor_top = 0.467
 anchor_right = 1.0
 anchor_bottom = 0.844
