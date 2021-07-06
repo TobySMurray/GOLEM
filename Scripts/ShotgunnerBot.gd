@@ -3,16 +3,18 @@ extends "res://Scripts/Enemy.gd"
 onready var muzzle_flash = $MuzzleFlash
 onready var audio = $StepAudio
 onready var reload = $Reload
+onready var melee_collider = $MeleeCollider/CollisionShape2D
 
 var shot_speed
 var num_pellets
 var reload_time
 
 var walk_speed_level = [110, 120, 130, 140, 150, 160, 170]
-var shot_speed_level = [175, 250, 325, 400, 475, 550, 600]
+var shot_speed_level = [175, 350, 425, 500, 575, 650, 700]
 var num_pellets_level = [6, 6, 7, 8, 9, 10, 12, 14]
 var reload_time_level = [1.33, 1.2, 1.1, 1, 0.95, 0.9, 0.85]
 
+var num_shells = 1
 var bullet_spread = 15
 var bullet_kb = 0.3
 var bullet_type = 'pellet'
@@ -34,6 +36,7 @@ func _ready():
 	max_speed = 120
 	bullet_spawn_offset = 10
 	flip_offset = -53
+	max_special_cooldown = 1.5
 	healthbar.max_value = health
 	init_healthbar()
 	score = 50
@@ -47,7 +50,7 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_level[level]
 	num_pellets = num_pellets_level[level]
 	reload_time = reload_time_level[level]
-	max_attack_cooldown = reload_time
+	num_shells = 1
 	bullet_type = 'pellet'
 	bullet_kb = 0.3
 	melee_stun = 0
@@ -60,26 +63,32 @@ func toggle_enhancement(state):
 		
 		reload_time *= 1.0 + 0.5*GameManager.player_upgrades['stacked_shells']
 		bullet_spread = 15*(1.0 + GameManager.player_upgrades['stacked_shells'])
-		num_pellets *= 1.0 + GameManager.player_upgrades['stacked_shells']
+		num_shells *= 1 + GameManager.player_upgrades['stacked_shells']
 		recoil *= 1.0 + 1.5*GameManager.player_upgrades['stacked_shells']
 		
-		melee_stun = 0.5*GameManager.player_upgrades['shock_stock']
+		melee_stun = GameManager.player_upgrades['shock_stock']
 		
-		flak_mode = GameManager.player_upgrades['soldering_fingers'] > 0
+		if GameManager.player_upgrades['soldering_fingers'] > 0:
+			flak_mode = true
+			bullet_spread /= 5
 		
 		full_auto = GameManager.player_upgrades['reload_coroutine'] > 0
 		for i in range(GameManager.player_upgrades['reload_coroutine']):
 			reload_time *= 0.8
-		
 	
+	max_attack_cooldown = reload_time
 	
 func misc_update(delta):
 	ai_move_timer -= delta
+	melee_collider.position.x = -15 if facing_left else 15
 	
 func player_action():
-	if (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and attack_cooldown < 0:
+	if (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and not attacking and attack_cooldown < 0:
 		shoot()
 		
+	elif Input.is_action_just_pressed("attack2") and not attacking and special_cooldown < 0:
+		start_bash()
+			
 func ai_move():
 	var to_player = GameManager.player.global_position - shape.global_position
 	var player_dist = to_player.length()
@@ -106,8 +115,6 @@ func ai_move():
 			ai_target_point = shape.global_position
 			target_velocity = Vector2.ZERO
 		
-		
-		
 func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position).normalized()
 	if ai_can_shoot and attack_cooldown < 0:
@@ -124,12 +131,20 @@ func shoot():
 	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.55, 5)
-	
-	for i in range(num_pellets):
-		var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(bullet_spread))
-		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5)) + (100 if is_in_group("player") else 0)
-		var bullet_type = 'flame' if (GameManager.player_upgrades['induction_barrel'] == 1 and is_in_group('player')) else 'pellet'
-		shoot_bullet(pellet_dir*pellet_speed, 10, bullet_kb, 4, bullet_type)
+		
+	var bullet_type = 'flame' if (GameManager.player_upgrades['induction_barrel'] == 1 and is_in_group('player')) else 'pellet'
+		
+	if flak_mode:
+		for i in range(num_shells):
+			var dir = aim_direction.rotated((randf()-0.5)*deg2rad(bullet_spread))
+			var speed = shot_speed * (1 + 0.1*(randf()-0.5))
+			shoot_flak_bullet(dir*speed, 30, 1, 4, num_pellets, 10, shot_speed*0.66, bullet_type)
+		
+	else:
+		for i in range(num_pellets*num_shells):
+			var pellet_dir = aim_direction.rotated((randf()-0.5)*deg2rad(bullet_spread))
+			var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
+			shoot_bullet(pellet_dir*pellet_speed, 10, bullet_kb, 4, bullet_type)
 			
 func show_muzzle_flash():
 	muzzle_flash.rotation = aim_direction.angle();
@@ -137,10 +152,25 @@ func show_muzzle_flash():
 	muzzle_flash.frame = 0
 	muzzle_flash.play("Flash")
 	
+func start_bash():	
+	attacking = true
+	lock_aim = true
+	special_cooldown = max_special_cooldown
+	animplayer.play('Special')
+	
+func bash():
+	if is_in_group("player"):
+		GameManager.camera.set_trauma(0.4)
+	velocity.x += 250*sign(aim_direction.x)
+	melee_attack(melee_collider, 20, 1000, 1, melee_stun)
+	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":
 		attacking = false
 		reload.play()
+	elif anim_name == 'Special':
+		attacking = false
+		lock_aim = false
 	elif anim_name == "Die":
 		if is_in_group("enemy"):
 			actually_die()

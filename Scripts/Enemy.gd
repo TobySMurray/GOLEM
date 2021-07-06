@@ -6,7 +6,6 @@ onready var animplayer = $AnimationPlayer
 onready var sprite = $Sprite
 onready var swap_cursor = $BloodMoon
 onready var swap_shield = $ClearMoon
-onready var bullet = load("res://Scenes/Bullet.tscn")
 onready var score_popup = load("res://Scenes/ScorePopup.tscn")
 onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
@@ -21,6 +20,9 @@ onready var shape = $CollisionShape2D
 onready var light_circle = $CharacterLights/Radial
 onready var light_beam = $CharacterLights/Directed
 
+onready var Bullet = load("res://Scenes/Bullet.tscn")
+onready var FlakBullet = load("res://Scenes/FlakBullet.tscn")
+
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
 onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay")
@@ -34,6 +36,10 @@ var target_velocity = Vector2.ZERO
 var accel = 10
 var light_color = Color.white
 var base_color = Color.white
+
+var is_flashing = false
+var flash_timer = 0
+var flash_color = Color.white
 
 var facing_left = false
 var attacking = false
@@ -130,9 +136,12 @@ func _physics_process(delta):
 			ai_move()
 			ai_action()
 		
+	update_flash(delta)
+	
 	attack_cooldown -= delta
 	special_cooldown -= delta
 	stun_timer -= delta
+	
 	
 	if invincible:
 		invincibility_timer -= delta
@@ -210,7 +219,7 @@ func animate():
 		
 		
 func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet"):
-	var new_bullet = bullet.instance().duplicate()
+	var new_bullet = Bullet.instance().duplicate()
 	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
 	new_bullet.source = self
 	new_bullet.velocity = vel * 0.8
@@ -218,6 +227,23 @@ func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet")
 	new_bullet.mass = mass
 	new_bullet.lifetime = lifetime
 	new_bullet.set_appearance(type)
+	get_node("/root").add_child(new_bullet)
+	
+	if is_in_group("player"):
+		GameManager.player_bullets.append(new_bullet)
+		
+func shoot_flak_bullet(vel, damage = 30, mass = 1, lifetime = 10, num_frags = 6, frag_damage = 10, frag_speed = 150, frag_type = 'pellet'):
+	var new_bullet = FlakBullet.instance().duplicate()
+	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
+	new_bullet.source = self
+	new_bullet.velocity = vel * 0.8
+	new_bullet.damage = damage
+	new_bullet.mass = mass
+	new_bullet.lifetime = lifetime
+	new_bullet.num_frags = num_frags
+	new_bullet.frag_damage = frag_damage
+	new_bullet.frag_speed = frag_speed
+	new_bullet.frag_type = frag_type
 	get_node("/root").add_child(new_bullet)
 	
 	if is_in_group("player"):
@@ -264,7 +290,7 @@ func take_damage(damage, source, stun = 0):
 	if invincible:
 		return
 	
-	if !is_in_group("enemy"):
+	if is_in_group("player"):
 		set_invincibility_time(0.05)
 		GameManager.camera.set_trauma(0.4)
 	
@@ -281,7 +307,8 @@ func take_damage(damage, source, stun = 0):
 
 	health -= damage
 	healthbar.value = health
-	sprite.modulate = Color.red
+	flash_timer = 0.066
+	is_flashing = true
 	
 	if health <= 0:
 		die(source)
@@ -447,6 +474,14 @@ func clear_transcender():
 func toggle_selected_enemy(enemy_is_selected):
 	if enemy_is_selected:
 		emit_signal("toggle_selected_enemy")
+	
+func update_flash(delta):	
+	if is_flashing:
+		flash_timer -= delta
+		sprite.material.set_shader_param('intensity', 1 if int(flash_timer*15)%2 == 0 else 0)
+		if flash_timer < 0:
+			is_flashing = false
+			sprite.material.set_shader_param('intensity', 0)
 		
 func emit_score_popup(value, msg):
 	var popup = score_popup.instance().duplicate()
@@ -454,6 +489,9 @@ func emit_score_popup(value, msg):
 	popup.get_node("Message").text = ("- " + msg + " -") if len(msg) > 0 else msg
 	popup.rect_global_position = global_position + Vector2(0, -40)
 	get_node("/root").add_child(popup)
+	
+func on_bullet_despawn(bullet):
+	pass
 
 func die(killer = null):
 	if dead: return

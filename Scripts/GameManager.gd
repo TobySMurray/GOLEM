@@ -260,8 +260,6 @@ const upgrades = {
 		'type': 'saber',
 		'max_stack': 1
 	},
-	
-	
 }
 
 var level_name = "RuinsLevel"
@@ -304,11 +302,11 @@ var evolution_level = 1
 
 var player_upgrades = {
 	#SHOTGUN
-	'induction_barrel': 1,
-	'stacked_shells': 2,
-	'shock_stock': 0,
+	'induction_barrel': 0,
+	'stacked_shells': 0,
+	'shock_stock': 2,
 	'soldering_fingers': 0,
-	'reload_coroutine': 4,
+	'reload_coroutine': 6,
 	#CHAIN
 	'precompressed_hydraulics': 0,
 	'adaptive_wrists': 0,
@@ -328,9 +326,9 @@ var player_upgrades = {
 	'ultrasonic_nozzle': 0,
 	'aerated_fuel_tanks': 0,
 	#ARCHER
-	'vibro-shimmy': 0,
+	'vibro-shimmy': 1,
 	'half-draw': 0,
-	'slobberknocker_protocol': 0,
+	'slobberknocker_protocol': 2,
 	'scruple_inhibitor': 0,
 	#SORCERER
 	'elastic_containment': 0,

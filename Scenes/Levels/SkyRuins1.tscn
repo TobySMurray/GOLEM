@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/Sky.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
@@ -22,8 +22,7 @@
 [ext_resource path="res://Scenes/Fog.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/SwapBar.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Scenes/Tilesets/WallWalkUnder.tscn" type="PackedScene" id=22]
-[ext_resource path="res://Scenes/FlamethrowerBot.tscn" type="PackedScene" id=23]
-[ext_resource path="res://Scenes/WheelBot.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Scenes/ExterminatorBot.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
 [ext_resource path="res://Scenes/Tilesets/Ground.gd" type="Script" id=27]
@@ -264,15 +263,10 @@ position = Vector2( 336, 656 )
 [node name="Merchant" parent="WorldObjects/Characters" instance=ExtResource( 31 )]
 position = Vector2( 86, 578 )
 
-[node name="FlamethrowerBot" parent="WorldObjects/Characters" groups=[
+[node name="ExterminatorBot" parent="WorldObjects/Characters" groups=[
 "enemy",
 ] instance=ExtResource( 23 )]
-position = Vector2( 56.4647, 468.267 )
-
-[node name="WheelBot" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 24 )]
-position = Vector2( 322.505, 707.374 )
+position = Vector2( -7.85721, 520.261 )
 
 [node name="Marble Orb" parent="WorldObjects" instance=ExtResource( 14 )]
 position = Vector2( -265.342, 580.376 )

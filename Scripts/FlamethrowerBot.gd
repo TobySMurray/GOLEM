@@ -174,7 +174,8 @@ func ai_move():
 		elif attack_cooldown > 0 and ai_shoot:
 			attack_cooldown = 1
 			ai_shoot = false
-	else:
+			
+	elif ai_shoot:
 		ai_shoot = false
 		flamethrowing = false
 		animplayer.play("Cooldown")

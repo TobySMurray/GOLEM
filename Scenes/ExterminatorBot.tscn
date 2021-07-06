@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/ExterminatorBot.gd" type="Script" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=19]
+[ext_resource path="res://Shaders/Flash.tres" type="Material" id=20]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.67502
@@ -504,6 +505,7 @@ wait_time = 0.25
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
+material = ExtResource( 20 )
 position = Vector2( -12, -30 )
 texture = ExtResource( 5 )
 vframes = 10
@@ -523,7 +525,7 @@ anims/Vanish = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 3
+frame = 21
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 light_mask = 5
@@ -534,6 +536,7 @@ offset = Vector2( -13, -26 )
 
 [node name="Deflector" type="Area2D" parent="."]
 show_behind_parent = true
+collision_layer = 0
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Deflector"]
@@ -547,6 +550,12 @@ light_mask = 2
 material = SubResource( 26 )
 position = Vector2( 0, 5 )
 texture = ExtResource( 16 )
+
+[node name="BulletHolder" type="Node2D" parent="."]
+
+[node name="CW" type="Node2D" parent="BulletHolder"]
+
+[node name="CCW" type="Node2D" parent="BulletHolder"]
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -567,7 +576,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 0
+frame = 48
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 13 )
@@ -579,7 +588,6 @@ bus = "Effects"
 
 [node name="CharacterLights" parent="." instance=ExtResource( 18 )]
 visible = false
-
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]

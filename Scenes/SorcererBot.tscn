@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Art/Characters/Sorcerer Bot/death.png" type="Texture" id=1]
 [ext_resource path="res://Art/Characters/Sorcerer Bot/damaged.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=13]
+[ext_resource path="res://Shaders/Flash.tres" type="Material" id=14]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.0
@@ -394,6 +395,7 @@ texture = ExtResource( 13 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
+material = ExtResource( 14 )
 position = Vector2( 7, -37 )
 texture = ExtResource( 6 )
 hframes = 5
@@ -411,7 +413,7 @@ anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 8 )]
-frame = 35
+frame = 40
 
 [node name="HealthBar" parent="." instance=ExtResource( 9 )]
 margin_left = -40.0
@@ -421,10 +423,11 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 26
+frame = 42
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackCollider"]
 scale = Vector2( 4, 4 )
@@ -476,5 +479,4 @@ end_cap_mode = 2
 
 [node name="CharacterLights" parent="." instance=ExtResource( 12 )]
 visible = false
-
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
