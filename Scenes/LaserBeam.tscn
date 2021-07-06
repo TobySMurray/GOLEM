@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Art/Beam.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/LaserBeam.gd" type="Script" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float h_tiles = 3.0;
+uniform vec4 region = vec4(0, 0, 0, 0);
+uniform vec2 full_res = vec2(1, 1);
+
+void fragment(){
+	float x =  mod((UV.x * h_tiles), 1.0);
+	
+	x = region.x/full_res.x + x*(region.z/full_res.x);
+	//float y = region.y/full_res.y + UV.y*(region.w/full_res.y);
+	
+	vec2 uv = vec2(x, UV.y);
+	COLOR = texture(TEXTURE, uv);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/h_tiles = 12.0
+shader_param/region = Plane( 192, 0, 32, 16 )
+shader_param/full_res = Vector2( 384, 16 )
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 195, 3 )
+
+[node name="AttackBeam" type="Area2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+light_mask = 2
+material = SubResource( 2 )
+position = Vector2( 0, -8 )
+texture = ExtResource( 1 )
+centered = false
+region_rect = Rect2( 64, 0, 32, 16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 195, 0 )
+shape = SubResource( 13 )

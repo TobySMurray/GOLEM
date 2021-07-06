@@ -302,11 +302,11 @@ var evolution_level = 1
 
 var player_upgrades = {
 	#SHOTGUN
-	'induction_barrel': 1,
-	'stacked_shells': 2,
+	'induction_barrel': 0,
+	'stacked_shells': 0,
 	'shock_stock': 2,
 	'soldering_fingers': 0,
-	'reload_coroutine': 0,
+	'reload_coroutine': 6,
 	#CHAIN
 	'precompressed_hydraulics': 0,
 	'adaptive_wrists': 0,

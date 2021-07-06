@@ -261,13 +261,14 @@ radius = 18.5885
 [node name="BloodMoon" type="AnimatedSprite"]
 light_mask = 2
 frames = SubResource( 61 )
-frame = 25
+frame = 20
 speed_scale = 30.0
 playing = true
 offset = Vector2( -1, 0 )
 script = ExtResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( -0.198425, 1.19055 )
@@ -293,7 +294,6 @@ bus = "Effects"
 stream = ExtResource( 6 )
 volume_db = -6.0
 bus = "Effects"
-
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="finished" from="Slow" to="." method="_on_Slow_finished"]

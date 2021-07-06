@@ -199,7 +199,7 @@ func _on_Hitbox_area_entered(area):
 				entity.velocity -= delta_vel*2
 				if damage > 30:
 					GameManager.set_timescale(0.01, damage/500.0)
-					take_damage(10, entity)
+					take_damage(3, entity)
 				
 				if not entity.is_in_group("bloodless"):
 					GameManager.spawn_blood(entity.global_position, (-delta_vel).angle(), sqrt(delta_vel.length())*30, damage, 30)

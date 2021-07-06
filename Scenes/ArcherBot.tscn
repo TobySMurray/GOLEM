@@ -580,7 +580,7 @@ texture = ExtResource( 24 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 56
+frame = 26
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
@@ -638,6 +638,7 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="BeamRotator/AttackBeam"]
+visible = false
 light_mask = 2
 position = Vector2( 16, 0 )
 frames = SubResource( 26 )
@@ -676,7 +677,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 32
+frame = 47
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

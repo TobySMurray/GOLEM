@@ -525,7 +525,7 @@ anims/Vanish = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-frame = 26
+frame = 21
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 light_mask = 5
@@ -536,6 +536,7 @@ offset = Vector2( -13, -26 )
 
 [node name="Deflector" type="Area2D" parent="."]
 show_behind_parent = true
+collision_layer = 0
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Deflector"]
@@ -549,6 +550,12 @@ light_mask = 2
 material = SubResource( 26 )
 position = Vector2( 0, 5 )
 texture = ExtResource( 16 )
+
+[node name="BulletHolder" type="Node2D" parent="."]
+
+[node name="CW" type="Node2D" parent="BulletHolder"]
+
+[node name="CCW" type="Node2D" parent="BulletHolder"]
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -569,7 +576,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 7
+frame = 48
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 13 )

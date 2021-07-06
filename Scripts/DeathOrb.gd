@@ -7,6 +7,7 @@ var decel_timer = 0
 
 var lifetime = 0
 var invincible = false
+var deflectable = true
 
 func _physics_process(delta):
 	var col = move_and_collide(velocity*delta)
@@ -42,5 +43,8 @@ func _on_Area2D_area_entered(area):
 func take_damage(damage, source, stun = 0):
 	decel_timer = 0
 	pass
+	
+func despawn():
+	queue_free()
 	
 

@@ -161,6 +161,8 @@ func release_attack():
 	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.7*beam_damage/150, 4 if beam_damage > 100 else 5)
+		
+	LaserBeam.shoot_laser(global_position + Vector2(9*sign(aim_direction.x), 0), aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 50, 'archer')
 	
 	melee_attack(attack_beam.get_node("CollisionShape2D"), beam_damage, 500, 0)
 	

@@ -254,6 +254,6 @@ animations = [ {
 show_behind_parent = true
 light_mask = 2
 frames = SubResource( 61 )
-frame = 59
+frame = 6
 playing = true
 offset = Vector2( -1, -1 )
