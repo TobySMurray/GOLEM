@@ -64,6 +64,7 @@ tracks/2/keys = {
 [sub_resource type="Animation" id=2]
 resource_name = "Charge"
 length = 0.4
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
@@ -390,8 +391,8 @@ texture = ExtResource( 19 )
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( 36, -2 )
-texture = ExtResource( 7 )
-vframes = 8
+texture = ExtResource( 6 )
+vframes = 4
 frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -408,6 +409,7 @@ position = Vector2( -0.117981, 4.83736 )
 shape = SubResource( 8 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
+visible = false
 position = Vector2( 0.0102234, -0.932678 )
 
 [node name="DashFX" type="AnimatedSprite" parent="."]
@@ -452,7 +454,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 31
+frame = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

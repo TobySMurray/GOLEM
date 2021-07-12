@@ -8,7 +8,10 @@ var smooth_base_offset = base_offset
 
 var mouse_follow = 0
 
-var target_zoom = Vector2.ONE
+var zoom_ = 1.0
+var target_zoom = 1.0
+var zoom_speed = 0.15
+var linearity_hack = 1.0
 
 var trauma = 0
 var trauma_offset = Vector2.ZERO
@@ -27,7 +30,10 @@ func _physics_process(delta):
 		smooth_base_offset = lerp(smooth_base_offset, base_offset, 0.5)
 		global_position = smooth_anchor_pos + trauma_offset
 		
-		zoom = lerp(zoom, target_zoom, 0.15)
+		if abs(zoom_ - target_zoom) > 0.001:
+			var imtermeidate_lerp_target = min(zoom_ + linearity_hack, target_zoom) if target_zoom > zoom_ else max(zoom_ + linearity_hack, target_zoom)
+			zoom_ = lerp(zoom_, imtermeidate_lerp_target, zoom_speed)
+			zoom = Vector2(zoom_, zoom_)
 		
 		if trauma:
 			trauma = max(trauma - trauma*decay*delta, 0)
@@ -35,8 +41,10 @@ func _physics_process(delta):
 		else:
 			trauma_offset = Vector2.ZERO
 			
-func lerp_zoom(z):
-	target_zoom = Vector2(z, z)
+func lerp_zoom(z, speed = 0.15, lh = 1.0):
+	target_zoom = z
+	zoom_speed = speed
+	linearity_hack = (target_zoom - zoom_)*lh
 			
 func set_trauma(amount, new_decay = 8):
 	decay = min(decay, new_decay)

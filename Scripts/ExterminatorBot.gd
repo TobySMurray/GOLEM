@@ -1,6 +1,7 @@
 extends "res://Scripts/Enemy.gd"
 
 onready var teleport_sprite = $TeleportSprite
+onready var bullet_holder = $BulletHolder
 onready var cw_ring = $BulletHolder/CW
 onready var ccw_ring = $BulletHolder/CCW
 onready var deflector_shape = $Deflector/CollisionShape2D
@@ -8,27 +9,30 @@ onready var deflector_visual = $Deflector/DeflectorVisual
 
 var walk_speed
 var shield_power
-var bullet_spin_accel
+var bullet_orbit_accel
 
 var walk_speed_levels = [40, 50, 60, 65, 70, 75, 80]
 var shield_power_levels = [1200, 400, 500, 600, 700, 800, 900]
-var bullet_spin_accel_levels = [5, 7, 8, 9, 10, 11, 12]
+var bullet_orbit_accel_levels = [5, 7, 8, 9, 10, 11, 12]
 
-var min_bullet_spin_speed = 7
-var bullet_production_rate = 1
-var laser_explosiveness = 0
-var compact_mode = true
-
+var damage_mult = 1.0
+var bullet_production_rate = 0
+var min_bullet_orbit_speed = 3
+var shield_width = PI/2
+var bulwark_mode = false
+var compact_mode = false
 
 var shield_active = true
 var shield_angle = 0
 
 var retaliating = false
-var bullet_rotation_speed = min_bullet_spin_speed
-var target_bullet_rotation_speed = 0
+var retaliation_locked = false
+var bullet_orbit_speed = min_bullet_orbit_speed
+var target_bullet_orbit_speed = 0
 var expulsion_queue = []
 var expulsion_timer = 0
 var formation_timer = 0
+var lerped_player_pos = global_position
 
 var teleport_start_point = Vector2.ZERO
 var teleport_end_point = Vector2.ZERO
@@ -51,6 +55,7 @@ func _ready():
 	max_attack_cooldown = 1.5
 	max_special_cooldown = 1.6
 	flip_offset = 24
+	mass = 1.5
 	healthbar.max_value = health
 	init_healthbar()
 	score = 100
@@ -64,7 +69,41 @@ func toggle_enhancement(state):
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
 	shield_power = shield_power_levels[level]
-	bullet_spin_accel = bullet_spin_accel_levels[level]
+	bullet_orbit_accel = bullet_orbit_accel_levels[level]
+	damage_mult = 1.3 + 0.2*level
+	
+	bullet_production_rate = 0
+	min_bullet_orbit_speed = 3
+	shield_width = PI/2
+	deflector_visual.texture = load('res://Art/Shields/QuarterCircle.png')
+	bulwark_mode = false
+	compact_mode = false
+	get_node('Deflector').collision_layer = 0
+	retaliation_locked = false
+	
+	if state  == true:
+		bullet_production_rate = 1.5*GameManager.player_upgrades['improvised_projectiles']
+		
+		min_bullet_orbit_speed += 3*GameManager.player_upgrades['high-energy_orbit']
+		
+		shield_width += PI*0.4*GameManager.player_upgrades['exposed_coils']
+		if GameManager.player_upgrades['exposed_coils'] == 1:
+			deflector_visual.texture = load('res://Art/Shields/Circle_162.png')
+		elif GameManager.player_upgrades['exposed_coils'] == 2:
+			deflector_visual.texture = load('res://Art/Shields/Circle_234.png')
+			
+		compact_mode = GameManager.player_upgrades['sledgehammer_formation'] > 0
+		
+		if GameManager.player_upgrades['bulwark_mode'] > 0:
+			bulwark_mode = true
+			bullet_orbit_accel *= 2
+		
+		if GameManager.player_upgrades['particulate_screen'] > 0:
+			get_node('Deflector').collision_layer = 8
+		
+	bullet_orbit_speed = min_bullet_orbit_speed
+	if retaliating:	
+		toggle_retaliation(false)
 
 func misc_update(delta):
 	deflector_visual.rotation = shield_angle
@@ -81,39 +120,13 @@ func misc_update(delta):
 			b.velocity = Vector2.ZERO
 	
 	if retaliating:
-		if compact_mode:
-			get_node("BulletHolder").position = lerp(get_node("BulletHolder").position, aim_direction.normalized()*50, 5*delta)
-			
-		if bullet_rotation_speed < 6:
-			bullet_rotation_speed = bullet_rotation_speed + bullet_spin_accel*delta
-		else:
-			bullet_rotation_speed = bullet_rotation_speed + bullet_spin_accel*0.25*delta
-			
-			if not compact_mode:
-				expulsion_timer -= delta
-				if expulsion_timer < 0:
-					expulsion_timer = 0.5/(bullet_rotation_speed-3)
-					while not expulsion_queue.empty():
-						var i = expulsion_queue.pop_back()
-						if is_instance_valid(captured_bullets[i]):
-							var b = captured_bullets[i]
-							var dir = (get_global_mouse_position() if is_in_group("player") else GameManager.player.global_position) - b.global_position
-							var damage = 100 if b.is_in_group('death orb') else b.damage*1.5
-							var width = 12 if b.is_in_group('death orb') else b.scale.x*4
-							LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, 100, 0, false, damage)
-							GameManager.camera.set_trauma(0.4, 10)
-							b.despawn()
-							captured_bullets[i] = null
-							break
+		retaliate(delta)
 					
-					if expulsion_queue.empty():
-						toggle_retaliation(false)
-					
-	elif bullet_rotation_speed > min_bullet_spin_speed:
-		bullet_rotation_speed = max(bullet_rotation_speed - 4*delta, 3)
+	elif bullet_orbit_speed > min_bullet_orbit_speed:
+		bullet_orbit_speed = max(bullet_orbit_speed - 4*delta, 3)
 	
-	cw_ring.rotation += bullet_rotation_speed*delta
-	ccw_ring.rotation -= bullet_rotation_speed*delta
+	cw_ring.rotation += bullet_orbit_speed*delta
+	ccw_ring.rotation -= bullet_orbit_speed*delta
 	if formation_timer > 0:
 		formation_timer -= delta
 		for i in range(min(len(captured_bullets), len(bullet_formation_positions))):
@@ -134,9 +147,11 @@ func misc_update(delta):
 func player_action():
 	shield_angle = aim_direction.angle()
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
-		toggle_retaliation(true)
+		Util.remove_invalid(captured_bullets)
+		if len(captured_bullets) > 0:
+			toggle_retaliation(true)
 		
-	elif Input.is_action_just_released("attack1") and retaliating:
+	elif not Input.is_action_pressed("attack1") and retaliating and not retaliation_locked:
 		toggle_retaliation(false)
 	
 	if Input.is_action_pressed("attack2"):
@@ -162,18 +177,18 @@ func ai_move():
 
 func ai_action():
 	aim_direction = GameManager.player.global_position - global_position
+	lerped_player_pos = lerp(lerped_player_pos, GameManager.player.global_position, 0.05)
 	
 	var delta_angle = Util.signed_wrap(aim_direction.angle() - shield_angle)
 	shield_angle = Util.signed_wrap(shield_angle + sign(delta_angle)/60)
 	
-	if randf() < 0.002 * len(nearby_bullets) and attack_cooldown < 0:
-		attack_cooldown = 2
-		#attack()
+	if randf() < 0.002 * len(captured_bullets) and not retaliating and aim_direction.length() < 250:
+		toggle_retaliation(true)
 		
-	if len(nearby_bullets) < 3 and randf() < 0.002 and special_cooldown < 0:
+	if len(nearby_bullets) < 3 and randf() < 0.002 and special_cooldown < 0 and not retaliating:
 		for i in range(len(GameManager.player_bullets) > 0):
 			var bullet = GameManager.player_bullets[int(randf()*len(GameManager.player_bullets))]
-			if is_instance_valid(bullet):
+			if is_instance_valid(bullet) and bullet.source == GameManager.player:
 				var point = bullet.global_position + bullet.velocity
 
 				if(GameManager.is_point_in_bounds(point)):
@@ -189,11 +204,9 @@ func ai_action():
 		
 		
 func toggle_retaliation(state):
-#	attacking = true
-#	lock_aim = true
-#	max_speed = 0
-#	attack_cooldown = deflect_cooldown
-#	animplayer.play("Attack")
+	if dead:
+		return
+		
 	retaliating = state
 	attacking = state
 	shield_active = !state
@@ -203,10 +216,61 @@ func toggle_retaliation(state):
 	if state == true:
 		expulsion_queue = range(len(captured_bullets))
 		expulsion_queue.shuffle()
-	elif compact_mode:
-		expel_compacted_bullets()
-		get_node('BulletHolder').position = Vector2.ZERO
+		if bulwark_mode:
+			attacking = true
+			lock_aim = true
+			max_speed = 0
+			mass = 10
+			retaliation_locked = true
+			expulsion_timer = 0.4/(GameManager.player_upgrades['high-energy_orbit'] + 1)
+			animplayer.play('Entrench')
+			get_node('Hitbox').position.x = -9*sign(aim_direction.x)
+			
+	else:
+		if compact_mode:
+			expel_compacted_bullets()
+			bullet_holder.position = Vector2.ZERO
+			
+		if lock_aim: #effectively if bulwark_mode, still works if player swaps out
+			attacking = false
+			lock_aim = false
+			max_speed = walk_speed
+			mass = 1.5
+			get_node('Hitbox').position.x = 0
+
+
+func retaliate(delta):
+	if compact_mode:
+		get_node("BulletHolder").position = lerp(get_node("BulletHolder").position, aim_direction.normalized()*50, 5*delta)
 		
+	if bullet_orbit_speed < 6:
+		bullet_orbit_speed = bullet_orbit_speed + bullet_orbit_accel*delta
+	else:
+		bullet_orbit_speed = bullet_orbit_speed + bullet_orbit_accel*0.25*delta
+		
+		if not compact_mode:
+			expulsion_timer -= delta
+			if expulsion_timer < 0:
+				expulsion_timer = 0.5/(bullet_orbit_speed-3)
+				while not expulsion_queue.empty():
+					var i = expulsion_queue.pop_back()
+					if is_instance_valid(captured_bullets[i]):
+						var b = captured_bullets[i]
+						var dir = (get_global_mouse_position() if is_in_group("player") else lerped_player_pos) - b.global_position
+						var width = 12 if b.is_in_group('death orb') else b.scale.x*4
+						var damage = 100 if b.is_in_group('death orb') else b.damage*damage_mult
+						var kb = 100*width/6.0 * (3 if bulwark_mode else 1)
+						var explosion_size = sqrt(damage)/10 if bulwark_mode else 0
+						
+						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, false, 'red', explosion_size, damage/2, damage*5)
+						b.despawn()
+						captured_bullets[i] = null
+						if is_in_group('player'):
+							GameManager.camera.set_trauma(0.4, 10)
+						break
+				
+				if expulsion_queue.empty():
+					toggle_retaliation(false)	
 	
 	
 func start_teleport(point):
@@ -247,25 +311,29 @@ func apply_shield_effects(delta):
 			var b = nearby_bullets[i]
 			var bullet_speed = b.velocity.length()
 			
-			if bullet_speed > 0:
+			if bullet_speed > 5:
 				var angle = (b.global_position - global_position).angle() - shield_angle
 				if angle > PI:
 					angle -= 2*PI
 				elif angle < -PI:
 					angle += 2*PI
 					
-				if abs(angle) < PI/4:
+				if abs(angle) < shield_width/2:
 					b.velocity -= (b.velocity/bullet_speed) * min(bullet_speed, shield_power*delta)
 				
 			else:
+				if b.is_in_group('death orb') and is_instance_valid(b.source):
+					b.source.orb = null
+					
 				b.source = self
 				b.deflectable = false
+				b.spectral = true
 				captured_bullets.append(b)
 				b.modulate = Color(0.7, 0.2, 1)
 				nearby_bullets[i] = null
 				reparent_to(b, cw_ring)
 				formation_update_needed = true
-					
+				
 		if formation_update_needed:
 			calculate_bullet_formation()
 		
@@ -327,19 +395,37 @@ func calculate_bullet_formation():
 			cur_angle += delta_angles[c]
 			
 	formation_timer = 0.7
+	
+func on_laser_deflection(impact_point, dir, width, source, damage, kb, stun, piercing, style, explosion_size, explosion_damage, explosion_kb):
+	if not shield_active: return false
+	
+	var normal = (impact_point - global_position).angle()
+	var rel_angle = Util.signed_wrap(normal - shield_angle)
+		
+	if abs(rel_angle) < shield_width/2:
+		var reflection_angle = Util.signed_wrap(normal - ((-dir).angle() - normal))
+		
+		for i in range(3):
+			var beam_angle = reflection_angle + (0.5-randf())*PI/3
+			var beam_dir = Vector2(cos(beam_angle), sin(beam_angle))
+			LaserBeam.shoot_laser(impact_point, beam_dir, width/2.0, self, damage/3, kb/2, stun, piercing, style, explosion_size/2.0, explosion_damage/3, explosion_kb/2.0, true)
+		return true
+	else:
+		return false
 			
 
-	
-	
 func expel_compacted_bullets():
 	var dir = aim_direction.normalized()
 	Util.remove_invalid(captured_bullets)
+	GameManager.camera.set_trauma(min(bullet_orbit_speed/12.0, 1.0))
 	
-	if bullet_rotation_speed < 16:
+	if bullet_orbit_speed < 16:
 		var center_dist = 50
 		for i in range(len(captured_bullets)):
 			var b = captured_bullets[i]
-			b.velocity = dir*bullet_rotation_speed*100*(1.0 + (((b.global_position - global_position).length() - center_dist)/30.0))
+			b.damage *= damage_mult
+			b.velocity = dir*bullet_orbit_speed*100*(1.0 + (((b.global_position - global_position).length() - center_dist)/30.0))
+			b.spectral = false
 			reparent_to(b, get_node('/root'))
 			captured_bullets[i] = null
 	else:
@@ -350,7 +436,11 @@ func expel_compacted_bullets():
 			b.despawn()
 			
 		retaliating = false #End dumb hack
-		LaserBeam.shoot_laser(get_node('BulletHolder').global_position, dir, len(captured_bullets), self, damage)
+		LaserBeam.shoot_laser(bullet_holder.global_position, dir, len(captured_bullets), self, damage, true, 'archer')
+		
+	if bullet_orbit_speed > 6:
+		GameManager.spawn_explosion(bullet_holder.global_position, self, 0.4, 20, 300)
+		
 	captured_bullets = []
 		
 	
@@ -376,7 +466,6 @@ func reparent_to(child, new_parent):
 #func _process(delta):
 #	pass
 
-
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Appear" or anim_name == "Attack":
 		lock_aim = false
@@ -385,6 +474,9 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		shield_active = true
 		deflector_visual.visible = true
 		invincible = false
+		
+	elif anim_name == 'Entrench':
+		retaliation_locked = false
 		
 	elif anim_name == "Die":
 		visible = false
@@ -399,13 +491,15 @@ func _on_Deflector_area_entered(area):
 		nearby_enemies.append(area.get_parent())
 		
 func _on_Deflector_area_exited(area):
-	if area.is_in_group("bullet") or area.is_in_group("death_orb"):
+	if area.is_in_group("bullet") or area.is_in_group("death orb"):
+		if area.is_in_group("death orb"):
+			area = area.get_parent()
 		nearby_bullets.erase(area)
+		
 		#if area.velocity.x == 0 and area.velocity.y == 0:
 		#	area.despawn()
 	elif area.is_in_group("hitbox"):
 		nearby_enemies.erase(area.get_parent())
-
 
 func _on_Timer_timeout():
 	invincible = false

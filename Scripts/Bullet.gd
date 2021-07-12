@@ -7,6 +7,7 @@ var damage = 0
 var mass = 0.25
 var piercing = false
 var deflectable = true
+var spectral = false
 
 var rotate_to_direction = false
 var last_velocity = Vector2.ZERO
@@ -28,7 +29,7 @@ func _physics_process(delta):
 	
 
 func _on_Area2D_body_entered(body):
-	if not (body.is_in_group("player") or body.is_in_group("enemy")):
+	if not (body.is_in_group("player") or body.is_in_group("enemy")) and not spectral:
 		despawn()
 
 func _on_Area2D_area_entered(area):
@@ -45,7 +46,7 @@ func _on_Area2D_area_entered(area):
 			if not entity.is_in_group("bloodless"):
 				GameManager.spawn_blood(entity.global_position, (velocity).angle(), sqrt(velocity.length())*30, damage, 30)
 			
-			if not area.is_in_group("deflector") and not piercing:
+			if not area.is_in_group("deflector") and not piercing and not (area.is_in_group('death orb') and entity.source == source):
 				despawn()
 				
 func set_appearance(type):

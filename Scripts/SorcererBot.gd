@@ -15,6 +15,11 @@ var walk_speed_levels = [80, 120, 135, 150, 165, 180, 195]
 var smack_recharge_levels = [1.1, 1, 0.85, 0.7, 0.6, 0.5, 0.4]
 var smack_speed_levels = [300, 400, 450, 500, 533, 566, 600]
 
+var orb_size = 1
+var num_orbs = 1
+var tetherball_mode = false
+var precision_mode = false
+
 var stand_timer = 0
 var smack_velocity
 var stand_pos = Vector2.ZERO
@@ -44,12 +49,29 @@ func toggle_enhancement(state):
 	smack_speed = smack_speed_levels[level]
 	max_attack_cooldown = smack_recharge
 	
+	orb_size = 1
+	num_orbs = 1
+	tetherball_mode = false
+	precision_mode = false
+	
+	if state == true:
+		orb_size += GameManager.player_upgrades['elastic_containment']
+		
+		num_orbs += GameManager.player_upgrades['parallelized_drones']
+		
+		tetherball_mode = GameManager.player_upgrades['docked_drones'] > 0
+		
+		precision_mode = GameManager.player_upgrades['precision_handling'] > 0
+	
+	stand.collision_layer = 0 if state else 4
+	
 func misc_update(delta):
 	move_timer -= delta
 	
 	if orb:
 		tether.visible = true
-		tether.set_point_position(1, orb.global_position - global_position)
+		tether.set_point_position(1, (orb.global_position - global_position)/scale.x)
+		orb.lifetime = 2
 	else:
 		tether.visible = false
 
@@ -60,9 +82,12 @@ func misc_update(delta):
 		stand.modulate.a = 0.7*sqrt(max(stand_timer, 0))
 		
 		if stand_timer < 1.1 and smack_velocity.x != 0:
-			if orb:
+			if is_instance_valid(orb):
 				orb.velocity = smack_velocity
 				orb.decel_timer = 0
+				if is_in_group("player"):
+					GameManager.camera.set_trauma(0.5)
+					
 			smack_velocity = Vector2.ZERO
 			
 		if stand_timer == 0:
@@ -71,12 +96,12 @@ func misc_update(delta):
 func player_action():
 	if Input.is_action_just_pressed('attack1') and attack_cooldown < 0:
 		attack_cooldown = smack_recharge
-		if not orb:
+		if is_instance_valid(orb):
+			smack_orb(get_global_mouse_position())
+		else:
 			attacking = true
 			animplayer.play("Attack")
-		else:
-			smack_orb(get_global_mouse_position())
-
+			
 	elif Input.is_action_just_pressed('attack2') and special_cooldown < 0:
 		special_cooldown = 2
 		attacking = true
@@ -140,6 +165,8 @@ func launch_orb():
 	orb.global_position = global_position + (Vector2(-20, 0) if facing_left else Vector2(20, 0))
 	orb.velocity = aim_direction.normalized() * smack_speed
 	orb.source = self
+	orb.scale = Vector2.ONE*4*orb_size
+	orb.get_node('CollisionShape2D').scale = Vector2.ONE/orb_size
 	get_node("/root").add_child(orb)
 	
 	if is_in_group("player"):
@@ -175,10 +202,8 @@ func area_attack():
 		GameManager.camera.set_trauma(0.5)
 	
 func detonate_orb():
-	#GameManager.camera.offset = Vector2.ZERO
-	if orb:
-		GameManager.spawn_explosion(orb.global_position + Vector2(0, 10), self, 1.5, 30, 500)
-		orb.queue_free()
+	if is_instance_valid(orb):
+		orb.detonate()
 		orb = null
 	
 func hide_stand():

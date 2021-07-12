@@ -413,7 +413,6 @@ anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 8 )]
-frame = 40
 
 [node name="HealthBar" parent="." instance=ExtResource( 9 )]
 margin_left = -40.0
@@ -423,7 +422,7 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 42
+frame = 10
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false

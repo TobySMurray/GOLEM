@@ -1,12 +1,14 @@
-extends AnimatedSprite
+extends Area2D
 
 onready var stopped = $Stopped
 onready var boss = $Boss
-onready var collider = $Area2D/CollisionShape2D
+onready var collider = $CollisionShape2D
+onready var sprite = $AnimatedSprite
 
 var selected_enemy
 signal selected_enemy_signal
 var moon_visible = false
+var visual_snap_pos = Vector2.ZERO
 
 func _physics_process(delta):
 	selected_enemy = null
@@ -24,7 +26,7 @@ func _physics_process(delta):
 		query.transform = collider.global_transform
 		query.set_shape(collider.shape)
 
-		var results = space_state.intersect_shape(query, 512)
+		var results = space_state.intersect_shape(query, 64)
 		var min_dist = 999999999
 		
 		for col in results:
@@ -32,40 +34,45 @@ func _physics_process(delta):
 				var body = col['collider'].get_parent()
 				if body.is_in_group("enemy") and body.swap_shield_health <= 0 and body.health > 0:
 					var dist = (body.global_position - global_position).length_squared()
-					if dist < min_dist:
+					if (body.is_boss and body.enemy_evolution_level > GameManager.evolution_level):
 						selected_enemy = body
+						break
+					elif dist < min_dist:
+						min_dist = dist
+						selected_enemy = body
+						
+			elif col['collider'].is_in_group("swap trigger") and col['collider'].accessible:
+				var dist = (col['collider'].global_position - global_position).length_squared()
+				if dist < min_dist:
+					min_dist = dist
+					selected_enemy = col['collider']
 						
 		if selected_enemy:
 			self.modulate.a = 1.0
 			GameManager.transcender.enemy_is_selected = true
+			if (sprite.global_position - selected_enemy.global_position).length() > 5:
+				sprite.position = lerp(sprite.position, selected_enemy.global_position - global_position, 15*delta/GameManager.timescale)
+			else:
+				sprite.position = selected_enemy.global_position - global_position
 		else:
 			self.modulate.a = 0.3
 			GameManager.transcender.enemy_is_selected = false
+			if sprite.position.length() > 5:
+				sprite.position = lerp(sprite.position, Vector2.ZERO, 15*delta/GameManager.timescale)
+			else:
+				sprite.position = Vector2.ZERO
 			
 	if !moon_visible:
 		modulate = lerp(modulate, Color(1,1,1,0), 0.2)
 		
 
-func _on_Area2D_body_entered(body):
-	return
-	if moon_visible and body.is_in_group("enemy") and body.swap_shield_health <= 0 and body.health > 0:
-		selected_enemy = body
-		emit_selected_enemy_signal(true)
-		
-func _on_Area2D_body_exited(body):
-	return
-	if moon_visible and body.is_in_group("enemy") and body.swap_shield_health <= 0 and body.health > 0:
-		selected_enemy = null
-		emit_selected_enemy_signal(false)
-
-func emit_selected_enemy_signal(state):
-	if moon_visible:
-		self.modulate.a = 1 if state else 0.3
-		emit_signal("selected_enemy_signal", state)
+#func emit_selected_enemy_signal(state):
+#	if moon_visible:
+#		self.modulate.a = 1 if state else 0.3
+#		emit_signal("selected_enemy_signal", state)
 
 func _on_Slow_finished():
 	stopped.play()
-
-
+	
 func _on_Speed_finished():
 	stopped.stop()
