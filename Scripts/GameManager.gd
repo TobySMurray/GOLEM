@@ -304,31 +304,31 @@ var player_upgrades = {
 	#SHOTGUN
 	'induction_barrel': 0,
 	'stacked_shells': 0,
-	'shock_stock': 2,
+	'shock_stock': 0,
 	'soldering_fingers': 0,
-	'reload_coroutine': 6,
+	'reload_coroutine': 0,
 	#CHAIN
 	'precompressed_hydraulics': 0,
 	'adaptive_wrists': 0,
-	'discharge_flail': 1,
+	'discharge_flail': 0,
 	'vortex_technique': 0,
-	'footwork_scheduler': 1,
+	'footwork_scheduler': 0,
 	#WHEEL
 	'advanced_targeting': 0,
 	'bypassed_muffler': 0,
-	'self-preservation_override': 1,
+	'self-preservation_override': 0,
 	'manual_plasma_throttle': 0,
-	'top_gear': 1,
+	'top_gear': 0,
 	#FLAME
-	'pressurized_hose': 1,
-	'optimized_regulator': 2,
-	'internal_combustion': 1,
+	'pressurized_hose': 0,
+	'optimized_regulator': 0,
+	'internal_combustion': 0,
 	'ultrasonic_nozzle': 0,
 	'aerated_fuel_tanks': 0,
 	#ARCHER
-	'vibro-shimmy': 1,
+	'vibro-shimmy': 0,
 	'half-draw': 0,
-	'slobberknocker_protocol': 2,
+	'slobberknocker_protocol': 0,
 	'scruple_inhibitor': 0,
 	#SORCERER
 	'elastic_containment': 0,
@@ -337,10 +337,10 @@ var player_upgrades = {
 	'precision_handling': 0,
 	#SABER
 	'fractured_mind': 0,
-	'true_focus': 1,
-	'overclocked_cooling': 6,
-	'ricochet_simulation': 3,
-	'supple_telekinesis': 3
+	'true_focus': 0,
+	'overclocked_cooling': 0,
+	'ricochet_simulation': 0,
+	'supple_telekinesis': 0
 }
 
 func _ready():
@@ -461,7 +461,7 @@ func reset():
 	
 	total_score = 0
 	kills = 0
-	set_evolution_level(6)
+	set_evolution_level(1)
 	timescale = 1
 	game_time = 0
 	spawn_timer = 0

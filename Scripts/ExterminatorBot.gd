@@ -14,10 +14,10 @@ var walk_speed_levels = [40, 50, 60, 65, 70, 75, 80]
 var shield_power_levels = [1200, 400, 500, 600, 700, 800, 900]
 var bullet_spin_accel_levels = [5, 7, 8, 9, 10, 11, 12]
 
-var min_bullet_spin_speed = 7
-var bullet_production_rate = 1
+var min_bullet_spin_speed = 3
+var bullet_production_rate = 0
 var laser_explosiveness = 0
-var compact_mode = true
+var compact_mode = false
 
 
 var shield_active = true
