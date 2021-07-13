@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/ScoreDisplay.gd" type="Script" id=1]
-[ext_resource path="res://Art/Fonts/Text.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Art/Fonts/DefaultText.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Scripts/UIFX.gd" type="Script" id=3]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=4]
 [ext_resource path="res://Scripts/EVLNumber.gd" type="Script" id=5]
@@ -85,10 +85,10 @@ __meta__ = {
 decay = 0
 
 [node name="ELV Label" type="Label" parent="."]
-margin_left = 480.0
-margin_top = 18.0
-margin_right = 594.0
-margin_bottom = 41.0
+margin_left = 516.528
+margin_top = 16.9439
+margin_right = 630.528
+margin_bottom = 40.9439
 rect_scale = Vector2( 0.8, 0.8 )
 theme = SubResource( 3 )
 custom_fonts/font = ExtResource( 2 )

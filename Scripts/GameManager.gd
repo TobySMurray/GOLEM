@@ -104,15 +104,15 @@ var player_upgrades = {
 	#SHOTGUN
 	'induction_barrel': 0,
 	'stacked_shells': 0,
-	'shock_stock': 1,
+	'shock_stock': 0,
 	'soldering_fingers': 0,
 	'reload_coroutine': 0,
 	#CHAIN
 	'precompressed_hydraulics': 0,
 	'adaptive_wrists': 0,
-	'discharge_flail': 1,
+	'discharge_flail': 0,
 	'vortex_technique': 0,
-	'footwork_scheduler': 1,
+	'footwork_scheduler': 0,
 	#WHEEL
 	'advanced_targeting': 0,
 	'bypassed_muffler': 0,

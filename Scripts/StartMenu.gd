@@ -1,18 +1,13 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-onready var credits = $CreditsPopup
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	Options.level = "Menu"
-	$Play.connect("pressed", self, "play")
-	$Options.connect("pressed",self, "options")
-	$Quit.connect("pressed", self, "quit")
-	$Credits.connect("pressed", self, "toggle_credits")
+	$Buttons/Arcade.connect("pressed", self, "play")
+	$Buttons/Options.connect("pressed",self, "options")
+	$Buttons/Quit.connect("pressed", self, "quit")
+	$Buttons/Stats.connect("pressed", self, "stats")
+
 
 
 func play():
@@ -21,11 +16,7 @@ func play():
 func options():
 	get_tree().change_scene("res://Scenes/Menus/OptionsMenu.tscn")
 
+func stats():
+	get_tree().change_scene("res://Scenes/Menus/InfoMenu.tscn")
 func quit():
 	get_tree().quit()
-
-func toggle_credits():
-	if credits.visible:
-		credits.visible = false
-	else:
-		credits.visible = true

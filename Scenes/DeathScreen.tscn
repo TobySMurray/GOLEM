@@ -99,5 +99,6 @@ text = "Return to Menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="PlayAgainButton" to="." method="_on_PlayAgainButton_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]

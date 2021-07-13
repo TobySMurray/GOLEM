@@ -1,6 +1,5 @@
-[gd_scene load_steps=100 format=2]
+[gd_scene load_steps=97 format=2]
 
-[ext_resource path="res://Art/Fonts/pixelmix.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Art/Characters/Shotgunner/icon.png" type="Texture" id=2]
 [ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=3]
 [ext_resource path="res://Art/Characters/Archer/icon.png" type="Texture" id=4]
@@ -88,301 +87,292 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="DynamicFont" id=17]
-size = 8
-font_data = ExtResource( 1 )
-
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 0, 126, 39 )
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 39, 126, 39 )
 
-[sub_resource type="AtlasTexture" id=20]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 78, 126, 39 )
 
-[sub_resource type="AtlasTexture" id=21]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 117, 126, 39 )
 
-[sub_resource type="AtlasTexture" id=22]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 156, 126, 39 )
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 195, 126, 39 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 234, 126, 39 )
 
-[sub_resource type="AtlasTexture" id=25]
+[sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 15 )
 region = Rect2( 0, 273, 126, 39 )
 
-[sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 18 )
-region = Rect2( 0, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 18 )
-region = Rect2( 118, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 18 )
-region = Rect2( 236, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 18 )
-region = Rect2( 354, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 18 )
-region = Rect2( 472, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 81, 76 )
-
-[sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 76, 81, 76 )
-
-[sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 152, 81, 76 )
-
-[sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 228, 81, 76 )
-
-[sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 304, 81, 76 )
-
-[sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 380, 81, 76 )
-
-[sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 456, 81, 76 )
-
-[sub_resource type="AtlasTexture" id=38]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 532, 81, 76 )
-
-[sub_resource type="AtlasTexture" id=39]
-atlas = ExtResource( 17 )
-region = Rect2( 0, 0, 121, 70 )
-
-[sub_resource type="AtlasTexture" id=40]
-atlas = ExtResource( 17 )
-region = Rect2( 0, 70, 121, 70 )
-
-[sub_resource type="AtlasTexture" id=41]
-atlas = ExtResource( 17 )
-region = Rect2( 0, 140, 121, 70 )
-
-[sub_resource type="AtlasTexture" id=42]
-atlas = ExtResource( 17 )
-region = Rect2( 0, 210, 121, 70 )
-
-[sub_resource type="AtlasTexture" id=43]
-atlas = ExtResource( 17 )
-region = Rect2( 0, 280, 121, 70 )
-
-[sub_resource type="AtlasTexture" id=44]
-atlas = ExtResource( 17 )
-region = Rect2( 0, 350, 121, 70 )
-
-[sub_resource type="AtlasTexture" id=45]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 92, 35 )
-
-[sub_resource type="AtlasTexture" id=46]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 35, 92, 35 )
-
-[sub_resource type="AtlasTexture" id=47]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 70, 92, 35 )
-
-[sub_resource type="AtlasTexture" id=48]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 105, 92, 35 )
-
-[sub_resource type="AtlasTexture" id=49]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 140, 92, 35 )
-
-[sub_resource type="AtlasTexture" id=50]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 175, 92, 35 )
-
-[sub_resource type="AtlasTexture" id=51]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 210, 92, 35 )
-
-[sub_resource type="AtlasTexture" id=52]
-atlas = ExtResource( 12 )
-region = Rect2( 0, 245, 92, 35 )
-
-[sub_resource type="AtlasTexture" id=53]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 0, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=54]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 108, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=55]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 216, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=56]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 324, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=57]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 432, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=58]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 540, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=59]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 648, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=60]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 756, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=61]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 864, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=62]
-atlas = ExtResource( 14 )
-region = Rect2( 0, 972, 97, 108 )
-
-[sub_resource type="AtlasTexture" id=63]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 0, 117, 26 )
-
-[sub_resource type="AtlasTexture" id=64]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 26, 117, 26 )
-
-[sub_resource type="AtlasTexture" id=65]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 52, 117, 26 )
-
-[sub_resource type="AtlasTexture" id=66]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 78, 117, 26 )
-
-[sub_resource type="AtlasTexture" id=67]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 104, 117, 26 )
-
-[sub_resource type="AtlasTexture" id=68]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 130, 117, 26 )
-
-[sub_resource type="AtlasTexture" id=69]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 156, 117, 26 )
-
-[sub_resource type="AtlasTexture" id=70]
-atlas = ExtResource( 19 )
-region = Rect2( 0, 182, 117, 26 )
-
-[sub_resource type="AtlasTexture" id=71]
+[sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 16 )
 region = Rect2( 0, 0, 94, 64 )
 
-[sub_resource type="AtlasTexture" id=72]
+[sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 16 )
 region = Rect2( 94, 0, 94, 64 )
 
-[sub_resource type="AtlasTexture" id=73]
+[sub_resource type="AtlasTexture" id=27]
 atlas = ExtResource( 16 )
 region = Rect2( 188, 0, 94, 64 )
 
-[sub_resource type="AtlasTexture" id=74]
+[sub_resource type="AtlasTexture" id=28]
 atlas = ExtResource( 16 )
 region = Rect2( 282, 0, 94, 64 )
 
-[sub_resource type="AtlasTexture" id=75]
+[sub_resource type="AtlasTexture" id=29]
 atlas = ExtResource( 16 )
 region = Rect2( 376, 0, 94, 64 )
 
-[sub_resource type="AtlasTexture" id=76]
+[sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 16 )
 region = Rect2( 470, 0, 94, 64 )
 
-[sub_resource type="AtlasTexture" id=77]
+[sub_resource type="AtlasTexture" id=31]
 atlas = ExtResource( 16 )
 region = Rect2( 564, 0, 94, 64 )
 
-[sub_resource type="AtlasTexture" id=78]
+[sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 16 )
 region = Rect2( 658, 0, 94, 64 )
 
-[sub_resource type="SpriteFrames" id=79]
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 92, 35 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 35, 92, 35 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 70, 92, 35 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 105, 92, 35 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 140, 92, 35 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 175, 92, 35 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 210, 92, 35 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 245, 92, 35 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 17 )
+region = Rect2( 0, 0, 121, 70 )
+
+[sub_resource type="AtlasTexture" id=42]
+atlas = ExtResource( 17 )
+region = Rect2( 0, 70, 121, 70 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 17 )
+region = Rect2( 0, 140, 121, 70 )
+
+[sub_resource type="AtlasTexture" id=44]
+atlas = ExtResource( 17 )
+region = Rect2( 0, 210, 121, 70 )
+
+[sub_resource type="AtlasTexture" id=45]
+atlas = ExtResource( 17 )
+region = Rect2( 0, 280, 121, 70 )
+
+[sub_resource type="AtlasTexture" id=46]
+atlas = ExtResource( 17 )
+region = Rect2( 0, 350, 121, 70 )
+
+[sub_resource type="AtlasTexture" id=47]
+atlas = ExtResource( 19 )
+region = Rect2( 0, 0, 117, 26 )
+
+[sub_resource type="AtlasTexture" id=48]
+atlas = ExtResource( 19 )
+region = Rect2( 0, 26, 117, 26 )
+
+[sub_resource type="AtlasTexture" id=49]
+atlas = ExtResource( 19 )
+region = Rect2( 0, 52, 117, 26 )
+
+[sub_resource type="AtlasTexture" id=50]
+atlas = ExtResource( 19 )
+region = Rect2( 0, 78, 117, 26 )
+
+[sub_resource type="AtlasTexture" id=51]
+atlas = ExtResource( 19 )
+region = Rect2( 0, 104, 117, 26 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 19 )
+region = Rect2( 0, 130, 117, 26 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 19 )
+region = Rect2( 0, 156, 117, 26 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 19 )
+region = Rect2( 0, 182, 117, 26 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 0, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 108, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=57]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 216, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=58]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 324, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=59]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 432, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=60]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 540, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=61]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 648, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=62]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 756, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=63]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 864, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=64]
+atlas = ExtResource( 14 )
+region = Rect2( 0, 972, 97, 108 )
+
+[sub_resource type="AtlasTexture" id=65]
+atlas = ExtResource( 18 )
+region = Rect2( 0, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=66]
+atlas = ExtResource( 18 )
+region = Rect2( 118, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=67]
+atlas = ExtResource( 18 )
+region = Rect2( 236, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=68]
+atlas = ExtResource( 18 )
+region = Rect2( 354, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=69]
+atlas = ExtResource( 18 )
+region = Rect2( 472, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=70]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 0, 81, 76 )
+
+[sub_resource type="AtlasTexture" id=71]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 76, 81, 76 )
+
+[sub_resource type="AtlasTexture" id=72]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 152, 81, 76 )
+
+[sub_resource type="AtlasTexture" id=73]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 228, 81, 76 )
+
+[sub_resource type="AtlasTexture" id=74]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 304, 81, 76 )
+
+[sub_resource type="AtlasTexture" id=75]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 380, 81, 76 )
+
+[sub_resource type="AtlasTexture" id=76]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 456, 81, 76 )
+
+[sub_resource type="AtlasTexture" id=77]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 532, 81, 76 )
+
+[sub_resource type="SpriteFrames" id=78]
 animations = [ {
-"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
 "loop": true,
 "name": "chain",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
+"frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
 "loop": true,
-"name": "sorcerer",
+"name": "flame",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ) ],
-"loop": true,
-"name": "archer",
-"speed": 10.0
-}, {
-"frames": [ SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ) ],
-"loop": true,
-"name": "saber",
-"speed": 10.0
-}, {
-"frames": [ SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ) ],
+"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
 "loop": true,
 "name": "shotgun",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ) ],
+"frames": [ SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ) ],
 "loop": true,
-"name": "exterminator",
-"speed": 5.0
+"name": "saber",
+"speed": 10.0
 }, {
-"frames": [ SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ) ],
+"frames": [ SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ) ],
 "loop": true,
 "name": "wheel",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ) ],
+"frames": [ SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ), SubResource( 64 ) ],
 "loop": true,
-"name": "flame",
+"name": "exterminator",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ) ],
+"loop": true,
+"name": "sorcerer",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ) ],
+"loop": true,
+"name": "archer",
 "speed": 10.0
 } ]
-
-[sub_resource type="DynamicFont" id=80]
-size = 10
-outline_color = Color( 0.537255, 0.415686, 0.584314, 1 )
-font_data = ExtResource( 1 )
 
 [node name="EnemyInfoMenu" type="Control"]
 anchor_right = 1.0
@@ -396,22 +386,8 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 7
+frame = 2
 playing = true
-
-[node name="Back" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -80.0
-margin_top = -30.0
-margin_right = 70.0
-margin_bottom = -9.99997
-text = "Back"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -423,7 +399,7 @@ __meta__ = {
 }
 
 [node name="EnemySelect" type="MarginContainer" parent="HBoxContainer"]
-margin_right = 176.0
+margin_right = 163.0
 margin_bottom = 360.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.7
@@ -438,11 +414,11 @@ __meta__ = {
 [node name="GridContainer" type="GridContainer" parent="HBoxContainer/EnemySelect"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 171.0
+margin_right = 158.0
 margin_bottom = 355.0
 
 [node name="Shotgunner" type="Button" parent="HBoxContainer/EnemySelect/GridContainer"]
-margin_right = 166.0
+margin_right = 153.0
 margin_bottom = 36.0
 rect_min_size = Vector2( 0, 36 )
 size_flags_horizontal = 3
@@ -451,7 +427,7 @@ icon = ExtResource( 2 )
 
 [node name="Wheel" type="Button" parent="HBoxContainer/EnemySelect/GridContainer"]
 margin_top = 40.0
-margin_right = 166.0
+margin_right = 153.0
 margin_bottom = 76.0
 rect_min_size = Vector2( 0, 36 )
 text = "Wheelbot"
@@ -459,7 +435,7 @@ icon = ExtResource( 7 )
 
 [node name="Flame" type="Button" parent="HBoxContainer/EnemySelect/GridContainer"]
 margin_top = 80.0
-margin_right = 166.0
+margin_right = 153.0
 margin_bottom = 116.0
 rect_min_size = Vector2( 0, 36 )
 text = "Flamebot"
@@ -467,7 +443,7 @@ icon = ExtResource( 9 )
 
 [node name="Chain" type="Button" parent="HBoxContainer/EnemySelect/GridContainer"]
 margin_top = 120.0
-margin_right = 166.0
+margin_right = 153.0
 margin_bottom = 156.0
 rect_min_size = Vector2( 0, 36 )
 text = "Chainbot"
@@ -475,7 +451,7 @@ icon = ExtResource( 6 )
 
 [node name="Exterminator" type="Button" parent="HBoxContainer/EnemySelect/GridContainer"]
 margin_top = 160.0
-margin_right = 166.0
+margin_right = 153.0
 margin_bottom = 196.0
 rect_min_size = Vector2( 0, 36 )
 text = "Exterminator"
@@ -483,7 +459,7 @@ icon = ExtResource( 8 )
 
 [node name="Archer" type="Button" parent="HBoxContainer/EnemySelect/GridContainer"]
 margin_top = 200.0
-margin_right = 166.0
+margin_right = 153.0
 margin_bottom = 236.0
 rect_min_size = Vector2( 0, 36 )
 text = "Archer"
@@ -491,7 +467,7 @@ icon = ExtResource( 4 )
 
 [node name="Sorcerer" type="Button" parent="HBoxContainer/EnemySelect/GridContainer"]
 margin_top = 240.0
-margin_right = 166.0
+margin_right = 153.0
 margin_bottom = 276.0
 rect_min_size = Vector2( 0, 36 )
 text = "Shaman"
@@ -499,15 +475,15 @@ icon = ExtResource( 10 )
 
 [node name="Saber" type="Button" parent="HBoxContainer/EnemySelect/GridContainer"]
 margin_top = 280.0
-margin_right = 166.0
+margin_right = 153.0
 margin_bottom = 316.0
 rect_min_size = Vector2( 0, 36 )
 text = "Saberbot"
 icon = ExtResource( 5 )
 
 [node name="Lore" type="MarginContainer" parent="HBoxContainer"]
-margin_left = 180.0
-margin_right = 408.0
+margin_left = 167.0
+margin_right = 401.0
 margin_bottom = 360.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 0
@@ -518,35 +494,34 @@ custom_constants/margin_bottom = 35
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/Lore"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 228.0
+margin_right = 234.0
 margin_bottom = 325.0
 scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Lore/ScrollContainer"]
-margin_right = 223.0
+margin_right = 229.0
 margin_bottom = 320.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Title" type="Label" parent="HBoxContainer/Lore/ScrollContainer/VBoxContainer"]
-margin_right = 223.0
-margin_bottom = 22.0
+margin_right = 229.0
+margin_bottom = 20.0
 text = "ENEMY NAME"
 align = 1
 uppercase = true
 
 [node name="Description" type="Label" parent="HBoxContainer/Lore/ScrollContainer/VBoxContainer"]
-margin_top = 26.0
-margin_right = 223.0
+margin_top = 24.0
+margin_right = 229.0
 margin_bottom = 320.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 17 )
 text = "Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet Lorem imsum dolor sit amet "
 autowrap = true
 
 [node name="Data" type="MarginContainer" parent="HBoxContainer"]
-margin_left = 412.0
+margin_left = 405.0
 margin_right = 640.0
 margin_bottom = 360.0
 size_flags_horizontal = 3
@@ -558,11 +533,11 @@ custom_constants/margin_bottom = 5
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Data"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 223.0
+margin_right = 230.0
 margin_bottom = 355.0
 
 [node name="PortraitFrame" type="Control" parent="HBoxContainer/Data/VBoxContainer"]
-margin_right = 218.0
+margin_right = 225.0
 margin_bottom = 173.0
 size_flags_vertical = 3
 
@@ -579,9 +554,9 @@ __meta__ = {
 
 [node name="Portrait" type="AnimatedSprite" parent="HBoxContainer/Data/VBoxContainer/PortraitFrame/PortraitCenterer"]
 scale = Vector2( 5, 5 )
-frames = SubResource( 79 )
+frames = SubResource( 78 )
 animation = "chain"
-frame = 5
+frame = 6
 playing = true
 offset = Vector2( 32, 4 )
 
@@ -598,17 +573,16 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Data/VBoxContainer"]
 margin_top = 177.0
-margin_right = 218.0
+margin_right = 225.0
 margin_bottom = 350.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Stats" type="RichTextLabel" parent="HBoxContainer/Data/VBoxContainer/VBoxContainer"]
-margin_right = 218.0
+margin_right = 225.0
 margin_bottom = 173.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/normal_font = SubResource( 80 )
 custom_constants/line_separation = 6
 bbcode_enabled = true
 bbcode_text = "[color=#dd0000]HP:[/color] 50
@@ -623,6 +597,21 @@ ATTACK: Burst rifle
 SPECIAL: Turbo dash
 
 "
+
+[node name="Back" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -80.0
+margin_top = -30.0
+margin_right = 70.0
+margin_bottom = -9.99997
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="HBoxContainer/EnemySelect/GridContainer/Shotgunner" to="." method="set_selected" binds= [ "shotgun" ]]
 [connection signal="pressed" from="HBoxContainer/EnemySelect/GridContainer/Wheel" to="." method="set_selected" binds= [ "wheel" ]]
 [connection signal="pressed" from="HBoxContainer/EnemySelect/GridContainer/Flame" to="." method="set_selected" binds= [ "flame" ]]

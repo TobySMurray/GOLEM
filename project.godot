@@ -61,7 +61,7 @@ window/stretch/aspect="keep"
 [gui]
 
 theme/custom="res://Art/Theme/DefaultTheme.tres"
-theme/custom_font="res://Art/Fonts/Text.tres"
+theme/custom_font="res://Art/Fonts/DefaultText.tres"
 
 [input]
 
@@ -124,6 +124,6 @@ pause={
 
 [rendering]
 
-quality/2d/use_pixel_snap=true
-environment/default_environment="res://default_env.tres"
 2d/snapping/use_gpu_pixel_snap=true
+environment/default_environment="res://default_env.tres"
+quality/2d/use_pixel_snap=true
