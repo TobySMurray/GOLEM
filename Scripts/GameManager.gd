@@ -33,7 +33,7 @@ const levels = {
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
 		'enemy_density': 7,
-		'pace': 1.0,
+		'pace': 0.9,
 		'dark': false,
 		'music': 'melon b3.wav',
 		'scene_name': 'SkyRuins1.tscn'
@@ -138,8 +138,8 @@ var player_upgrades = {
 	'bulwark_mode': 0,
 	'particulate_screen': 1,
 	#SORCERER
-	'elastic_containment': 1,
-	'parallelized_drones': 0,
+	'elastic_containment': 0,
+	'parallelized_drones': 2,
 	'docked_drones': 0,
 	'precision_handling': 0,
 	#SABER
@@ -246,7 +246,7 @@ func spawn_enemy(allow_boss = true, bounds = level['map_bounds']):
 		get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
 		
 	else:
-		var d = game_time/30.0*level["pace"]
+		var d = game_time/30.0*level["pace"] - 2
 		if randf() < (d/(d+4.0)/2.0):
 			new_enemy.add_swap_shield(randf()*d*5)
 
@@ -271,8 +271,8 @@ func reset():
 	player = null
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 	
-	#for key in player_upgrades:
-	#	player_upgrades[key] = 0 if randf() < 0.8 else 1
+	for key in player_upgrades:
+		player_upgrades[key] = 0 if randf() < 0.75 else 1
 	
 func on_level_loaded(lv_name):
 	level_name = lv_name
@@ -345,7 +345,7 @@ func enemy_drought_bailout():
 	var candidate = null
 	for enemy in enemies:
 		if is_instance_valid(enemy):
-			if enemy != player and not enemy.is_boss and (abs(enemy.global_position.x - player.global_position.x) < 300 and abs(enemy.global_position.y - player.global_position.y) < 200):
+			if enemy != player and not enemy.is_boss and ((abs(enemy.global_position.x - player.global_position.x) < 300 and abs(enemy.global_position.y - player.global_position.y) < 200) or not is_point_offscreen(enemy.global_position)):
 				drought = false
 				candidate = enemy
 				break
@@ -401,7 +401,7 @@ func is_point_in_bounds(global_point):
 	
 func is_point_offscreen(point, margin = 0):
 	var bounds = camera_bounds()
-	var from_camera = point - camera.global_position
+	var from_camera = point - camera.global_position - camera.offset
 	return abs(from_camera.x) > bounds.x + margin or abs(from_camera.y) > bounds.y + margin
 	
 func camera_bounds():

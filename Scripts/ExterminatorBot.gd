@@ -323,7 +323,7 @@ func apply_shield_effects(delta):
 				
 			else:
 				if b.is_in_group('death orb') and is_instance_valid(b.source):
-					b.source.orb = null
+					b.source.orbs[b.source.orbs.find(b)] = null
 					
 				b.source = self
 				b.deflectable = false

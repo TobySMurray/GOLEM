@@ -18,8 +18,8 @@ func _physics_process(delta):
 		var decel = pow(min(decel_timer*(speed/200), 2), 1)
 		velocity -= velocity*decel*delta
 		decel_timer += delta
-	elif is_instance_valid(source):
-		velocity += 150*delta*(source.global_position - global_position).normalized()
+	#elif is_instance_valid(source):
+		#velocity += 150*delta*(source.global_position - global_position).normalized()
 		
 	if col and not spectral:
 		velocity = velocity.bounce(col.normal) * 0.9
@@ -32,7 +32,14 @@ func _physics_process(delta):
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("hitbox"):
 		var entity = area.get_parent()
-		if not entity.invincible and entity != source:
+		if entity.is_in_group('death orb'):
+			if entity.source != source:
+				decel_timer = 0
+				var new_vel = (global_position - entity.global_position).normalized() * velocity.length() * 1.05
+				entity.velocity += velocity - new_vel
+				velocity = new_vel
+			
+		elif not entity.invincible and entity != source:
 			decel_timer = 0
 			var damage = pow(velocity.length(), 1.2)/30
 			entity.take_damage(damage, source)

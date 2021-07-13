@@ -201,12 +201,14 @@ func toggle_stealth(state):
 	if state == true:
 		if is_in_group('player'):
 			GameManager.player = null
+			GameManager.true_player = null
 		stealth_timer = 3
 		max_speed = walk_speed*2
 		sprite.modulate = Color(0.12, 0.12, 0.12, 0.5)
 	else:
 		if is_in_group('player'):
 			GameManager.player = self
+			GameManager.true_player = null
 		max_speed = walk_speed
 		sight_beam.frame = 0
 		sprite.modulate = Color.white
