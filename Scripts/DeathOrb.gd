@@ -5,9 +5,10 @@ var velocity = Vector2(100, 0)
 var mass = 3
 var decel_timer = 0
 
-var lifetime = 0
+var lifetime = 999999
 var invincible = false
 var deflectable = true
+var spectral = false
 
 func _physics_process(delta):
 	var col = move_and_collide(velocity*delta)
@@ -20,8 +21,12 @@ func _physics_process(delta):
 	elif is_instance_valid(source):
 		velocity += 150*delta*(source.global_position - global_position).normalized()
 		
-	if col:
+	if col and not spectral:
 		velocity = velocity.bounce(col.normal) * 0.9
+		
+	lifetime -= delta
+	if lifetime < 0:
+		detonate()
 
 
 func _on_Area2D_area_entered(area):
@@ -44,7 +49,13 @@ func take_damage(damage, source, stun = 0):
 	decel_timer = 0
 	pass
 	
+func detonate():
+	GameManager.spawn_explosion(global_position + Vector2(0, 10), source, 1.5, 30, 500)
+	despawn()
+	
 func despawn():
+	if is_instance_valid(source):
+		source.on_bullet_despawn(self)
 	queue_free()
 	
 

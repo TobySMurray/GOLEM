@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/Camera.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Cursor.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/PauseScreen.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/DeathScreen.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/ScoreDisplay.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/SwapBar.tscn" type="PackedScene" id=12]
+
+[node name="Camera2D" type="Camera2D"]
+current = true
+script = ExtResource( 1 )
+init_anchor = NodePath("../WorldObjects/Characters/Merchant")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SwapBar" parent="CanvasLayer" instance=ExtResource( 12 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -224.0
+margin_top = -64.0
+margin_right = 376.0
+margin_bottom = 16.0
+value = 10.0
+
+[node name="ScoreDisplay" parent="CanvasLayer" instance=ExtResource( 11 )]
+
+[node name="DeathScreen" parent="CanvasLayer" instance=ExtResource( 10 )]
+visible = false
+level = "res://Scenes/MainLevel.tscn"
+
+[node name="PauseScreen" parent="CanvasLayer" instance=ExtResource( 9 )]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="Cursor" parent="CanvasLayer2" instance=ExtResource( 8 )]
+position = Vector2( 247.658, 175.411 )

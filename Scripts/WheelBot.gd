@@ -16,6 +16,8 @@ var shot_speed_levels = [200, 300, 400, 500, 550, 600, 666]
 
 var killdozer_mode = false
 var top_gear = false
+var exhaust_blast = false
+var charge_mode = false
 
 var burst_count = 0
 var burst_timer = 0
@@ -56,6 +58,8 @@ func toggle_enhancement(state):
 	accel = 2.5
 	killdozer_mode = false
 	top_gear = false
+	exhaust_blast = false
+	charge_mode = false
 	
 	if state == true:
 		if GameManager.player_upgrades['top_gear'] > 0:
@@ -66,6 +70,10 @@ func toggle_enhancement(state):
 			
 		if GameManager.player_upgrades['self-preservation_override'] > 0:
 			killdozer_mode = true
+			
+		exhaust_blast = GameManager.player_upgrades['bypassed_muffler'] > 0
+		
+		charge_mode = GameManager.player_upgrades['manual_plasma_throttle'] > 0
 	
 	movement_raycast.enabled = !state
 
@@ -78,7 +86,7 @@ func misc_update(delta):
 			shoot()
 	else:
 		lock_aim = false
-		
+
 	special_cooldown -= delta
 	if special_cooldown < 0 and dashing:
 		dashing = false
@@ -87,8 +95,11 @@ func misc_update(delta):
 	set_dash_fx_position()
 	
 func player_action():
-	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0 and not attacking:
+	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
 		start_burst()
+		
+	elif charge_mode and Input.is_action_just_released('attack1') and burst_count > 0 and not dead:
+		shoot()
 	
 	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not dashing:
 		special_cooldown = max_special_cooldown
@@ -130,25 +141,36 @@ func ai_action():
 		start_burst()
 	
 func start_burst():
-	#lock_aim = is_in_group("enemy")
-	attack_cooldown = reload_time
-	burst_count = burst_size
-	shoot()
+	if not charge_mode:
+		attack_cooldown = reload_time
+		burst_count = burst_size
+		burst_timer = -1
+		shoot()
+	else:
+		burst_count = 1
+		burst_timer = 2.0
+		attacking = true
+		#animplayer.play('Charge')
+	
 	
 func shoot():
-	attacking = true
 	audio.play()
 	animplayer.play("Attack")
 	animplayer.seek(0)
+	burst_count -= 1
+	attacking = true
 	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.3)
 	
-	velocity -= aim_direction*30
-	shoot_bullet(aim_direction*shot_speed + velocity/2, 10)
-	
-	burst_timer = 0.45/burst_size
-	burst_count -= 1
+	if not charge_mode:
+		velocity -= aim_direction*30
+		shoot_bullet(aim_direction*shot_speed + velocity/2, 10)
+		burst_timer = 0.45/burst_size
+	else:
+		var power = 0.15 + (2.0 - burst_timer)
+		velocity -= aim_direction*70*sqrt(burst_size)*pow(power, 2)
+		shoot_bullet(aim_direction*shot_speed*(1.0 + power) + velocity/2, 10*(power*burst_size), 0.15*power*burst_size, 5, 'pellet', 0.5 + power*1.5)
 	
 func dash():
 	var dash_dir = aim_direction.normalized()
@@ -166,6 +188,12 @@ func dash():
 				dash_end_point = result['position'] - offset - (dash_end_point - global_position).normalized()*10
 				maintained_speed = 250
 				break
+				
+	if exhaust_blast:
+		for i in range(8 + burst_size/2):
+			var dir = -dash_dir.rotated((0.5 - randf())*PI/8)
+			var speed = walk_speed*(1.5 + randf())
+			shoot_bullet(speed*dir, 10, 0.3, 2, 'flame')
 	
 	attacking = false
 	burst_count = 0
@@ -189,20 +217,20 @@ func _on_Hitbox_area_entered(area):
 	if not killdozer_mode:
 		return
 	if area.is_in_group("hitbox"):
-			var entity = area.get_parent()
-			if not entity.invincible:
-				var damage = velocity.length()/5
-				entity.take_damage(damage, self)
-				var new_vel = (global_position - entity.global_position).normalized() * velocity.length()
-				var delta_vel = new_vel - velocity
-				velocity = new_vel*0.7
-				entity.velocity -= delta_vel*2
-				if damage > 30:
-					GameManager.set_timescale(0.01, damage/500.0)
-					take_damage(3, entity)
-				
-				if not entity.is_in_group("bloodless"):
-					GameManager.spawn_blood(entity.global_position, (-delta_vel).angle(), sqrt(delta_vel.length())*30, damage, 30)
+		var entity = area.get_parent()
+		if not entity.invincible:
+			var damage = velocity.length()/5
+			entity.take_damage(damage, self)
+			var new_vel = (global_position - entity.global_position).normalized() * velocity.length()
+			var delta_vel = new_vel - velocity
+			velocity = new_vel*0.7
+			entity.velocity -= delta_vel*2/entity.mass
+			if damage > 30:
+				GameManager.set_timescale(0.01, damage/500.0)
+				take_damage(3, entity)
+			
+			if not entity.is_in_group("bloodless"):
+				GameManager.spawn_blood(entity.global_position, (-delta_vel).angle(), sqrt(delta_vel.length())*30, damage, 30)
 		
 	
 func set_dash_fx_position():

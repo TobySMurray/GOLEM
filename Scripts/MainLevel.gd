@@ -1,7 +1,4 @@
-extends Node2D
-
-onready var animplayer= $AnimationPlayer
-onready var canvas = $CanvasModulate
+extends "res://Scripts/Level.gd"
 
 func _ready():
 	#animplayer.play("FadeIn")

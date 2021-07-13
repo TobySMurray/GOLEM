@@ -26,7 +26,7 @@ func _on_QuitButton_pressed():
 	GameManager.reset()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Options.level = "Menu"
-	Options.chooseMusic()
+	Options.choose_music()
 	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")
 
 

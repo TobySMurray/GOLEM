@@ -38,6 +38,6 @@ func set_trauma(amount, use_max = true):
 		trauma = amount
 
 func shake():
-	var amount = trauma/(10+trauma)
+	var amount  = trauma/(10+trauma)
 	rect_position = base_pos + max_dist * amount * Vector2(randf()-0.5, randf()-0.5)
 	rect_rotation = max_roll * amount * (randf()-0.5)

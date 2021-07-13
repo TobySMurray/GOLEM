@@ -67,6 +67,9 @@ var flip_offset = 0
 var bullet_spawn_offset = 0
 var foot_offset = 0
 
+var stunned = false
+var stun_timer = 0
+
 var invincible = false
 var invincibility_timer = 0
 
@@ -78,8 +81,6 @@ signal clear_transcender
 
 var idle_anim = "Idle"
 var walk_anim = "Walk"
-
-var stun_timer = -1
 
 var dead = false
 var force_swap = false
@@ -94,12 +95,14 @@ func _ready():
 	update_swap_shield()
 
 func _physics_process(delta):
-	if not dead:
-		misc_update(delta)
-	elif is_in_group("player"):
+	if dead and is_in_group("player"):
 		death_timer -= delta
 		if death_timer < 0:
+			death_timer = 99999999
 			actually_die()
+			
+	if not dead and not stunned:
+		misc_update(delta)
 		
 	if not is_in_group("enemy"):
 		if capturing_boss:
@@ -111,44 +114,48 @@ func _physics_process(delta):
 				on_boss_capture()
 				
 		if not capturing_boss:
-			if not dead and stun_timer < 0:
+			if not dead and not stunned:
 				player_move(delta)
-				
 				
 				if not lock_aim:
 					aim_direction = (get_global_mouse_position() - global_position).normalized()
-					light_beam.rotation = aim_direction.angle() - PI/2
+					if light_beam:
+						light_beam.rotation = aim_direction.angle() - PI/2
 				
 			if about_to_swap:
 				choose_swap_target()
 			else:
-				if not dead and stun_timer < 0:
+				if not dead and not stunned:
 					player_action()
 					
-				if GameManager.swappable:
-					if Input.is_action_just_pressed("swap"):
-						toggle_swap(true)
+				if GameManager.swappable and Input.is_action_just_pressed("swap"):
+					toggle_swap(true)
 		
 		
 	else:
 		time_since_controlled += delta
-		if is_instance_valid(GameManager.player) and not dead and stun_timer < 0:
+		if is_instance_valid(GameManager.player) and GameManager.player != self and not dead and not stunned:
 			ai_move()
 			ai_action()
-		
-	update_flash(delta)
 	
 	attack_cooldown -= delta
 	special_cooldown -= delta
-	stun_timer -= delta
 	
+	if stunned:
+		stun_timer -= delta
+		update_stun_effect(delta)
+		if stun_timer < 0:
+			stunned = false
+			animplayer.play()
+	else:
+		animate()
 	
 	if invincible:
 		invincibility_timer -= delta
 		if invincibility_timer < 0:
 			invincible = false
 	
-	animate()
+	update_flash(delta)
 	move(delta)
 	
 	
@@ -215,10 +222,10 @@ func animate():
 	elif !attacking:
 		animplayer.play(walk_anim)
 		
-	sprite.modulate = lerp(sprite.modulate, base_color, 0.2)
+	#sprite.modulate = lerp(sprite.modulate, base_color, 0.2)
 		
 		
-func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet"):
+func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet", size = 1.0):
 	var new_bullet = Bullet.instance().duplicate()
 	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
 	new_bullet.source = self
@@ -226,6 +233,7 @@ func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet")
 	new_bullet.damage = damage
 	new_bullet.mass = mass
 	new_bullet.lifetime = lifetime
+	new_bullet.scale = Vector2(size, size)
 	new_bullet.set_appearance(type)
 	get_node("/root").add_child(new_bullet)
 	
@@ -267,7 +275,7 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0, stun = 0
 			var enemy = col['collider'].get_parent()
 			if not enemy.invincible and not enemy == self:
 				enemy.take_damage(damage, self, stun)
-				enemy.velocity += (enemy.global_position - global_position).normalized() * force
+				enemy.velocity += (enemy.global_position - global_position).normalized() * force / enemy.mass
 				
 				if not enemy.is_in_group("bloodless"):
 					GameManager.spawn_blood(enemy.global_position, (enemy.global_position - global_position).angle(), pow(force, 0.5)*30, damage*0.75)
@@ -303,10 +311,13 @@ func take_damage(damage, source, stun = 0):
 		
 	if stun > 0:
 		target_velocity = Vector2.ZERO
+		stunned = true
 		stun_timer = max(stun_timer, stun)
+		animplayer.stop()
 
 	health -= damage
 	healthbar.value = health
+	sprite.material.set_shader_param('color', Color(1, 1, 1, 1))
 	flash_timer = 0.066
 	is_flashing = true
 	
@@ -345,14 +356,14 @@ func toggle_swap(state):
 		speed_audio.play()
 		swap_cursor.moon_visible = false
 		swap_cursor.selected_enemy = null
-		swap_cursor.emit_selected_enemy_signal(false)
+		#swap_cursor.emit_selected_enemy_signal(false)
 		clear_transcender()
 		
 func toggle_playerhood(state):
 	if state == true:
 		remove_from_group("enemy")
 		add_to_group("player")
-		GameManager.player = self
+		GameManager.set_player_after_delay(self, 1)
 		GameManager.camera.anchor = self
 		GameManager.camera.offset = Vector2.ZERO
 		GameManager.camera.lerp_zoom(1)
@@ -363,6 +374,7 @@ func toggle_playerhood(state):
 		attack_cooldown = -1
 		special_cooldown = -1
 		time_since_controlled = 0
+		toggle_enhancement(true)
 		
 		if is_boss and enemy_evolution_level > GameManager.evolution_level:
 			GameManager.evolution_level = enemy_evolution_level #Does not update UI
@@ -378,8 +390,6 @@ func toggle_playerhood(state):
 		add_to_group("enemy")
 		attack_cooldown = max(attack_cooldown, 1)
 		special_cooldown = max(special_cooldown, 1)
-		
-	toggle_enhancement(state)
 		
 func toggle_enhancement(state):
 	toggle_light(state)
@@ -432,6 +442,7 @@ func add_swap_shield(hp):
 	swap_shield_health = hp
 	
 func update_swap_shield():
+	if not swap_shield: return
 	if swap_shield_health > 0:
 		var health_ratio = swap_shield_health/max_swap_shield_health
 		swap_shield.modulate = Color(0.5+health_ratio*0.5, health_ratio, health_ratio, 0.3 + health_ratio*0.7)
@@ -441,7 +452,7 @@ func update_swap_shield():
 func draw_transcender():
 	transcender_curve = Curve2D.new()
 	
-	var enemy_position = get_global_mouse_position()
+	var enemy_position = swap_cursor.sprite.global_position
 	var my_position = self.position
 	var mid_point = (enemy_position + my_position)/2
 	var mid_point_adjusted = mid_point + Vector2(0, 1)
@@ -482,6 +493,12 @@ func update_flash(delta):
 		if flash_timer < 0:
 			is_flashing = false
 			sprite.material.set_shader_param('intensity', 0)
+			
+func update_stun_effect(delta):
+	if randf() > 0.93:
+		is_flashing = true
+		sprite.material.set_shader_param('color', Color(0, 1, 1, 1))
+		flash_timer = 0.066
 		
 func emit_score_popup(value, msg):
 	var popup = score_popup.instance().duplicate()
@@ -501,6 +518,8 @@ func die(killer = null):
 	attacking = true
 	target_velocity = Vector2.ZERO
 	GameManager.enemy_count -= 1
+	GameManager.enemies.erase(self)
+	GameManager.enemy_drought_bailout_available = true
 	death_timer = 0.5
 	animplayer.play("Die")
 	
@@ -512,7 +531,7 @@ func die(killer = null):
 		if is_instance_valid(killer):
 			var effective_score = int(score*GameManager.variety_bonus*(1.5 if GameManager.swap_bar.swap_threshold == 0 else 1.0))
 			
-			if killer == GameManager.player:
+			if killer == GameManager.true_player:
 				GameManager.increase_score(effective_score)
 				GameManager.kills += 1
 				emit_score_popup(effective_score, "")
@@ -523,9 +542,13 @@ func die(killer = null):
 				emit_score_popup(effective_score*2, "CLOSE CALL")
 				
 			elif killer.time_since_controlled < 2:
-				GameManager.increase_score(effective_score*2)
+				if GameManager.true_player == null:
+					GameManager.increase_score(effective_score*1.5)
+					emit_score_popup(effective_score*2, "SHANK!")
+				else:
+					GameManager.increase_score(effective_score*2)
+					emit_score_popup(effective_score*2, "TRICKSHOT")
 				GameManager.kills += 1
-				emit_score_popup(effective_score*2, "TRICKSHOT")
 				Options.enemy_kills[enemy_type] += 1
 				
 	else:

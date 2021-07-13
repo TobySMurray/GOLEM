@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://Scripts/LaserBeam.gd"
 }, {
 "base": "Reference",
+"class": "Upgrades",
+"language": "GDScript",
+"path": "res://Scripts/Upgrades.gd"
+}, {
+"base": "Reference",
 "class": "Util",
 "language": "GDScript",
 "path": "res://Scripts/Util.gd"
@@ -27,6 +32,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Enemy": "",
 "LaserBeam": "",
+"Upgrades": "",
 "Util": ""
 }
 

@@ -55,6 +55,8 @@ func toggle_enhancement(state):
 	bullet_kb = 0.3
 	melee_stun = 0
 	recoil = 180
+	full_auto = false
+	flak_mode = false
 	
 	if state == true:
 		if GameManager.player_upgrades['induction_barrel'] > 0:
@@ -66,7 +68,7 @@ func toggle_enhancement(state):
 		num_shells *= 1 + GameManager.player_upgrades['stacked_shells']
 		recoil *= 1.0 + 1.5*GameManager.player_upgrades['stacked_shells']
 		
-		melee_stun = GameManager.player_upgrades['shock_stock']
+		melee_stun = 2*GameManager.player_upgrades['shock_stock']
 		
 		if GameManager.player_upgrades['soldering_fingers'] > 0:
 			flak_mode = true
@@ -137,7 +139,7 @@ func shoot():
 	if flak_mode:
 		for i in range(num_shells):
 			var dir = aim_direction.rotated((randf()-0.5)*deg2rad(bullet_spread))
-			var speed = shot_speed * (1 + 0.1*(randf()-0.5))
+			var speed = shot_speed * (1 + 0.2*(randf()-0.5))
 			shoot_flak_bullet(dir*speed, 30, 1, 4, num_pellets, 10, shot_speed*0.66, bullet_type)
 		
 	else:

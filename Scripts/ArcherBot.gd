@@ -18,10 +18,14 @@ var beam_damage = 150
 var beam_width = 1.0
 var explosion_size = 0.5
 var full_auto = false
+var shanky = true
 
 var charging = false
 var charge_timer = 0
 var raycast_endpoint = Vector2.ZERO
+
+var stealth_mode = false
+var stealth_timer = 0
 
 onready var ai_target_point = global_position
 var ai_move_timer = 0
@@ -43,6 +47,7 @@ func toggle_enhancement(state):
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
 	charge_time = charge_time_levels[level]
+	max_special_cooldown = 8 if state else 16
 	speed_while_charging = 0
 	beam_damage = 150
 	beam_width = 1.0
@@ -67,15 +72,12 @@ func toggle_enhancement(state):
 			charge_time *= 0.5
 			beam_damage *= 0.7
 			
-			
-		
-		
 	else:
 		charge_timer -= 0.75
 		
 	max_attack_cooldown = charge_time + (0.1 if full_auto else 0.5)
 
-		
+
 func misc_update(delta):
 	ai_move_timer -= delta
 	
@@ -84,10 +86,17 @@ func misc_update(delta):
 		if charge_timer < 0:
 			release_attack()
 	
+	if stealth_mode:
+		#sprite.material.set_shader_param('intensity', 1.0)
+		stealth_timer -= delta
+		if stealth_timer < 0:
+			toggle_stealth(false)
+		
+	
 func player_action():
 	if (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and attack_cooldown < 0:
 		charge_attack()
-	elif Input.is_action_just_pressed("attack2") and charging:
+	elif Input.is_action_just_pressed("attack2") and special_cooldown < 0:
 		special()
 		
 	if full_auto and Input.is_action_just_released('attack1') and charging:
@@ -117,6 +126,7 @@ func ai_action():
 	else:
 		ai_target_point = global_position
 		
+		
 		if attack_cooldown < 0 and (raycast_endpoint - global_position).length() > player_dist:
 			ai_move_timer = 4
 			if player_dist < 400:
@@ -126,6 +136,9 @@ func ai_action():
 	
 	
 func charge_attack():
+	if stealth_mode:
+		toggle_stealth(false)
+		
 	attacking = true
 	charging = true
 	attack_cooldown = max_attack_cooldown
@@ -152,19 +165,18 @@ func release_attack():
 	var beam_length = (raycast_endpoint - global_position).length()
 	var beam_dir = (raycast_endpoint - global_position)/beam_length
 	
-	attack_beam.get_parent().rotation = beam_dir.angle()
-	attack_beam.scale = Vector2(beam_length/32, beam_width)
+	#attack_beam.get_parent().rotation = beam_dir.angle()
+	#attack_beam.scale = Vector2(beam_length/32, beam_width)
 
-	var attack_anim = attack_beam.get_node("AnimatedSprite")
-	attack_anim.frame = 0
-	attack_anim.play("Shoot")
+	#var attack_anim = attack_beam.get_node("AnimatedSprite")
+	#attack_anim.frame = 0
+	#attack_anim.play("Shoot")
 	
 	if is_in_group("player"):
-		GameManager.camera.set_trauma(0.7*beam_damage/150, 4 if beam_damage > 100 else 5)
+		GameManager.camera.set_trauma(max(0.4, 0.7*beam_damage/150), 4 if beam_damage > 100 else 5)
 		
-	LaserBeam.shoot_laser(global_position + Vector2(9*sign(aim_direction.x), 0), aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 50, 'archer')
-	
-	melee_attack(attack_beam.get_node("CollisionShape2D"), beam_damage, 500, 0)
+	beam_length = (LaserBeam.shoot_laser(global_position + Vector2(9*sign(aim_direction.x), 0), aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 50, 500) - global_position).length()
+	#melee_attack(attack_beam.get_node("CollisionShape2D"), beam_damage, 500, 0)
 	
 	var dist = 50
 	var delay = 0.05
@@ -175,10 +187,29 @@ func release_attack():
 		delay += 0.05
 		
 func special():
+	special_cooldown = max_special_cooldown
+	attacking = true
+	max_speed = 0
 	charging = false
 	sight_beam.stop()
 	sight_beam.frame = 1
 	animplayer.play("Special")
+	
+func toggle_stealth(state):
+	stealth_mode = state
+
+	if state == true:
+		if is_in_group('player'):
+			GameManager.player = null
+		stealth_timer = 3
+		max_speed = walk_speed*2
+		sprite.modulate = Color(0.12, 0.12, 0.12, 0.5)
+	else:
+		if is_in_group('player'):
+			GameManager.player = self
+		max_speed = walk_speed
+		sight_beam.frame = 0
+		sprite.modulate = Color.white
 	
 func area_attack():
 	invincible = true
@@ -198,6 +229,21 @@ func update_sight():
 	
 	sight_beam.rotation = beam_dir.angle()
 	sight_beam.scale.x = beam_length/80
+	
+func _on_Hitbox_area_entered(area):
+	if not stealth_mode and shanky:
+		return
+	if area.is_in_group("hitbox"):
+		var entity = area.get_parent()
+		if not entity.invincible:
+			entity.take_damage(50, self)
+			entity.velocity +=  300*(entity.global_position - global_position).normalized()
+			GameManager.camera.set_trauma(0.45)
+			if entity.is_in_group('enemy'):
+				entity.set_invincibility_time(min(stealth_timer, 0.7))
+			
+			if not entity.is_in_group("bloodless"):
+				GameManager.spawn_blood(entity.global_position, (entity.global_position - global_position).angle(), 300, 50, 30)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Ready":
@@ -207,15 +253,36 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		attacking = false
 		lock_aim = false
 		invincible = false
-		max_speed = walk_speed
+		max_speed = max(max_speed, walk_speed)
 		
 		sight_beam.stop()
-		sight_beam.frame = 0
 		sight_beam.modulate = Color(1, 1, 1, 0.5)
-		
+		sight_beam.frame = 0 if anim_name == 'Attack' else 1
+
 	elif anim_name == "Die":
 		if is_in_group("enemy"):
 			actually_die()
+			
+func take_damage(damage, source, stun = 0):
+	if is_in_group('enemy') and stun == 0 and damage < health and special_cooldown < 0 and is_instance_valid(GameManager.player) and (GameManager.player.global_position - global_position).length() < 100:
+		special()
+		ai_move_timer = 4
+		var space_state = source.get_world_2d().direct_space_state
+		var max_dist = 0
+		for i in range(10):
+			var dir = Vector2.ONE.rotated(randf()*2*PI)
+			var result = space_state.intersect_ray(global_position, global_position + dir*10000, [source.get_node('Hitbox')], 1, true, false)
+			var dist = (result.position - global_position).length() if result else 10000
+			if dist > max_dist:
+				max_dist = dist
+				ai_target_point = result.position
+				
+	.take_damage(damage, source, stun)
+		
+func die(killer = null):
+	if stealth_mode:
+		toggle_stealth(false)
+	.die()
 
 
 func _on_Timer_timeout():

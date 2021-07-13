@@ -371,11 +371,14 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.45 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.45, 1.05 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
 "method": "area_attack"
+}, {
+"args": [ true ],
+"method": "toggle_stealth"
 } ]
 }
 tracks/4/type = "audio"
@@ -580,15 +583,14 @@ texture = ExtResource( 24 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.453369, -3.22388 )
-frame = 26
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
 material = ExtResource( 25 )
 position = Vector2( 11, -28 )
-texture = ExtResource( 5 )
-vframes = 4
-frame = 1
+texture = ExtResource( 4 )
+vframes = 14
+frame = 11
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -601,6 +603,7 @@ anims/Special = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( -1, 5 )
 shape = SubResource( 9 )
 
@@ -662,22 +665,23 @@ margin_bottom = -9.092
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 17 )
-volume_db = -10.0
+stream = ExtResource( 16 )
+volume_db = -15.0
 max_distance = 500.0
 bus = "Effects"
 
 [node name="SightBeam" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 1, 1, 0.501961 )
+show_behind_parent = true
 light_mask = 2
-scale = Vector2( 1.234, 0.1 )
+scale = Vector2( 1, 0.1 )
 frames = SubResource( 28 )
 animation = "Flash"
 offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 47
+frame = 21
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -687,4 +691,5 @@ wait_time = 0.25
 [node name="CharacterLights" parent="." instance=ExtResource( 23 )]
 visible = false
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

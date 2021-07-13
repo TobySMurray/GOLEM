@@ -90,7 +90,7 @@ var enemy_swaps = {
 
 func _ready():
 	loadSettings()
-	chooseMusic()
+	choose_music()
 	apply_audio_settings()
 	resolution()
 	set_keybinds()
@@ -98,8 +98,8 @@ func _ready():
 func _process(delta):
 	pass
 
-func chooseMusic():
-	if level == "Menu":
+func choose_music():
+	if level == "Menu" and false:
 		menuMusic()
 	else:
 		gameMusic()
@@ -111,7 +111,7 @@ func menuMusic():
 
 
 func gameMusic():
-	song = load("res://Sounds/Music/melon b3.wav")
+	song = load("res://Sounds/Music/" + GameManager.level['music'])
 	$Music.set_stream(song)
 	$Music.play(0.0)
 

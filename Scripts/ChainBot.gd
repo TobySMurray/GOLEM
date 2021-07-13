@@ -20,6 +20,7 @@ var damage_mult = 1
 var melee_stun = 0
 var laminar_shockwave = false
 var speed_while_charging = 20
+var footwork = false
 
 
 
@@ -58,6 +59,7 @@ func toggle_enhancement(state):
 	damage_mult = 1
 	speed_while_charging = 20
 	melee_stun = 0
+	footwork = false
 	
 	if state == true:
 		init_charge += charge_speed*0.33*GameManager.player_upgrades['precompressed_hydraulics']
@@ -67,8 +69,9 @@ func toggle_enhancement(state):
 		kb_mult -= min(0.95, 0.5*GameManager.player_upgrades['adaptive_wrists'])
 		damage_mult += 0.2*GameManager.player_upgrades['adaptive_wrists']
 		
-		melee_stun = 0.3*GameManager.player_upgrades['discharge_flail']
+		melee_stun = 2*GameManager.player_upgrades['discharge_flail']
 		
+		footwork = GameManager.player_upgrades['footwork_scheduler'] > 0
 		speed_while_charging = max(20, GameManager.player_upgrades['footwork_scheduler']*walk_speed/3.0)
 	
 	if charging:
@@ -156,8 +159,7 @@ func ai_move():
 func charge():
 	charging = true
 	attacking = true
-	if not is_in_group('player') or GameManager.player_upgrades['footwork_scheduler'] == 0: 
-		lock_aim = true
+	lock_aim = !footwork
 	max_speed = speed_while_charging
 	charge_level = init_charge
 	animplayer.play("Charge")
@@ -183,6 +185,9 @@ func swing_attack():
 		angle *= -1
 		delta_angle *= -1
 		dir.x *= -1
+		
+	if footwork:
+		velocity += dir*300 
 
 	for i in num_pellets + 1:
 		var pellet_dir = dir.rotated(deg2rad(angle))
@@ -190,7 +195,7 @@ func swing_attack():
 		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave')
 		
-	melee_attack(attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, melee_stun*charge_level)
+	melee_attack(attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, melee_stun*charge_level/charge_speed)
 	if charge_level > 2:
 		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), self, 1, 10)
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/QuarterCircle.png-9242efbd3576c8e40780ca511026e1aa.stex"
+path="res://.import/Circle_162.png-8ba45eb90647917cd581afd2d301eb16.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/QuarterCircle.png"
-dest_files=[ "res://.import/QuarterCircle.png-9242efbd3576c8e40780ca511026e1aa.stex" ]
+source_file="res://Art/Shields/Circle_162.png"
+dest_files=[ "res://.import/Circle_162.png-8ba45eb90647917cd581afd2d301eb16.stex" ]
 
 [params]
 

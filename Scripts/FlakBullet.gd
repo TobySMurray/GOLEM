@@ -1,6 +1,6 @@
 extends Area2D
 
-onready var Bullet = load('res://Scenes/Bullet.tscn')
+const Bullet = preload('res://Scenes/Bullet.tscn')
 
 var source
 var velocity = Vector2.ZERO
@@ -12,17 +12,13 @@ var frag_damage = 10
 var frag_speed = 150
 var frag_type = 'pellet'
 
-var rotate_to_direction = false
+var deflectable = true
+var spectral = false
+
 var last_velocity = Vector2.ZERO
 
 func _physics_process(delta):
 	position += velocity*delta
-	
-	if rotate_to_direction:
-		if velocity != last_velocity and velocity != Vector2.ZERO:
-			last_velocity = velocity
-			rotation = velocity.angle()
-	
 	lifetime -= delta
 	#if lifetime < 0.5:
 	#	visible = int(GameManager.game_time*20)%2 == 0
@@ -32,7 +28,7 @@ func _physics_process(delta):
 	
 
 func _on_Area2D_body_entered(body):
-	if not (body.is_in_group("player") or body.is_in_group("enemy")):
+	if not (body.is_in_group("player") or body.is_in_group("enemy")) and not spectral:
 		explode()
 
 func _on_Area2D_area_entered(area):
@@ -40,7 +36,8 @@ func _on_Area2D_area_entered(area):
 		var entity = area.get_parent()
 		entity.destroy()
 		explode()
-	if area.is_in_group("hitbox"):
+		
+	elif area.is_in_group("hitbox"):
 		var entity = area.get_parent()
 		if not entity.invincible and entity != source:
 			entity.take_damage(damage, source)
@@ -49,7 +46,7 @@ func _on_Area2D_area_entered(area):
 			if not entity.is_in_group("bloodless"):
 				GameManager.spawn_blood(entity.global_position, (velocity).angle(), sqrt(velocity.length())*30, damage, 30)
 			
-			if not area.is_in_group("deflector"):
+			if not area.is_in_group("deflector") and not (area.is_in_group('death orb') and entity.source == source):
 				explode()
 				
 func explode():
@@ -70,7 +67,7 @@ func shoot_bullet(vel):
 	new_bullet.set_appearance(frag_type)
 	get_node("/root").add_child(new_bullet)
 	
-	if source.is_in_group("player"):
+	if is_instance_valid(source) and source.is_in_group("player"):
 		GameManager.player_bullets.append(new_bullet)
 			
 func despawn():

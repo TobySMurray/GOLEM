@@ -14,7 +14,9 @@ onready var sorcerer_bot = load("res://Scenes/SorcererBot.tscn")
 onready var saber_bot = load("res://Scenes/SaberBot.tscn")
 onready var viewport = get_viewport()
 
-onready var enemies = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot, sorcerer_bot, saber_bot]
+onready var scene_transition = null
+
+onready var enemy_scenes = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot, sorcerer_bot, saber_bot]
 
 onready var SFX = AudioStreamPlayer.new()
 onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
@@ -22,12 +24,19 @@ onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 signal on_swap
 
 const levels = {
+	'Menu': {
+		'dark': false,
+		'music': 'cuuuu b3.wav'
+	},
+		
 	"RuinsLevel": {
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
 		'enemy_density': 7,
 		'pace': 1.0,
-		'dark': false
+		'dark': false,
+		'music': 'melon b3.wav',
+		'scene_name': 'SkyRuins1.tscn'
 	},
 	
 	"LabyrinthLevel": {
@@ -35,7 +44,9 @@ const levels = {
 		'enemy_weights': [1, 0.66, 0.4, 1, 1, 0.2, 0.2, 0.4],
 		'enemy_density': 11,
 		'pace': 0.6,
-		'dark': true
+		'dark': true,
+		'music': 'melon b3.wav',
+		'scene_name': 'Labyrinth1.tscn'
 	},
 	"Tutorial": {
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
@@ -46,233 +57,20 @@ const levels = {
 	}
 }
 
-const upgrades = {
-	#SHOTGUN
-	'induction_barrel': { #Replaces pellets with piercing flame bullets
-		'name': 'Induction Barrel',
-		'desc': 'Molten buckshot.',
-		'type': 'shotgun',
-		'max_stack': 1
-	},
-	'stacked_shells': { #Increase spread, reload time, and number of projectiles
-		'name': 'Stacked Shells',
-		'desc': 'The thinking bot\'s sawed-off.',
-		'type': 'shotgun',
-		'max_stack': 4
-	},
-	'shock_stock': { #Melee attack stuns
-		'name': 'Shock Stock',
-		'desc': 'A bayonette made of electrons. Keep your hands on the rubber grips.',
-		'type': 'shotgun',
-		'max_stack': 2
-	},
-	'soldering_fingers': { #Pellets are replaced by large projectile that bursts into pellets on inpact
-		'name': 'Soldering Fingers',
-		'desc': '50%% shot, 50%% slug, 100%% guaranteed to shatter on impact.',
-		'type': 'shotgun',
-		'max_stack': 1
-	},
-	'reload_coroutine': { #Decreases reload time and makes shotgun full-auto
-		'name': 'Reload Coroutine',
-		'desc': 'You didn\'t reload, but your CPU did.',
-		'type': 'shotgun',
-		'max_stack': 2
-	},
-	
-	#CHAIN
-	'precompressed_hydraulics': { #Increase initial charge level
-		'name': 'Precompressed Hydraulics',
-		'desc': 'Fear the jab.',
-		'type': 'chain',
-		'max_stack': 2
-	},
-	'adaptive_wrists': { #Decrease knockback, increase damage
-		'name': 'Adaptive Wrists',
-		'desc': 'Swing for the kill, not the fences.',
-		'type': 'chain',
-		'max_stack': 1
-	},
-	'discharge_flail': { #Attack stuns when charged
-		'name': 'Discharge Flail',
-		'desc': 'Incapacitating capacitors. Requires charge.',
-		'type': 'chain',
-		'max_stack': 2
-	},
-	'vortex_technique': { #Replaces shockwaves with one big piercing shockwave
-		'name': 'Vortex Technique',
-		'desc': '\"Laminar whipcracks are not possible.\"\n    - An Idiot',
-		'type': 'chain',
-		'max_stack': 1
-	},
-	'footwork_scheduler': { #Increase movement speed while charging
-		'name': 'Footwork Scheduler',
-		'desc': 'Get as close as you\'d like.',
-		'type': 'chain',
-		'max_stack': 2
-	},
-	
-	#WHEEL
-	'advanced_targeting': { #Replace manual aiming with auto targeting
-		'name': 'Advanced Targeting',
-		'desc': 'Aiming is for pedestrians.',
-		'type': 'wheel',
-		'max_stack': 1
-	},
-	'bypassed_muffler': { #Dashing shoots a clound of flame bullets backward
-		'name': 'Bypassed Muffler',
-		'desc': 'Lethal exhaust.',
-		'type': 'wheel',
-		'max_stack': 2
-	},
-	'self-preservation_override': { #Hitting enemies deals velocity-based damage
-		'name': 'Self-Preservation Override',
-		'desc': 'Become the bullet.',
-		'type': 'wheel',
-		'max_stack': 1
-	},
-	'manual_plasma_throttle': { #Pulses can be charged (Chocolate Milk from Isaac)
-		'name': 'Manual Plasma Throttle',
-		'desc': 'Your pulses, your way.',
-		'type': 'wheel',
-		'max_stack': 1
-	},
-	'top_gear': { #Increase max speed, decrease acceleration, preserve speed after dash
-		'name': 'Top Gear',
-		'desc': 'GAS GAS GAS.',
-		'type': 'wheel',
-		'max_stack': 1
-	},
-	
-	#FLAME
-	'pressurized_hose': { # Increase pressure dropoff and max pressure, decrease start-lag
-		'name': 'Pressurized Hose',
-		'desc': 'Premature conflagration.',
-		'type': 'flame',
-		'max_stack': 2
-	},
-	'optimized_regulator': { #Decrease pressure drop-off and max pressure, decrease movement penalty
-		'name': 'Optimized Regulator',
-		'desc': 'Slow burn, easier to handle.',
-		'type': 'flame',
-		'max_stack': 2
-	},
-	'internal_combustion': { #Increase range and decrease spread, add constant backward recoil
-		'name': 'Internal Combustion',
-		'desc': 'Handheld rocket engine.',
-		'type': 'flame',
-		'max_stack': 1,
-		'precludes': ['ultrasonic_nozzle']
-	},
-	'ultrasonic_nozzle': { #Replace flames with gas clouds which all explode after a delay
-		'name': 'Ultrasonic Nozzle',
-		'desc': 'WARNING: Thermobaric blast resistant visor mandatory.',
-		'type': 'flame',
-		'max_stack': 1,
-		'precludes': ['internal_combustion']
-	},
-	'aerated_fuel_tanks': { #Increase size of post-mortem explosion
-		'name': 'Aerated Fuel Tanks',
-		'desc': 'What could go wrong?',
-		'type': 'flame',
-		'max_stack': 1
-	},
-	
-	#ARCHER
-	'vibro-shimmy': { # Allow movement while charging
-		'name': 'Vibro-Shimmy',
-		'desc': 'Deadly on the battlefield, killer on the dancefloor.',
-		'type': 'archer',
-		'max_stack': 2
-	},
-	'half-draw': { # Halves charge time, reduces damage and knockback, removes explosions
-		'name': 'Half-Draw',
-		'desc': '\"Full auto.\"',
-		'type': 'archer',
-		'max_stack': 3
-	},
-	'slobberknocker_protocol': { # Increases beam width and damage
-		'name': 'Slobberknocker Protocol',
-		'desc': 'Slobberknocker Protocol.',
-		'type': 'archer',
-		'max_stack': 2
-	},
-	'scruple_inhibitor': { # Contact damage while in stealth
-		'name': 'Scruple Inhibitor',
-		'desc': 'Shank \'em good! Right in the oil filter!',
-		'type': 'archer',
-		'max_stack': 1
-	},
-	
-	#SORCERER
-	'elastic_containment': { #Increase orb size, decrease knockback (does not affect terrain collision)
-		'name': 'Elastic Containment',
-		'desc': 'Less Sol, more Betelgeuse.',
-		'type': 'sorcerer',
-		'max_stack': 2
-	},
-	'parallelized_drones': { #Decrease orb size, add additional orb
-		'name': 'Parallelized Drones',
-		'desc': 'Divide and conquer.',
-		'type': 'sorcerer',
-		'max_stack': 2
-	},
-	'docked_drones': { #Increase orb speed and deceleration, limits orb to short radius around controller 
-		'name': 'Docked Drones',
-		'desc': 'Tokamak teatherball.',
-		'type': 'sorcerer',
-		'max_stack': 1
-	},
-	'precision_handling': { #Orb accelerates toward mouse instead of being smacked, and stops when LMB released
-		'name': 'Precision Handling',
-		'desc': '\"Quick, the safety inspector\'s coming...\"',
-		'type': 'sorcerer',
-		'max_stack': 1
-	},
-	
-	#SABER
-	'fractured_mind': { #Decrease saber ring knockback, replaces saber ring with a spinning ring of three saber rings
-		'name': 'Fractured Mind',
-		'desc': 'That\'s a lot of swords.',
-		'type': 'saber',
-		'max_stack': 1
-	},
-	'true_focus': { # Triples CWBIDBSC damage, increases dash speed and time dilation, cannot die during dash
-		'name': 'True Focus',
-		'desc': 'Ten milliseconds, a trillion clock cycles, one strike.',
-		'type': 'saber',
-		'max_stack': 1
-	},
-	'overclocked_cooling': { # Faster CWBIDBSC cooldown
-		'name': 'Overclocked Cooling',
-		'desc': 'Expel both heat and remorse.',
-		'type': 'saber',
-		'max_stack': 2
-	},
-	'ricochet_simulation': { # Boost saber ring deflection to level 2
-		'name': 'Ricochet Simulation',
-		'desc': 'Return to sender.',
-		'type': 'saber',
-		'max_stack': 1
-	},
-	'supple_telekinesis': { # Increases durability of saber ring
-		'name': 'Supple Telekinesis',
-		'desc': 'Better to bend than break.',
-		'type': 'saber',
-		'max_stack': 1
-	},
-}
-
-var level_name = "RuinsLevel"
+var level_name = "Menu"
 var level = levels[level_name]
 
 var timescale = 1
 var target_timescale = 1
 var timescale_timer = -1
 
+var player
+var true_player
+var player_switch_timer = 0
+
 var swappable = false
 
 var swap_bar
-var player
 var camera
 var transcender
 var game_HUD
@@ -281,6 +79,7 @@ var obstacles
 var wall
 var audio
 var player_bullets = []
+var enemies = []
 
 var out_of_control = false
 
@@ -290,6 +89,7 @@ var enemy_soft_cap
 var enemy_count = 1
 var enemy_hard_cap = 15
 var cur_boss = null
+var enemy_drought_bailout_available = true
 
 var total_score = 0
 var variety_bonus = 1.0
@@ -330,8 +130,15 @@ var player_upgrades = {
 	'half-draw': 0,
 	'slobberknocker_protocol': 0,
 	'scruple_inhibitor': 0,
+	#EXTERMINATOR
+	'improvised_projectiles': 0,
+	'high-energy_orbit': 0,
+	'sledgehammer_formation': 0,
+	'exposed_coils': 0,
+	'bulwark_mode': 0,
+	'particulate_screen': 1,
 	#SORCERER
-	'elastic_containment': 0,
+	'elastic_containment': 1,
 	'parallelized_drones': 0,
 	'docked_drones': 0,
 	'precision_handling': 0,
@@ -345,18 +152,22 @@ var player_upgrades = {
 
 func _ready():
 	add_child(SFX)
-
+	#scene_transition = load('res://Scenes/SceneTransition.tscn').instance()
+	scene_transition = load('res://Scenes/SceneTransition.tscn').instance()
+	add_child(scene_transition)
+	scene_transition = scene_transition.get_node('TransitionRect')
+	
 func _process(delta):
+	if timescale_timer < 0:
+		timescale = lerp(timescale, target_timescale, delta*12)
+		#audio.pitch_scale = timescale
+		Engine.time_scale = timescale
+	else:
+		timescale_timer -= delta/timescale
+			
 	if is_instance_valid(player):
 		game_time += delta
 		spawn_timer -= delta
-		
-		if timescale_timer < 0:
-			timescale = lerp(timescale, target_timescale, delta*12)
-			#audio.pitch_scale = timescale
-			Engine.time_scale = timescale
-		else:
-			timescale_timer -= delta/timescale
 		
 		if spawn_timer < 0:
 			spawn_timer = 1
@@ -367,36 +178,20 @@ func _process(delta):
 					spawn_enemy()
 					
 		if is_instance_valid(cur_boss):
-			if is_point_offscreen(cur_boss.global_position):
-				boss_marker.visible = int(game_time*6)%2 == 0
+			update_boss_marker()
 				
-				var screen_size = camera_bounds()
-				var to_boss = cur_boss.global_position - player.global_position
-				var h = screen_size.x/max(abs(to_boss.x), 1)
-				var v = screen_size.y/max(abs(to_boss.y), 1)
-				
-				if h < v:
-					boss_marker.position = to_boss*h - Vector2(20*sign(to_boss.x), 0)
-				else:
-					boss_marker.position = to_boss*v - Vector2(0, 20*sign(to_boss.y))
-				
-				if to_boss.x > 0:
-					if to_boss.y > 0:
-						boss_marker.region_rect.position.x = 0
-					else:
-						boss_marker.region_rect.position.x = 32
-				else:
-					if to_boss.y > 0:
-						boss_marker.region_rect.position.x = 96
-					else:
-						boss_marker.region_rect.position.x = 64
-				
-				
-			else:
-				boss_marker.visible = false
+		if enemy_drought_bailout_available and swap_bar.control_timer > 17 and camera.zoom.x < 1.1:
+			enemy_drought_bailout()
 			
-
-
+	if player != true_player:
+		player_switch_timer -= delta
+		if player_switch_timer < 0:
+			if is_instance_valid(player):
+				player.toggle_enhancement(false)
+			player = true_player
+					
+					
+				
 func lerp_to_timescale(scale):
 	target_timescale = scale
 	
@@ -404,6 +199,10 @@ func set_timescale(scale, lock_duration = 0):
 	timescale = scale
 	Engine.time_scale = scale
 	timescale_timer = lock_duration
+	
+func set_player_after_delay(new_player, delay):
+	true_player = new_player
+	player_switch_timer = delay
 	
 func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0, show_visual = true):
 	var new_explosion = explosion.instance().duplicate()
@@ -426,16 +225,16 @@ func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):
 	spray.process_material.spread = spread
 	spray.emitting = true
 	
-func spawn_enemy():
-	if not player: return
+func spawn_enemy(allow_boss = true, bounds = level['map_bounds']):
+	if not player: return null
 	
-	var spawn_point = random_map_point(true)
-	if not spawn_point: return
+	var spawn_point = random_map_point(bounds, true)
+	if not spawn_point: return null
 	
-	var spawning_boss = not cur_boss and total_score > evolution_thresholds[evolution_level]
+	var spawning_boss = allow_boss and not cur_boss and total_score > evolution_thresholds[evolution_level]
 	
 	enemy_count += 1
-	var new_enemy = choose_weighted(enemies, level['enemy_weights']).instance().duplicate()
+	var new_enemy = choose_weighted(enemy_scenes, level['enemy_weights']).instance().duplicate()
 	new_enemy.add_to_group("enemy")
 	
 	if spawning_boss:
@@ -451,9 +250,10 @@ func spawn_enemy():
 		if randf() < (d/(d+4.0)/2.0):
 			new_enemy.add_swap_shield(randf()*d*5)
 
+	enemies.append(new_enemy)
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
-	print("LN " + level_name)
 	get_node("/root/"+ level_name +"/WorldObjects/Characters").add_child(new_enemy)
+	return new_enemy
 			
 
 func reset():
@@ -462,7 +262,8 @@ func reset():
 	total_score = 0
 	kills = 0
 	set_evolution_level(1)
-	timescale = 1
+	set_timescale(1)
+	target_timescale = 1
 	game_time = 0
 	spawn_timer = 0
 	enemy_count = 1
@@ -470,10 +271,16 @@ func reset():
 	player = null
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 	
-func load_level_props(lv_name):
+	#for key in player_upgrades:
+	#	player_upgrades[key] = 0 if randf() < 0.8 else 1
+	
+func on_level_loaded(lv_name):
 	level_name = lv_name
 	if lv_name != "MainMenu":
 		level = levels[lv_name]
+		
+	scene_transition.fade_in()
+	reset()
 
 func kill():
 	swappable = false
@@ -484,6 +291,33 @@ func set_evolution_level(lv):
 	game_HUD.get_node("EVLShake").get_node("EVL").set_digit(evolution_level)
 	game_HUD.get_node("EVLShake").get_node("EVL").express_hype()
 	game_HUD.get_node("EVLShake").set_trauma(evolution_level*2)
+	
+func update_boss_marker():
+	if is_point_offscreen(cur_boss.global_position) and cur_boss.health > 0:
+		boss_marker.visible = int(game_time*6)%2 == 0
+		
+		var screen_size = camera_bounds()
+		var to_boss = cur_boss.global_position - player.global_position
+		var h = screen_size.x/max(abs(to_boss.x), 1)
+		var v = screen_size.y/max(abs(to_boss.y), 1)
+		
+		if h < v:
+			boss_marker.position = to_boss*h - Vector2(20*sign(to_boss.x), 0)
+		else:
+			boss_marker.position = to_boss*v - Vector2(0, 20*sign(to_boss.y))
+		
+		if to_boss.x > 0:
+			if to_boss.y > 0:
+				boss_marker.region_rect.position.x = 0
+			else:
+				boss_marker.region_rect.position.x = 32
+		else:
+			if to_boss.y > 0:
+				boss_marker.region_rect.position.x = 96
+			else:
+				boss_marker.region_rect.position.x = 64
+	else:
+		boss_marker.visible = false
 	
 func update_variety_bonus():
 	var cur_name = swap_history[-1]
@@ -499,11 +333,45 @@ func update_variety_bonus():
 			variety_bonus += 0.1
 		
 func increase_score(value):
-	var swap_thresh_reduction = value/33/(1 + game_time/200*level["pace"])
+	var swap_thresh_reduction = value/33/(1 + game_time/250*level["pace"])
 	swap_bar.set_swap_threshold(swap_bar.swap_threshold - swap_thresh_reduction)
 		
 	total_score += value
 	game_HUD.get_node("ScoreDisplay").get_node("Score").score = total_score
+	
+func enemy_drought_bailout():
+	enemy_drought_bailout_available = false
+	var drought = true
+	var candidate = null
+	for enemy in enemies:
+		if is_instance_valid(enemy):
+			if enemy != player and not enemy.is_boss and (abs(enemy.global_position.x - player.global_position.x) < 300 and abs(enemy.global_position.y - player.global_position.y) < 200):
+				drought = false
+				candidate = enemy
+				break
+				
+			if not candidate and enemy.swap_shield_health <= 0 and (abs(enemy.global_position.x - player.global_position.x) > 500 or abs(enemy.global_position.y - player.global_position.y) > 300):
+				candidate = enemy
+			
+	if drought:
+		var camera_bounds = camera_bounds()
+		var placement_bounds = Rect2(camera.global_position.x, camera.global_position.y, camera_bounds.x*1.2, camera_bounds.y*1.2)
+		var spawn_needed = not candidate
+		if not candidate:
+			candidate = spawn_enemy(false)
+			candidate.swap_shield_health = 0
+			candidate.update_swap_shield()
+			
+		var point = random_map_point(placement_bounds, true)	
+		if not candidate or not point:
+			enemy_drought_bailout_available = true
+			print('EDB Failure!')
+		else:
+			candidate.global_position = point
+			print('EDB initiated: Deployed ' + candidate.name + ' at ' + str(candidate.global_position) + (' [Emergency spawn required]' if spawn_needed else ''))
+	else:
+		print('Bailout unnecessary due to ' + candidate.name + ' at ' + str(candidate.global_position))
+			
 	
 func save_game_stats():
 	Options.high_scores[level_name] = max(Options.high_scores[level_name], total_score)
@@ -513,18 +381,17 @@ func save_game_stats():
 	Options.saveSettings()
 	
 func signal_player_swap():
+	enemy_drought_bailout_available = true
 	emit_signal("on_swap")
 	
-func random_map_point(off_screen_required = false):
+func random_map_point(bounds = level['map_bounds'], off_screen_required = false):
 	var i = 0
-	var bounds = level['map_bounds']
 	while(i < 1000):
 		i += 1
 		var point = Vector2(bounds.position.x + randf()*bounds.size.x, bounds.position.y + randf()*bounds.size.y)
 		if is_point_in_bounds(point) and (not off_screen_required or is_point_offscreen(point, 20)):
 			return point
 		
-	
 func is_point_in_bounds(global_point):
 	var ground_points = ground.world_to_map(global_point)
 	var marble_point = wall.world_to_map(global_point)
