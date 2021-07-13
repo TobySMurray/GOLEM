@@ -13,7 +13,9 @@ func _ready():
 	$Labyrinth.connect("pressed", self, "labyrinth")
 	$Desert.connect("pressed", self, "desert")
 	$Back.connect("pressed", self, "back")
-
+func _physics_process(delta):
+	if Input.is_action_pressed("pause"):
+		back()
 func skyRuins():
 	#get_tree().change_scene("res://Scenes/Levels/"+ level_paths[1] +".tscn")
 	GameManager.scene_transition.fade_out("res://Scenes/Levels/"+ level_paths[1] +".tscn")

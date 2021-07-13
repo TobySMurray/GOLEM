@@ -61,7 +61,7 @@ window/stretch/aspect="keep"
 [gui]
 
 theme/custom="res://Art/Theme/DefaultTheme.tres"
-theme/custom_font="res://Art/Fonts/Text.tres"
+theme/custom_font="res://Art/Fonts/DefaultText.tres"
 
 [input]
 

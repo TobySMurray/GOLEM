@@ -112,42 +112,58 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Video" type="Button" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 48.0
-margin_top = -44.0
-margin_right = 198.0
-margin_bottom = -20.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -304.0
+margin_top = 128.0
+margin_right = 304.0
+margin_bottom = 152.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
+custom_constants/separation = 25
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Video" type="Button" parent="HBoxContainer"]
+margin_right = 133.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 text = "Video"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Audio" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -80.0
-margin_top = -44.0
-margin_right = 70.0
-margin_bottom = -20.0
+[node name="Audio" type="Button" parent="HBoxContainer"]
+margin_left = 158.0
+margin_right = 291.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 text = "Audio"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Controls" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 112.0
-margin_top = -44.0
-margin_right = 262.0
-margin_bottom = -20.0
+[node name="Controls" type="Button" parent="HBoxContainer"]
+margin_left = 316.0
+margin_right = 449.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 text = "Controls"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" type="Button" parent="HBoxContainer"]
+margin_left = 474.0
+margin_right = 608.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Credits"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -157,10 +173,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -80.0
-margin_top = -40.0
-margin_right = 70.0
-margin_bottom = -16.0
+margin_left = -32.0
+margin_top = -30.0
+margin_right = 32.0
+margin_bottom = -6.0
 text = "Back"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -205,24 +221,38 @@ anchor_bottom = 0.844
 margin_left = 7.68
 margin_top = 16.08
 margin_bottom = 0.159973
+grow_horizontal = 0
+grow_vertical = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Master" type="Label" parent="audioSettings"]
-margin_left = 79.0
-margin_top = 13.0
-margin_right = 237.0
-margin_bottom = 37.0
+margin_left = 131.0
+margin_top = 11.0
+margin_right = 234.0
+margin_bottom = 35.0
 text = "Master Volume"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="masterVolumeSlider" type="HSlider" parent="audioSettings"]
+margin_left = 265.0
+margin_top = 20.0
+margin_right = 365.0
+margin_bottom = 26.0
+max_value = 1.0
+step = 0.05
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="masterMute" type="Button" parent="audioSettings"]
-margin_left = 411.0
-margin_top = 15.0
-margin_right = 529.0
+margin_left = 397.0
+margin_top = 11.0
+margin_right = 484.0
 margin_bottom = 35.0
 toggle_mode = true
 text = "Mute Audio"
@@ -231,20 +261,21 @@ __meta__ = {
 }
 
 [node name="Music" type="Label" parent="audioSettings"]
-margin_left = 95.0
-margin_top = 51.0
-margin_right = 237.0
-margin_bottom = 75.0
+margin_left = 131.0
+margin_top = 55.0
+margin_right = 234.0
+margin_bottom = 79.0
 text = "Music Volume"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="masterVolumeSlider" type="HSlider" parent="audioSettings"]
-margin_left = 243.0
-margin_top = 16.0
-margin_right = 393.0
-margin_bottom = 36.0
+[node name="musicVolumeSlider" type="HSlider" parent="audioSettings"]
+margin_left = 265.0
+margin_top = 64.0
+margin_right = 365.0
+margin_bottom = 70.0
 max_value = 1.0
 step = 0.05
 __meta__ = {
@@ -252,52 +283,44 @@ __meta__ = {
 }
 
 [node name="musicMute" type="Button" parent="audioSettings"]
-margin_left = 411.0
+margin_left = 397.0
 margin_top = 55.0
-margin_right = 529.0
-margin_bottom = 75.0
+margin_right = 484.0
+margin_bottom = 79.0
 toggle_mode = true
 text = "Mute Music"
-
-[node name="musicVolumeSlider" type="HSlider" parent="audioSettings"]
-margin_left = 243.0
-margin_top = 55.0
-margin_right = 393.0
-margin_bottom = 75.0
-max_value = 1.0
-step = 0.05
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Effects" type="Label" parent="audioSettings"]
-margin_left = 67.0
-margin_top = 88.0
-margin_right = 237.0
-margin_bottom = 112.0
+margin_left = 131.0
+margin_top = 99.0
+margin_right = 234.0
+margin_bottom = 123.0
 text = "Effects Volume"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="effectsMute" type="Button" parent="audioSettings"]
-margin_left = 411.0
-margin_top = 95.0
-margin_right = 557.0
-margin_bottom = 115.0
-toggle_mode = true
-text = "Mute Effects"
+[node name="effectsVolumeSlider" type="HSlider" parent="audioSettings"]
+margin_left = 265.0
+margin_top = 108.0
+margin_right = 365.0
+margin_bottom = 114.0
+max_value = 1.0
+step = 0.05
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="effectsVolumeSlider" type="HSlider" parent="audioSettings"]
-margin_left = 243.0
-margin_top = 96.0
-margin_right = 393.0
-margin_bottom = 116.0
-max_value = 1.0
-step = 0.05
+[node name="effectsMute" type="Button" parent="audioSettings"]
+margin_left = 397.0
+margin_top = 99.0
+margin_right = 484.0
+margin_bottom = 123.0
+toggle_mode = true
+text = "Mute Effects"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -335,6 +358,48 @@ margin_top = 152.0
 margin_right = 546.0
 margin_bottom = 176.0
 text = "Save Keybinds"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreditsPopup" type="Control" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -180.0
+margin_right = 160.0
+margin_bottom = 179.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CreditsPopup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.0
+margin_top = -17.5
+margin_right = 96.0
+margin_bottom = 132.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Names" type="Label" parent="CreditsPopup/ScrollContainer"]
+margin_right = 137.0
+margin_bottom = 195.0
+text = "Developed by
+Andrew Cunningham
+Toby Murray
+Lee Zeitz
+
+Music by
+Keaton House
+
+Art by
+Penusbmic"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

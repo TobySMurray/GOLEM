@@ -1,9 +1,8 @@
-[gd_scene load_steps=83 format=2]
+[gd_scene load_steps=82 format=2]
 
 [ext_resource path="res://Scripts/StartMenu.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Art/Environment/Sci-fi Animations/blood moon sprite.png" type="Texture" id=3]
-[ext_resource path="res://Art/Fonts/Text.tres" type="DynamicFont" id=5]
 [ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=6]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -334,7 +333,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 3
+frame = 11
 playing = true
 
 [node name="Panel" type="Panel" parent="Background"]
@@ -352,7 +351,7 @@ modulate = Color( 1, 1, 1, 0.501961 )
 position = Vector2( 312, 80 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 77 )
-frame = 48
+frame = 39
 speed_scale = 4.0
 playing = true
 
@@ -371,146 +370,62 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Play" type="Button" parent="."]
+[node name="Buttons" type="VBoxContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -75.0
+margin_left = -128.0
 margin_top = -12.0
-margin_right = 75.0
-margin_bottom = 12.0
+margin_right = 128.0
+margin_bottom = 164.0
+custom_constants/separation = 15
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Play" type="Button" parent="Buttons"]
+margin_top = 8.0
+margin_right = 256.0
+margin_bottom = 28.0
 text = "Play"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Options" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -74.0
-margin_top = 82.0
-margin_right = 76.0
-margin_bottom = 106.0
-text = "Options"
+[node name="Arcade" type="Button" parent="Buttons"]
+margin_top = 43.0
+margin_right = 256.0
+margin_bottom = 63.0
+text = "Arcade"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Stats" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -74.0
-margin_top = 34.0
-margin_right = 76.0
-margin_bottom = 58.0
+[node name="Stats" type="Button" parent="Buttons"]
+margin_top = 78.0
+margin_right = 256.0
+margin_bottom = 98.0
 text = "Stats"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Credits" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 224.0
+[node name="Options" type="Button" parent="Buttons"]
+margin_top = 113.0
+margin_right = 256.0
+margin_bottom = 133.0
+text = "Options"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="Button" parent="Buttons"]
 margin_top = 148.0
-margin_right = 310.0
-margin_bottom = 172.0
-toggle_mode = true
-text = "Credits"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Quit" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -75.0
-margin_top = -48.0
-margin_right = 75.0
-margin_bottom = -24.0
+margin_right = 256.0
+margin_bottom = 168.0
 text = "Quit"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CreditsPopup" type="Popup" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -160.0
-margin_top = -179.5
-margin_right = 160.0
-margin_bottom = 179.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel" type="Panel" parent="CreditsPopup"]
-modulate = Color( 0, 0, 0, 1 )
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 320.0
-margin_bottom = 351.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Titles" type="Label" parent="CreditsPopup"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -111.5
-margin_top = -132.5
-margin_right = 6.5
-margin_bottom = -7.49962
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = ExtResource( 2 )
-text = "Developers
-
-
-
-Music
-
-Art"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Names" type="Label" parent="CreditsPopup"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -117.5
-margin_top = -105.5
-margin_right = 124.5
-margin_bottom = 138.5
-custom_fonts/font = ExtResource( 5 )
-text = "
-Andrew Cunningham
-Toby Murray
-Lee Zeitz
-
-
-
-Keaton House
-
-
-
-Penusbmic"
-align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

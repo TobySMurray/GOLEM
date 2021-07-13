@@ -1,6 +1,7 @@
 extends Control
 
 
+onready var credits = $CreditsPopup
 
 onready var resolutionButton = $videoSettings/resolutionButton
 onready var fullscreenButton = $videoSettings/fullscreenButton
@@ -15,10 +16,11 @@ onready var effects_mute_btn = $audioSettings/effectsMute
 
 
 func _ready():
-	$Video.connect("pressed", self, "video")
-	$Audio.connect("pressed", self, "audio")
-	$Controls.connect("pressed", self, "controls")
+	$HBoxContainer/Video.connect("pressed", self, "video")
+	$HBoxContainer/Audio.connect("pressed", self, "audio")
+	$HBoxContainer/Controls.connect("pressed", self, "controls")
 	$Back.connect("pressed", self, "back")
+	$HBoxContainer/Credits.connect("pressed", self, "toggle_credits")
 	resolutionButton.connect("item_selected", self, "resolution")
 	fullscreenButton.connect("item_selected", self, "fullscreen")
 	master_mute_btn.connect("pressed",self, "muteMaster")
@@ -54,22 +56,32 @@ func _ready():
 	else:
 		$videoSettings/fullscreenButton.selected = 1
 		resolutionButton.visible = true
-	
+func _physics_process(delta):
+	if Input.is_action_pressed("pause"):
+		back()
 func video():
 	$videoSettings.show()
 	$audioSettings.hide()
 	$controlSettings.hide()
-	
+	credits.hide()
 func audio():
 	$audioSettings.show()
 	$videoSettings.hide()
 	$controlSettings.hide()
+	credits.hide()
 	
 func controls():
 	$controlSettings.show()
 	$audioSettings.hide()
 	$videoSettings.hide()
+	credits.hide()
+func toggle_credits():
+	$controlSettings.hide()
+	$audioSettings.hide()
+	$videoSettings.hide()
+	credits.show()
 	
+
 func back():
 	Options.saveSettings()
 	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")

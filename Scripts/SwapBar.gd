@@ -41,7 +41,7 @@ func _physics_process(delta):
 		in_control()
 	elif control_timer < max_control_time - 0.1:
 		out_of_control()
-	elif GameManager.player and not GameManager.player.dead:
+	elif GameManager.true_player and not GameManager.player.dead:
 		GameManager.kill()
 		warning_audio.stop()
 		control_timer = 0
