@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://Art/Characters/Sorcerer Bot/death.png" type="Texture" id=1]
 [ext_resource path="res://Art/Characters/Sorcerer Bot/damaged.png" type="Texture" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=13]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=14]
+[ext_resource path="res://Scripts/SorcererStand.gd" type="Script" id=15]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.0
@@ -69,7 +70,7 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "launch_orb"
+"method": "launch_orbs"
 } ]
 }
 
@@ -245,7 +246,7 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
-"method": "detonate_orb"
+"method": "detonate_orbs"
 }, {
 "args": [  ],
 "method": "area_attack"
@@ -339,15 +340,40 @@ region = Rect2( 354, 0, 118, 107 )
 atlas = ExtResource( 3 )
 region = Rect2( 472, 0, 118, 107 )
 
-[sub_resource type="SpriteFrames" id=20]
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 6 )
+region = Rect2( 118, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 6 )
+region = Rect2( 236, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 6 )
+region = Rect2( 354, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 6 )
+region = Rect2( 472, 0, 118, 107 )
+
+[sub_resource type="SpriteFrames" id=25]
 animations = [ {
 "frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
 "loop": false,
 "name": "Attack",
 "speed": 10.0
+}, {
+"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"loop": true,
+"name": "Walk",
+"speed": 10.0
 } ]
 
-[sub_resource type="Shader" id=21]
+[sub_resource type="Shader" id=26]
 code = "shader_type canvas_item;
 
 uniform float RESOLUTION = 1.0;
@@ -372,15 +398,15 @@ void fragment(){
 
 "
 
-[sub_resource type="ShaderMaterial" id=22]
-shader = SubResource( 21 )
+[sub_resource type="ShaderMaterial" id=27]
+shader = SubResource( 26 )
 shader_param/RESOLUTION = 0.2
 shader_param/FREQ = 0.002
 shader_param/ALPHA = 0.7
 shader_param/ALPHA_SHIFT = -0.336
 shader_param/color = Vector3( 1, 0.5, 0.5 )
 
-[sub_resource type="Curve" id=23]
+[sub_resource type="Curve" id=28]
 _data = [ Vector2( 0, 0.409091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.2 ), 0.0, 0.0, 0, 0 ]
 
 [node name="SorcererBot" type="KinematicBody2D"]
@@ -397,8 +423,8 @@ texture = ExtResource( 13 )
 light_mask = 5
 material = ExtResource( 14 )
 position = Vector2( 7, -37 )
-texture = ExtResource( 6 )
-hframes = 5
+texture = ExtResource( 4 )
+hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 7 )
@@ -422,7 +448,7 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 10
+frame = 9
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false
@@ -449,11 +475,12 @@ position = Vector2( 70, 0 )
 input_pickable = false
 collision_layer = 4
 collision_mask = 2
+script = ExtResource( 15 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="JojoReference"]
 light_mask = 5
 position = Vector2( 7, -37 )
-frames = SubResource( 20 )
+frames = SubResource( 25 )
 animation = "Attack"
 frame = 9
 playing = true
@@ -464,10 +491,10 @@ shape = SubResource( 9 )
 [node name="Line2D" type="Line2D" parent="."]
 show_behind_parent = true
 light_mask = 2
-material = SubResource( 22 )
+material = SubResource( 27 )
 points = PoolVector2Array( 0, 0, 200, -100 )
 width = 5.0
-width_curve = SubResource( 23 )
+width_curve = SubResource( 28 )
 default_color = Color( 0.4, 0.501961, 1, 1 )
 texture_mode = 1
 joint_mode = 1

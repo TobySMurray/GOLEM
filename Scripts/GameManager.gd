@@ -3,6 +3,7 @@ extends Node
 onready var explosion = load("res://Scenes/Explosion.tscn")
 onready var boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 onready var splatter_particles = load("res://Scenes/SplatterParticles.tscn")
+onready var upgrade_popup = load('res://Scenes/ItemPopup.tscn').instance()
 
 onready var shotgun_bot = load("res://Scenes/ShotgunnerBot.tscn")
 onready var wheel_bot = load("res://Scenes/WheelBot.tscn")
@@ -33,7 +34,7 @@ const levels = {
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
 		'enemy_density': 7,
-		'pace': 1.0,
+		'pace': 0.9,
 		'dark': false,
 		'music': 'melon b3.wav',
 		'scene_name': 'SkyRuins1.tscn'
@@ -94,6 +95,7 @@ var enemy_drought_bailout_available = true
 var total_score = 0
 var variety_bonus = 1.0
 var swap_history = ['merchant']
+var next_item_threshold = 2
 
 var kills = 0
 
@@ -114,7 +116,7 @@ var player_upgrades = {
 	'vortex_technique': 0,
 	'footwork_scheduler': 0,
 	#WHEEL
-	'advanced_targeting': 0,
+	'advanced_targeting': 1,
 	'bypassed_muffler': 0,
 	'self-preservation_override': 0,
 	'manual_plasma_throttle': 0,
@@ -124,7 +126,7 @@ var player_upgrades = {
 	'optimized_regulator': 0,
 	'internal_combustion': 0,
 	'ultrasonic_nozzle': 0,
-	'aerated_fuel_tanks': 0,
+	'aerated_fuel_tanks': 1,
 	#ARCHER
 	'vibro-shimmy': 0,
 	'half-draw': 0,
@@ -136,9 +138,9 @@ var player_upgrades = {
 	'sledgehammer_formation': 0,
 	'exposed_coils': 0,
 	'bulwark_mode': 0,
-	'particulate_screen': 1,
+	'particulate_screen': 0,
 	#SORCERER
-	'elastic_containment': 1,
+	'elastic_containment': 0,
 	'parallelized_drones': 0,
 	'docked_drones': 0,
 	'precision_handling': 0,
@@ -189,9 +191,29 @@ func _process(delta):
 			if is_instance_valid(player):
 				player.toggle_enhancement(false)
 			player = true_player
+			
 					
+func reset():
+	save_game_stats()
+	
+	total_score = 0
+	kills = 0
+	set_evolution_level(1)
+	set_timescale(1)
+	target_timescale = 1
+	game_time = 0
+	spawn_timer = 0
+	enemy_count = 1
+	swap_history = ['merchant']
+	next_item_threshold = 2
+	player = null
+	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
+	
+	#for key in player_upgrades:
+	#	if randf() < 0.75: player_upgrades[key] += 1
+	#	player_upgrades[key] = 0
 					
-				
+			
 func lerp_to_timescale(scale):
 	target_timescale = scale
 	
@@ -213,7 +235,7 @@ func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0,
 	new_explosion.force = force
 	new_explosion.delay_timer = delay
 	new_explosion.visible = show_visual
-	get_node("/root").add_child(new_explosion)
+	get_node('/root/'+ level_name +'/Projectiles').add_child(new_explosion)
 	
 func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):
 	var spray = splatter_particles.instance().duplicate()
@@ -246,7 +268,7 @@ func spawn_enemy(allow_boss = true, bounds = level['map_bounds']):
 		get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
 		
 	else:
-		var d = game_time/30.0*level["pace"]
+		var d = game_time/30.0*level["pace"] - 2
 		if randf() < (d/(d+4.0)/2.0):
 			new_enemy.add_swap_shield(randf()*d*5)
 
@@ -254,25 +276,49 @@ func spawn_enemy(allow_boss = true, bounds = level['map_bounds']):
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
 	get_node("/root/"+ level_name +"/WorldObjects/Characters").add_child(new_enemy)
 	return new_enemy
+	
+func on_swap(new_player):
+	set_player_after_delay(new_player, 1)
+	camera.anchor = new_player
+	camera.offset = Vector2.ZERO
+	camera.lerp_zoom(1)
+	swap_history.append(new_player.enemy_type)
+	update_variety_bonus()
+	enemy_drought_bailout_available = true
+	Options.enemy_swaps[new_player.enemy_type] += 1
+	emit_signal("on_swap")
+	
+	if len(swap_history) >= next_item_threshold:
+		next_item_threshold += 3
+		give_player_random_upgrade(new_player.enemy_type)
+	
 			
-
-func reset():
-	save_game_stats()
+func give_player_random_upgrade(type = ''):
+	if type == '': 
+		type = ['shotgun', 'chain', 'wheel', 'flame', 'archer', 'exterminator', 'sorcerer', 'saber'][int(randf()*8)]
 	
-	total_score = 0
-	kills = 0
-	set_evolution_level(1)
-	set_timescale(1)
-	target_timescale = 1
-	game_time = 0
-	spawn_timer = 0
-	enemy_count = 1
-	swap_history = ['merchant']
-	player = null
-	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
+	var upgrade_pool = []
+	for upgrade in Upgrades.upgrades.keys():
+		if Upgrades.upgrades[upgrade]['type'] == type:
+			upgrade_pool.append(upgrade)
+			
+	for upgrade in player_upgrades.keys():
+		if player_upgrades[upgrade] > 0 and 'precludes' in Upgrades.upgrades[upgrade]:
+			for precluded in Upgrades.upgrades[upgrade]['precludes']:
+				upgrade_pool.erase(precluded)
+			
+	var upgrade = upgrade_pool[int(randf()*len(upgrade_pool))]
+	give_player_upgrade(upgrade)
 	
-	#for key in player_upgrades:
-	#	player_upgrades[key] = 0 if randf() < 0.8 else 1
+func give_player_upgrade(upgrade):
+	print("New upgrade: "+ upgrade)
+	player_upgrades[upgrade] += 1
+	
+	var popup = upgrade_popup.duplicate()
+	camera.get_node('CanvasLayer').add_child(popup)
+	popup.set_upgrade(upgrade)
+	popup.show()
+	
 	
 func on_level_loaded(lv_name):
 	level_name = lv_name
@@ -345,7 +391,7 @@ func enemy_drought_bailout():
 	var candidate = null
 	for enemy in enemies:
 		if is_instance_valid(enemy):
-			if enemy != player and not enemy.is_boss and (abs(enemy.global_position.x - player.global_position.x) < 300 and abs(enemy.global_position.y - player.global_position.y) < 200):
+			if enemy != player and not enemy.is_boss and ((abs(enemy.global_position.x - player.global_position.x) < 300 and abs(enemy.global_position.y - player.global_position.y) < 200) or not is_point_offscreen(enemy.global_position)):
 				drought = false
 				candidate = enemy
 				break
@@ -379,11 +425,7 @@ func save_game_stats():
 	Options.max_time[level_name] = max(Options.max_time[level_name], game_time)
 	Options.max_EVL[level_name] = max(Options.max_EVL[level_name], evolution_level)
 	Options.saveSettings()
-	
-func signal_player_swap():
-	enemy_drought_bailout_available = true
-	emit_signal("on_swap")
-	
+		
 func random_map_point(bounds = level['map_bounds'], off_screen_required = false):
 	var i = 0
 	while(i < 1000):
@@ -401,7 +443,7 @@ func is_point_in_bounds(global_point):
 	
 func is_point_offscreen(point, margin = 0):
 	var bounds = camera_bounds()
-	var from_camera = point - camera.global_position
+	var from_camera = point - camera.global_position - camera.offset
 	return abs(from_camera.x) > bounds.x + margin or abs(from_camera.y) > bounds.y + margin
 	
 func camera_bounds():

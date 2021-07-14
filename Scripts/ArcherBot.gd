@@ -40,6 +40,11 @@ func _ready():
 	score = 50
 	toggle_enhancement(false)
 	
+func toggle_playerhood(state):
+	.toggle_playerhood(state)
+	if state == false:
+		charge_timer = 0
+	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
@@ -71,9 +76,6 @@ func toggle_enhancement(state):
 		for i in range(GameManager.player_upgrades['half-draw']-1):
 			charge_time *= 0.5
 			beam_damage *= 0.7
-			
-	else:
-		charge_timer -= 0.75
 		
 	max_attack_cooldown = charge_time + (0.1 if full_auto else 0.5)
 
@@ -201,12 +203,14 @@ func toggle_stealth(state):
 	if state == true:
 		if is_in_group('player'):
 			GameManager.player = null
+			GameManager.true_player = null
 		stealth_timer = 3
 		max_speed = walk_speed*2
 		sprite.modulate = Color(0.12, 0.12, 0.12, 0.5)
 	else:
 		if is_in_group('player'):
 			GameManager.player = self
+			GameManager.true_player = self
 		max_speed = walk_speed
 		sight_beam.frame = 0
 		sprite.modulate = Color.white

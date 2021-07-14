@@ -2,10 +2,11 @@ extends "res://Scripts/Enemy.gd"
 
 onready var death_orb = load("res://Scenes/DeathOrb.tscn")
 
-var orb = null
-onready var stand = $JojoReference
+var orbs = [null, null, null, null, null, null, null, null]
+onready var stands = [$JojoReference]
+onready var tethers = [$Line2D]
 onready var attack_collider = $AttackCollider/CollisionShape2D
-onready var tether = $Line2D
+
 
 var walk_speed = 0
 var smack_recharge = 0
@@ -20,9 +21,7 @@ var num_orbs = 1
 var tetherball_mode = false
 var precision_mode = false
 
-var stand_timer = 0
-var smack_velocity
-var stand_pos = Vector2.ZERO
+var orbs_are_accelerating = false
 
 var move_timer = 0
 var ai_target_pos = Vector2.ZERO
@@ -34,8 +33,10 @@ func _ready():
 	score = 100
 	flip_offset = -13
 	init_healthbar()
-	hide_stand()
-	tether.visible = false
+	for stand in stands:
+		stand.hide()
+	for tether in tethers:
+		tether.visible = false
 	toggle_enhancement(false)
 	max_special_cooldown = 2
 	
@@ -49,7 +50,7 @@ func toggle_enhancement(state):
 	smack_speed = smack_speed_levels[level]
 	max_attack_cooldown = smack_recharge
 	
-	orb_size = 1
+	orb_size = 1.0
 	num_orbs = 1
 	tetherball_mode = false
 	precision_mode = false
@@ -58,51 +59,83 @@ func toggle_enhancement(state):
 		orb_size += GameManager.player_upgrades['elastic_containment']
 		
 		num_orbs += GameManager.player_upgrades['parallelized_drones']
+		for i in range(min(GameManager.player_upgrades['parallelized_drones'], 2)):
+			orb_size *= 0.75
 		
 		tetherball_mode = GameManager.player_upgrades['docked_drones'] > 0
 		
 		precision_mode = GameManager.player_upgrades['precision_handling'] > 0
+	else:
+		detonate_orbs()
+		
+	if len(orbs) > num_orbs:
+		for i in range(len(orbs) - num_orbs):
+			if is_instance_valid(orbs[i + num_orbs]):
+				orbs[i + num_orbs].detonate()
 	
-	stand.collision_layer = 0 if state else 4
+	if num_orbs > len(stands):
+		for i in range(num_orbs - len(stands)):
+			var stand = stands[0].duplicate()
+			stands.append(stand)
+			add_child(stand)
+			var tether = tethers[0].duplicate()
+			tethers.append(tether)
+			add_child(tether)
+	elif num_orbs < len(stands):
+		for i in range(len(stands) - num_orbs):
+			stands[-1].queue_free()
+			stands.pop_back()
+			tethers[-1].queue_free()
+			tethers.pop_back()
+			
+	for stand in stands:	
+		stand.collision_layer = 0 if state else 4
+		if precision_mode:
+			stand.sprite.play("Walk")
 	
 func misc_update(delta):
 	move_timer -= delta
 	
-	if orb:
-		tether.visible = true
-		tether.set_point_position(1, (orb.global_position - global_position)/scale.x)
-		orb.lifetime = 2
-	else:
-		tether.visible = false
+	for i in range(num_orbs):
+		if is_instance_valid(orbs[i]):
+			tethers[i].visible = true
+			tethers[i].set_point_position(1, (orbs[i].global_position - global_position)/scale.x)
+			orbs[i].lifetime = 2
+		else:
+			tethers[i].visible = false
 
-	if stand.visible:
-		stand.global_position = stand_pos
-		
-		stand_timer -= delta
-		stand.modulate.a = 0.7*sqrt(max(stand_timer, 0))
-		
-		if stand_timer < 1.1 and smack_velocity.x != 0:
-			if is_instance_valid(orb):
-				orb.velocity = smack_velocity
-				orb.decel_timer = 0
-				if is_in_group("player"):
-					GameManager.camera.set_trauma(0.5)
-					
-			smack_velocity = Vector2.ZERO
+		if precision_mode:
+			if orbs_are_accelerating:
+				accelerate_orbs(get_global_mouse_position(), delta)
+			else:
+				decelerate_orbs()
 			
-		if stand_timer == 0:
-			hide_stand()
+		else:
+			if stands[i].visible:
+				if stands[i].timer < 1.1 and stands[i].next_smack_vel.x != 0:
+					if is_instance_valid(orbs[i]):
+						orbs[i].velocity = stands[i].next_smack_vel
+						orbs[i].decel_timer = 0
+						if is_in_group("player"):
+							GameManager.camera.set_trauma(0.5)
+							
+					stands[i].next_smack_vel = Vector2.ZERO
 
 func player_action():
-	if Input.is_action_just_pressed('attack1') and attack_cooldown < 0:
-		attack_cooldown = smack_recharge
-		if is_instance_valid(orb):
-			smack_orb(get_global_mouse_position())
+	if is_any_orb_valid():
+		if precision_mode:
+			orbs_are_accelerating = Input.is_action_pressed("attack1")
+
 		else:
-			attacking = true
-			animplayer.play("Attack")
+			if Input.is_action_just_pressed('attack1') and attack_cooldown < 0:
+				attack_cooldown = smack_recharge
+				smack_orbs(get_global_mouse_position())
+					
+	elif Input.is_action_just_pressed('attack1') and attack_cooldown < 0:
+		attacking = true
+		animplayer.play("Attack")
 			
-	elif Input.is_action_just_pressed('attack2') and special_cooldown < 0:
+	if Input.is_action_just_pressed('attack2') and special_cooldown < 0:
 		special_cooldown = 2
 		attacking = true
 		animplayer.play("Special")
@@ -125,7 +158,7 @@ func ai_move():
 		move_timer = 2
 		ai_target_pos = global_position
 		
-		if orb:
+		if is_instance_valid(orbs[0]):
 			if player_dist < 300:
 				ai_target_pos = global_position - 1000*player_dir.rotated((randf()-0.5)*60)
 				
@@ -140,9 +173,10 @@ func ai_move():
 
 func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position)
+	var orb = orbs[0]
 	
 	if attack_cooldown < 0 and not attacking:
-		if orb:
+		if is_instance_valid(orb):
 			var orb_dist =  (GameManager.player.global_position - orb.global_position).length()
 			
 			if orb_dist > 500 and special_cooldown < 0:
@@ -152,7 +186,7 @@ func ai_action():
 				
 			elif orb_dist > 50:
 				attack_cooldown = smack_recharge*1.5
-				smack_orb(GameManager.player.global_position)
+				smack_orbs(GameManager.player.global_position)
 				
 		elif aim_direction.length() < 400:
 			attack_cooldown = smack_recharge
@@ -160,55 +194,91 @@ func ai_action():
 			animplayer.play("Attack")
 			
 			
-func launch_orb():
-	orb = death_orb.instance().duplicate()
-	orb.global_position = global_position + (Vector2(-20, 0) if facing_left else Vector2(20, 0))
-	orb.velocity = aim_direction.normalized() * smack_speed
-	orb.source = self
-	orb.scale = Vector2.ONE*4*orb_size
-	orb.get_node('CollisionShape2D').scale = Vector2.ONE/orb_size
-	get_node("/root").add_child(orb)
-	
+func launch_orbs():
+	var delta_angle = PI/12*(num_orbs-1)
+	var angle = -delta_angle/2*(num_orbs-1)
+	for i in range(num_orbs):
+		orbs[i] = death_orb.instance().duplicate()
+		var orb = orbs[i]
+		orb.global_position = global_position + (Vector2(-20, 0) if facing_left else Vector2(20, 0))
+		orb.velocity = aim_direction.normalized().rotated(angle) * smack_speed
+		orb.source = self
+		orb.scale = Vector2.ONE*4*orb_size
+		orb.get_node('CollisionShape2D').scale = Vector2.ONE/orb_size
+		get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(orb)
+		angle += delta_angle
+		
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.5)
+		
+	if precision_mode:
+		orbs_are_accelerating = true
 	
-func smack_orb(target_pos):
-	var smack_dir = (target_pos - orb.global_position).normalized()
-	var side = -sign(smack_dir.x)
-	var offset = Vector2(20*side, 0*smack_dir.y)
-	conjure_stand(orb.global_position + offset + orb.velocity*0.1, -side)
-	smack_velocity = smack_dir*max(smack_speed, orb.velocity.length()*1.1)
+func smack_orbs(target_pos):
+	for i in range(num_orbs):
+		if is_instance_valid(orbs[i]):
+			var smack_dir = (target_pos - orbs[i].global_position).normalized()
+			var side = -sign(smack_dir.x)
+			var offset = Vector2(20*side, 0*smack_dir.y)
+			stands[i].conjure(orbs[i].global_position + offset + orbs[i].velocity*0.1, -side)
+			stands[i].next_smack_vel = smack_dir*max(smack_speed, orbs[i].velocity.length()*1.1)*(0.95 + randf()*0.1)
 	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.4)
+		
+func accelerate_orbs(target_pos, delta):
+	var accel = smack_speed*1.5*delta
+	var offset = (target_pos - global_position).normalized().rotated(PI/2)*5*(num_orbs+1) if num_orbs > 1 else Vector2.ZERO
+	var offset_delta_angle = PI*2/num_orbs
 	
-func conjure_stand(pos, dir):
-	stand_timer = 1.2
-	stand.visible = true
-	stand.get_node("CollisionShape2D").set_deferred("disabled", false)
-	stand.modulate.a = 0.7
-	
-	var stand_sprite = stand.get_node("AnimatedSprite")
-	stand_sprite.frame = 0
-	stand_sprite.play("Attack")
-	stand_sprite.flip_h = dir < 0
-	stand_sprite.offset.x = flip_offset if dir < 0 else 0
-	stand.global_position = pos
-	stand_pos = pos
-	
+	for i in range(num_orbs):
+		if is_instance_valid(orbs[i]):
+			var orb = orbs[i]
+			var init_vel = orb.velocity
+			var current_speed = orb.velocity.length()
+			
+			offset = offset.rotated(offset_delta_angle)
+			var target_dir = (target_pos - orb.global_position + offset)
+			var current_dir = orb.velocity/current_speed
+			var delta_angle = 0
+			if current_speed > 50:
+				var diff_angle = current_dir.angle_to(target_dir)
+				delta_angle = min(abs(diff_angle), PI*accel/400)
+				accel *= min(1.5 - 3*abs(diff_angle)/PI, 1) 
+				current_dir = current_dir.rotated(delta_angle*sign(diff_angle))
+			else:
+				current_dir = target_dir.normalized()
+			
+			current_speed = clamp(current_speed + accel, 0, smack_speed*min(target_dir.length()/50, 1))
+			orb.velocity = current_dir*current_speed
+			
+			var delta_vel = orb.velocity - init_vel*0.5
+			var delta_speed = max(delta_vel.length(), 0.0001)
+			stands[i].conjure(orb.global_position - (delta_vel/delta_speed)*(30*orb_size - delta_angle*30), sign(delta_vel.x), false)
+			
+func decelerate_orbs():
+	for i in range(num_orbs):
+		if is_instance_valid(orbs[i]):
+			var current_speed = max(orbs[i].velocity.length(), 0.01)
+			stands[i].set_pos(orbs[i].global_position + (orbs[i].velocity/current_speed)*(30*orb_size - current_speed*0.05), -sign(orbs[i].velocity.x))
+			orbs[i].velocity *= 0.9
+			
 func area_attack():
 	melee_attack(attack_collider, 20, 300, 1)
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.5)
 	
-func detonate_orb():
-	if is_instance_valid(orb):
-		orb.detonate()
-		orb = null
-	
-func hide_stand():
-	stand.visible = false
-	stand.get_node("CollisionShape2D").set_deferred("disabled", true)
+func detonate_orbs():
+	for i in range(num_orbs):
+		if is_instance_valid(orbs[i]):
+			orbs[i].detonate()
+			orbs[i] = null
+			
+func is_any_orb_valid():
+	for orb in orbs:
+		if is_instance_valid(orb):
+			return true	
+	return false
 	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack" or anim_name == "Special":
@@ -217,6 +287,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		#max_speed = walk_speed
 		
 	elif anim_name == "Die":
-		detonate_orb()
+		detonate_orbs()
 		if is_in_group("enemy"):
 			actually_die()
