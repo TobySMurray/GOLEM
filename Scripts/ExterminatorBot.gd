@@ -436,8 +436,8 @@ func expel_compacted_bullets():
 			b.despawn()
 			
 		retaliating = false #End dumb hack
-		LaserBeam.shoot_laser(bullet_holder.global_position, dir, len(captured_bullets), self, damage, true, 'archer')
-		
+		LaserBeam.shoot_laser(bullet_holder.global_position, dir, len(captured_bullets), self, damage, 1000, 0, true, 'archer')
+		 
 	if bullet_orbit_speed > 6:
 		GameManager.spawn_explosion(bullet_holder.global_position, self, 0.4, 20, 300)
 		

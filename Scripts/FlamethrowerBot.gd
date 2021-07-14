@@ -56,7 +56,7 @@ func toggle_enhancement(state):
 	recoil = 0
 	speed_while_attacking = 40
 	thermobaric_mode = false
-	nuclear_suicide = false
+	nuclear_suicide = true
 	
 	if state == true:
 		fire_volume *= 1.0 + 0.2*GameManager.player_upgrades['pressurized_hose']
@@ -73,6 +73,8 @@ func toggle_enhancement(state):
 			shot_speed *= 2
 			shot_spread = 10
 			recoil = 500
+			
+		nuclear_suicide = GameManager.player_upgrades['aerated_fuel_tanks'] > 0
 	
 		if flamethrowing:
 			flamethrowing = false
@@ -210,7 +212,18 @@ func limit_aim_direction(dir):
 	return Vector2(cos(angle), sin(angle))
 	
 func explode():
-	GameManager.spawn_explosion(global_position, self, 1, 60, 1000, 0, false)
+	if nuclear_suicide:
+		GameManager.spawn_explosion(global_position, self, 2, 150, 800, 0, true)
+		var offset = Vector2(50, 0)
+		for i in range(6):
+			GameManager.spawn_explosion(global_position + offset, self, 0.9, 80, 500, 0.25, true)
+			offset = offset.rotated(PI/3)
+		offset = Vector2(100, 0)
+		for i in range(20):
+			GameManager.spawn_explosion(global_position + offset, self, 0.5, 40, 300, 0.5, true)
+			offset = offset.rotated(PI/10)	
+	else:
+		GameManager.spawn_explosion(global_position, self, 1, 60, 1000, 0, false)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":

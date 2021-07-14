@@ -53,7 +53,7 @@ static func shoot_laser(origin, dir, width, source, damage, kb = 0, stun = 0, pi
 	
 	var tile_texture = style in ['red']
 	laser.get_node('Sprite').material.set_shader_param('h_tiles', dist/32.0 if tile_texture else 1)
-	source.get_node("/root").add_child(laser)
+	source.get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(laser)
 	
 	if explosion_size > 0:
 		GameManager.spawn_explosion(origin + dir*dist, source, explosion_size, explosion_damage, explosion_kb)

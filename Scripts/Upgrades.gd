@@ -22,7 +22,7 @@ const upgrades = {
 	},
 	'soldering_fingers': { #Pellets are replaced by large projectile that bursts into pellets on inpact
 		'name': 'Soldering Fingers',
-		'desc': '50%% shot, 50%% slug, 100%% guaranteed to shatter on impact.',
+		'desc': '50% shot, 50% slug, 100% guaranteed to shatter on impact.',
 		'type': 'shotgun',
 		'max_stack': 1
 	},
@@ -164,7 +164,7 @@ const upgrades = {
 		'type': 'exterminator',
 		'max_stack': 2
 	},
-	'high-energy orbit': { # Increase minimum rotation speed of captured bullets
+	'high-energy_orbit': { # Increase minimum rotation speed of captured bullets
 		'name': 'High-Energy Orbit',
 		'desc': 'Shoot first, aim later.',
 		'type': 'exterminator',

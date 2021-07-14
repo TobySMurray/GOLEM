@@ -264,12 +264,13 @@ script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.198425, 1.19055 )
+scale = Vector2( 1.5, 1.5 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 light_mask = 2
 frames = SubResource( 62 )
-frame = 7
+frame = 38
 speed_scale = 30.0
 playing = true
 offset = Vector2( -1, 0 )

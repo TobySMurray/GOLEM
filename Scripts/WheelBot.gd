@@ -4,6 +4,8 @@ onready var dash_fx = $DashFX
 onready var audio = $AudioStreamPlayer2D
 onready var dash_audio = $Dash
 onready var movement_raycast = $RayCast2D
+onready var aimbot_collider = $AimbotCollider
+onready var aimbot_reticle = $AimbotReticle
 
 var walk_speed
 var burst_size
@@ -18,6 +20,7 @@ var killdozer_mode = false
 var top_gear = false
 var exhaust_blast = false
 var charge_mode = false
+var aimbot_mode = false
 
 var burst_count = 0
 var burst_timer = 0
@@ -29,7 +32,8 @@ var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
 var can_shoot = false
 
-var path = []
+var aimbot_candidates = []
+var aimbot_target = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -46,6 +50,14 @@ func _ready():
 	init_healthbar()
 	toggle_enhancement(false)
 	
+	remove_child(aimbot_reticle)
+	get_node('/root/' + GameManager.level_name + '/Projectiles').add_child(aimbot_reticle)
+	
+func toggle_playerhood(state):
+	aimbot_reticle.visible = false
+	aimbot_mode = false
+	.toggle_playerhood(state)
+
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
@@ -60,7 +72,7 @@ func toggle_enhancement(state):
 	top_gear = false
 	exhaust_blast = false
 	charge_mode = false
-	
+
 	if state == true:
 		if GameManager.player_upgrades['top_gear'] > 0:
 			accel = 1.5
@@ -74,8 +86,11 @@ func toggle_enhancement(state):
 		exhaust_blast = GameManager.player_upgrades['bypassed_muffler'] > 0
 		
 		charge_mode = GameManager.player_upgrades['manual_plasma_throttle'] > 0
-	
+		
+		aimbot_mode = GameManager.player_upgrades['advanced_targeting'] > 0
+			
 	movement_raycast.enabled = !state
+	aimbot_collider.set_deferred('disabled', !aimbot_mode)
 
 func misc_update(delta):
 	ai_retarget_timer -= delta
@@ -92,7 +107,25 @@ func misc_update(delta):
 		dashing = false
 		lock_aim = false
 		
-	set_dash_fx_position()
+	if aimbot_mode:
+		aimbot_collider.rotation = aim_direction.angle()
+		
+		var mouse_pos = get_global_mouse_position()
+		var min_dist = 9999999
+		for enemy in aimbot_candidates:
+			if is_instance_valid(enemy):
+				var dist = (enemy.global_position - mouse_pos).length()
+				if dist < min_dist:
+					aimbot_target = enemy
+					min_dist = dist
+					
+		if aimbot_target:
+			aimbot_reticle.visible = true
+			aimbot_reticle.global_position = aimbot_target.global_position
+		else:
+			aimbot_reticle.visible = false
+		
+	#set_dash_fx_position()
 	
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
@@ -163,14 +196,40 @@ func shoot():
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.3)
 	
+	var bullet_speed = shot_speed
+	var power
+	if charge_mode:
+		power = 0.15 + (2.0 - burst_timer)
+		bullet_speed *= (1.0 + power)
+		
+	var bullet_vel
+	if aimbot_mode and aimbot_target:
+			
+		var a = bullet_speed*bullet_speed - aimbot_target.velocity.length_squared()
+		var b = 2*(global_position - aimbot_target.global_position).dot(aimbot_target.velocity)
+		var c = -(global_position - aimbot_target.global_position).length_squared()
+		var sqrt_bit = b*b - 4*a*c
+		if sqrt_bit >= 0:
+			sqrt_bit = sqrt(sqrt_bit)
+			var t = [(-b + sqrt_bit)/(2*a), (-b - sqrt_bit)/(2*a)]
+			if t[0] > 0 and t[1] > 0:
+				t = min(t[0], t[1])
+			else:
+				t = max(t[0], t[1])
+			var impact_point = aimbot_target.global_position + aimbot_target.velocity*t
+			aim_direction = (impact_point - global_position).normalized()
+			
+		bullet_vel = aim_direction*bullet_speed
+	else:
+		bullet_vel = aim_direction*bullet_speed + velocity/2
+	
 	if not charge_mode:
 		velocity -= aim_direction*30
-		shoot_bullet(aim_direction*shot_speed + velocity/2, 10)
+		shoot_bullet(bullet_vel, 10)
 		burst_timer = 0.45/burst_size
 	else:
-		var power = 0.15 + (2.0 - burst_timer)
 		velocity -= aim_direction*70*sqrt(burst_size)*pow(power, 2)
-		shoot_bullet(aim_direction*shot_speed*(1.0 + power) + velocity/2, 10*(power*burst_size), 0.15*power*burst_size, 5, 'pellet', 0.5 + power*1.5)
+		shoot_bullet(bullet_vel, 10*(power*burst_size), 0.15*power*burst_size, 5, 'pellet', 0.5 + power*1.5)
 	
 func dash():
 	var dash_dir = aim_direction.normalized()
@@ -219,14 +278,20 @@ func _on_Hitbox_area_entered(area):
 	if area.is_in_group("hitbox"):
 		var entity = area.get_parent()
 		if not entity.invincible:
-			var damage = velocity.length()/5
+			var rel_speed = velocity.length() - entity.velocity.length()
+			var damage = pow(velocity.length(), 0.6)*3
 			entity.take_damage(damage, self)
+			
 			var new_vel = (global_position - entity.global_position).normalized() * velocity.length()
 			var delta_vel = new_vel - velocity
 			velocity = new_vel*0.7
 			entity.velocity -= delta_vel*2/entity.mass
-			if damage > 30:
-				GameManager.set_timescale(0.01, damage/500.0)
+			
+			if rel_speed > 100:
+				if rel_speed < walk_speed*0.9:
+					GameManager.set_timescale(0.9 - rel_speed/walk_speed)
+				else:
+					GameManager.set_timescale(0.01, max(2*(rel_speed/walk_speed - 0.9), 0))
 				take_damage(3, entity)
 			
 			if not entity.is_in_group("bloodless"):
@@ -243,12 +308,20 @@ func take_damage(damage, source, stun = 0):
 		dash()
 	.take_damage(damage, source, stun)
 
-
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack":
 		attacking = false
 	if anim_name == "Die":
+		aimbot_reticle.queue_free()
 		if is_in_group("enemy"):
 			actually_die()
 
 
+func _on_AimbotCollider_area_entered(area):
+	if area.is_in_group('hitbox') and area.get_parent().is_in_group('enemy') and area.get_parent() != self:
+		aimbot_candidates.append(area.get_parent())
+
+
+func _on_AimbotCollider_area_exited(area):
+	if area.is_in_group('hitbox') and area.get_parent().is_in_group('enemy') and area.get_parent() != self:
+		aimbot_candidates.erase(area.get_parent())

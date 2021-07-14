@@ -42,7 +42,7 @@ func _ready():
 	
 func toggle_enhancement(state):
 	.toggle_enhancement(state)
-	var level = 1#int(GameManager.evolution_level) if state == true else enemy_evolution_level
+	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
@@ -50,10 +50,10 @@ func toggle_enhancement(state):
 	smack_speed = smack_speed_levels[level]
 	max_attack_cooldown = smack_recharge
 	
-	orb_size = 1
+	orb_size = 1.0
 	num_orbs = 1
 	tetherball_mode = false
-	precision_mode = true
+	precision_mode = false
 	
 	if state == true:
 		orb_size += GameManager.player_upgrades['elastic_containment']
@@ -65,6 +65,8 @@ func toggle_enhancement(state):
 		tetherball_mode = GameManager.player_upgrades['docked_drones'] > 0
 		
 		precision_mode = GameManager.player_upgrades['precision_handling'] > 0
+	else:
+		detonate_orbs()
 		
 	if len(orbs) > num_orbs:
 		for i in range(len(orbs) - num_orbs):
@@ -203,7 +205,7 @@ func launch_orbs():
 		orb.source = self
 		orb.scale = Vector2.ONE*4*orb_size
 		orb.get_node('CollisionShape2D').scale = Vector2.ONE/orb_size
-		get_node("/root").add_child(orb)
+		get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(orb)
 		angle += delta_angle
 		
 	if is_in_group("player"):
@@ -225,7 +227,7 @@ func smack_orbs(target_pos):
 		GameManager.camera.set_trauma(0.4)
 		
 func accelerate_orbs(target_pos, delta):
-	var accel = smack_speed*2*delta
+	var accel = smack_speed*1.5*delta
 	var offset = (target_pos - global_position).normalized().rotated(PI/2)*5*(num_orbs+1) if num_orbs > 1 else Vector2.ZERO
 	var offset_delta_angle = PI*2/num_orbs
 	
@@ -242,23 +244,23 @@ func accelerate_orbs(target_pos, delta):
 			if current_speed > 50:
 				var diff_angle = current_dir.angle_to(target_dir)
 				delta_angle = min(abs(diff_angle), PI*accel/400)
-				#accel -= delta_angle*400/PI
+				accel *= min(1.5 - 3*abs(diff_angle)/PI, 1) 
 				current_dir = current_dir.rotated(delta_angle*sign(diff_angle))
 			else:
 				current_dir = target_dir.normalized()
 			
-			current_speed = min(current_speed + accel, smack_speed*min(target_dir.length()/50, 1))
+			current_speed = clamp(current_speed + accel, 0, smack_speed*min(target_dir.length()/50, 1))
 			orb.velocity = current_dir*current_speed
 			
 			var delta_vel = orb.velocity - init_vel*0.5
 			var delta_speed = max(delta_vel.length(), 0.0001)
-			stands[i].conjure(orb.global_position - (delta_vel/delta_speed)*(30-delta_angle*30), sign(delta_vel.x), false)
+			stands[i].conjure(orb.global_position - (delta_vel/delta_speed)*(30*orb_size - delta_angle*30), sign(delta_vel.x), false)
 			
 func decelerate_orbs():
 	for i in range(num_orbs):
 		if is_instance_valid(orbs[i]):
 			var current_speed = max(orbs[i].velocity.length(), 0.01)
-			stands[i].set_pos(orbs[i].global_position + (orbs[i].velocity/current_speed)*(30-current_speed*0.05), -sign(orbs[i].velocity.x))
+			stands[i].set_pos(orbs[i].global_position + (orbs[i].velocity/current_speed)*(30*orb_size - current_speed*0.05), -sign(orbs[i].velocity.x))
 			orbs[i].velocity *= 0.9
 			
 func area_attack():
