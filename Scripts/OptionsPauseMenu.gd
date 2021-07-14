@@ -15,9 +15,9 @@ onready var effects_mute_btn = $audioSettings/effectsMute
 
 
 func _ready():
-	$Video.connect("pressed", self, "video")
-	$Audio.connect("pressed", self, "audio")
-	$Controls.connect("pressed", self, "controls")
+	$HBoxContainer/Video.connect("pressed", self, "video")
+	$HBoxContainer/Audio.connect("pressed", self, "audio")
+	$HBoxContainer/Controls.connect("pressed", self, "controls")
 	$Back.connect("pressed", self, "back")
 	resolutionButton.connect("item_selected", self, "resolution")
 	fullscreenButton.connect("item_selected", self, "fullscreen")
