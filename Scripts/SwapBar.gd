@@ -36,7 +36,6 @@ func _physics_process(delta):
 	if not GameManager.true_player or not GameManager.true_player.dead:
 		self.value = (control_timer / max_control_time)*(bar_max_value - bar_min_value) + bar_min_value
 		GameManager.swappable = control_timer > swap_threshold
-	
 	if control_timer < max_control_time - 3:
 		in_control()
 	elif control_timer < max_control_time - 0.1:

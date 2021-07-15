@@ -208,6 +208,7 @@ func reset():
 	next_item_threshold = 2
 	player = null
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
+	true_player = null
 	
 	#for key in player_upgrades:
 	#	if randf() < 0.75: player_upgrades[key] += 1
