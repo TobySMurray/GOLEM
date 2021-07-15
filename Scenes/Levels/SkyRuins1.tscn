@@ -20,7 +20,7 @@
 [ext_resource path="res://Scenes/WorldObjects/BrokenDweling.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Scenes/Transcender.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/Fog.tscn" type="PackedScene" id=20]
-[ext_resource path="res://Scenes/SorcererBot.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scenes/ExterminatorBot.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Scenes/Tilesets/WallWalkUnder.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
@@ -236,10 +236,10 @@ position = Vector2( 336, 656 )
 [node name="Merchant" parent="WorldObjects/Characters" instance=ExtResource( 31 )]
 position = Vector2( 86, 578 )
 
-[node name="SorcererBot" parent="WorldObjects/Characters" groups=[
+[node name="ExterminatorBot" parent="WorldObjects/Characters" groups=[
 "enemy",
 ] instance=ExtResource( 21 )]
-position = Vector2( -35.8672, 470.049 )
+position = Vector2( -4.23785, 483.115 )
 
 [node name="Marble Orb" parent="WorldObjects" instance=ExtResource( 14 )]
 position = Vector2( -265.342, 580.376 )

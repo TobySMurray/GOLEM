@@ -23,7 +23,7 @@ func _process(delta):
 		
 		
 # Called when the node enters the scene tree for the first time.
-static func shoot_laser(origin, dir, width, source, damage, kb = 0, stun = 0, piercing = true, style = 'red', explosion_size = 0, explosion_damage = 0, explosion_kb = 0, deflected = false):
+static func shoot_laser(origin, dir, width, source, damage, kb = 0, stun = 0, piercing = true, style = 'red', explosion_size = 0, explosion_damage = 0, explosion_kb = 0, deflected = false, large_hitbox = false):
 	var laser = load('res://Scenes/LaserBeam.tscn').instance().duplicate()
 	dir = dir.normalized()
 	laser.global_position = origin
@@ -59,6 +59,9 @@ static func shoot_laser(origin, dir, width, source, damage, kb = 0, stun = 0, pi
 		GameManager.spawn_explosion(origin + dir*dist, source, explosion_size, explosion_damage, explosion_kb)
 	
 	var collider = laser.get_node('CollisionShape2D')
+	if large_hitbox:
+		collider.scale.y = 2
+	
 	var query = Physics2DShapeQueryParameters.new()
 	query.collide_with_areas = true
 	query.collide_with_bodies = false

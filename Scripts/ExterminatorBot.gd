@@ -37,7 +37,9 @@ var lerped_player_pos = global_position
 var teleport_start_point = Vector2.ZERO
 var teleport_end_point = Vector2.ZERO
 var charging_tp = false
+var tp_next_frame = false
 var teleport_timer = 0
+
 
 var nearby_bullets = []
 var captured_bullets = []
@@ -89,7 +91,7 @@ func toggle_enhancement(state):
 		shield_width += PI*0.4*GameManager.player_upgrades['exposed_coils']
 		if GameManager.player_upgrades['exposed_coils'] == 1:
 			deflector_visual.texture = load('res://Art/Shields/Circle_162.png')
-		elif GameManager.player_upgrades['exposed_coils'] == 2:
+		elif GameManager.player_upgrades['exposed_coils'] > 1:
 			deflector_visual.texture = load('res://Art/Shields/Circle_234.png')
 			
 		compact_mode = GameManager.player_upgrades['sledgehammer_formation'] > 0
@@ -138,10 +140,8 @@ func misc_update(delta):
 	
 	if charging_tp:
 		teleport_timer -= delta
-		if teleport_timer < 0.1:
-			animplayer.play("Appear")
-			if teleport_timer < 0:
-				teleport()
+		if teleport_timer < 0:
+			teleport()
 
 
 func player_action():
@@ -254,7 +254,8 @@ func retaliate(delta):
 				expulsion_timer = 0.5/(bullet_orbit_speed-3)
 				while not expulsion_queue.empty():
 					var i = expulsion_queue.pop_back()
-					if is_instance_valid(captured_bullets[i]):
+				
+					if i < len(captured_bullets) and is_instance_valid(captured_bullets[i]):
 						var b = captured_bullets[i]
 						var dir = (get_global_mouse_position() if is_in_group("player") else lerped_player_pos) - b.global_position
 						var width = 12 if b.is_in_group('death orb') else b.scale.x*4
@@ -262,7 +263,7 @@ func retaliate(delta):
 						var kb = 100*width/6.0 * (3 if bulwark_mode else 1)
 						var explosion_size = sqrt(damage)/10 if bulwark_mode else 0
 						
-						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, false, 'red', explosion_size, damage/2, damage*5)
+						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, false, 'red', explosion_size, damage/2, damage*5, false, is_in_group('player'))
 						b.despawn()
 						captured_bullets[i] = null
 						if is_in_group('player'):
@@ -280,27 +281,28 @@ func start_teleport(point):
 		attacking = true
 		shield_active = false
 		deflector_visual.visible = false
-		teleport_start_point = global_position
 		
 		special_cooldown = 1.6
 		teleport_timer = 0.4
 		lock_aim = true
 		max_speed = 0
-		sprite.visible = false
-		
-		#expel_bullets(true)
-		
-		teleport_sprite.global_position = teleport_start_point
-		teleport_sprite.frame = 0
-		teleport_sprite.play("Vanish")
+		animplayer.play('Vanish')
 	
 func teleport():
 	charging_tp = false
-	global_position = teleport_end_point
+	teleport_start_point = global_position
+	
 	teleport_sprite.global_position = teleport_start_point
-	animplayer.play("Appear")
-	sprite.visible = true
+	teleport_sprite.visible = true
+	teleport_sprite.flip_h = facing_left
+	teleport_sprite.offset.x = 11 if facing_left else -13
+	teleport_sprite.play("Vanish")
+	teleport_sprite.frame = 4
+	
+	global_position = teleport_end_point
 	invincible = true
+	animplayer.play("Appear")
+	teleport_sprite.global_position = teleport_start_point
 	
 func apply_shield_effects(delta):
 	if len(nearby_bullets) > 0:
@@ -423,7 +425,8 @@ func expel_compacted_bullets():
 		var center_dist = 50
 		for i in range(len(captured_bullets)):
 			var b = captured_bullets[i]
-			b.damage *= damage_mult
+			if not b.is_in_group('death orb'):
+				b.damage *= damage_mult
 			b.velocity = dir*bullet_orbit_speed*100*(1.0 + (((b.global_position - global_position).length() - center_dist)/30.0))
 			b.spectral = false
 			reparent_to(b, get_node('/root'))
@@ -448,7 +451,7 @@ func area_deflect():
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.5, 5)
 		
-	melee_attack(deflector_shape, 20, 3000, 3)
+	melee_attack(deflector_shape, 20, 2000, 3)
 	
 func on_bullet_despawn(b):
 	if not retaliating and b in captured_bullets:
@@ -466,6 +469,13 @@ func reparent_to(child, new_parent):
 #func _process(delta):
 #	pass
 
+func take_damage(damage, source, stun = 0):
+	.take_damage(damage, source, stun)
+	if dead or stunned:
+		teleport_sprite.visible = false
+		charging_tp = false
+		
+
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Appear" or anim_name == "Attack":
 		lock_aim = false
@@ -479,7 +489,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		retaliation_locked = false
 		
 	elif anim_name == "Die":
-		visible = false
+		if is_in_group("enemy"):
+			actually_die()
 
 func _on_Deflector_area_entered(area):
 	if area.is_in_group("bullet") or area.is_in_group("death orb"):

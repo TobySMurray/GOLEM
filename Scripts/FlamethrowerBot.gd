@@ -1,5 +1,7 @@
 extends "res://Scripts/Enemy.gd"
 
+onready var GasCloud = load('res://Scenes/GasCloud.tscn')
+
 var num_pellets = 5
 
 var walk_speed
@@ -23,11 +25,12 @@ var nuclear_suicide = false
 var pressure = 1
 var shot_timer = 0
 var flamethrowing = false
+var last_clouds = []
 var ai_shoot = false
 var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
 
-onready var flamethrower = $Flamethrower
+onready var flamethrower_audio = $Flamethrower
 
 
 # Called when the node enters the scene tree for the first time.
@@ -56,7 +59,7 @@ func toggle_enhancement(state):
 	recoil = 0
 	speed_while_attacking = 40
 	thermobaric_mode = false
-	nuclear_suicide = true
+	nuclear_suicide = false
 	
 	if state == true:
 		fire_volume *= 1.0 + 0.2*GameManager.player_upgrades['pressurized_hose']
@@ -74,27 +77,15 @@ func toggle_enhancement(state):
 			shot_spread = 10
 			recoil = 500
 			
+		thermobaric_mode = GameManager.player_upgrades['ultrasonic_nozzle'] > 0
+			
 		nuclear_suicide = GameManager.player_upgrades['aerated_fuel_tanks'] > 0
-	
+		
 		if flamethrowing:
-			flamethrowing = false
-			animplayer.play("Cooldown")
-
-func player_action():
-	if Input.is_action_pressed("attack1") and not attacking and attack_cooldown < 0:
-		attacking = true
-		attack()
-	if Input.is_action_just_released("attack1") and attacking:
-		flamethrowing = false
-		attack_cooldown = 0.8
-		animplayer.play("Cooldown")
-		
-	if Input.is_action_just_pressed("attack2") and GameManager.swappable:
-		die()
-		GameManager.camera.trauma = 0.2
-		GameManager.swap_bar.swap_threshold_penalty = 0
-		
-
+			stop_attacking()
+			attack_cooldown = 0
+			
+			
 func misc_update(delta):
 	ai_retarget_timer -= delta
 	
@@ -110,34 +101,22 @@ func misc_update(delta):
 		pressure = 1.0
 		
 	if pressure <= 0:
-		flamethrowing = false
-		animplayer.play("Cooldown")
-		flamethrower.stop()
-		attack_cooldown = 1
+		stop_attacking()
 
-func attack():
-	attacking = true
-	max_speed = speed_while_attacking
-	shot_timer = -1
-	if is_in_group('player'):
-		animplayer.playback_speed = 0.5 / startup_lag
-		if recoil > 0:
-			accel = 3
-	animplayer.play("Charge")
-	flamethrower.play()
-	
-func flamethrower():
-	flamethrower.play(0.5)
-	
-	var limited_aim_direction = limit_aim_direction(aim_direction)
-	var pellets = ceil(max(fire_volume*pressure, 1))
-	shot_timer = 0.2/(pressure+1)
-	
-	for i in range(pellets):
-		var pellet_dir = limited_aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
-		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-		shoot_bullet(pellet_dir*pellet_speed, 5, 0, 0.6, "flame")
 
+func player_action():
+	if Input.is_action_pressed("attack1") and not attacking and attack_cooldown < 0:
+		attacking = true
+		attack()
+	if Input.is_action_just_released("attack1") and attacking:
+		stop_attacking()
+		attack_cooldown = 0.8
+		
+	if Input.is_action_just_pressed("attack2") and GameManager.swappable:
+		die()
+		GameManager.camera.trauma = 0.2
+		GameManager.swap_bar.swap_threshold_penalty = 0
+	
 func ai_move():
 	if not lock_aim:
 		aim_direction = (GameManager.player.global_position - global_position).normalized()
@@ -179,8 +158,63 @@ func ai_move():
 			
 	elif ai_shoot:
 		ai_shoot = false
-		flamethrowing = false
-		animplayer.play("Cooldown")
+		stop_attacking()
+
+func attack():
+	attacking = true
+	max_speed = speed_while_attacking
+	shot_timer = -1
+	if is_in_group('player'):
+		animplayer.playback_speed = 0.5 / startup_lag
+		if recoil > 0:
+			accel = 3
+	animplayer.play("Charge")
+	flamethrower_audio.play()
+	
+func stop_attacking():
+	flamethrowing = false
+	attack_cooldown = 1
+	if is_in_group('player'):
+		animplayer.playback_speed = 0.5 / startup_lag
+	animplayer.play("Cooldown")
+	flamethrower_audio.stop()
+	
+func flamethrower():
+	flamethrower_audio.play(0.5)
+	
+	var limited_aim_direction = limit_aim_direction(aim_direction)
+	var pellets = ceil(max(fire_volume*pressure, 1))
+	shot_timer = 0.2/(pressure+1)
+	
+	var clouds = []
+	for i in range(pellets):
+		var pellet_dir = limited_aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
+		
+		if thermobaric_mode:
+			var pellet_speed = shot_speed * 0.9*(0.4 + 0.6*pressure) * (1 + 0.25*(randf()-0.5))
+			clouds.append(shoot_gas_cloud(pellet_dir*pellet_speed*pressure))
+		else:
+			var pellet_speed = shot_speed * (0.7 + 0.3*pressure) * (1 + 0.5*(randf()-0.5))
+			shoot_bullet(pellet_dir*pellet_speed, 5, 0, 0.6, "flame")
+			
+	if thermobaric_mode and len(clouds) > 0:
+		clouds[0].next_in_chain = last_clouds
+		last_clouds = clouds
+					
+func shoot_gas_cloud(vel):
+	var cloud = GasCloud.instance().duplicate()
+	cloud.global_position = global_position + Vector2(bullet_spawn_offset*(-1 if facing_left else 1), 0)
+	cloud.source = self
+	cloud.set_vel(vel)
+	get_node('/root/' + GameManager.level_name + '/Projectiles').add_child(cloud)
+	return cloud
+	
+func detonate_gas_clouds():
+	for cloud in last_clouds:
+		cloud.detonate(0.3)
+	last_clouds = []
+
+
 			
 func get_target_position():
 	var enemy_position = GameManager.player.shape.global_position
@@ -214,7 +248,7 @@ func limit_aim_direction(dir):
 func explode():
 	if nuclear_suicide:
 		GameManager.spawn_explosion(global_position, self, 2, 150, 800, 0, true)
-		var offset = Vector2(50, 0)
+		var offset = Vector2(60, 0)
 		for i in range(6):
 			GameManager.spawn_explosion(global_position + offset, self, 0.9, 80, 500, 0.25, true)
 			offset = offset.rotated(PI/3)
@@ -223,7 +257,7 @@ func explode():
 			GameManager.spawn_explosion(global_position + offset, self, 0.5, 40, 300, 0.5, true)
 			offset = offset.rotated(PI/10)	
 	else:
-		GameManager.spawn_explosion(global_position, self, 1, 60, 1000, 0, false)
+		GameManager.spawn_explosion(global_position, self, 1, 60, 1000, 0, true)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
@@ -239,7 +273,16 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		lock_aim = false
 		max_speed = walk_speed
 		accel = 10
+		if is_in_group('player'):
+			animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
+		else:
+			animplayer.playback_speed = 1
+		
+		if thermobaric_mode:
+			detonate_gas_clouds()
+		
 	if anim_name == "Die":
+		detonate_gas_clouds()
 		if is_in_group("enemy"):
 			actually_die()
 

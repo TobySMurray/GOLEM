@@ -58,7 +58,8 @@ var attack_cooldown = 0
 var max_attack_cooldown
 var special_cooldown = 0
 var max_special_cooldown = 0
-var time_since_controlled = 1000
+var time_since_controlled = 999
+var time_since_player_damage = 999
 
 var aim_direction = Vector2.ZERO
 var lock_aim = false
@@ -134,6 +135,7 @@ func _physics_process(delta):
 		
 	else:
 		time_since_controlled += delta
+		time_since_player_damage += delta
 		if is_instance_valid(GameManager.player) and GameManager.player != self and not dead and not stunned:
 			ai_move()
 			ai_action()
@@ -301,12 +303,18 @@ func take_damage(damage, source, stun = 0):
 	if is_in_group("player"):
 		set_invincibility_time(0.05)
 		GameManager.camera.set_trauma(0.4)
-	
-	if swap_shield_health > 0.01:
+		
+	elif source == GameManager.true_player:
+		time_since_player_damage = 0
+		
+	if swap_shield_health > 0:
 		var shield_damage = min(swap_shield_health, damage)
 		print("SHIELD DAMAGE: " + str(shield_damage))
 		swap_shield_health -= shield_damage
 		damage -= shield_damage
+		if swap_shield_health <= 1:
+			swap_shield_health = 0
+			
 		update_swap_shield()
 		
 	if stun > 0:
@@ -523,26 +531,47 @@ func die(killer = null):
 	if is_in_group("enemy"):
 		if is_instance_valid(killer):
 			var effective_score = int(score*GameManager.variety_bonus*(1.5 if GameManager.swap_bar.swap_threshold == 0 else 1.0))
+			var message = ''
+			var kill_validity = 2
 			
 			if killer == GameManager.true_player:
-				GameManager.increase_score(effective_score)
-				GameManager.kills += 1
-				emit_score_popup(effective_score, "")
-				Options.enemy_kills[enemy_type] += 1
-				
-			elif time_since_controlled < 2:
-				GameManager.increase_score(effective_score*2)
-				emit_score_popup(effective_score*2, "CLOSE CALL")
+				pass
 				
 			elif killer.time_since_controlled < 2:
 				if GameManager.true_player == null:
-					GameManager.increase_score(effective_score*1.5)
-					emit_score_popup(effective_score*2, "SHANK!")
+					effective_score *= 1.5
+					message = 'SHANK!'
 				else:
-					GameManager.increase_score(effective_score*2)
-					emit_score_popup(effective_score*2, "TRICKSHOT")
-				GameManager.kills += 1
-				Options.enemy_kills[enemy_type] += 1
+					effective_score *= 2
+					message = 'TRICKSHOT'
+				
+			elif time_since_controlled < 2:
+				effective_score *= 1.5
+				message = 'CLOSE CALL'
+				kill_validity = 1
+				
+			elif time_since_player_damage < 0.5 and is_instance_valid(killer) and killer.enemy_type == 'archer':
+				effective_score *= 1.5
+				message = 'DAMN ARCHERS!'
+				kill_validity = 1
+				
+			elif time_since_player_damage < 2:
+				effective_score *= 0.5
+				message = 'ASSIST'
+				kill_validity = 1
+				
+			else:
+				kill_validity = 0
+				
+			if kill_validity > 0:
+				effective_score = int(effective_score)
+				GameManager.increase_score(effective_score)
+				emit_score_popup(effective_score, message)
+				
+				if kill_validity == 2:
+					GameManager.kills += 1
+					Options.enemy_kills[enemy_type] += 1
+				
 				
 	else:
 		GameManager.camera.set_trauma(1, 16 if about_to_swap else 4)

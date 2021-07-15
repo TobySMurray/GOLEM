@@ -21,6 +21,9 @@ var recall_offset = Vector2.ZERO
 var invincible = false
 var lifetime = 0
 
+func _ready():
+	accel = max_accel
+
 func recall():
 	being_recalled = true
 	recalled = false
@@ -55,7 +58,7 @@ func _physics_process(delta):
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("hitbox"):
 		var entity = area.get_parent()
-		if not entity.invincible and entity != source:
+		if not entity.invincible and entity != source and not (entity.is_in_group('saber ring') and entity.source == source):
 			entity.take_damage(damage, source)
 			var kb_vel= (entity.global_position - global_position).normalized() * kb_speed
 			if area.is_in_group("death orb"):
@@ -77,6 +80,20 @@ func _on_Area2D_area_entered(area):
 				area.velocity *= -(deflect_level-1)
 		area.source = source
 		area.lifetime = 2
+		
+func on_laser_deflection(impact_point, dir, width, beam_source, beam_damage, kb, stun, piercing, style, explosion_size, explosion_damage, explosion_kb):
+	take_damage(-beam_damage*0.8, beam_source)
+	
+	var normal = (impact_point - global_position).angle()
+	var reflection_angle
+	if deflect_level == 1 or not is_instance_valid(source):
+		reflection_angle = Util.signed_wrap(normal - ((-dir).angle() - normal))
+	else:
+		reflection_angle = (beam_source.global_position - impact_point).angle()
+	
+	var beam_dir = Vector2(cos(reflection_angle), sin(reflection_angle))
+	LaserBeam.shoot_laser(impact_point, beam_dir, width, source, beam_damage, kb, stun, piercing, style, explosion_size, explosion_damage, explosion_kb, true)
+	return true
 			
 func take_damage(damage, source, stun = 0):
 	accel -= damage/(mass*3)

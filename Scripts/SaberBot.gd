@@ -23,11 +23,15 @@ var true_focus = false
 var slash_damage = 150
 var dash_time_dilation = 0.75
 var saber_ring_deflect_level = 1
+var saber_ring_accel = 300
 var saber_ring_enemy_kb = 1000
+var saber_range = 100
 
-var saber_ring = null
+var saber_rings = [null, null, null]
+var saber_ring_offsets = [Vector2(0.866, -0.5)*15, Vector2(0, 1)*15, Vector2(-0.866, -0.5)*15]
 var sabers_sheathed = true
 var waiting_for_saber_recall = false
+var saber_rotation_timer = 0
 
 var in_kill_mode = false
 var kill_mode_buffered = false
@@ -67,15 +71,18 @@ func toggle_enhancement(state):
 	slash_damage = 150
 	dash_time_dilation = 0.75
 	saber_ring_deflect_level = 1
+	saber_ring_accel = 300
 	saber_ring_enemy_kb = 1000
+	saber_range = 100
 	
 	if state == true:
-		if GameManager.player_upgrades['true_focus'] > 0:
+		if GameManager.player_upgrades['fractured_mind'] > 0:
 			fractured_mind = true
-			saber_ring_enemy_kb *= 0.66
+			saber_range = 150
+			saber_ring_accel = 400
 			
 		if GameManager.player_upgrades['true_focus'] > 0:
-			true_focus == true
+			true_focus = true
 			slash_damage = 444
 			dash_speed *= 1.5
 			dash_time_dilation = 0.5
@@ -86,9 +93,8 @@ func toggle_enhancement(state):
 		
 		saber_ring_durability *= 1 + 0.6*GameManager.player_upgrades['supple_telekinesis']
 		for i in range(GameManager.player_upgrades['supple_telekinesis']):
-			saber_ring_enemy_kb *= 0.8
-			
-	
+			saber_ring_enemy_kb *= 0.66
+		
 	LOS_raycast.enabled = !state
 	if state == true and in_kill_mode:
 		end_kill_mode()
@@ -97,19 +103,49 @@ func toggle_enhancement(state):
 		remaining_slashes = min(remaining_slashes, 1)
 		special_cooldown = 4
 		attack_cooldown = 0
+	if not sabers_sheathed and not waiting_for_saber_recall:
+		recall_sabers()
 	
 func misc_update(delta):
 	.misc_update(delta)
 	ai_move_timer -= delta
+			
+	if not sabers_sheathed and not waiting_for_saber_recall:
+		if fractured_mind:
+			var accel_avg = 0
+			for ring in saber_rings:
+				accel_avg += ring.accel
+				
+			accel_avg /= 3
+			for ring in saber_rings:
+				ring.accel = accel_avg
+				
+			if accel_avg <= 0.2:
+				recall_sabers()
+			
+			saber_rotation_timer -= delta
+			if saber_rotation_timer < 0:
+				saber_rotation_timer = 200.0/accel_avg
+				var temp = saber_ring_offsets[2]
+				saber_ring_offsets[2] = saber_ring_offsets[1]
+				saber_ring_offsets[1] = saber_ring_offsets[0]
+				saber_ring_offsets[0] = temp
+				
+		else:
+			if saber_rings[0].accel <= 0:
+				attack_cooldown = 2
+				recall_sabers()
 	
-	if not sabers_sheathed and not waiting_for_saber_recall and saber_ring.accel <= 0:
-		attack_cooldown = 2
-		recall_sabers()
-	
-	if waiting_for_saber_recall and saber_ring.recalled:
-		waiting_for_saber_recall = false
-		start_sheath()
-		
+	if waiting_for_saber_recall:
+		var sabers_recalled = true
+		for ring in saber_rings:
+			if is_instance_valid(ring) and not ring.recalled:
+				sabers_recalled = false
+				
+		if sabers_recalled:
+			waiting_for_saber_recall = false
+			start_sheath()
+			
 	if in_kill_mode or special_cooldown < 0:
 		sprite.light_mask = 2
 	else:
@@ -147,13 +183,22 @@ func player_action():
 			
 	if not sabers_sheathed:
 		if waiting_for_saber_recall:
-			saber_ring.target_pos = global_position + Vector2(-29 if facing_left else 29, -8)
+			for ring in saber_rings:
+				if is_instance_valid(ring):
+					ring.target_pos = global_position + Vector2(-29 if facing_left else 29, -8)
 		else:
 			var to_mouse = get_global_mouse_position() - global_position
-			if to_mouse.length() < 100:
-				saber_ring.target_pos = global_position + to_mouse
+			var limited_mouse_pos
+			if to_mouse.length() < saber_range:
+				limited_mouse_pos = global_position + to_mouse
 			else:
-				saber_ring.target_pos = global_position + to_mouse.normalized()*100
+				limited_mouse_pos = global_position + to_mouse.normalized()*saber_range
+				
+			if fractured_mind:
+				for i in range(3):
+					saber_rings[i].target_pos = limited_mouse_pos + saber_ring_offsets[i]
+			else:
+				saber_rings[0].target_pos = limited_mouse_pos
 
 				
 func ai_move():
@@ -183,7 +228,7 @@ func ai_move():
 				orbit_sabers()
 			else:
 				var angle_offset = sin(GameManager.game_time*3)*PI/9
-				saber_ring.target_pos = global_position + to_player.normalized().rotated(angle_offset)*60
+				saber_rings[0].target_pos = global_position + to_player.normalized().rotated(angle_offset)*60
 
 	#move
 	if in_kill_mode:
@@ -211,7 +256,7 @@ func ai_move():
 				
 func orbit_sabers():
 	var angle = GameManager.game_time*PI*2
-	saber_ring.target_pos = global_position + Vector2(cos(angle), sin(angle))*15
+	saber_rings[0].target_pos = global_position + Vector2(cos(angle), sin(angle))*15
 	
 
 func start_kill_mode():
@@ -264,15 +309,21 @@ func start_unsheath():
 	animplayer.play("Unsheath")
 	
 func recall_sabers():
+	for ring in saber_rings:
+		if is_instance_valid(ring):
+			ring.recall()
+				
 	lock_aim = true
 	attacking = true
-	saber_ring.recall()
 	waiting_for_saber_recall = true
 	
 func start_sheath():
+	for i in range(len(saber_rings)):
+		if is_instance_valid(saber_rings[i]):
+			saber_rings[i].queue_free()
+		saber_rings[i] = null
+		
 	sabers_sheathed = true
-	saber_ring.queue_free()
-	saber_ring = null
 	animplayer.play("Sheath")
 	
 func on_sabers_sheathed():
@@ -286,14 +337,17 @@ func on_sabers_sheathed():
 	
 func on_sabers_unsheathed():
 	sabers_sheathed = false
-	saber_ring = SaberRing.instance().duplicate()
-	get_parent().add_child(saber_ring)
-	saber_ring.source = self
-	saber_ring.global_position = global_position + Vector2(-29 if facing_left else 29, -8)
-	saber_ring.visible = true
-	saber_ring.mass = saber_ring_durability
-	saber_ring.deflect_level = saber_ring_deflect_level
-	saber_ring.kb_speed = saber_ring_enemy_kb
+	for i in range(3 if fractured_mind else 1):
+		var saber_ring = SaberRing.instance().duplicate()
+		saber_ring.source = self
+		saber_ring.global_position = global_position + Vector2(-29 if facing_left else 29, -8)
+		saber_ring.visible = true
+		saber_ring.mass = saber_ring_durability
+		saber_ring.max_accel = saber_ring_accel
+		saber_ring.deflect_level = saber_ring_deflect_level
+		saber_ring.kb_speed = saber_ring_enemy_kb
+		saber_rings[i] = saber_ring
+		get_parent().add_child(saber_ring)
 	lock_aim = false
 	attacking = false
 	walk_anim = "Walk Saberless"
@@ -324,8 +378,10 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			actually_die()
 		
 func actually_die():
-	if not sabers_sheathed:
-		saber_ring.queue_free()
+	for i in range(len(saber_rings)):
+		if is_instance_valid(saber_rings[i]):
+			saber_rings[i].queue_free()
+			
 	.actually_die()
 
 

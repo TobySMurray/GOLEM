@@ -116,7 +116,7 @@ var player_upgrades = {
 	'vortex_technique': 0,
 	'footwork_scheduler': 0,
 	#WHEEL
-	'advanced_targeting': 1,
+	'advanced_targeting': 0,
 	'bypassed_muffler': 0,
 	'self-preservation_override': 0,
 	'manual_plasma_throttle': 0,
@@ -126,7 +126,7 @@ var player_upgrades = {
 	'optimized_regulator': 0,
 	'internal_combustion': 0,
 	'ultrasonic_nozzle': 0,
-	'aerated_fuel_tanks': 1,
+	'aerated_fuel_tanks': 0,
 	#ARCHER
 	'vibro-shimmy': 0,
 	'half-draw': 0,
@@ -145,7 +145,7 @@ var player_upgrades = {
 	'docked_drones': 0,
 	'precision_handling': 0,
 	#SABER
-	'fractured_mind': 0,
+	'fractured_mind': 1,
 	'true_focus': 0,
 	'overclocked_cooling': 0,
 	'ricochet_simulation': 0,
@@ -207,12 +207,14 @@ func reset():
 	swap_history = ['merchant']
 	next_item_threshold = 2
 	player = null
+	true_player = null
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 	true_player = null
 	
-	#for key in player_upgrades:
+	for key in player_upgrades:
 	#	if randf() < 0.75: player_upgrades[key] += 1
-	#	player_upgrades[key] = 0
+		#player_upgrades[key] = 0
+		pass
 					
 			
 func lerp_to_timescale(scale):
@@ -397,12 +399,12 @@ func enemy_drought_bailout():
 				candidate = enemy
 				break
 				
-			if not candidate and enemy.swap_shield_health <= 0 and (abs(enemy.global_position.x - player.global_position.x) > 500 or abs(enemy.global_position.y - player.global_position.y) > 300):
+			if not candidate and enemy != player and not enemy.is_boss and is_point_offscreen(enemy.global_position, 20):
 				candidate = enemy
 			
 	if drought:
 		var camera_bounds = camera_bounds()
-		var placement_bounds = Rect2(camera.global_position.x, camera.global_position.y, camera_bounds.x*1.2, camera_bounds.y*1.2)
+		var placement_bounds = Rect2(camera.global_position.x + camera.offset.x, camera.global_position.y + camera.offset.y, camera_bounds.x*1.2, camera_bounds.y*1.4)
 		var spawn_needed = not candidate
 		if not candidate:
 			candidate = spawn_enemy(false)
@@ -429,7 +431,7 @@ func save_game_stats():
 		
 func random_map_point(bounds = level['map_bounds'], off_screen_required = false):
 	var i = 0
-	while(i < 1000):
+	while(i < 100):
 		i += 1
 		var point = Vector2(bounds.position.x + randf()*bounds.size.x, bounds.position.y + randf()*bounds.size.y)
 		if is_point_in_bounds(point) and (not off_screen_required or is_point_offscreen(point, 20)):
