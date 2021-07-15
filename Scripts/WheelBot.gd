@@ -112,13 +112,15 @@ func misc_update(delta):
 		
 		var mouse_pos = get_global_mouse_position()
 		var min_dist = 9999999
+		aimbot_target == null
 		for enemy in aimbot_candidates:
 			if is_instance_valid(enemy):
 				var dist = (enemy.global_position - mouse_pos).length()
 				if dist < min_dist:
 					aimbot_target = enemy
 					min_dist = dist
-					
+		
+				
 		if aimbot_target:
 			aimbot_reticle.visible = true
 			aimbot_reticle.global_position = aimbot_target.global_position

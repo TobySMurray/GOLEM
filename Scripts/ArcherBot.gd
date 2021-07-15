@@ -271,7 +271,7 @@ func take_damage(damage, source, stun = 0):
 	if is_in_group('enemy') and stun == 0 and damage < health and special_cooldown < 0 and is_instance_valid(GameManager.player) and (GameManager.player.global_position - global_position).length() < 100:
 		special()
 		ai_move_timer = 4
-		var space_state = source.get_world_2d().direct_space_state
+		var space_state = get_world_2d().direct_space_state
 		var max_dist = 0
 		for i in range(10):
 			var dir = Vector2.ONE.rotated(randf()*2*PI)
