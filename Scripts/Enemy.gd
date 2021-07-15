@@ -560,6 +560,9 @@ func die(killer = null):
 				message = 'ASSIST'
 				kill_validity = 1
 				
+			else:
+				kill_validity = 0
+				
 			if kill_validity > 0:
 				effective_score = int(effective_score)
 				GameManager.increase_score(effective_score)

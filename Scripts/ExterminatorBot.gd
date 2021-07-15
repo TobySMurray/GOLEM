@@ -91,7 +91,7 @@ func toggle_enhancement(state):
 		shield_width += PI*0.4*GameManager.player_upgrades['exposed_coils']
 		if GameManager.player_upgrades['exposed_coils'] == 1:
 			deflector_visual.texture = load('res://Art/Shields/Circle_162.png')
-		elif GameManager.player_upgrades['exposed_coils'] == 2:
+		elif GameManager.player_upgrades['exposed_coils'] > 1:
 			deflector_visual.texture = load('res://Art/Shields/Circle_234.png')
 			
 		compact_mode = GameManager.player_upgrades['sledgehammer_formation'] > 0
@@ -263,7 +263,7 @@ func retaliate(delta):
 						var kb = 100*width/6.0 * (3 if bulwark_mode else 1)
 						var explosion_size = sqrt(damage)/10 if bulwark_mode else 0
 						
-						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, false, 'red', explosion_size, damage/2, damage*5)
+						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, false, 'red', explosion_size, damage/2, damage*5, false, is_in_group('player'))
 						b.despawn()
 						captured_bullets[i] = null
 						if is_in_group('player'):
@@ -425,7 +425,8 @@ func expel_compacted_bullets():
 		var center_dist = 50
 		for i in range(len(captured_bullets)):
 			var b = captured_bullets[i]
-			b.damage *= damage_mult
+			if not b.is_in_group('death orb'):
+				b.damage *= damage_mult
 			b.velocity = dir*bullet_orbit_speed*100*(1.0 + (((b.global_position - global_position).length() - center_dist)/30.0))
 			b.spectral = false
 			reparent_to(b, get_node('/root'))
@@ -488,7 +489,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		retaliation_locked = false
 		
 	elif anim_name == "Die":
-		visible = false
+		if is_in_group("enemy"):
+			actually_die()
 
 func _on_Deflector_area_entered(area):
 	if area.is_in_group("bullet") or area.is_in_group("death orb"):

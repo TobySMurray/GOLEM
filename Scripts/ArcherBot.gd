@@ -235,12 +235,12 @@ func update_sight():
 	sight_beam.scale.x = beam_length/80
 	
 func _on_Hitbox_area_entered(area):
-	if not stealth_mode and shanky:
+	if not (stealth_mode and shanky):
 		return
 	if area.is_in_group("hitbox"):
 		var entity = area.get_parent()
 		if not entity.invincible:
-			entity.take_damage(50, self)
+			entity.take_damage(50 + 10*GameManager.evolution_level, self)
 			entity.velocity +=  300*(entity.global_position - global_position).normalized()
 			GameManager.camera.set_trauma(0.45)
 			if entity.is_in_group('enemy'):
@@ -272,14 +272,18 @@ func take_damage(damage, source, stun = 0):
 		special()
 		ai_move_timer = 4
 		var space_state = get_world_2d().direct_space_state
-		var max_dist = 0
-		for i in range(10):
-			var dir = Vector2.ONE.rotated(randf()*2*PI)
-			var result = space_state.intersect_ray(global_position, global_position + dir*10000, [source.get_node('Hitbox')], 1, true, false)
-			var dist = (result.position - global_position).length() if result else 10000
-			if dist > max_dist:
-				max_dist = dist
-				ai_target_point = result.position
+		
+		if space_state:
+			var max_dist = 0
+			for i in range(10):
+				var dir = Vector2.ONE.rotated(randf()*2*PI)
+				var result = space_state.intersect_ray(global_position, global_position + dir*10000, [source.get_node('Hitbox')], 1, true, false)
+				var dist = (result.position - global_position).length() if result else 10000
+				if dist > max_dist:
+					max_dist = dist
+					ai_target_point = result.position
+		else:
+			ai_target_point = 1000*Vector2.ONE.rotated(randf()*2*PI)
 				
 	.take_damage(damage, source, stun)
 		

@@ -487,7 +487,6 @@ texture = ExtResource( 14 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
 position = Vector2( -0.34697, -0.158186 )
-frame = 59
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 frame = 30

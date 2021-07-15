@@ -39,6 +39,7 @@ radius = 15.0
 
 [node name="SaberRing" type="KinematicBody2D" groups=[
 "bloodless",
+"saber ring",
 ]]
 modulate = Color( 1, 0, 0.537255, 1 )
 position = Vector2( 29, -8 )
@@ -57,9 +58,10 @@ playing = true
 [node name="Area2D" type="Area2D" parent="." groups=[
 "deflector",
 "hitbox",
+"mirror",
 ]]
 visible = false
-collision_layer = 6
+collision_layer = 14
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]

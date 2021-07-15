@@ -116,7 +116,7 @@ var player_upgrades = {
 	'vortex_technique': 0,
 	'footwork_scheduler': 0,
 	#WHEEL
-	'advanced_targeting': 1,
+	'advanced_targeting': 0,
 	'bypassed_muffler': 0,
 	'self-preservation_override': 0,
 	'manual_plasma_throttle': 0,
@@ -125,8 +125,8 @@ var player_upgrades = {
 	'pressurized_hose': 0,
 	'optimized_regulator': 0,
 	'internal_combustion': 0,
-	'ultrasonic_nozzle': 1,
-	'aerated_fuel_tanks': 1,
+	'ultrasonic_nozzle': 0,
+	'aerated_fuel_tanks': 0,
 	#ARCHER
 	'vibro-shimmy': 0,
 	'half-draw': 0,
@@ -145,7 +145,7 @@ var player_upgrades = {
 	'docked_drones': 0,
 	'precision_handling': 0,
 	#SABER
-	'fractured_mind': 0,
+	'fractured_mind': 1,
 	'true_focus': 0,
 	'overclocked_cooling': 0,
 	'ricochet_simulation': 0,
@@ -212,7 +212,8 @@ func reset():
 	
 	for key in player_upgrades:
 	#	if randf() < 0.75: player_upgrades[key] += 1
-		player_upgrades[key] = 0
+		#player_upgrades[key] = 0
+		pass
 					
 			
 func lerp_to_timescale(scale):

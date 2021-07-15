@@ -247,7 +247,7 @@ func dash():
 			result = space_state.intersect_ray(global_position + offset + dash_dir*20, dash_end_point, [self], 4, false, true)
 			if result and result['collider'].is_in_group('hitbox'):
 				dash_end_point = result['position'] - offset - (dash_end_point - global_position).normalized()*10
-				maintained_speed = 250
+				maintained_speed = walk_speed/2.1
 				break
 				
 	if exhaust_blast:
@@ -281,7 +281,7 @@ func _on_Hitbox_area_entered(area):
 		var entity = area.get_parent()
 		if not entity.invincible:
 			var rel_speed = velocity.length() - entity.velocity.length()
-			var damage = pow(velocity.length(), 0.6)*3
+			var damage = pow(rel_speed, 0.65) * (2 if rel_speed > walk_speed/2 else 1)
 			entity.take_damage(damage, self)
 			
 			var new_vel = (global_position - entity.global_position).normalized() * velocity.length()
@@ -293,7 +293,7 @@ func _on_Hitbox_area_entered(area):
 				if rel_speed < walk_speed*0.9:
 					GameManager.set_timescale(0.9 - rel_speed/walk_speed)
 				else:
-					GameManager.set_timescale(0.01, max(2*(rel_speed/walk_speed - 0.9), 0))
+					GameManager.set_timescale(0.01, clamp(2*(rel_speed/walk_speed - 0.9), 0, 0.5))
 				take_damage(3, entity)
 			
 			if not entity.is_in_group("bloodless"):
