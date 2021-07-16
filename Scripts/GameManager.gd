@@ -290,7 +290,6 @@ func on_swap(new_player):
 	enemy_drought_bailout_available = true
 	Options.enemy_swaps[new_player.enemy_type] += 1
 	emit_signal("on_swap")
-	
 	if len(swap_history) >= next_item_threshold:
 		next_item_threshold += 3
 		give_player_random_upgrade(new_player.enemy_type)
