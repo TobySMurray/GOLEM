@@ -227,7 +227,7 @@ func animate():
 	#sprite.modulate = lerp(sprite.modulate, base_color, 0.2)
 		
 		
-func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet", size = 1.0):
+func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet", size = Vector2.ONE):
 	var new_bullet = Bullet.instance().duplicate()
 	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
 	new_bullet.source = self
@@ -235,12 +235,14 @@ func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet",
 	new_bullet.damage = damage
 	new_bullet.mass = mass
 	new_bullet.lifetime = lifetime
-	new_bullet.scale = Vector2(size, size)
+	new_bullet.scale = size
 	new_bullet.set_appearance(type)
 	get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(new_bullet)
 	
 	if is_in_group("player"):
 		GameManager.player_bullets.append(new_bullet)
+		
+	return new_bullet
 		
 func shoot_flak_bullet(vel, damage = 30, mass = 1, lifetime = 10, num_frags = 6, frag_damage = 10, frag_speed = 150, frag_type = 'pellet'):
 	var new_bullet = FlakBullet.instance().duplicate()
@@ -254,10 +256,8 @@ func shoot_flak_bullet(vel, damage = 30, mass = 1, lifetime = 10, num_frags = 6,
 	new_bullet.frag_damage = frag_damage
 	new_bullet.frag_speed = frag_speed
 	new_bullet.frag_type = frag_type
-	get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(new_bullet)
-	
-	if is_in_group("player"):
-		GameManager.player_bullets.append(new_bullet)
+	get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(new_bullet)	
+	return new_bullet
 	
 func melee_attack(collider, damage = 10, force = 50, deflect_power = 0, stun = 0):
 	var space_rid = get_world_2d().space

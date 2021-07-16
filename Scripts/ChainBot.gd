@@ -22,8 +22,6 @@ var laminar_shockwave = false
 var speed_while_charging = 20
 var footwork = false
 
-
-
 var ai_state = 'approach'
 var ai_side = 1
 var ai_target_dist= 0
@@ -59,6 +57,7 @@ func toggle_enhancement(state):
 	damage_mult = 1
 	speed_while_charging = 20
 	melee_stun = 0
+	laminar_shockwave = true
 	footwork = false
 	
 	if state == true:
@@ -72,7 +71,11 @@ func toggle_enhancement(state):
 		melee_stun = 2*GameManager.player_upgrades['discharge_flail']
 		
 		footwork = GameManager.player_upgrades['footwork_scheduler'] > 0
-		speed_while_charging = max(20, GameManager.player_upgrades['footwork_scheduler']*walk_speed/3.0)
+		speed_while_charging = max(20, GameManager.player_upgrades['footwork_scheduler']*walk_speed*0.4)
+		
+		var lminar_shockwave = GameManager.player_upgrades['vortex_technique'] > 0
+		
+		
 	
 	if charging:
 		attack()
@@ -189,11 +192,18 @@ func swing_attack():
 	if footwork:
 		velocity += dir*300 
 
-	for i in num_pellets + 1:
-		var pellet_dir = dir.rotated(deg2rad(angle))
-		angle += delta_angle
-		var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-		shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave')
+	if laminar_shockwave:
+		var size = min(1 + sqrt(num_pellets), 8)
+		#var speed_mult = sqrt(num_pellets)*0.6
+		var bullet = shoot_bullet(dir*shot_speed, 5*num_pellets, 2, 1.5, 'wave', Vector2(size*0.7, size))
+		bullet.piercing = true
+		
+	else:
+		for i in num_pellets + 1:
+			var pellet_dir = dir.rotated(deg2rad(angle))
+			angle += delta_angle
+			var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
+			shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave')
 		
 	melee_attack(attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, melee_stun*charge_level/charge_speed)
 	if charge_level > 2:

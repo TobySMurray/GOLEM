@@ -145,8 +145,8 @@ var player_upgrades = {
 	'docked_drones': 0,
 	'precision_handling': 0,
 	#SABER
-	'fractured_mind': 1,
-	'true_focus': 0,
+	'fractured_mind': 0,
+	'true_focus': 1,
 	'overclocked_cooling': 0,
 	'ricochet_simulation': 0,
 	'supple_telekinesis': 0
@@ -212,7 +212,7 @@ func reset():
 	
 	for key in player_upgrades:
 	#	if randf() < 0.75: player_upgrades[key] += 1
-		#player_upgrades[key] = 0
+		player_upgrades[key] = 0
 		pass
 					
 			
@@ -308,9 +308,13 @@ func give_player_random_upgrade(type = ''):
 		if player_upgrades[upgrade] > 0 and 'precludes' in Upgrades.upgrades[upgrade]:
 			for precluded in Upgrades.upgrades[upgrade]['precludes']:
 				upgrade_pool.erase(precluded)
-			
-	var upgrade = upgrade_pool[int(randf()*len(upgrade_pool))]
-	give_player_upgrade(upgrade)
+				
+		elif player_upgrades[upgrade] >= Upgrades.upgrades[upgrade]['max_stack']:
+			upgrade_pool.erase(upgrade)
+	
+	if not upgrade_pool.empty():		
+		var upgrade = upgrade_pool[int(randf()*len(upgrade_pool))]
+		give_player_upgrade(upgrade)
 	
 func give_player_upgrade(upgrade):
 	print("New upgrade: "+ upgrade)

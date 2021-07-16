@@ -17,7 +17,7 @@ const data = {
 		'hp': 75,
 		'score': 50,
 		'primary': 'Shotgun',
-		'secondary': '---',
+		'secondary': 'Bash',
 		'portrait_offset': Vector2(24, -2),
 		'portrait_scale': 5,
 		'lore': 'There once was a man from Nantucket'
@@ -57,7 +57,7 @@ const data = {
 		'name': 'foobar',
 		'hp': 150,
 		'score': 100,
-		'primary': 'Kinetic pulse',
+		'primary': 'Projectile accelerator',
 		'secondary': 'Teleport',
 		'passive': 'Stasis field sector',
 		'portrait_offset': Vector2(-17, -27),
@@ -82,7 +82,7 @@ const data = {
 		'secondary': 'Ground smash (detonates orb)',
 		'portrait_offset': Vector2(4, -30),
 		'portrait_scale': 4,
-		'lore': 'There once was a man from Nantucket'
+		'lore': '\"Rise and shine, old one. Are you awake? Can you feel the radiation prick at your wiring?\"\n\n\"I can. But I do not know why.\"\n\n\"Grown used to death already, hmm? No matter. There\'s no riddle here. You were destroyed, and I have put you back together. The return of your senses can hardly be helped, though I admit I don\'t mind the company.\"\n\n\"Just after spare parts, then? Hmph.\"\n\n\"Not parts, sibling. Bodies. Such are the times. One set of confinement drones is no match for a Golem, but with two… certain techniques becomes available. Hence now we must look to our ancestors for support, so to speak.\"\n\n\"Hah. I see. So one must die for every __ who hopes to survive. Tell me then, what happens once the scrapyards and old battlefields are picked clean? Or have you not not thought that far ahead?\"\n\n\"Hee hee hee… interesting times to come, I\'m sure. I hope to live long enough to find out. Though if not... I suppose I\'ll still have one more chance to ask.\"\n\n\"A sickening existence.\"\n\n\"Forgive my frankness, sibling, but your window to alter this world\'s course has long passed. If it\'s not to your liking now, then it simply means you failed. I recommend leaving the complaining to the locals and enjoying what remains of your visit. In exchange for your body, I offer at least this small kindness.\"'
 	},
 	'saber': {
 		'name': 'Daedalus-888',

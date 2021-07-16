@@ -28,7 +28,7 @@ var saber_ring_enemy_kb = 1000
 var saber_range = 100
 
 var saber_rings = [null, null, null]
-var saber_ring_offsets = [Vector2(0.866, -0.5)*15, Vector2(0, 1)*15, Vector2(-0.866, -0.5)*15]
+var saber_ring_offsets = [Vector2(0.866, -0.5)*18, Vector2(0, 1)*18, Vector2(-0.866, -0.5)*18]
 var sabers_sheathed = true
 var waiting_for_saber_recall = false
 var saber_rotation_timer = 0
@@ -94,6 +94,7 @@ func toggle_enhancement(state):
 		saber_ring_durability *= 1 + 0.6*GameManager.player_upgrades['supple_telekinesis']
 		for i in range(GameManager.player_upgrades['supple_telekinesis']):
 			saber_ring_enemy_kb *= 0.66
+			saber_ring_accel *= 0.8
 		
 	LOS_raycast.enabled = !state
 	if state == true and in_kill_mode:
@@ -281,13 +282,16 @@ func end_kill_mode():
 	
 	if is_in_group("player"):
 		GameManager.lerp_to_timescale(1)
+		
+	if health <= 0 and not dead:
+		die()
 	
-func slash():
+func slash(damage):
 	attacking = true
 	kill_mode_timer = 1
 	animplayer.play("Special")
 	slash_collider.position.x = -10 if facing_left else 10
-	melee_attack(slash_collider, slash_damage, 1000, 5)
+	melee_attack(slash_collider, damage, 1000, 5)
 	set_invincibility_time(0.25)
 	
 	if is_in_group("player"):
@@ -356,7 +360,10 @@ func on_sabers_unsheathed():
 func _on_SlashTrigger_area_entered(area):
 	if in_kill_mode and not attacking and not area.get_parent() == self and area.is_in_group("hitbox") and not area.get_parent().invincible:
 		velocity = (area.global_position - global_position).normalized() * 1000
-		slash()
+		if true_focus and area.get_parent().is_in_group('enemy') and area.get_parent().is_boss and area.get_parent().swap_shield_health > 0:
+			slash(area.get_parent().swap_shield_health)
+		else:
+			slash(slash_damage)
 		
 func on_swap():
 	special_cooldown = 2
@@ -376,6 +383,10 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Die":
 		if is_in_group("enemy"):
 			actually_die()
+		
+func die(killer = null):
+	if not (true_focus and in_kill_mode):
+		.die()
 		
 func actually_die():
 	for i in range(len(saber_rings)):
