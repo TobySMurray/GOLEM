@@ -14,29 +14,31 @@ var unlocked_last_frame = false
 
 var beep_timer = 0
 
+var item_count = 2
+
 onready var threshold = $Threshold
 onready var warning_audio = $WarningAudio
 onready var unlocked_audio = $UnlockedAudio
 onready var warning = preload("res://Sounds/SoundEffects/warning.wav")
 onready var ready = preload("res://Sounds/SoundEffects/moonready.wav")
-
+onready var item_indicator = $ItemProgress
 
 var colors = [Color(1,0.8,0.8,1),Color(1,0.5,0.5,1), Color(1,1,1,1)]
 		
 func _ready():
 	control_timer = 0
+	item_indicator.value = item_count * 100
 	set_swap_threshold(init_swap_threshold)
 	GameManager.swap_bar = self
+	GameManager.connect("on_swap", self, "on_GM_swap")
 	
 
 func _physics_process(delta):
 	control_timer = min(control_timer + delta, max_control_time)
 	beep_timer -= 0.016
-	
 	if not GameManager.true_player or not GameManager.true_player.dead:
 		self.value = (control_timer / max_control_time)*(bar_max_value - bar_min_value) + bar_min_value
 		GameManager.swappable = control_timer > swap_threshold
-	
 	if control_timer < max_control_time - 3:
 		in_control()
 	elif control_timer < max_control_time - 0.1:
@@ -52,6 +54,16 @@ func reset(init_timer = 0):
 	control_timer = init_timer
 	set_swap_threshold(swap_threshold + 2 + swap_threshold_penalty)
 	swap_threshold_penalty = 0
+
+func on_GM_swap():
+	item_count += 1
+	$ItemProgress/Tween.interpolate_property(item_indicator, "value", (item_count - 1)*100, item_count*100, 0.1)
+	$ItemProgress/Tween.start()
+	if item_count >= 3:
+		$ItemProgress/Tween.interpolate_property(item_indicator, "value", 300, 0, 0.6)
+		$ItemProgress/Tween.start()
+		$ItemAudio.play(0)
+	
 	
 func set_swap_threshold(value):
 	swap_threshold = clamp(value, 0, max_control_time)
@@ -82,3 +94,8 @@ func in_control():
 		var flash = pow(0.5 + 0.5*cos(t*f), 4)
 		tint_progress = Color(0.58,0.1,0.1,1).linear_interpolate(Color.white, flash)
 		
+
+
+func _on_ItemAudio_finished():
+	item_count = 0
+	item_indicator.value = item_count

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/SwapBar.gd" type="Script" id=1]
 [ext_resource path="res://Art/NewSwap.png" type="Texture" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://Art/FilledBarWhite.png" type="Texture" id=4]
 [ext_resource path="res://Sounds/SoundEffects/Wub1.wav" type="AudioStream" id=5]
 [ext_resource path="res://Sounds/SoundEffects/warningbeep.wav" type="AudioStream" id=6]
+[ext_resource path="res://Art/swap_item_indicator.png" type="Texture" id=7]
+[ext_resource path="res://Art/healthbar_yellow.png" type="Texture" id=8]
+[ext_resource path="res://Sounds/SoundEffects/LVup.wav" type="AudioStream" id=9]
 
 [node name="SwapBar" type="TextureProgress"]
 anchor_top = 1.0
@@ -25,20 +28,36 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Threshold" type="TextureProgress" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -19.9558
-margin_top = -3.99752
-margin_right = -19.9558
-margin_bottom = -3.99753
-rect_scale = Vector2( 1.055, 1.1 )
-max_value = 1000.0
-value = 1000.0
-texture_progress = ExtResource( 3 )
+[node name="ItemProgress" type="TextureProgress" parent="."]
+anchor_right = 0.205
+anchor_bottom = 0.2
+margin_left = 34.8328
+margin_top = 6.98575
+margin_right = -16.3672
+margin_bottom = 9.98575
+rect_scale = Vector2( 1.563, 1.5 )
+max_value = 300.0
+value = 100.0
+texture_progress = ExtResource( 8 )
+tint_progress = Color( 0.223529, 0.705882, 0.356863, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Tween" type="Tween" parent="ItemProgress"]
+
+[node name="ItemDrop" type="TextureRect" parent="."]
+margin_left = 31.9676
+margin_top = 4.61502
+margin_right = 162.968
+margin_bottom = 44.615
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
 
 [node name="WarningAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
@@ -47,3 +66,20 @@ volume_db = -14.0
 [node name="UnlockedAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 volume_db = -2.0
+
+[node name="Threshold" type="TextureProgress" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -19.9558
+margin_top = -3.91876
+margin_right = 540.044
+margin_bottom = 36.0812
+rect_scale = Vector2( 1.055, 1.1 )
+max_value = 1000.0
+value = 1000.0
+texture_progress = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="finished" from="ItemAudio" to="." method="_on_ItemAudio_finished"]
