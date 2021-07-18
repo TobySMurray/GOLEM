@@ -1,0 +1,201 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://Art/Fonts/DefaultText.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scripts/TutorialSwap.gd" type="Script" id=2]
+[ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=3]
+[ext_resource path="res://Art/TinyTexture.png" type="Texture" id=4]
+[ext_resource path="res://Art/swap_item_indicator.png" type="Texture" id=5]
+[ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=7]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 640, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 1280, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 1920, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 3 )
+region = Rect2( 2560, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 3200, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 3840, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 4480, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 5120, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 3 )
+region = Rect2( 5760, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 3 )
+region = Rect2( 6400, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 3 )
+region = Rect2( 7040, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 3 )
+region = Rect2( 7680, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 3 )
+region = Rect2( 8320, 0, 640, 360 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 3 )
+region = Rect2( 8960, 0, 640, 360 )
+
+[sub_resource type="SpriteFrames" id=16]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "bg",
+"speed": 10.0
+} ]
+
+[sub_resource type="StyleBoxEmpty" id=17]
+
+[sub_resource type="StyleBoxEmpty" id=18]
+
+[sub_resource type="StyleBoxEmpty" id=19]
+
+[sub_resource type="StyleBoxEmpty" id=20]
+
+[node name="TutorialItems" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+back = "res://Scenes/Menus/TutorialThresh.tscn"
+next = "res://Scenes/Menus/TutorialShields.tscn"
+
+[node name="Background" type="AnimatedSprite" parent="."]
+position = Vector2( 320, 180 )
+frames = SubResource( 16 )
+animation = "bg"
+frame = 9
+playing = true
+
+[node name="Back" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -75.0
+margin_top = -33.0
+margin_right = 75.0
+margin_bottom = -13.0
+text = "Return to Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 55.0
+margin_bottom = -41.0
+text = "Each time you swap into an enemy, you learn more about their architecture,
+and when you have taken control of enough golems, you will unlock a new ability that
+alters their combat effectiveness.
+
+
+"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.312
+anchor_right = 0.684
+anchor_bottom = 0.244
+margin_left = 0.319992
+margin_top = 40.0
+margin_right = -118.76
+margin_bottom = -23.84
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 7 )
+text = "HOW TO PLAY"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next" type="Button" parent="."]
+margin_left = 568.0
+margin_top = 264.0
+margin_right = 607.0
+margin_bottom = 284.0
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
+custom_fonts/font = ExtResource( 1 )
+text = "NEXT >"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TutorialBack" type="Button" parent="."]
+margin_left = 32.0
+margin_top = 264.0
+margin_right = 74.0
+margin_bottom = 284.0
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
+custom_fonts/font = ExtResource( 1 )
+text = "< BACK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+modulate = Color( 1, 0.972549, 0.972549, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.0
+margin_top = 27.0
+margin_right = -69.0
+margin_bottom = 29.0
+rect_scale = Vector2( 70, 10 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 252.0
+margin_top = 209.0
+margin_right = 382.0
+margin_bottom = 249.0
+texture = ExtResource( 5 )

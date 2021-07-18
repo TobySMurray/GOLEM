@@ -1,10 +1,9 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=25 format=2]
 
-[ext_resource path="res://Scripts/LevelSelect.gd" type="Script" id=1]
-[ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Art/Fonts/DefaultText.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=3]
-[ext_resource path="res://Art/Environment/SkyRuinsImageSmall.PNG" type="Texture" id=4]
-[ext_resource path="res://Art/Environment/LabyrinthImageSmall.PNG" type="Texture" id=5]
+[ext_resource path="res://Scripts/TutorialMenu.gd" type="Script" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -74,121 +73,93 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[node name="LevelSelect" type="Control"]
+[sub_resource type="StyleBoxEmpty" id=17]
+
+[sub_resource type="StyleBoxEmpty" id=18]
+
+[sub_resource type="StyleBoxEmpty" id=19]
+
+[sub_resource type="StyleBoxEmpty" id=20]
+
+[node name="TutorialMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+next = "res://Scenes/Menus/TutorialSwap.tscn"
 
 [node name="Background" type="AnimatedSprite" parent="."]
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 10
+frame = 12
 playing = true
-
-[node name="Title" type="Label" parent="."]
-anchor_right = 0.998
-anchor_bottom = 0.35
-margin_right = -425.72
-margin_bottom = -72.0
-rect_scale = Vector2( 3, 3 )
-custom_fonts/font = ExtResource( 2 )
-text = "Level Select"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SkyRuins" type="Button" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 142.203
-margin_top = -11.7088
-margin_right = 292.203
-margin_bottom = 93.2912
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SkyRuinsImageSmall" type="Sprite" parent="SkyRuins"]
-position = Vector2( 73, 61 )
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 4 )
-
-[node name="SkyRuinsLabel" type="Label" parent="SkyRuins"]
-margin_right = 152.0
-margin_bottom = 24.0
-text = "Sky Ruins"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Labyrinth" type="Button" parent="."]
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -298.849
-margin_top = -11.6442
-margin_right = -148.849
-margin_bottom = 93.3558
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LabyrinthLabel" type="Label" parent="Labyrinth"]
-margin_left = 35.7165
-margin_top = 0.198425
-margin_right = 104.717
-margin_bottom = 24.1984
-text = "Labyrinth"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LabyrinthImageSmall" type="Sprite" parent="Labyrinth"]
-position = Vector2( 75, 61 )
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 5 )
-
-[node name="Desert" type="Button" parent="."]
-visible = false
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 128.0
-margin_top = -160.0
-margin_right = 278.0
-margin_bottom = -140.0
-text = "Desert"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Back" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -80.0
-margin_top = -56.0
-margin_right = 70.0
-margin_bottom = -36.0
-text = "Back"
+margin_left = -75.0
+margin_top = -33.0
+margin_right = 75.0
+margin_bottom = -13.0
+text = "Return to Menu"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HowTo" type="Button" parent="."]
-margin_left = 142.0
-margin_top = 132.0
-margin_right = 491.0
-margin_bottom = 152.0
-text = "How to Play"
+[node name="Label3" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -96.0
+text = "Golem is a bullet-hell shooter where you take control of enemies,
+becoming more powerful the longer you survive."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 64.0
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.312
+anchor_right = 0.684
+anchor_bottom = 0.244
+margin_left = 0.319992
+margin_top = 40.0
+margin_right = -118.76
+margin_bottom = -23.84
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 1 )
+text = "HOW TO PLAY"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next" type="Button" parent="."]
+margin_left = 568.0
+margin_top = 264.0
+margin_right = 607.0
+margin_bottom = 284.0
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
+custom_fonts/font = ExtResource( 2 )
+text = "NEXT >"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -82,4 +82,15 @@ texture_progress = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Static" type="TextureRect" parent="."]
+modulate = Color( 1, 0.388235, 0.388235, 0 )
+margin_left = -880.083
+margin_top = -749.054
+margin_right = -800.083
+margin_bottom = -741.054
+rect_scale = Vector2( 30, 150 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="finished" from="ItemAudio" to="." method="_on_ItemAudio_finished"]

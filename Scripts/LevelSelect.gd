@@ -13,6 +13,7 @@ func _ready():
 	$Labyrinth.connect("pressed", self, "labyrinth")
 	$Desert.connect("pressed", self, "desert")
 	$Back.connect("pressed", self, "back")
+	$HowTo.connect("pressed", self, "HowTo")
 func _physics_process(delta):
 	if Input.is_action_pressed("pause"):
 		back()
@@ -29,3 +30,7 @@ func desert():
 	
 func back():
 	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")
+	
+	
+func HowTo():
+	get_tree().change_scene("res://Scenes/Menus/TutorialMenu.tscn")
