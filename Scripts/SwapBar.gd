@@ -44,9 +44,13 @@ func _physics_process(delta):
 	elif control_timer < max_control_time - 0.1:
 		out_of_control()
 	elif GameManager.true_player and not GameManager.player.dead:
-		GameManager.kill()
+		#GameManager.kill()
 		warning_audio.stop()
 		control_timer = 0
+		
+	if item_count == 0:
+		item_indicator.material.set_shader_param('intensity', int(GameManager.game_time*30)%2)
+		
 
 func reset(init_timer = 0):
 	GameManager.out_of_control = false
@@ -57,9 +61,11 @@ func reset(init_timer = 0):
 
 func on_GM_swap():
 	item_count += 1
+	item_indicator.material.set_shader_param('intensity', 0)
 	$ItemProgress/Tween.interpolate_property(item_indicator, "value", (item_count - 1)*100, item_count*100, 0.1)
 	$ItemProgress/Tween.start()
 	if item_count >= 3:
+		item_count = 0
 		$ItemProgress/Tween.interpolate_property(item_indicator, "value", 300, 0, 0.6)
 		$ItemProgress/Tween.start()
 		$ItemAudio.play(0)
@@ -96,6 +102,6 @@ func in_control():
 		
 
 
-func _on_ItemAudio_finished():
-	item_count = 0
-	item_indicator.value = item_count
+#func _on_ItemAudio_finished():
+#	item_count = 0
+#	item_indicator.value = item_count

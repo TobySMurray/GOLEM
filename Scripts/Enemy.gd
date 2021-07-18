@@ -20,9 +20,6 @@ onready var shape = $CollisionShape2D
 onready var light_circle = $CharacterLights/Radial
 onready var light_beam = $CharacterLights/Directed
 
-onready var Bullet = load("res://Scenes/Bullet.tscn")
-onready var FlakBullet = load("res://Scenes/FlakBullet.tscn")
-
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
 onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay")
@@ -227,37 +224,8 @@ func animate():
 	#sprite.modulate = lerp(sprite.modulate, base_color, 0.2)
 		
 		
-func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet", size = Vector2.ONE):
-	var new_bullet = Bullet.instance().duplicate()
-	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
-	new_bullet.source = self
-	new_bullet.velocity = vel * 0.8
-	new_bullet.damage = damage
-	new_bullet.mass = mass
-	new_bullet.lifetime = lifetime
-	new_bullet.scale = size
-	new_bullet.set_appearance(type)
-	get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(new_bullet)
-	
-	if is_in_group("player"):
-		GameManager.player_bullets.append(new_bullet)
-		
-	return new_bullet
-		
-func shoot_flak_bullet(vel, damage = 30, mass = 1, lifetime = 10, num_frags = 6, frag_damage = 10, frag_speed = 150, frag_type = 'pellet'):
-	var new_bullet = FlakBullet.instance().duplicate()
-	new_bullet.global_position = global_position + aim_direction*bullet_spawn_offset
-	new_bullet.source = self
-	new_bullet.velocity = vel * 0.8
-	new_bullet.damage = damage
-	new_bullet.mass = mass
-	new_bullet.lifetime = lifetime
-	new_bullet.num_frags = num_frags
-	new_bullet.frag_damage = frag_damage
-	new_bullet.frag_speed = frag_speed
-	new_bullet.frag_type = frag_type
-	get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(new_bullet)	
-	return new_bullet
+func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet", stun = 0, size = Vector2.ONE):
+	return Projectile.shoot_bullet(self, global_position + aim_direction*bullet_spawn_offset, vel, damage, mass, lifetime, type, stun, size)
 	
 func melee_attack(collider, damage = 10, force = 50, deflect_power = 0, stun = 0):
 	var space_rid = get_world_2d().space
@@ -284,17 +252,32 @@ func melee_attack(collider, damage = 10, force = 50, deflect_power = 0, stun = 0
 				
 		elif col['collider'].is_in_group("bullet") and deflect_power > 0:
 			var bullet = col['collider']
-			var target = bullet.source
-			if target:
-				if target != self:
+			if bullet.deflectable:
+				var target = bullet.source
+				var deflect_case
+				if is_instance_valid(target):
+					if target == self:
+						deflect_case = 0
+					elif deflect_power == 1:
+						deflect_case = 1
+					else:
+						deflect_case = 2
+				else:
+					deflect_case = 1
+					
+				if deflect_case > 0:
 					bullet.source = self
-					bullet.lifetime += 2
-					if deflect_power > 1:
+					bullet.lifetime += 1
+					bullet.stun = max(bullet.stun, stun*0.5)
+					if deflect_case > 1:
+						bullet.lifetime += 2
 						var bullet_speed = bullet.velocity.length()
 						var dir = (target.global_position - bullet.global_position).normalized() if is_instance_valid(target) else -bullet.velocity/bullet_speed
 						bullet.velocity =  dir*max(50, bullet_speed)*deflect_power
 					else:
-						bullet.velocity = -bullet.velocity
+						bullet.velocity = -bullet.velocity*deflect_power
+				
+
 		
 func take_damage(damage, source, stun = 0):
 	if invincible:

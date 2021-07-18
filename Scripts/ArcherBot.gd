@@ -18,7 +18,7 @@ var beam_damage = 150
 var beam_width = 1.0
 var explosion_size = 0.5
 var full_auto = false
-var shanky = true
+var shanky = false
 
 var charging = false
 var charge_timer = 0
@@ -58,6 +58,7 @@ func toggle_enhancement(state):
 	beam_width = 1.0
 	explosion_size = 0.5
 	full_auto = false
+	shanky = false
 	
 	if state == true:
 		speed_while_charging = 50*GameManager.player_upgrades['vibro-shimmy']
@@ -73,9 +74,12 @@ func toggle_enhancement(state):
 			charge_time *= 0.5 +  0.1*GameManager.player_upgrades['slobberknocker_protocol'] 
 			beam_damage = 50
 			beam_width *= 0.7
+			
 		for i in range(GameManager.player_upgrades['half-draw']-1):
 			charge_time *= 0.5
 			beam_damage *= 0.7
+			
+		shanky = GameManager.player_upgrades['scruple_inhibitor'] > 0
 		
 	max_attack_cooldown = charge_time + (0.1 if full_auto else 0.5)
 
@@ -277,7 +281,7 @@ func take_damage(damage, source, stun = 0):
 			var max_dist = 0
 			for i in range(10):
 				var dir = Vector2.ONE.rotated(randf()*2*PI)
-				var result = space_state.intersect_ray(global_position, global_position + dir*10000, [source.get_node('Hitbox')], 1, true, false)
+				var result = space_state.intersect_ray(global_position, global_position + dir*10000, [get_node('Hitbox')], 1, true, false)
 				var dist = (result.position - global_position).length() if result else 10000
 				if dist > max_dist:
 					max_dist = dist

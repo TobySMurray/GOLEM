@@ -60,6 +60,7 @@ const levels = {
 
 var level_name = "Menu"
 var level = levels[level_name]
+var projectiles_node
 
 var timescale = 1
 var target_timescale = 1
@@ -146,7 +147,7 @@ var player_upgrades = {
 	'precision_handling': 0,
 	#SABER
 	'fractured_mind': 0,
-	'true_focus': 1,
+	'true_focus': 0,
 	'overclocked_cooling': 0,
 	'ricochet_simulation': 0,
 	'supple_telekinesis': 0
@@ -158,6 +159,7 @@ func _ready():
 	scene_transition = load('res://Scenes/SceneTransition.tscn').instance()
 	add_child(scene_transition)
 	scene_transition = scene_transition.get_node('TransitionRect')
+	projectiles_node = get_node('/root')
 	
 func _process(delta):
 	if timescale_timer < 0:
@@ -325,11 +327,14 @@ func give_player_upgrade(upgrade):
 	popup.set_upgrade(upgrade)
 	popup.show()
 	
-	
 func on_level_loaded(lv_name):
 	level_name = lv_name
 	if lv_name != "MainMenu":
-		level = levels[lv_name]
+		level = levels[lv_name]	
+		projectiles_node = get_node('/root/' + level_name + '/Projectiles')
+		if not projectiles_node:
+			print("ERROR: No \"Projectiles\" node found in level heirarchy")
+			projectiles_node = get_node('/root')
 		
 	scene_transition.fade_in()
 	reset()

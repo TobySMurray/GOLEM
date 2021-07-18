@@ -1,3 +1,4 @@
+class_name Bullet
 extends Area2D
 
 var source
@@ -5,6 +6,7 @@ var velocity = Vector2.ZERO
 var lifetime = 10
 var damage = 0
 var mass = 0.25
+var stun = 0
 var piercing = false
 var deflectable = true
 var spectral = false
@@ -26,8 +28,6 @@ func _physics_process(delta):
 	if lifetime < 0:
 		despawn()
 			
-	
-
 func _on_Area2D_body_entered(body):
 	if not (body.is_in_group("player") or body.is_in_group("enemy")) and not spectral:
 		despawn()
@@ -40,7 +40,7 @@ func _on_Area2D_area_entered(area):
 	if area.is_in_group("hitbox"):
 		var entity = area.get_parent()
 		if not entity.invincible and entity != source and not (entity.is_in_group('death orb') and entity.source == source):
-			entity.take_damage(damage, source)
+			entity.take_damage(damage, source, stun)
 			entity.velocity += velocity*mass/entity.mass
 			
 			if not entity.is_in_group("bloodless"):
@@ -62,6 +62,7 @@ func set_appearance(type):
 			sprite.animation = "Wave"
 			sprite.offset = Vector2(-2, 0)
 			rotate_to_direction = true
+			get_node("CollisionShape2D").scale.y = 2
 			
 		_:
 			sprite.animation = "Pellet"

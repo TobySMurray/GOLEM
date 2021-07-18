@@ -1,7 +1,6 @@
 extends Area2D
 
-const Bullet = preload('res://Scenes/Bullet.tscn')
-
+var projectile = load('res://Scripts/Projectile.gd') #Can't use static typing until GDscript 4.0 due to cicular reference
 var source
 var velocity = Vector2.ZERO
 var lifetime = 10
@@ -10,6 +9,7 @@ var mass = 1
 var num_frags = 6
 var frag_damage = 10
 var frag_speed = 150
+var stun = 0
 var frag_type = 'pellet'
 
 var deflectable = true
@@ -24,8 +24,6 @@ func _physics_process(delta):
 	#	visible = int(GameManager.game_time*20)%2 == 0
 	if lifetime < 0:
 		despawn()
-			
-	
 
 func _on_Area2D_body_entered(body):
 	if not (body.is_in_group("player") or body.is_in_group("enemy")) and not spectral:
@@ -53,23 +51,9 @@ func explode():
 	for i in range(num_frags):
 		var dir = Vector2.ONE.rotated(randf()*2*PI)
 		var speed = (0.5 + randf()*0.5)*frag_speed
-		shoot_bullet(dir*speed)
+		projectile.shoot_bullet(source, global_position, dir*speed, frag_damage, 0.25, 2, frag_type, stun)
 	despawn()
 			
-func shoot_bullet(vel):
-	var new_bullet = Bullet.instance().duplicate()
-	new_bullet.global_position = global_position
-	new_bullet.source = source
-	new_bullet.velocity = vel
-	new_bullet.damage = frag_damage
-	new_bullet.mass = 0.25
-	new_bullet.lifetime = 2
-	new_bullet.set_appearance(frag_type)
-	get_node("/root").add_child(new_bullet)
-	
-	if is_instance_valid(source) and source.is_in_group("player"):
-		GameManager.player_bullets.append(new_bullet)
-			
 func despawn():
-	GameManager.player_bullets.erase(self)
 	queue_free()
+

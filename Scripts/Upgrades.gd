@@ -30,7 +30,7 @@ const upgrades = {
 		'name': 'Reload Coroutine',
 		'desc': 'You didn\'t reload, but your CPU did.',
 		'type': 'shotgun',
-		'max_stack': 2
+		'max_stack': 3
 	},
 	
 	#CHAIN

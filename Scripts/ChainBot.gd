@@ -57,7 +57,7 @@ func toggle_enhancement(state):
 	damage_mult = 1
 	speed_while_charging = 20
 	melee_stun = 0
-	laminar_shockwave = true
+	laminar_shockwave = false
 	footwork = false
 	
 	if state == true:
@@ -73,7 +73,7 @@ func toggle_enhancement(state):
 		footwork = GameManager.player_upgrades['footwork_scheduler'] > 0
 		speed_while_charging = max(20, GameManager.player_upgrades['footwork_scheduler']*walk_speed*0.4)
 		
-		var lminar_shockwave = GameManager.player_upgrades['vortex_technique'] > 0
+		laminar_shockwave = GameManager.player_upgrades['vortex_technique'] > 0
 		
 		
 	
@@ -180,6 +180,7 @@ func swing_attack():
 	var dir = Vector2(1, 0)
 	var angle = -spread/2
 	var delta_angle = spread/(num_pellets)
+	var stun = melee_stun*charge_level/charge_speed - init_charge/2
 	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(min(0.4 + charge_level*0.3, 1))
@@ -193,19 +194,19 @@ func swing_attack():
 		velocity += dir*300 
 
 	if laminar_shockwave:
-		var size = min(1 + sqrt(num_pellets), 8)
+		var power = sqrt(6*charge_level)
+		var size = min(0.5 + power, 8)
 		#var speed_mult = sqrt(num_pellets)*0.6
-		var bullet = shoot_bullet(dir*shot_speed, 5*num_pellets, 2, 1.5, 'wave', Vector2(size*0.7, size))
-		bullet.piercing = true
+		var bullet = Projectile.shoot_vortex_wave(self, global_position + aim_direction*bullet_spawn_offset, dir*shot_speed*(1 + power/8.0), 3*power, 1.0 + power/4.0, 1.5, stun*0.2, Vector2(size*0.7, size))
 		
 	else:
 		for i in num_pellets + 1:
 			var pellet_dir = dir.rotated(deg2rad(angle))
 			angle += delta_angle
 			var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
-			shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave')
+			shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave', stun*0.5)
 		
-	melee_attack(attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, melee_stun*charge_level/charge_speed)
+	melee_attack(attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, stun)
 	if charge_level > 2:
 		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), self, 1, 10)
 

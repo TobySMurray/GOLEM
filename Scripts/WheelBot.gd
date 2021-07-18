@@ -231,7 +231,8 @@ func shoot():
 		burst_timer = 0.45/burst_size
 	else:
 		velocity -= aim_direction*70*sqrt(burst_size)*pow(power, 2)
-		shoot_bullet(bullet_vel, 10*(power*burst_size), 0.15*power*burst_size, 5, 'pellet', 0.5 + power*1.5)
+		var size = 0.5 + power*1.5
+		shoot_bullet(bullet_vel, 10*(power*burst_size), 0.15*power*burst_size, 5, 'pellet', 0, Vector2(size, size))
 	
 func dash():
 	var dash_dir = aim_direction.normalized()
@@ -304,7 +305,7 @@ func set_dash_fx_position():
 	dash_fx.global_position = dash_start_point
 
 func take_damage(damage, source, stun = 0):
-	if is_in_group('enemy') and special_cooldown < 0 and damage < health and randf() < 0.5:
+	if is_in_group('enemy') and stun == 0 and special_cooldown < 0 and damage < health and randf() < 0.5:
 		special_cooldown = 6
 		aim_direction = velocity
 		dash()
