@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/SwapBar.gd" type="Script" id=1]
 [ext_resource path="res://Art/NewSwap.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Art/swap_item_indicator.png" type="Texture" id=7]
 [ext_resource path="res://Art/healthbar_yellow.png" type="Texture" id=8]
 [ext_resource path="res://Sounds/SoundEffects/LVup.wav" type="AudioStream" id=9]
+[ext_resource path="res://Shaders/Noise.tres" type="Material" id=10]
 
 [node name="SwapBar" type="TextureProgress"]
 anchor_top = 1.0
@@ -28,6 +29,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Tween" type="Tween" parent="."]
+
 [node name="ItemProgress" type="TextureProgress" parent="."]
 anchor_right = 0.205
 anchor_bottom = 0.2
@@ -43,8 +46,6 @@ tint_progress = Color( 0.223529, 0.705882, 0.356863, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Tween" type="Tween" parent="ItemProgress"]
 
 [node name="ItemDrop" type="TextureRect" parent="."]
 margin_left = 31.9676
@@ -78,6 +79,19 @@ rect_scale = Vector2( 1.055, 1.1 )
 max_value = 1000.0
 value = 1000.0
 texture_progress = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Static" type="TextureRect" parent="."]
+modulate = Color( 1, 0.388235, 0.388235, 0 )
+material = ExtResource( 10 )
+margin_left = -880.083
+margin_top = -749.054
+margin_right = -800.083
+margin_bottom = -741.054
+rect_scale = Vector2( 30, 150 )
+texture = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
