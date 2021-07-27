@@ -57,7 +57,7 @@ config/icon="res://Art/GolemCoverArt.PNG"
 
 [autoload]
 
-GameManager="*res://Scripts/GameManager.gd"
+GameManager="*res://Globals/GameManager.tscn"
 Options="*res://Globals/Options.tscn"
 
 [display]

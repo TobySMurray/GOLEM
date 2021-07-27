@@ -11,6 +11,10 @@ var piercing = false
 var deflectable = true
 var spectral = false
 
+var explosion_size = 0
+var explosion_damage = 0
+var explosion_kb = 0
+
 var rotate_to_direction = false
 var last_velocity = Vector2.ZERO
 
@@ -74,5 +78,8 @@ func despawn():
 	if is_instance_valid(source):
 		source.on_bullet_despawn(self)
 	GameManager.player_bullets.erase(self)
+	
+	if explosion_size > 0:
+		GameManager.spawn_explosion(global_position, source, explosion_size, explosion_damage, explosion_kb)
 	
 	queue_free()

@@ -2,7 +2,7 @@ extends Control
 
 
 func _ready():
-	Options.level = "Menu"
+	GameManager.on_level_loaded('MainMenu')
 	$Buttons/Arcade.connect("pressed", self, "play")
 	$Buttons/Options.connect("pressed",self, "options")
 	$Buttons/Quit.connect("pressed", self, "quit")

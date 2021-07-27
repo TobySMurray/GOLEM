@@ -26,6 +26,7 @@ void fragment(){
 "
 
 [resource]
+resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/RESOLUTION = 0.5
 shader_param/FREQ = 0.004

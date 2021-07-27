@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/SawArp.wav-d92131294fa023d28db4851b5f10c61e.sample"
+
+[deps]
+
+source_file="res://Sounds/SoundEffects/SawArp.wav"
+dest_files=[ "res://.import/SawArp.wav-d92131294fa023d28db4851b5f10c61e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=false
+edit/loop=true
+compress/mode=0

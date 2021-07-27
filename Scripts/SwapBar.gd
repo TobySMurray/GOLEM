@@ -29,7 +29,7 @@ onready var Static = $Static
 var colors = [Color(1,0.8,0.8,1),Color(1,0.5,0.5,1), Color(1,1,1,1)]
 		
 func _ready():
-	control_timer = 0
+	control_timer = 15
 	item_indicator.value = item_count * 100
 	set_swap_threshold(init_swap_threshold)
 	GameManager.swap_bar = self
@@ -49,7 +49,7 @@ func _physics_process(delta):
 		Static.modulate.a = 1 - (max_control_time - control_timer)/3
 		out_of_control()
 	elif GameManager.true_player and not GameManager.player.dead:
-		#GameManager.kill()
+		GameManager.kill()
 		warning_audio.stop()
 		control_timer = 0
 		

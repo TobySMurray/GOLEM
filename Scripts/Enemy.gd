@@ -91,6 +91,10 @@ func _ready():
 	GameManager.audio = get_node("/root/Level/AudioStreamPlayer")
 	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 	update_swap_shield()
+	GameManager.connect('on_level_ready', self, 'on_level_ready')	
+	
+func on_level_ready():
+	toggle_light(GameManager.level['dark'] and is_in_group('player'))
 
 func _physics_process(delta):
 	if dead and is_in_group("player"):
@@ -284,7 +288,7 @@ func take_damage(damage, source, stun = 0):
 		return
 	
 	if is_in_group("player"):
-		set_invincibility_time(0.05)
+		#set_invincibility_time(0.05)
 		GameManager.camera.set_trauma(0.4)
 		
 	elif source == GameManager.true_player:
@@ -351,6 +355,7 @@ func toggle_swap(state):
 		clear_transcender()
 		
 func toggle_playerhood(state):
+	toggle_light(state)
 	if state == true:
 		remove_from_group("enemy")
 		add_to_group("player")
@@ -376,8 +381,6 @@ func toggle_playerhood(state):
 		special_cooldown = max(special_cooldown, 1)
 		
 func toggle_enhancement(state):
-	toggle_light(state)
-	
 	if state == true:
 		animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
 	else:

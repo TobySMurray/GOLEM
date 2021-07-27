@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/SwapBar.gd" type="Script" id=1]
 [ext_resource path="res://Art/NewSwap.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=8]
 [ext_resource path="res://Sounds/SoundEffects/LVup.wav" type="AudioStream" id=9]
 [ext_resource path="res://Art/swap_item_progress.png" type="Texture" id=10]
+[ext_resource path="res://Shaders/Noise.tres" type="Material" id=11]
+[ext_resource path="res://Art/Vignette.png" type="Texture" id=12]
 
 [node name="SwapBar" type="TextureProgress"]
 anchor_top = 1.0
@@ -84,12 +86,14 @@ __meta__ = {
 }
 
 [node name="Static" type="TextureRect" parent="."]
+visible = false
 modulate = Color( 1, 0.388235, 0.388235, 0 )
-margin_left = -880.083
-margin_top = -749.054
-margin_right = -800.083
-margin_bottom = -741.054
-rect_scale = Vector2( 30, 150 )
+material = ExtResource( 11 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

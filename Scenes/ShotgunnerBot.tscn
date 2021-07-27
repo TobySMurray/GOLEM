@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Art/Characters/Shotgunner/idle.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/ShotgunnerBot.gd" type="Script" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=19]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=20]
 [ext_resource path="res://Sounds/SoundEffects/whip1.wav" type="AudioStream" id=21]
+[ext_resource path="res://Sounds/SoundEffects/CrispExplosion.wav" type="AudioStream" id=22]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.92806
@@ -203,12 +204,12 @@ tracks/3/path = NodePath("GunAudio")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
 "clips": [ {
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource( 11 )
+"stream": ExtResource( 22 )
 } ],
 "times": PoolRealArray( 0 )
 }
@@ -392,8 +393,8 @@ texture = ExtResource( 19 )
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( 26, -4 )
-texture = ExtResource( 5 )
-vframes = 8
+texture = ExtResource( 4 )
+vframes = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 6 )
@@ -408,7 +409,6 @@ anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
-frame = 59
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
 rotation = -1.08909
@@ -444,7 +444,7 @@ margin_bottom = -11.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="GunAudio" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 13 )
+stream = ExtResource( 11 )
 volume_db = -4.0
 max_distance = 500.0
 bus = "Effects"
@@ -468,7 +468,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 0, 11.3892 )
-frame = 37
+frame = 11
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

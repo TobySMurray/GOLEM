@@ -1,8 +1,11 @@
 extends "res://Scripts/Enemy.gd"
 
+const DustTrail = preload('res://Scenes/DustTrail.tscn')
+
 onready var dash_fx = $DashFX
 onready var audio = $AudioStreamPlayer2D
 onready var dash_audio = $Dash
+onready var charge_audio = $ChargeAudio
 onready var movement_raycast = $RayCast2D
 onready var aimbot_collider = $AimbotCollider
 onready var aimbot_reticle = $AimbotReticle
@@ -24,6 +27,7 @@ var aimbot_mode = false
 
 var burst_count = 0
 var burst_timer = 0
+var exhaust_timer = 0
 
 var dash_start_point = Vector2.ZERO
 var dashing = false
@@ -51,10 +55,11 @@ func _ready():
 	toggle_enhancement(false)
 	
 	remove_child(aimbot_reticle)
-	get_node('/root/' + GameManager.level_name + '/Projectiles').add_child(aimbot_reticle)
+	GameManager.projectiles_node.add_child(aimbot_reticle)
 	
 func toggle_playerhood(state):
-	aimbot_reticle.visible = false
+	if is_instance_valid(aimbot_reticle):
+		aimbot_reticle.visible = false
 	aimbot_mode = false
 	.toggle_playerhood(state)
 
@@ -70,7 +75,7 @@ func toggle_enhancement(state):
 	accel = 2.5
 	killdozer_mode = false
 	top_gear = false
-	exhaust_blast = false
+	exhaust_blast = true
 	charge_mode = false
 
 	if state == true:
@@ -89,6 +94,7 @@ func toggle_enhancement(state):
 		
 		aimbot_mode = GameManager.player_upgrades['advanced_targeting'] > 0
 			
+	burst_count = 0
 	movement_raycast.enabled = !state
 	aimbot_collider.set_deferred('disabled', !aimbot_mode)
 
@@ -97,6 +103,9 @@ func misc_update(delta):
 	
 	if burst_count > 0:
 		burst_timer -= delta
+		if charge_mode:
+			charge_audio.pitch_scale = 3.8 - burst_timer
+			
 		if burst_timer < 0:
 			shoot()
 	else:
@@ -126,6 +135,14 @@ func misc_update(delta):
 			aimbot_reticle.global_position = aimbot_target.global_position
 		else:
 			aimbot_reticle.visible = false
+			
+	if exhaust_blast:
+		var speed = velocity.length()
+		if speed > 100:
+			exhaust_timer -= delta*(speed/100.0)
+			if exhaust_timer < 0:
+				exhaust_timer = 0.35
+				Projectile.shoot_bullet(self, global_position, -velocity.rotated(PI/6*(randf()-0.5)), 5, 0.25, 1.5, 'flame')
 		
 	#set_dash_fx_position()
 	
@@ -137,7 +154,7 @@ func player_action():
 		shoot()
 	
 	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not dashing:
-		special_cooldown = max_special_cooldown
+		special_cooldown = 0#max_special_cooldown
 		dash()
 		
 func ai_move():
@@ -185,6 +202,7 @@ func start_burst():
 		burst_count = 1
 		burst_timer = 2.0
 		attacking = true
+		charge_audio.play()
 		#animplayer.play('Charge')
 	
 	
@@ -194,6 +212,7 @@ func shoot():
 	animplayer.seek(0)
 	burst_count -= 1
 	attacking = true
+	charge_audio.stop()
 	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.3)
@@ -241,6 +260,14 @@ func dash():
 	var result = space_state.intersect_ray(global_position + foot_offset, dash_end_point + foot_offset, [self], collision_mask)
 	if result:
 		dash_end_point = result['position'] - foot_offset - (dash_end_point - global_position).normalized()*10 
+		
+	var dust_trail = DustTrail.instance().duplicate()
+	dust_trail.global_position = (0.9*global_position + 1.1*dash_end_point)/2 - Vector2.UP*10
+	dust_trail.process_material.emission_box_extents.x = (dash_end_point - global_position).length()*0.6
+	dust_trail.rotation = dash_dir.angle()
+	dust_trail.process_material.direction.y = 1 if abs(dust_trail.rotation) > PI/2 else -1
+	dust_trail.emitting = true
+	GameManager.projectiles_node.add_child(dust_trail)
 	
 	var maintained_speed = walk_speed if top_gear else 150	
 	if killdozer_mode:
@@ -252,13 +279,13 @@ func dash():
 				break
 				
 	if exhaust_blast:
-		for i in range(8 + burst_size/2):
+		for i in range(4 + burst_size/2):
 			var dir = -dash_dir.rotated((0.5 - randf())*PI/8)
 			var speed = walk_speed*(1.5 + randf())
 			shoot_bullet(speed*dir, 10, 0.3, 2, 'flame')
 	
 	attacking = false
-	burst_count = 0
+	#burst_count = 0
 	dashing = true
 	lock_aim = true
 	
@@ -276,9 +303,7 @@ func dash():
 	aim_direction.x *= -1
 
 func _on_Hitbox_area_entered(area):
-	if not killdozer_mode:
-		return
-	if area.is_in_group("hitbox"):
+	if killdozer_mode and area.is_in_group("hitbox"):
 		var entity = area.get_parent()
 		if not entity.invincible:
 			var rel_speed = velocity.length() - entity.velocity.length()
@@ -305,11 +330,12 @@ func set_dash_fx_position():
 	dash_fx.global_position = dash_start_point
 
 func take_damage(damage, source, stun = 0):
-	if is_in_group('enemy') and stun == 0 and special_cooldown < 0 and damage < health and randf() < 0.5:
+	.take_damage(damage, source, stun)
+	if is_in_group('enemy') and stun == 0 and not dead and special_cooldown < 0 and randf() < 0.5:
 		special_cooldown = 6
 		aim_direction = velocity
 		dash()
-	.take_damage(damage, source, stun)
+	
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack":

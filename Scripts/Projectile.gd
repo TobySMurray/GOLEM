@@ -5,7 +5,7 @@ const Bullet = preload("res://Scenes/Bullet.tscn")
 const FlakBullet = preload("res://Scenes/FlakBullet.tscn")
 const VortexWave = preload("res://Scenes/VortexWave.tscn")
 
-static func shoot_bullet(source_, origin, vel, damage_ = 10, mass_ = 0.25, lifetime_ = 10, type = "pellet", stun_ = 0, size = Vector2.ONE):
+static func shoot_bullet(source_, origin, vel, damage_ = 10, mass_ = 0.25, lifetime_ = 10, type = "pellet", stun_ = 0, size = Vector2.ONE, explosion_size = 0, explosion_damage = 0, explosion_kb = 0):
 	var new_bullet = Bullet.instance().duplicate()
 	new_bullet.global_position = origin
 	new_bullet.source = source_
@@ -15,6 +15,9 @@ static func shoot_bullet(source_, origin, vel, damage_ = 10, mass_ = 0.25, lifet
 	new_bullet.lifetime = lifetime_
 	new_bullet.stun = stun_
 	new_bullet.scale = size
+	new_bullet.explosion_size = explosion_size
+	new_bullet.explosion_damage = explosion_damage
+	new_bullet.explosion_kb = explosion_kb
 	new_bullet.set_appearance(type)
 	GameManager.projectiles_node.add_child(new_bullet)
 	

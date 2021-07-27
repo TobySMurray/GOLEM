@@ -2,6 +2,7 @@ extends "res://Scripts/Enemy.gd"
 
 onready var muzzle_flash = $MuzzleFlash
 onready var audio = $StepAudio
+onready var gun_audio = $GunAudio
 onready var reload = $Reload
 onready var melee_collider = $MeleeCollider/CollisionShape2D
 
@@ -124,6 +125,7 @@ func ai_action():
 		attack_cooldown = reload_time*1.5
 		
 func shoot():
+	gun_audio.play()
 	attacking = true
 	attack_cooldown = reload_time
 	animplayer.play("Shoot")
@@ -169,7 +171,7 @@ func bash():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":
 		attacking = false
-		reload.play()
+		#reload.play()
 	elif anim_name == 'Special':
 		attacking = false
 		lock_aim = false

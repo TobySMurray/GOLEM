@@ -17,6 +17,7 @@ var fire_volume_levels = [4, 4.8, 5.6, 6.2, 8,4, 9.6, 11.2]
 
 var startup_lag = 0.5
 var pressure_dropoff = 0.3
+var startup_spurt = false
 var recoil = 0
 var speed_while_attacking = 40 
 var thermobaric_mode = false
@@ -56,6 +57,7 @@ func toggle_enhancement(state):
 	fire_volume = fire_volume_levels[level]
 	startup_lag = 0.5 - 0.03*level
 	pressure_dropoff = 0.3
+	startup_spurt = false
 	recoil = 0
 	speed_while_attacking = 40
 	thermobaric_mode = false
@@ -65,6 +67,7 @@ func toggle_enhancement(state):
 		fire_volume *= 1.0 + 0.2*GameManager.player_upgrades['pressurized_hose']
 		pressure_dropoff *= 1.0 + 0.4*GameManager.player_upgrades['pressurized_hose'] 
 		for i in range(GameManager.player_upgrades['pressurized_hose']):
+			startup_spurt = true
 			startup_lag *= 0.5
 			
 		speed_while_attacking *= min(walk_speed, 1.0 + 0.75*GameManager.player_upgrades['optimized_regulator'])
@@ -184,11 +187,16 @@ func flamethrower():
 	
 	var limited_aim_direction = limit_aim_direction(aim_direction)
 	var pellets = ceil(max(fire_volume*pressure, 1))
+	var spread = shot_spread*(0.5 + pressure*0.5)
+	if startup_spurt and pressure == 1:
+		pellets *= 3
+		spread *= 2
+	
 	shot_timer = 0.2/(pressure+1)
 	
 	var clouds = []
 	for i in range(pellets):
-		var pellet_dir = limited_aim_direction.rotated((randf()-0.5)*deg2rad(shot_spread))
+		var pellet_dir = limited_aim_direction.rotated((randf()-0.5)*deg2rad(spread))
 		
 		if thermobaric_mode:
 			var pellet_speed = shot_speed * 0.9*(0.4 + 0.6*pressure) * (1 + 0.25*(randf()-0.5))

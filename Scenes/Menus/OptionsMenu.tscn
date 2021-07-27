@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/OptionsMainMenu.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Art/menubg-Sheet.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/controlSettings.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/AudioButton.gd" type="Script" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -85,6 +86,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
+frame = 13
 playing = true
 
 [node name="Panel" type="Panel" parent="."]
@@ -177,9 +179,11 @@ margin_top = -30.0
 margin_right = 32.0
 margin_bottom = -6.0
 text = "Back"
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+pitch = 0.8
 
 [node name="videoSettings" type="Control" parent="."]
 visible = false
@@ -255,6 +259,7 @@ margin_right = 484.0
 margin_bottom = 35.0
 toggle_mode = true
 text = "Mute Audio"
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -288,6 +293,7 @@ margin_right = 484.0
 margin_bottom = 79.0
 toggle_mode = true
 text = "Mute Music"
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -320,6 +326,7 @@ margin_right = 484.0
 margin_bottom = 123.0
 toggle_mode = true
 text = "Mute Effects"
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -357,6 +364,7 @@ margin_top = 152.0
 margin_right = 546.0
 margin_bottom = 176.0
 text = "Save Keybinds"
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -402,7 +410,6 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
 [connection signal="value_changed" from="audioSettings/masterVolumeSlider" to="audioSettings/masterVolumeSlider" method="_on_value_changed"]
 [connection signal="value_changed" from="audioSettings/musicVolumeSlider" to="audioSettings/musicVolumeSlider" method="_on_value_changed"]
 [connection signal="value_changed" from="audioSettings/effectsVolumeSlider" to="audioSettings/effectsVolumeSlider" method="_on_value_changed"]

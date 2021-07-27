@@ -18,7 +18,7 @@ func _ready():
 	score = 0
 	max_attack_cooldown = 1
 	attack_cooldown = 0
-
+	
 func _physics_process(delta):
 	attack_cooldown = -1
 	if GameManager.level_name == "Tutorial":

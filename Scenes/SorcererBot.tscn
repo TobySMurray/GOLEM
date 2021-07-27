@@ -448,7 +448,7 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 9
+frame = 28
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false

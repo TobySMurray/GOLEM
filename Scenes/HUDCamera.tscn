@@ -1,11 +1,48 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scripts/Camera.gd" type="Script" id=1]
+[ext_resource path="res://Art/Vignette.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/NoiseVignette.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Cursor.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/PauseScreen.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/DeathScreen.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/ScoreDisplay.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/SwapBar.tscn" type="PackedScene" id=12]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float RESOLUTION = 1.0;
+uniform float FREQ = 1.0;
+uniform float ALPHA = 1.0;
+uniform float ALPHA_SHIFT = 0.0;
+uniform vec3 color = vec3(1, 1, 1);
+
+float rand(vec2 coord){
+	return fract(sin(dot(coord, vec2(21.6782397, 5.4359876739)))*1000.3475938);
+}
+
+vec2 quantize(vec2 v, float r){
+	return floor(v*r)/r;
+}
+
+void fragment(){
+	float tex_alpha = texture(TEXTURE, UV).a;
+	vec2 centered_uv = abs(UV - vec2(0.5, 0.5));
+	vec2 QUV = quantize(centered_uv*600.0, RESOLUTION);
+	COLOR = vec4(color, max(0, (rand(QUV + TIME*FREQ)+ALPHA_SHIFT)*ALPHA*tex_alpha));
+}
+
+"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/RESOLUTION = 0.5
+shader_param/FREQ = 1.0
+shader_param/ALPHA = 1.0
+shader_param/ALPHA_SHIFT = 0.0
+shader_param/color = Vector3( 0.8, 1, 1 )
 
 [node name="Camera2D" type="Camera2D"]
 current = true
@@ -30,6 +67,26 @@ visible = false
 level = "res://Scenes/MainLevel.tscn"
 
 [node name="PauseScreen" parent="CanvasLayer" instance=ExtResource( 9 )]
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer"]
+material = SubResource( 2 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -180.0
+margin_right = 1600.0
+margin_bottom = 900.0
+rect_scale = Vector2( 0.334, 0.334 )
+texture = ExtResource( 2 )
+stretch_mode = 1
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NoiseOverlay" type="CanvasLayer" parent="."]
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 

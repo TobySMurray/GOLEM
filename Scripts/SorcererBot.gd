@@ -16,8 +16,9 @@ var walk_speed_levels = [80, 120, 135, 150, 165, 180, 195]
 var smack_recharge_levels = [1.1, 1, 0.85, 0.7, 0.6, 0.5, 0.4]
 var smack_speed_levels = [300, 400, 450, 500, 533, 566, 600]
 
-var orb_size = 1
+var orb_size = 1.0
 var num_orbs = 1
+var orb_damage_mult = 1.0
 var tetherball_mode = false
 var precision_mode = false
 
@@ -52,6 +53,7 @@ func toggle_enhancement(state):
 	
 	orb_size = 1.0
 	num_orbs = 1
+	orb_damage_mult = 1.0
 	tetherball_mode = false
 	precision_mode = false
 	
@@ -61,10 +63,15 @@ func toggle_enhancement(state):
 		num_orbs += GameManager.player_upgrades['parallelized_drones']
 		for i in range(min(GameManager.player_upgrades['parallelized_drones'], 2)):
 			orb_size *= 0.75
+			orb_damage_mult -= 0.2/(i + 1)
 		
-		tetherball_mode = GameManager.player_upgrades['docked_drones'] > 0
-		
-		precision_mode = GameManager.player_upgrades['precision_handling'] > 0
+		if GameManager.player_upgrades['docked_drones'] > 0:
+			tetherball_mode = true
+			smack_speed *= 2
+			orb_damage_mult *= 0.6
+			
+		precision_mode = GameManager.player_upgrades['precision_handling'] > 0	
+			
 	else:
 		detonate_orbs()
 		
@@ -101,6 +108,22 @@ func misc_update(delta):
 			tethers[i].visible = true
 			tethers[i].set_point_position(1, (orbs[i].global_position - global_position)/scale.x)
 			orbs[i].lifetime = 2
+			
+			if tetherball_mode:
+				var dist = (orbs[i].global_position - global_position).length()
+				if dist > 50:
+					orbs[i].velocity -= (orbs[i].global_position - global_position)*20*delta
+					orbs[i].velocity *= 0.95
+				else:
+					orbs[i].velocity *= 0.98
+					if num_orbs > 1 and orbs[i].decel_timer > 0.5:
+						for j in range(num_orbs):
+							if j != i and is_instance_valid(orbs[j]):
+								var disp = (orbs[i].global_position - orbs[j].global_position)
+								var sqr_dist = max(25, disp.length_squared()/(orb_size*orb_size))
+								if sqr_dist < 900:
+									orbs[i].velocity += disp/sqr_dist*delta*1000
+				
 		else:
 			tethers[i].visible = false
 
@@ -140,14 +163,6 @@ func player_action():
 		attacking = true
 		animplayer.play("Special")
 		
-	
-#	if orb:
-#		var to_orb = orb.global_position - global_position
-#		var zoom = 1 + clamp(max((abs(to_orb.x)-300)/250, (abs(to_orb.y)-100)/250), 0, 1)
-#		GameManager.camera.zoom = Vector2(zoom, zoom)
-#	else:
-#		var zoom = lerp(GameManager.camera.zoom.x, 1, 0.1)
-#		GameManager.camera.zoom = Vector2(zoom, zoom)
 
 func ai_move():
 	var to_player = GameManager.player.global_position - global_position
@@ -201,11 +216,13 @@ func launch_orbs():
 		orbs[i] = death_orb.instance().duplicate()
 		var orb = orbs[i]
 		orb.global_position = global_position + (Vector2(-20, 0) if facing_left else Vector2(20, 0))
-		orb.velocity = aim_direction.normalized().rotated(angle) * smack_speed
+		orb.velocity = aim_direction.normalized().rotated(angle) * smack_speed * 0.7
 		orb.source = self
 		orb.scale = Vector2.ONE*4*orb_size
+		orb.mass = 3*orb_size
+		orb.damage_mult = orb_damage_mult
 		orb.get_node('CollisionShape2D').scale = Vector2.ONE/orb_size
-		get_node('/root/'+ GameManager.level_name +'/Projectiles').add_child(orb)
+		GameManager.projectiles_node.add_child(orb)
 		angle += delta_angle
 		
 	if is_in_group("player"):

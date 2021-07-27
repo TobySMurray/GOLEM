@@ -13,19 +13,23 @@ onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
 onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
 onready var sorcerer_bot = load("res://Scenes/SorcererBot.tscn")
 onready var saber_bot = load("res://Scenes/SaberBot.tscn")
-onready var viewport = get_viewport()
 
-onready var scene_transition = null
+onready var scene_transition = $SceneTransition.get_node('TransitionRect')
+onready var SFX = $SFX
+onready var BGM = $BGM
+
+onready var viewport = get_viewport()
 
 onready var enemy_scenes = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot, sorcerer_bot, saber_bot]
 
-onready var SFX = AudioStreamPlayer.new()
+
 onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 
 signal on_swap
+signal on_level_ready
 
 const levels = {
-	'Menu': {
+	'MainMenu': {
 		'dark': false,
 		'music': 'cuuuu b3.wav'
 	},
@@ -46,7 +50,7 @@ const levels = {
 		'enemy_density': 11,
 		'pace': 0.6,
 		'dark': true,
-		'music': 'melon b3.wav',
+		'music': 'cantaloupe b3.wav',
 		'scene_name': 'Labyrinth1.tscn'
 	},
 	"Tutorial": {
@@ -58,7 +62,7 @@ const levels = {
 	}
 }
 
-var level_name = "Menu"
+var level_name = "MainMenu"
 var level = levels[level_name]
 var projectiles_node
 
@@ -136,7 +140,7 @@ var player_upgrades = {
 	#EXTERMINATOR
 	'improvised_projectiles': 0,
 	'high-energy_orbit': 0,
-	'sledgehammer_formation': 0,
+	'synchotron_accelerator': 0,
 	'exposed_coils': 0,
 	'bulwark_mode': 0,
 	'particulate_screen': 0,
@@ -154,11 +158,6 @@ var player_upgrades = {
 }
 
 func _ready():
-	add_child(SFX)
-	#scene_transition = load('res://Scenes/SceneTransition.tscn').instance()
-	scene_transition = load('res://Scenes/SceneTransition.tscn').instance()
-	add_child(scene_transition)
-	scene_transition = scene_transition.get_node('TransitionRect')
 	projectiles_node = get_node('/root')
 	
 func _process(delta):
@@ -215,7 +214,7 @@ func reset():
 	
 	for key in player_upgrades:
 	#	if randf() < 0.75: player_upgrades[key] += 1
-		player_upgrades[key] = 0
+		#player_upgrades[key] = 0
 		pass
 					
 			
@@ -240,7 +239,7 @@ func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0,
 	new_explosion.force = force
 	new_explosion.delay_timer = delay
 	new_explosion.visible = show_visual
-	get_node('/root/'+ level_name +'/Projectiles').add_child(new_explosion)
+	projectiles_node.add_child(new_explosion)
 	
 func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):
 	var spray = splatter_particles.instance().duplicate()
@@ -311,7 +310,7 @@ func give_player_random_upgrade(type = ''):
 			for precluded in Upgrades.upgrades[upgrade]['precludes']:
 				upgrade_pool.erase(precluded)
 				
-		elif player_upgrades[upgrade] >= Upgrades.upgrades[upgrade]['max_stack']:
+		if player_upgrades[upgrade] >= Upgrades.upgrades[upgrade]['max_stack']:
 			upgrade_pool.erase(upgrade)
 	
 	if not upgrade_pool.empty():		
@@ -329,15 +328,21 @@ func give_player_upgrade(upgrade):
 	
 func on_level_loaded(lv_name):
 	level_name = lv_name
+	level = levels[lv_name]	
+	
+	BGM.stream = load('res://Sounds/Music/' + level['music'])
+	BGM.play()
+	
 	if lv_name != "MainMenu":
-		level = levels[lv_name]	
 		projectiles_node = get_node('/root/' + level_name + '/Projectiles')
 		if not projectiles_node:
 			print("ERROR: No \"Projectiles\" node found in level heirarchy")
 			projectiles_node = get_node('/root')
+			
+		reset()
 		
 	scene_transition.fade_in()
-	reset()
+	emit_signal('on_level_ready')
 
 func kill():
 	swappable = false
