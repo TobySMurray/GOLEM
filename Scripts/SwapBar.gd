@@ -1,5 +1,7 @@
 extends TextureProgress
 
+var enabled = true
+var increase_rate = 1.0
 var max_control_time = 20.0
 var init_swap_threshold = 1
 var bar_min_value = 86
@@ -11,7 +13,6 @@ var control_timer = 0.0
 var swap_threshold = 0.0
 var swap_threshold_penalty = 0
 var unlocked_last_frame = false
-
 var beep_timer = 0
 
 var item_count = 2
@@ -19,7 +20,6 @@ var item_count = 2
 onready var threshold = $Threshold
 onready var warning_audio = $WarningAudio
 onready var unlocked_audio = $UnlockedAudio
-onready var screen_effect = $ScreenEffect
 onready var warning = preload("res://Sounds/SoundEffects/warning.wav")
 onready var ready = preload("res://Sounds/SoundEffects/moonready.wav")
 
@@ -29,29 +29,34 @@ onready var Static = $Static
 var colors = [Color(1,0.8,0.8,1),Color(1,0.5,0.5,1), Color(1,1,1,1)]
 		
 func _ready():
-	control_timer = 15
+	control_timer = 0
 	item_indicator.value = item_count * 100
 	set_swap_threshold(init_swap_threshold)
 	GameManager.swap_bar = self
 	GameManager.connect("on_swap", self, "on_GM_swap")
 	
-
+	
 func _physics_process(delta):
-	control_timer = min(control_timer + delta, max_control_time)
-	beep_timer -= 0.016
-	if not GameManager.true_player or not GameManager.true_player.dead:
-		self.value = (control_timer / max_control_time)*(bar_max_value - bar_min_value) + bar_min_value
-		GameManager.swappable = control_timer > swap_threshold
-	if control_timer < max_control_time - 3:
-		in_control()
-		Static.modulate.a = 0
-	elif control_timer < max_control_time - 0.1:
-		Static.modulate.a = 1 - (max_control_time - control_timer)/3
-		out_of_control()
-	elif GameManager.true_player and not GameManager.player.dead:
-		GameManager.kill()
-		warning_audio.stop()
+	if enabled:
+		control_timer = min(control_timer + delta*increase_rate, max_control_time)
+		beep_timer -= 0.016
+		if not GameManager.true_player or not GameManager.true_player.dead:
+			self.value = (control_timer / max_control_time)*(bar_max_value - bar_min_value) + bar_min_value
+			GameManager.swappable = control_timer > swap_threshold
+		if control_timer < max_control_time - 3:
+			in_control()
+			Static.modulate.a = 0
+		elif control_timer < max_control_time - 0.1:
+			Static.modulate.a = 1 - (max_control_time - control_timer)/3
+			out_of_control()
+		elif GameManager.true_player and not GameManager.player.dead:
+			GameManager.kill()
+			warning_audio.stop()
+			control_timer = 0
+	else:
+		GameManager.swappable = true
 		control_timer = 0
+		swap_threshold = 0
 		
 	if item_count == 0:
 		item_indicator.material.set_shader_param('intensity', int(GameManager.game_time*30)%2)

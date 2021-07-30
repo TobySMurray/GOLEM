@@ -11,7 +11,7 @@
 [ext_resource path="res://Art/Characters/Archer/idle.png" type="Texture" id=9]
 [ext_resource path="res://Art/Characters/Archer/attack ready.png" type="Texture" id=10]
 [ext_resource path="res://Art/Characters/Archer/Attack FX.png" type="Texture" id=11]
-[ext_resource path="res://Art/Beam.png" type="Texture" id=12]
+[ext_resource path="res://Art/Bullets/Beam.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Art/healthbar-Sheet.png" type="Texture" id=14]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=15]
@@ -25,6 +25,7 @@
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=24]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=25]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"

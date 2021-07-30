@@ -30,7 +30,6 @@ var burst_timer = 0
 var exhaust_timer = 0
 
 var dash_start_point = Vector2.ZERO
-var dashing = false
 
 var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
@@ -49,7 +48,7 @@ func _ready():
 	flip_offset = -71
 	healthbar.max_value = health
 	max_attack_cooldown = 1
-	max_special_cooldown = 1.5
+	max_special_cooldown = 0.75
 	score = 70
 	init_healthbar()
 	toggle_enhancement(false)
@@ -75,7 +74,7 @@ func toggle_enhancement(state):
 	accel = 2.5
 	killdozer_mode = false
 	top_gear = false
-	exhaust_blast = true
+	exhaust_blast = false
 	charge_mode = false
 
 	if state == true:
@@ -110,10 +109,6 @@ func misc_update(delta):
 			shoot()
 	else:
 		lock_aim = false
-
-	special_cooldown -= delta
-	if special_cooldown < 0 and dashing:
-		dashing = false
 		lock_aim = false
 		
 	if aimbot_mode:
@@ -153,8 +148,8 @@ func player_action():
 	elif charge_mode and Input.is_action_just_released('attack1') and burst_count > 0 and not dead:
 		shoot()
 	
-	if Input.is_action_just_pressed("attack2") and special_cooldown < 0 and not dashing:
-		special_cooldown = 0#max_special_cooldown
+	if Input.is_action_just_pressed("attack2") and special_cooldown < 0:
+		special_cooldown = max_special_cooldown
 		dash()
 		
 func ai_move():
@@ -254,12 +249,14 @@ func shoot():
 		shoot_bullet(bullet_vel, 10*(power*burst_size), 0.15*power*burst_size, 5, 'pellet', 0, Vector2(size, size))
 	
 func dash():
+	if dead: return
+	
 	var dash_dir = aim_direction.normalized()
 	var dash_end_point = global_position + 83*dash_dir
 	var space_state = get_world_2d().direct_space_state
 	var result = space_state.intersect_ray(global_position + foot_offset, dash_end_point + foot_offset, [self], collision_mask)
 	if result:
-		dash_end_point = result['position'] - foot_offset - (dash_end_point - global_position).normalized()*10 
+		dash_end_point = result['position'] - foot_offset
 		
 	var dust_trail = DustTrail.instance().duplicate()
 	dust_trail.global_position = (0.9*global_position + 1.1*dash_end_point)/2 - Vector2.UP*10
@@ -286,7 +283,6 @@ func dash():
 	
 	attacking = false
 	#burst_count = 0
-	dashing = true
 	lock_aim = true
 	
 	velocity = maintained_speed*dash_dir
@@ -305,8 +301,8 @@ func dash():
 func _on_Hitbox_area_entered(area):
 	if killdozer_mode and area.is_in_group("hitbox"):
 		var entity = area.get_parent()
-		if not entity.invincible:
-			var rel_speed = velocity.length() - entity.velocity.length()
+		if (entity.is_in_group('enemy') or area.is_in_group('player')) and not entity.invincible:
+			var rel_speed = (velocity - entity.velocity).length()
 			var damage = pow(rel_speed, 0.65) * (2 if rel_speed > walk_speed/2 else 1)
 			entity.take_damage(damage, self)
 			
@@ -332,9 +328,9 @@ func set_dash_fx_position():
 func take_damage(damage, source, stun = 0):
 	.take_damage(damage, source, stun)
 	if is_in_group('enemy') and stun == 0 and not dead and special_cooldown < 0 and randf() < 0.5:
-		special_cooldown = 6
+		special_cooldown = 4
 		aim_direction = velocity
-		dash()
+		call_deferred('dash')
 	
 
 func _on_AnimationPlayer_animation_finished(anim_name):

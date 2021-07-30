@@ -15,13 +15,22 @@ onready var sorcerer_bot = load("res://Scenes/SorcererBot.tscn")
 onready var saber_bot = load("res://Scenes/SaberBot.tscn")
 
 onready var scene_transition = $SceneTransition.get_node('TransitionRect')
-onready var SFX = $SFX
+onready var attack_cooldown_SFX = $AttackCooldownSFX
+onready var special_cooldown_SFX = $SpecialCooldownSFX2
 onready var BGM = $BGM
 
 onready var viewport = get_viewport()
 
-onready var enemy_scenes = [shotgun_bot, wheel_bot, archer_bot, chain_bot, flame_bot, exterminator_bot, sorcerer_bot, saber_bot]
-
+onready var enemy_scenes = {
+	'shotgun': shotgun_bot,
+	'wheel': wheel_bot,
+	'archer': archer_bot,
+	'chain': chain_bot,
+	'flame': flame_bot, 
+	'exterminator': exterminator_bot,
+	'sorcerer': sorcerer_bot,
+	'saber': saber_bot
+}
 
 onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 
@@ -32,6 +41,16 @@ const levels = {
 	'MainMenu': {
 		'dark': false,
 		'music': 'cuuuu b3.wav'
+	},
+	
+	"TestLevel": {
+		'map_bounds': Rect2(-250, -250, 500, 500),
+		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
+		'enemy_density': 10,
+		'pace': 0,
+		'dark': false,
+		'music': 'cuuuu b3.wav',
+		'scene_name': 'TestRoom.tscn'
 	},
 		
 	"RuinsLevel": {
@@ -172,13 +191,13 @@ func _process(delta):
 		game_time += delta
 		spawn_timer -= delta
 		
-		if spawn_timer < 0:
+		if spawn_timer < 0 and level['enemy_density'] > 0:
 			spawn_timer = 1
 			enemy_soft_cap = level["enemy_density"]*(1 + game_time*0.01*level['pace']) #pow(1.3, game_time/60)
 			if level_name != "Tutorial":
 				if randf() < (1 - enemy_count/enemy_soft_cap):
 					print("SPAWN (" + str(enemy_count + 1) +")")
-					spawn_enemy()
+					spawn_random_enemy()
 					
 		if is_instance_valid(cur_boss):
 			update_boss_marker()
@@ -195,7 +214,11 @@ func _process(delta):
 			
 					
 func reset():
-	save_game_stats()
+	if level_name != 'TestLevel':
+		save_game_stats()
+		swap_bar.enabled = true
+	else:
+		swap_bar.enabled = false
 	
 	total_score = 0
 	kills = 0
@@ -209,8 +232,11 @@ func reset():
 	next_item_threshold = 2
 	player = null
 	true_player = null
-	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 	true_player = null
+	
+	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
+	get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
+	boss_marker.visible = false
 	
 	for key in player_upgrades:
 	#	if randf() < 0.75: player_upgrades[key] += 1
@@ -242,6 +268,9 @@ func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0,
 	projectiles_node.add_child(new_explosion)
 	
 func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):
+	if amount < 1:
+		return
+		
 	var spray = splatter_particles.instance().duplicate()
 	get_node("/root/"+ level_name + "/WorldObjects").add_child(spray)
 	spray.global_position = origin
@@ -251,31 +280,31 @@ func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):
 	spray.process_material.spread = spread
 	spray.emitting = true
 	
-func spawn_enemy(allow_boss = true, bounds = level['map_bounds']):
-	if not player: return null
-	
-	var spawn_point = random_map_point(bounds, true)
-	if not spawn_point: return null
-	
+func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
 	var spawning_boss = allow_boss and not cur_boss and total_score > evolution_thresholds[evolution_level]
+	spawn_enemy(choose_weighted(enemy_scenes.keys(), level['enemy_weights']), spawn_point, spawning_boss)
 	
+func spawn_enemy(type, spawn_point = level['map_bounds'], boss = false):
+	var new_enemy = enemy_scenes[type].instance().duplicate()
 	enemy_count += 1
-	var new_enemy = choose_weighted(enemy_scenes, level['enemy_weights']).instance().duplicate()
 	new_enemy.add_to_group("enemy")
 	
-	if spawning_boss:
+	if boss:
 		cur_boss = new_enemy
 		new_enemy.is_boss = true
 		new_enemy.enemy_evolution_level = evolution_level+1
 		new_enemy.add_swap_shield(new_enemy.health*(evolution_level*0.5 + 1.5))
 		new_enemy.scale = Vector2(1.25, 1.25)
-		get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
 		
 	else:
 		var d = game_time/30.0*level["pace"] - 2
 		if randf() < (d/(d+4.0)/2.0):
 			new_enemy.add_swap_shield(randf()*d*5)
-
+			
+	if typeof(spawn_point) != TYPE_VECTOR2:
+		spawn_point = random_map_point(spawn_point, true)
+		if not spawn_point: return null
+	
 	enemies.append(new_enemy)
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
 	get_node("/root/"+ level_name +"/WorldObjects/Characters").add_child(new_enemy)
@@ -420,7 +449,7 @@ func enemy_drought_bailout():
 		var placement_bounds = Rect2(camera.global_position.x + camera.offset.x, camera.global_position.y + camera.offset.y, camera_bounds.x*1.2, camera_bounds.y*1.4)
 		var spawn_needed = not candidate
 		if not candidate:
-			candidate = spawn_enemy(false)
+			candidate = spawn_random_enemy(false)
 			candidate.swap_shield_health = 0
 			candidate.update_swap_shield()
 			

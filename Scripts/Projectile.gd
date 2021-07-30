@@ -19,9 +19,9 @@ static func shoot_bullet(source_, origin, vel, damage_ = 10, mass_ = 0.25, lifet
 	new_bullet.explosion_damage = explosion_damage
 	new_bullet.explosion_kb = explosion_kb
 	new_bullet.set_appearance(type)
-	GameManager.projectiles_node.add_child(new_bullet)
+	GameManager.projectiles_node.call_deferred('add_child', new_bullet)
 	
-	if source_.is_in_group("player"):
+	if is_instance_valid(source_) and source_.is_in_group("player"):
 		GameManager.player_bullets.append(new_bullet)
 		
 	return new_bullet

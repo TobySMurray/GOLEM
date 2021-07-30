@@ -1,5 +1,16 @@
 class_name Util
 
+const enemy_icon_paths = {
+	'shotgun': 'res://Art/Characters/Shotgunner/icon.png',
+	'chain': 'res://Art/Characters/Ball and Chain Bot/icon.png',
+	'wheel': 'res://Art/Characters/Bot Wheel/icon.png',
+	'flame': 'res://Art/Characters/flamethrower bot/icon.png',
+	'archer': 'res://Art/Characters/Archer/icon.png',
+	'exterminator': 'res://Art/Characters/Exterminator/icon2.png',
+	'sorcerer': 'res://Art/Characters/Sorcerer Bot/icon2.png',
+	'saber': 'res://Art/Characters/3 Saber dude/icon.png'
+}
+
 static func signed_wrap(a):
 	if a > PI:
 		return a - 2*PI
@@ -43,4 +54,5 @@ static func remove_invalid(a):
 	
 	length -= shift_size
 	a.resize(length)
+	
 		

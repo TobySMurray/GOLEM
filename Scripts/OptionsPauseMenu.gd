@@ -40,9 +40,9 @@ func _ready():
 	fullscreenButton.add_item("Fullscreen", 0)
 	fullscreenButton.add_item("Windowed", 1)
 	
-	masterSlider.set_value(Options.masterVolume)
-	musicSlider.set_value(Options.musicVolume)
-	effectsSlider.set_value(Options.effectsVolume)
+	masterSlider.value = Options.masterVolume
+	musicSlider.value = Options.musicVolume
+	effectsSlider.value = Options.effectsVolume
 	
 	master_mute_btn.pressed = Options.masterMute
 	music_mute_btn.pressed = Options.musicMute

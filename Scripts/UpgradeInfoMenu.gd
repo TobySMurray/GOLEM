@@ -15,17 +15,6 @@ var selected = null
 var stats_visibility = 0.0
 var lore_visibility = 0.0
 
-const enemy_icons_paths = {
-	'shotgun': 'res://Art/Characters/Shotgunner/icon.png',
-	'chain': 'res://Art/Characters/Ball and Chain Bot/icon.png',
-	'wheel': 'res://Art/Characters/Bot Wheel/icon.png',
-	'flame': 'res://Art/Characters/flamethrower bot/icon.png',
-	'archer': 'res://Art/Characters/Archer/icon.png',
-	'exterminator': 'res://Art/Characters/Exterminator/icon2.png',
-	'sorcerer': 'res://Art/Characters/Sorcerer Bot/icon2.png',
-	'saber': 'res://Art/Characters/3 Saber dude/icon.png'
-}
-
 const upgrade_lore = {
 	'self-preservation_override': [
 		'GOLEM Project Internal Memo - 20/6/2121',
@@ -99,8 +88,8 @@ func set_selected(selection):
 	else:
 		title.get('custom_fonts/font').size = 26
 	
-	icon.texture = load(enemy_icons_paths[selected['type']]) #load(selected['icon_path'])
-	enemy_icon.texture = load(enemy_icons_paths[selected['type']])
+	icon.texture = load(Util.enemy_icon_paths[selected['type']]) #load(selected['icon_path'])
+	enemy_icon.texture = load(Util.enemy_icon_paths[selected['type']])
 	
 	var effects = '\n'
 	if 'effects' in selected:

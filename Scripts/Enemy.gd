@@ -15,7 +15,6 @@ onready var astar = self.get_parent().get_node("AStar")
 onready var slow_audio = $BloodMoon/Slow
 onready var stopped_audio = $BloodMoon/Stopped
 onready var speed_audio = $BloodMoon/Speed
-onready var timer = $Timer
 onready var shape = $CollisionShape2D
 onready var light_circle = $CharacterLights/Radial
 onready var light_beam = $CharacterLights/Directed
@@ -23,6 +22,8 @@ onready var light_beam = $CharacterLights/Directed
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
 onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay")
+
+onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/reload.wav')
 
 var enemy_type = ""
 var health = 100
@@ -88,7 +89,7 @@ var death_timer = 0
 func _ready():
 	self.connect("draw_transcender", transcender, "draw_transcender")
 	self.connect("clear_transcender", transcender, "clear_transcender")
-	GameManager.audio = get_node("/root/Level/AudioStreamPlayer")
+	#GameManager.audio = get_node("/root/Level/AudioStreamPlayer")
 	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 	update_swap_shield()
 	GameManager.connect('on_level_ready', self, 'on_level_ready')	
@@ -141,6 +142,15 @@ func _physics_process(delta):
 			ai_move()
 			ai_action()
 	
+	if attack_cooldown >= 0 and attack_cooldown < delta and is_in_group('player'):
+		GameManager.attack_cooldown_SFX.stream = attack_cooldown_audio
+		GameManager.attack_cooldown_SFX.play()
+		
+	if special_cooldown >= 0 and special_cooldown < delta and is_in_group('player'):
+		#GameManager.attack_cooldown_SFX.stream = attack_cooldown_audio
+		#GameManager.attack_cooldown_SFX.play()
+		pass
+
 	attack_cooldown -= delta
 	special_cooldown -= delta
 	
@@ -506,7 +516,6 @@ func die(killer = null):
 	target_velocity = Vector2.ZERO
 	GameManager.enemy_count -= 1
 	GameManager.enemies.erase(self)
-	GameManager.enemy_drought_bailout_available = true
 	death_timer = 0.5
 	animplayer.play("Die")
 	
@@ -563,6 +572,7 @@ func die(killer = null):
 		GameManager.camera.set_trauma(1, 16 if about_to_swap else 4)
 		GameManager.lerp_to_timescale(0.1)
 		GameManager.swap_bar.swap_threshold_penalty = 2
+		GameManager.enemy_drought_bailout_available = true
 		if not GameManager.swappable:
 			death_timer = 0.3
 		if is_instance_valid(killer):

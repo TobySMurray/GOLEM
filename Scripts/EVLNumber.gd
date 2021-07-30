@@ -1,6 +1,7 @@
 extends Sprite
 
-onready var background = get_node("../../EVLBackground")
+export (NodePath) var background_path
+onready var background = get_node(background_path)
 
 var digit = 1
 var anim_timer = 0

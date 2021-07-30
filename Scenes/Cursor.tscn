@@ -1,12 +1,13 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Cursor.gd" type="Script" id=1]
-[ext_resource path="res://Art/reticle.png" type="Texture" id=2]
+[ext_resource path="res://Art/reticle-export.png" type="Texture" id=2]
 [ext_resource path="res://Art/Circle.png" type="Texture" id=3]
 [ext_resource path="res://Art/special.png" type="Texture" id=4]
 
 [node name="Cursor" type="Node2D"]
 pause_mode = 2
+modulate = Color( 1, 1, 1, 0.784314 )
 light_mask = 2
 scale = Vector2( 2, 2 )
 script = ExtResource( 1 )
@@ -25,11 +26,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Sprite" type="Sprite" parent="."]
-light_mask = 2
-position = Vector2( 0.476563, 0.515625 )
-texture = ExtResource( 2 )
-
 [node name="Special" type="TextureProgress" parent="."]
 margin_left = -2.91763
 margin_top = -2.71263
@@ -43,3 +39,8 @@ fill_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sprite" type="Sprite" parent="."]
+light_mask = 2
+position = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )

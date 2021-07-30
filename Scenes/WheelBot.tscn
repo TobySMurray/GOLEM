@@ -485,7 +485,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 34
+frame = 39
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

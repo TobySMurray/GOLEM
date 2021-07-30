@@ -468,7 +468,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 0, 11.3892 )
-frame = 11
+frame = 7
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

@@ -123,3 +123,4 @@ texture = ExtResource( 7 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 64, 64 )
 script = ExtResource( 5 )
+background_path = NodePath("../../EVLBackground")

@@ -5,6 +5,8 @@ onready var attack_cooldown = $Attack
 onready var special_cooldown = $Special
 onready var sprite = $Sprite
 
+export (NodePath) var subreticle_path
+onready var subreticle = get_node(subreticle_path)
 var flash_timer = 0
 
 
@@ -12,9 +14,27 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	get_viewport().warp_mouse(get_global_mouse_position())
 	
-	
 func _process(delta):
-	self.position = self.get_global_mouse_position()
+	position = get_global_mouse_position()
+	if is_instance_valid(GameManager.true_player):
+		subreticle.visible = true
+		var player = GameManager.true_player
+		var origin = player
+		
+		if player.enemy_type == 'sorcerer':
+			if is_instance_valid(player.orbs[0]):
+				if player.num_orbs == 1:
+					origin = player.orbs[0]
+				else:
+					subreticle.visible = false
+					
+		elif player.enemy_type == 'saber':
+			if is_instance_valid(player.saber_rings[0]):
+				origin = player.saber_rings[0]
+					
+		subreticle.position = (origin.get_global_transform_with_canvas().origin + global_position)/2
+	else:
+		subreticle.visible = false
 
 	
 func _physics_process(delta):
@@ -31,6 +51,7 @@ func _physics_process(delta):
 			if attack_cooldown.visible:
 				attack_cooldown.visible = false
 				flash_timer = 0.2
+				#GameManager.attack_cooldown_SFX.play()
 		else:
 			attack_cooldown.visible = true
 			
@@ -38,5 +59,6 @@ func _physics_process(delta):
 		special_cooldown.value = GameManager.player.special_cooldown
 		if special_cooldown.value <= 0:
 			special_cooldown.visible = false
+			#GameManager.special_cooldown_SFX.play()
 		else:
 			special_cooldown.visible = true

@@ -5,10 +5,9 @@ onready var anim = $AnimationPlayer
 var destination_path = ''
 
 func _enter_tree():
-	print('transition ready')
 	color = Color(0, 0, 0, 0)
 	#anim = get_node("AnimationPlayer")
-	get_parent().remove_child(self)
+	#get_parent().call_deferred('remove_child', self)
 	
 func fade_out(scene_path, time = 0.5):
 	destination_path = scene_path

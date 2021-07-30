@@ -143,7 +143,8 @@ func ai_action():
 	
 func charge_attack():
 	if stealth_mode:
-		toggle_stealth(false)
+		stealth_timer = min(stealth_timer, charge_time - 0.1)
+		#toggle_stealth(false)
 		
 	attacking = true
 	charging = true

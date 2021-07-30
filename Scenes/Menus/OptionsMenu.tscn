@@ -86,7 +86,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 13
+frame = 10
 playing = true
 
 [node name="Panel" type="Panel" parent="."]
@@ -410,7 +410,4 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="value_changed" from="audioSettings/masterVolumeSlider" to="audioSettings/masterVolumeSlider" method="_on_value_changed"]
-[connection signal="value_changed" from="audioSettings/musicVolumeSlider" to="audioSettings/musicVolumeSlider" method="_on_value_changed"]
-[connection signal="value_changed" from="audioSettings/effectsVolumeSlider" to="audioSettings/effectsVolumeSlider" method="_on_value_changed"]
 [connection signal="pressed" from="controlSettings/SaveKeybinds" to="controlSettings" method="_on_SaveKeybinds_pressed"]

@@ -26,6 +26,7 @@ var min_bullet_orbit_speed = 3
 var shield_width = PI/2
 var bulwark_mode = false
 var compact_mode = false
+var laser_deflect = false
 
 var shield_active = true
 var shield_angle = 0
@@ -37,7 +38,7 @@ var target_bullet_orbit_speed = 0
 var expulsion_queue = []
 var expulsion_timer = 0
 var formation_timer = 0
-var lerped_player_pos = global_position
+var lerped_player_pos = Vector2.ZERO
 var ai_bullet_speed_threshold = 0
 
 var teleport_start_point = Vector2.ZERO
@@ -53,6 +54,7 @@ var nearby_enemies = []
 
 var bullet_production_timer = 0
 var bullet_reformation_timer = 0
+var ai_move_timer = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -68,6 +70,7 @@ func _ready():
 	init_healthbar()
 	score = 100
 	swap_cursor.visible = true
+	get_node('Deflector').collision_layer = 8
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
@@ -86,8 +89,8 @@ func toggle_enhancement(state):
 	deflector_visual.texture = load('res://Art/Shields/QuarterCircle.png')
 	bulwark_mode = false
 	compact_mode = false
-	get_node('Deflector').collision_layer = 0
 	retaliation_locked = false
+	laser_deflect = false
 	
 	if state  == true:
 		bullet_production_rate = 1.5*GameManager.player_upgrades['improvised_projectiles']
@@ -107,7 +110,7 @@ func toggle_enhancement(state):
 			bullet_orbit_accel *= 2
 		
 		if GameManager.player_upgrades['particulate_screen'] > 0:
-			get_node('Deflector').collision_layer = 8
+			laser_deflect = true
 			
 	if not compact_mode:
 		get_node("BulletHolder").position = Vector2.ZERO
@@ -154,6 +157,8 @@ func misc_update(delta):
 		teleport_timer -= delta
 		if teleport_timer < 0:
 			teleport()
+			
+	ai_move_timer -= delta
 
 
 func player_action():
@@ -175,17 +180,12 @@ func player_action():
 		start_teleport(get_global_mouse_position())
 
 func ai_move():
-	if randf() < 0.01:
+	if ai_move_timer < 0:
+		ai_move_timer = 1 + randf()*3
 		if randf() < 0.5 or target_velocity == Vector2.ZERO:
-			target_velocity = Vector2(randf(), randf())
+			target_velocity = Vector2(randf()-0.5, randf()-0.5)*100
 		else:
 			target_velocity = Vector2.ZERO
-	else:
-		var player_pos = GameManager.player.shape.global_position
-		var to_player = player_pos - shape.global_position
-		var dist = to_player.length()
-		if dist > 200:
-			target_velocity = astar.get_astar_target_velocity(shape.global_position, player_pos)
 
 func ai_action():
 	aim_direction = GameManager.player.global_position - global_position
@@ -293,7 +293,7 @@ func retaliate(delta):
 						var kb = 100*width/6.0 * (3 if bulwark_mode else 1)
 						var explosion_size = sqrt(damage)/10 if bulwark_mode else 0
 						
-						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, true, 'red', explosion_size, damage/2, damage*5, false, is_in_group('player'))
+						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, true, 'rail', explosion_size, damage/2, damage*5, false, is_in_group('player'))
 						b.despawn()
 						captured_bullets[i] = null
 						if is_in_group('player'):
@@ -334,7 +334,7 @@ func expel_compacted_bullets():
 			b.despawn()
 			
 		retaliating = false #End dumb hack
-		LaserBeam.shoot_laser(bullet_holder.global_position, dir, len(captured_bullets), self, damage, 1000, 0, true, 'archer')
+		LaserBeam.shoot_laser(bullet_holder.global_position, dir, len(captured_bullets), self, damage, 1000, 0, true, 'rail')
 		 
 	if bullet_orbit_speed > 6:
 		GameManager.spawn_explosion(bullet_holder.global_position, self, 0.4, 20, 300)
@@ -473,16 +473,22 @@ func calculate_bullet_formation():
 func on_laser_deflection(impact_point, dir, width, source, damage, kb, stun, piercing, style, explosion_size, explosion_damage, explosion_kb):
 	if not shield_active: return false
 	
-	var normal = (impact_point - global_position).angle()
-	var rel_angle = Util.signed_wrap(normal - shield_angle)
+	var normal = (impact_point - global_position).normalized()
+	var normal_angle = (impact_point - global_position).angle()
+	var rel_angle = Util.signed_wrap(normal_angle - shield_angle)
 		
 	if abs(rel_angle) < shield_width/2:
-		var reflection_angle = Util.signed_wrap(normal - ((-dir).angle() - normal))
+		if laser_deflect:
+			var reflection_angle = Util.signed_wrap(normal_angle - ((-dir).angle() - normal_angle))
+			
+			for i in range(3):
+				var beam_angle = reflection_angle + (0.5-randf())*PI/3
+				var beam_dir = Vector2(cos(beam_angle), sin(beam_angle))
+				LaserBeam.shoot_laser(impact_point, beam_dir, width/2.0, self, damage/3, kb/2, stun, piercing, style, explosion_size/2.0, explosion_damage/3, explosion_kb/2.0, true)
 		
-		for i in range(3):
-			var beam_angle = reflection_angle + (0.5-randf())*PI/3
-			var beam_dir = Vector2(cos(beam_angle), sin(beam_angle))
-			LaserBeam.shoot_laser(impact_point, beam_dir, width/2.0, self, damage/3, kb/2, stun, piercing, style, explosion_size/2.0, explosion_damage/3, explosion_kb/2.0, true)
+		else:
+			LaserBeam.shoot_laser(impact_point + dir, (dir + normal/2).normalized(), width/2.0, source, damage/3, kb/2, stun, piercing, style, explosion_size/2.0, explosion_damage/3, explosion_kb/2.0, true)
+			
 		return true
 	else:
 		return false

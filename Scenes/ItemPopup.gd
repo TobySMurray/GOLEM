@@ -29,7 +29,7 @@ func set_upgrade(upgrade):
 		'archer':
 			$TextureRect.texture = load('res://Art/Characters/Archer/icon.png')
 		'exterminator':
-			$TextureRect.texture = load('res://Art/Characters/Externimator/icon.png')
+			$TextureRect.texture = load('res://Art/Characters/Exterminator/icon.png')
 		'sorcerer':
 			$TextureRect.texture = load('res://Art/Characters/Sorcerer Bot/icon.png')
 		'saber':

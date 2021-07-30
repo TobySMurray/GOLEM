@@ -39,6 +39,7 @@ func _ready():
 	flip_offset = -53
 	max_special_cooldown = 1.5
 	healthbar.max_value = health
+	attack_cooldown_audio = load('res://Sounds/SoundEffects/ShotgunReload.wav')
 	init_healthbar()
 	score = 50
 	toggle_enhancement(false)
@@ -142,7 +143,7 @@ func shoot():
 		for i in range(num_shells):
 			var dir = aim_direction.rotated((randf()-0.5)*deg2rad(bullet_spread))
 			var speed = shot_speed * (1 + 0.2*(randf()-0.5))
-			Projectile.shoot_flak_bullet(self, global_position + aim_direction*bullet_spawn_offset, dir*speed, 30, 1, 4, num_pellets, 10, shot_speed*0.66, bullet_type)
+			Projectile.shoot_flak_bullet(self, global_position + aim_direction*bullet_spawn_offset, dir*speed, 30, 1, 4, num_pellets*1.5, 10, shot_speed*0.66, bullet_type)
 		
 	else:
 		for i in range(num_pellets*num_shells):

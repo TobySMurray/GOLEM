@@ -43,6 +43,7 @@ func _ready():
 	flip_offset = -46
 	max_attack_cooldown = 1
 	score = 50
+	attack_cooldown_audio = load('res://Sounds/SoundEffects/FlameReload.wav')
 	init_healthbar()
 	toggle_enhancement(false)
 	
@@ -214,7 +215,7 @@ func shoot_gas_cloud(vel):
 	cloud.global_position = global_position + Vector2(bullet_spawn_offset*(-1 if facing_left else 1), 0)
 	cloud.source = self
 	cloud.set_vel(vel)
-	get_node('/root/' + GameManager.level_name + '/Projectiles').add_child(cloud)
+	GameManager.projectiles_node.add_child(cloud)
 	return cloud
 	
 func detonate_gas_clouds():
@@ -231,14 +232,14 @@ func get_target_position():
 	if health < 25:
 		target_position = enemy_position
 	else:
-		var enemy_tile_position = GameManager.ground.world_to_map(enemy_position)
+		#var enemy_tile_position = GameManager.ground.world_to_map(enemy_position)
 		var target_tile_position
 		if aim_direction.x > 0:
-			target_tile_position = enemy_tile_position - Vector2(2, 0)
+			target_tile_position = enemy_position - Vector2(2, 0)
 		else:
-			target_tile_position = enemy_tile_position + Vector2(3, 0)
+			target_tile_position = enemy_position + Vector2(3, 0)
 			
-		target_position = GameManager.ground.map_to_world(target_tile_position)
+		target_position = target_tile_position
 		target_position.y = enemy_position.y
 		
 	return target_position

@@ -48,7 +48,7 @@ func _on_Hitbox_area_entered(area):
 			var side = sign(sin(velocity.angle_to(entity.global_position - global_position)))
 			
 			var kb_vel = velocity*mass/entity.mass
-			kb_vel += kb_vel.tangent()*side*(dist / (kb_vel.length()/10.0))
+			kb_vel += kb_vel.tangent()*side*(dist / (kb_vel.length()/15.0))
 			
 			entity.velocity += kb_vel
 			
