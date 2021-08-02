@@ -8,7 +8,7 @@ var tranquil_mode = true
 
 func _physics_process(delta):
 	if tranquil_mode:
-		GameManager.player = null
+		GameManager.player_hidden = true
 	
 func _input(ev):
 	if active and ev is InputEventKey and ev.pressed and ev.scancode == KEY_E and not ev.echo:
@@ -17,7 +17,7 @@ func _input(ev):
 			tranquil_mode = false
 			sprite.material.set_shader_param('color', Color.red)
 			label.text = ':('
-			GameManager.player == GameManager.true_player
+			GameManager.player_hidden = false
 		else:
 			print('Retaliation disabled')
 			tranquil_mode = true
