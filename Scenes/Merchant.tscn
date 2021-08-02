@@ -7,10 +7,11 @@
 [ext_resource path="res://Sounds/SoundEffects/step.wav" type="AudioStream" id=5]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Art/Fonts/Text.tres" type="DynamicFont" id=7]
-[ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Particles/EVParticles.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=11]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"

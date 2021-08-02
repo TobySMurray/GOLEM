@@ -11,7 +11,7 @@ onready var transcender_curve = Curve2D.new()
 onready var transcender = self.get_parent().get_node("Transcender")
 onready var healthbar = $HealthBar
 onready var EV_particles = $EVParticles
-onready var astar = self.get_parent().get_node("AStar")
+#onready var astar = self.get_parent().get_node("AStar")
 onready var slow_audio = $BloodMoon/Slow
 onready var stopped_audio = $BloodMoon/Stopped
 onready var speed_audio = $BloodMoon/Speed
@@ -23,9 +23,10 @@ onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/Sco
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
 onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay")
 
-onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/reload.wav')
+onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/relaod.wav')
 
 var enemy_type = ""
+var score = 0
 var health = 100
 var max_speed = 100
 var mass = 1
@@ -41,10 +42,10 @@ var flash_color = Color.white
 
 var facing_left = false
 var attacking = false
-var about_to_swap = false
-var score = 0
 
-var game_over = false
+
+var about_to_swap = false
+var swap_timer = 0
 
 var is_boss = false
 var enemy_evolution_level = 0
@@ -126,7 +127,7 @@ func _physics_process(delta):
 						light_beam.rotation = aim_direction.angle() - PI/2
 				
 			if about_to_swap:
-				choose_swap_target()
+				choose_swap_target(delta)
 			else:
 				if not dead and not stunned:
 					player_action()
@@ -201,11 +202,18 @@ func ai_move():
 func ai_action():
 	pass
 		
-func choose_swap_target():
+func choose_swap_target(delta):
 	swap_cursor.global_position = get_global_mouse_position()
 	
 	var swapbar = GameManager.swap_bar
 	GameManager.camera.lerp_zoom(1 + (swapbar.control_timer - swapbar.swap_threshold)/swapbar.max_control_time)
+	
+	swap_timer -= delta/max(GameManager.timescale, 0.01)
+	if swap_timer < 0:
+		GameManager.swap_bar.set_swap_threshold(GameManager.swap_bar.swap_threshold + delta/max(GameManager.timescale, 0.01))
+		if not GameManager.swap_bar.sparks.emitting:
+			GameManager.swap_bar.sparks.emitting = true
+			GameManager.swap_bar.rising_audio.play()
 	
 	if GameManager.swappable:
 		if Input.is_action_just_released("swap"):
@@ -219,6 +227,9 @@ func choose_swap_target():
 		else:
 			draw_transcender()
 			
+	else:
+		toggle_swap(false)
+			
 		
 func animate():
 	if aim_direction.x > 0:
@@ -231,12 +242,15 @@ func animate():
 		sprite.offset.x = flip_offset
 
 	if abs(velocity.x) < 20 and abs(velocity.y) < 20 and !attacking:
-		animplayer.play(idle_anim)
+		play_animation(idle_anim)
 	elif !attacking:
-		animplayer.play(walk_anim)
+		play_animation(walk_anim)
 		
 	#sprite.modulate = lerp(sprite.modulate, base_color, 0.2)
-		
+	
+func play_animation(anim_name):
+		if not dead and not stunned:
+			animplayer.play(anim_name)
 		
 func shoot_bullet(vel, damage = 10, mass = 0.25, lifetime = 10, type = "pellet", stun = 0, size = Vector2.ONE):
 	return Projectile.shoot_bullet(self, global_position + aim_direction*bullet_spawn_offset, vel, damage, mass, lifetime, type, stun, size)
@@ -346,11 +360,15 @@ func toggle_swap(state):
 		return
 		
 	about_to_swap = state
+	GameManager.swap_bar.sparks.emitting = false
+	GameManager.swap_bar.rising_audio.stop()
+	
 	if(about_to_swap):
 		GameManager.lerp_to_timescale(0.1)
 		slow_audio.play()
 		swap_cursor.moon_visible = true
-		choose_swap_target()
+		swap_timer = 1.5
+		#choose_swap_target()
 	else:
 		GameManager.camera.lerp_zoom(1)
 		GameManager.lerp_to_timescale(1)

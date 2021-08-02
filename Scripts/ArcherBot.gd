@@ -153,13 +153,13 @@ func charge_attack():
 	max_speed = speed_while_charging
 	
 	charge_timer = charge_time
-	animplayer.play("Ready")
+	play_animation("Ready")
 	sight_beam.play("Flash")
 	sight_beam.modulate = Color(1, 0, 0, 0.5)
 	
 func release_attack():
 	charging = false
-	animplayer.play("Attack")
+	play_animation("Attack")
 	
 	sight_beam.stop()
 	sight_beam.frame = 1
@@ -200,7 +200,7 @@ func special():
 	charging = false
 	sight_beam.stop()
 	sight_beam.frame = 1
-	animplayer.play("Special")
+	play_animation("Special")
 	
 func toggle_stealth(state):
 	stealth_mode = state
@@ -256,7 +256,7 @@ func _on_Hitbox_area_entered(area):
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Ready":
-		animplayer.play("Charge")
+		play_animation("Charge")
 		
 	elif anim_name == "Attack" or anim_name == "Special":
 		attacking = false

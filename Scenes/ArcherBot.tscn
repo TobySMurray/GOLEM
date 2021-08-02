@@ -21,10 +21,11 @@
 [ext_resource path="res://Sounds/SoundEffects/chargeshot.wav" type="AudioStream" id=19]
 [ext_resource path="res://Sounds/SoundEffects/warningbeep.wav" type="AudioStream" id=20]
 [ext_resource path="res://Sounds/SoundEffects/step2.wav" type="AudioStream" id=21]
-[ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Scenes/Particles/EVParticles.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=24]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=25]
+
 
 
 [sub_resource type="Animation" id=1]

@@ -198,12 +198,12 @@ func start_burst():
 		burst_timer = 2.0
 		attacking = true
 		charge_audio.play()
-		#animplayer.play('Charge')
+		#play_animation('Charge')
 	
 	
 func shoot():
 	audio.play()
-	animplayer.play("Attack")
+	play_animation("Attack")
 	animplayer.seek(0)
 	burst_count -= 1
 	attacking = true

@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Art/Fonts/C&C Red Alert [INET].ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scripts/TranquilityBeacon.gd" type="Script" id=2]
+[ext_resource path="res://Art/special.png" type="Texture" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 12.0
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(1, 1, 1, 1);
+uniform float intensity = 0.0;
+
+void fragment(){
+	vec4 sprite_c = texture(TEXTURE, UV);
+	vec4 c = mix(sprite_c, color, intensity);
+	c.a = min(sprite_c.a, color.a);
+	COLOR = c;
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = SubResource( 2 )
+shader_param/color = Color( 0, 1, 0, 1 )
+shader_param/intensity = 1.0
+
+[sub_resource type="DynamicFont" id=4]
+resource_local_to_scene = true
+size = 22
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[node name="TranquilityBeacon" type="Area2D"]
+collision_mask = 5
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 3 )
+scale = Vector2( 0.04, 0.04 )
+texture = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="."]
+anchor_bottom = 0.527
+margin_left = -8.0
+margin_top = -15.0
+margin_right = 12.0
+margin_bottom = 16.0
+rect_pivot_offset = Vector2( 10, 0 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = ":)a"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="body_entered" from="." to="." method="_on_TranquilityBeacon_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_TranquilityBeacon_body_exited"]

@@ -2,7 +2,7 @@ extends Node
 
 onready var explosion = load("res://Scenes/Explosion.tscn")
 onready var boss_marker = load("res://Scenes/BossMarker.tscn").instance()
-onready var splatter_particles = load("res://Scenes/SplatterParticles.tscn")
+onready var splatter_particles = load("res://Scenes/Particles/SplatterParticles.tscn")
 onready var upgrade_popup = load('res://Scenes/ItemPopup.tscn').instance()
 
 onready var shotgun_bot = load("res://Scenes/ShotgunnerBot.tscn")
@@ -46,7 +46,7 @@ const levels = {
 	"TestLevel": {
 		'map_bounds': Rect2(-250, -250, 500, 500),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
-		'enemy_density': 10,
+		'enemy_density': 0,
 		'pace': 0,
 		'dark': false,
 		'music': 'cuuuu b3.wav',
@@ -120,6 +120,9 @@ var total_score = 0
 var variety_bonus = 1.0
 var swap_history = ['merchant']
 var next_item_threshold = 2
+
+var hyperdeath_mode = false
+var hyperdeath_start_time = 0
 
 var kills = 0
 
@@ -240,7 +243,7 @@ func reset():
 	
 	for key in player_upgrades:
 	#	if randf() < 0.75: player_upgrades[key] += 1
-		#player_upgrades[key] = 0
+		player_upgrades[key] = 0
 		pass
 					
 			
@@ -281,20 +284,43 @@ func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):
 	spray.emitting = true
 	
 func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
-	var spawning_boss = allow_boss and not cur_boss and total_score > evolution_thresholds[evolution_level]
-	spawn_enemy(choose_weighted(enemy_scenes.keys(), level['enemy_weights']), spawn_point, spawning_boss)
+	Util.remove_invalid(enemies)
+	var spawn_near_player = true
+	for enemy in enemies:
+		if is_instance_valid(enemy):
+			var dist = dist_offscreen(enemy.global_position)
+			if dist < 50:
+				if randf() + dist/100 < 0.5:
+					spawn_near_player = false
+					break
+				
+	if spawn_near_player:
+		print("Spawning near player")
+		var bounds = camera_bounds()*1.5 if swap_bar.control_timer < 15 else camera_bounds()*1.2
+		var origin = Vector2(camera.position.x + camera.offset.x - bounds.x, camera.position.y + camera.offset.y - bounds.y)
+		spawn_point = Rect2(origin.x, origin.y, bounds.x*2, bounds.y*2)
+		
+	var boss_lv = 0
+	if hyperdeath_mode:
+		if randf() < (game_time - hyperdeath_start_time) / (game_time - hyperdeath_start_time + 600):
+			boss_lv = int(1 + randf()*(game_time - hyperdeath_start_time)/60)
+	else:
+		if allow_boss and not cur_boss and total_score > evolution_thresholds[evolution_level]:
+			boss_lv = evolution_level + 1
+		
+	spawn_enemy(choose_weighted(enemy_scenes.keys(), level['enemy_weights']), spawn_point, boss_lv)
 	
-func spawn_enemy(type, spawn_point = level['map_bounds'], boss = false):
+func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
 	var new_enemy = enemy_scenes[type].instance().duplicate()
-	enemy_count += 1
 	new_enemy.add_to_group("enemy")
 	
-	if boss:
-		cur_boss = new_enemy
+	if EVL > 0:
 		new_enemy.is_boss = true
-		new_enemy.enemy_evolution_level = evolution_level+1
+		new_enemy.enemy_evolution_level = EVL
 		new_enemy.add_swap_shield(new_enemy.health*(evolution_level*0.5 + 1.5))
 		new_enemy.scale = Vector2(1.25, 1.25)
+		if not hyperdeath_mode:
+			cur_boss = new_enemy
 		
 	else:
 		var d = game_time/30.0*level["pace"] - 2
@@ -303,8 +329,11 @@ func spawn_enemy(type, spawn_point = level['map_bounds'], boss = false):
 			
 	if typeof(spawn_point) != TYPE_VECTOR2:
 		spawn_point = random_map_point(spawn_point, true)
-		if not spawn_point: return null
-	
+		if not spawn_point:
+			print("SPAWN FAILED")
+			return null
+			
+	enemy_count += 1
 	enemies.append(new_enemy)
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
 	get_node("/root/"+ level_name +"/WorldObjects/Characters").add_child(new_enemy)
@@ -383,8 +412,12 @@ func set_evolution_level(lv):
 	game_HUD.get_node("EVLShake").get_node("EVL").express_hype()
 	game_HUD.get_node("EVLShake").set_trauma(evolution_level*2)
 	
+	if lv >= 6 and not hyperdeath_mode:
+		hyperdeath_mode = true
+		hyperdeath_start_time = game_time
+	
 func update_boss_marker():
-	if is_point_offscreen(cur_boss.global_position) and cur_boss.health > 0:
+	if dist_offscreen(cur_boss.global_position) > 0 and cur_boss.health > 0:
 		boss_marker.visible = int(game_time*6)%2 == 0
 		
 		var screen_size = camera_bounds()
@@ -436,12 +469,12 @@ func enemy_drought_bailout():
 	var candidate = null
 	for enemy in enemies:
 		if is_instance_valid(enemy):
-			if enemy != player and not enemy.is_boss and ((abs(enemy.global_position.x - player.global_position.x) < 300 and abs(enemy.global_position.y - player.global_position.y) < 200) or not is_point_offscreen(enemy.global_position)):
+			if enemy != player and not enemy.is_boss and ((abs(enemy.global_position.x - player.global_position.x) < 300 and abs(enemy.global_position.y - player.global_position.y) < 200) or dist_offscreen(enemy.global_position) < 0):
 				drought = false
 				candidate = enemy
 				break
 				
-			if not candidate and enemy != player and not enemy.is_boss and is_point_offscreen(enemy.global_position, 20):
+			if not candidate and enemy != player and not enemy.is_boss and dist_offscreen(enemy.global_position) > 20:
 				candidate = enemy
 			
 	if drought:
@@ -450,8 +483,9 @@ func enemy_drought_bailout():
 		var spawn_needed = not candidate
 		if not candidate:
 			candidate = spawn_random_enemy(false)
-			candidate.swap_shield_health = 0
-			candidate.update_swap_shield()
+			if candidate:
+				candidate.swap_shield_health = 0
+				candidate.update_swap_shield()
 			
 		var point = random_map_point(placement_bounds, true)	
 		if not candidate or not point:
@@ -476,7 +510,7 @@ func random_map_point(bounds = level['map_bounds'], off_screen_required = false)
 	while(i < 100):
 		i += 1
 		var point = Vector2(bounds.position.x + randf()*bounds.size.x, bounds.position.y + randf()*bounds.size.y)
-		if is_point_in_bounds(point) and (not off_screen_required or is_point_offscreen(point, 20)):
+		if is_point_in_bounds(point) and (not off_screen_required or dist_offscreen(point) > 20):
 			return point
 		
 func is_point_in_bounds(global_point):
@@ -486,10 +520,10 @@ func is_point_in_bounds(global_point):
 	
 	return ground_points in ground.get_used_cells() and not marble_point in wall.get_used_cells() and not obstacles_point in obstacles.get_used_cells()
 	
-func is_point_offscreen(point, margin = 0):
+func dist_offscreen(point):
 	var bounds = camera_bounds()
 	var from_camera = point - camera.global_position - camera.offset
-	return abs(from_camera.x) > bounds.x + margin or abs(from_camera.y) > bounds.y + margin
+	return max(abs(from_camera.x) - bounds.x, abs(from_camera.y) - bounds.y)
 	
 func camera_bounds():
 	var ctrans = camera.get_canvas_transform()

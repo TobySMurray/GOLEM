@@ -15,10 +15,11 @@
 [ext_resource path="res://Sounds/SoundEffects/charge1.wav" type="AudioStream" id=13]
 [ext_resource path="res://Sounds/SoundEffects/chaindie.wav" type="AudioStream" id=14]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/Particles/EVParticles.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=18]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=19]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"

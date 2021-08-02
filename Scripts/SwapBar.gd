@@ -1,13 +1,25 @@
 extends TextureProgress
 
+onready var threshold = $Threshold
+onready var warning_audio = $WarningAudio
+onready var unlocked_audio = $UnlockedAudio
+onready var rising_audio = $RisingAudio
+onready var sparks = $Sparks
+#onready var warning_audio = preload("res://Sounds/SoundEffects/warning.wav")
+#onready var ready_audio = preload("res://Sounds/SoundEffects/moonready.wav")
+#onready var rising_audio = preload('res://Sounds/SoundEffects/ElectricNoiseLoop.wav')
+
+onready var item_indicator = $ItemProgress
+onready var Static = $Static
+
 var enabled = true
 var increase_rate = 1.0
 var max_control_time = 20.0
 var init_swap_threshold = 1
 var bar_min_value = 86
 var bar_max_value = 925
-var thresh_min_value = 81
-var thresh_max_value = 928
+var thresh_min_value = 112
+var thresh_max_value = 910 
 
 var control_timer = 0.0
 var swap_threshold = 0.0
@@ -16,15 +28,6 @@ var unlocked_last_frame = false
 var beep_timer = 0
 
 var item_count = 2
-
-onready var threshold = $Threshold
-onready var warning_audio = $WarningAudio
-onready var unlocked_audio = $UnlockedAudio
-onready var warning = preload("res://Sounds/SoundEffects/warning.wav")
-onready var ready = preload("res://Sounds/SoundEffects/moonready.wav")
-
-onready var item_indicator = $ItemProgress
-onready var Static = $Static
 
 var colors = [Color(1,0.8,0.8,1),Color(1,0.5,0.5,1), Color(1,1,1,1)]
 		
@@ -40,6 +43,8 @@ func _physics_process(delta):
 	if enabled:
 		control_timer = min(control_timer + delta*increase_rate, max_control_time)
 		beep_timer -= 0.016
+		sparks.speed_scale = 1.0/max(GameManager.timescale, 0.01)
+		
 		if not GameManager.true_player or not GameManager.true_player.dead:
 			self.value = (control_timer / max_control_time)*(bar_max_value - bar_min_value) + bar_min_value
 			GameManager.swappable = control_timer > swap_threshold
@@ -84,6 +89,7 @@ func on_GM_swap():
 func set_swap_threshold(value):
 	swap_threshold = clamp(value, 0, max_control_time)
 	threshold.value = (swap_threshold / max_control_time)*(thresh_max_value - thresh_min_value) + thresh_min_value
+	sparks.position.x = 50 + swap_threshold/max_control_time*504
 	print(threshold.value)
 	print(swap_threshold)
 	

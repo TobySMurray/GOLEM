@@ -19,7 +19,7 @@ func _process(delta):
 		
 func _input(ev):
 	if active and ev is InputEventKey and ev.pressed and ev.scancode == KEY_E and not ev.echo:
-		GameManager.call_deferred('spawn_enemy', enemy, Vector2(randf()*50 - 25, randf()*50 - 25))
+		GameManager.call_deferred('spawn_enemy', enemy, Vector2(randf()*100 - 50, randf()*100 - 50))
 		
 func on_swap():
 	sprite.material.set_shader_param('intensity', 1)

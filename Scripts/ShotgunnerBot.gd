@@ -9,11 +9,13 @@ onready var melee_collider = $MeleeCollider/CollisionShape2D
 var shot_speed
 var num_pellets
 var reload_time
+var bash_damage
 
 var walk_speed_level = [110, 120, 130, 140, 150, 160, 170]
 var shot_speed_level = [175, 350, 425, 500, 575, 650, 700]
 var num_pellets_level = [6, 6, 7, 8, 9, 10, 12, 14]
 var reload_time_level = [1.33, 1.2, 1.1, 1, 0.95, 0.9, 0.85]
+var bash_damage_level = [20, 20, 25, 30, 35, 40, 45]
 
 var num_shells = 1
 var bullet_spread = 15
@@ -37,9 +39,9 @@ func _ready():
 	max_speed = 120
 	bullet_spawn_offset = 10
 	flip_offset = -53
-	max_special_cooldown = 1.5
+	max_special_cooldown = 1.2
 	healthbar.max_value = health
-	attack_cooldown_audio = load('res://Sounds/SoundEffects/ShotgunReload.wav')
+	attack_cooldown_audio = load('res://Sounds/SoundEffects/ShotgunReloadLight.wav')
 	init_healthbar()
 	score = 50
 	toggle_enhancement(false)
@@ -52,6 +54,8 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_level[level]
 	num_pellets = num_pellets_level[level]
 	reload_time = reload_time_level[level]
+	bash_damage = bash_damage_level[level]
+	
 	num_shells = 1
 	bullet_type = 'pellet'
 	bullet_kb = 0.3
@@ -129,7 +133,7 @@ func shoot():
 	gun_audio.play()
 	attacking = true
 	attack_cooldown = reload_time
-	animplayer.play("Shoot")
+	play_animation("Shoot")
 	show_muzzle_flash()
 	
 	velocity -= aim_direction*recoil
@@ -161,13 +165,13 @@ func start_bash():
 	attacking = true
 	lock_aim = true
 	special_cooldown = max_special_cooldown
-	animplayer.play('Special')
+	play_animation('Special')
 	
 func bash():
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.4)
 	velocity.x += 250*sign(aim_direction.x)
-	melee_attack(melee_collider, 20, 1000, 1, melee_stun)
+	melee_attack(melee_collider, bash_damage, 1000, 1, melee_stun)
 	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":

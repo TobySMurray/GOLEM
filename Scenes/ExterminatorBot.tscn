@@ -16,12 +16,12 @@
 [ext_resource path="res://Sounds/SoundEffects/teleport.wav" type="AudioStream" id=14]
 [ext_resource path="res://Sounds/SoundEffects/step2.wav" type="AudioStream" id=15]
 [ext_resource path="res://Art/Shields/QuarterCircle.png" type="Texture" id=16]
-[ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/Particles/EVParticles.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=19]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=20]
 [ext_resource path="res://Art/Characters/Exterminator/appear_tweaked.png" type="Texture" id=21]
-[ext_resource path="res://Sounds/SoundEffects/WubloopLOOP.wav" type="AudioStream" id=22]
+[ext_resource path="res://Sounds/SoundEffects/RevUpSteam.wav" type="AudioStream" id=22]
 [ext_resource path="res://Sounds/SoundEffects/Zing.wav" type="AudioStream" id=23]
 
 [sub_resource type="CapsuleShape2D" id=1]
@@ -607,7 +607,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 39
+frame = 12
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 12 )
@@ -617,7 +617,6 @@ bus = "Effects"
 
 [node name="RevUpAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 22 )
-volume_db = -3.0
 max_distance = 500.0
 attenuation = 1.5
 bus = "Effects"

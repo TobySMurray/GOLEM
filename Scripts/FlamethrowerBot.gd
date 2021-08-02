@@ -11,7 +11,7 @@ var fire_volume
 
 
 var walk_speed_levels = [100, 115, 130, 145, 160, 175, 190]
-var shot_speed_levels = [200, 175, 200, 225, 250, 280, 310]
+var shot_speed_levels = [200, 200, 220, 240, 260, 280, 310]
 var shot_spread_levels = [25, 15, 20, 25, 30, 40, 50]
 var fire_volume_levels = [4, 4.8, 5.6, 6.2, 8,4, 9.6, 11.2]
 
@@ -129,25 +129,7 @@ func ai_move():
 	var target_dist = (target_position - global_position).length()
 	
 	if target_dist > 300:
-		
 		target_position = global_position
-		if ai_retarget_timer < 0 and false:
-			ai_retarget_timer = 1
-			var path = astar.find_path(global_position + foot_offset, target_position)
-
-			if len(path) == 0:
-				target_position = global_position
-				
-			else:
-				if GameManager.ground.world_to_map(path[0]) == GameManager.ground.world_to_map(global_position):
-					if len(path) == 1:
-						target_position = path[0]
-					else:
-						target_position = path[1]
-				else:
-					target_position = path[0]
-					
-			target_velocity = target_position - global_position
 	
 	else:
 		target_velocity = target_position - global_position
@@ -172,7 +154,7 @@ func attack():
 		animplayer.playback_speed = 0.5 / startup_lag
 		if recoil > 0:
 			accel = 3
-	animplayer.play("Charge")
+	play_animation("Charge")
 	flamethrower_audio.play()
 	
 func stop_attacking():
@@ -180,7 +162,7 @@ func stop_attacking():
 	attack_cooldown = 1
 	if is_in_group('player'):
 		animplayer.playback_speed = 0.5 / startup_lag
-	animplayer.play("Cooldown")
+	play_animation("Cooldown")
 	flamethrower_audio.stop()
 	
 func flamethrower():
@@ -189,9 +171,9 @@ func flamethrower():
 	var limited_aim_direction = limit_aim_direction(aim_direction)
 	var pellets = ceil(max(fire_volume*pressure, 1))
 	var spread = shot_spread*(0.5 + pressure*0.5)
-	if startup_spurt and pressure == 1:
-		pellets *= 3
-		spread *= 2
+	if startup_spurt and pressure > 0.95:
+		pellets *= 2
+		spread = max(spread*2, 40)
 	
 	shot_timer = 0.2/(pressure+1)
 	
@@ -270,7 +252,7 @@ func explode():
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
-		animplayer.play("Attack")
+		play_animation("Attack")
 		flamethrowing = true
 		if is_in_group('player'):
 			animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level

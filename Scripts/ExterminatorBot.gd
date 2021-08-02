@@ -244,7 +244,7 @@ func toggle_retaliation(state):
 			mass = 10
 			retaliation_locked = true
 			expulsion_timer = 0.4/(GameManager.player_upgrades['high-energy_orbit'] + 1)
-			animplayer.play('Entrench')
+			play_animation('Entrench')
 			get_node('Hitbox').position.x = -9*sign(aim_direction.x)
 			
 	else:
@@ -262,7 +262,7 @@ func toggle_retaliation(state):
 
 
 func retaliate(delta):
-	rev_audio.pitch_scale = bullet_orbit_speed/5.0
+	#rev_audio.pitch_scale = 0.9 + bullet_orbit_speed/30.0
 	
 	if compact_mode:
 		get_node("BulletHolder").position = lerp(get_node("BulletHolder").position, aim_direction.normalized()*50, 5*delta)
@@ -354,7 +354,7 @@ func start_teleport(point):
 		teleport_timer = 0.4
 		lock_aim = true
 		max_speed = 0
-		animplayer.play('Vanish')
+		play_animation('Vanish')
 	
 func teleport():
 	charging_tp = false
@@ -369,7 +369,7 @@ func teleport():
 	
 	global_position = teleport_end_point
 	invincible = true
-	animplayer.play("Appear")
+	play_animation("Appear")
 	teleport_sprite.global_position = teleport_start_point
 	
 func apply_shield_effects(delta):

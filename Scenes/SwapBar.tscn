@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scripts/SwapBar.gd" type="Script" id=1]
 [ext_resource path="res://Art/NewSwap.png" type="Texture" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://Art/swap_item_progress.png" type="Texture" id=10]
 [ext_resource path="res://Shaders/Noise.tres" type="Material" id=11]
 [ext_resource path="res://Art/Vignette.png" type="Texture" id=12]
+[ext_resource path="res://Scenes/Particles/HeavySparkParticles.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Sounds/SoundEffects/ElectricNoiseLoop.wav" type="AudioStream" id=14]
 
 [node name="SwapBar" type="TextureProgress"]
 anchor_top = 1.0
@@ -23,6 +25,7 @@ margin_right = 71.5569
 margin_bottom = 12.3471
 rect_scale = Vector2( 0.75, 0.75 )
 max_value = 1000.0
+value = 925.0
 texture_over = ExtResource( 2 )
 texture_progress = ExtResource( 4 )
 tint_progress = Color( 0.584314, 0.0196078, 0.0196078, 1 )
@@ -70,6 +73,10 @@ volume_db = -14.0
 stream = ExtResource( 5 )
 volume_db = -2.0
 
+[node name="RisingAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+volume_db = -6.0
+
 [node name="Threshold" type="TextureProgress" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -79,7 +86,7 @@ margin_right = 540.0
 margin_bottom = 36.0
 rect_scale = Vector2( 1.055, 1.1 )
 max_value = 1000.0
-value = 1000.0
+value = 910.0
 texture_progress = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -97,3 +104,8 @@ stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Sparks" parent="." instance=ExtResource( 13 )]
+position = Vector2( 554, 44 )
+z_index = 2
+local_coords = false

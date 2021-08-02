@@ -13,7 +13,7 @@ var smack_recharge = 0
 var smack_speed = 0
 
 var walk_speed_levels = [80, 120, 135, 150, 165, 180, 195]
-var smack_recharge_levels = [1.1, 1, 0.85, 0.7, 0.6, 0.5, 0.4]
+var smack_recharge_levels = [1.1, 0.75, 0.65, 0.55, 0.5, 0.45, 0.4]
 var smack_speed_levels = [300, 400, 450, 500, 533, 566, 600]
 
 var orb_size = 1.0
@@ -139,6 +139,7 @@ func misc_update(delta):
 					if is_instance_valid(orbs[i]):
 						orbs[i].velocity = stands[i].next_smack_vel
 						orbs[i].decel_timer = 0
+						stands[i].get_node('AudioStreamPlayer2D').play()
 						if is_in_group("player"):
 							GameManager.camera.set_trauma(0.5)
 							
@@ -156,12 +157,12 @@ func player_action():
 					
 	elif Input.is_action_just_pressed('attack1') and attack_cooldown < 0:
 		attacking = true
-		animplayer.play("Attack")
+		play_animation("Attack")
 			
 	if Input.is_action_just_pressed('attack2') and special_cooldown < 0:
 		special_cooldown = 2
 		attacking = true
-		animplayer.play("Special")
+		play_animation("Special")
 		
 
 func ai_move():
@@ -197,7 +198,7 @@ func ai_action():
 			if orb_dist > 500 and special_cooldown < 0:
 				special_cooldown = 3
 				attacking = true
-				animplayer.play("Special")
+				play_animation("Special")
 				
 			elif orb_dist > 50:
 				attack_cooldown = smack_recharge*1.5
@@ -206,7 +207,7 @@ func ai_action():
 		elif aim_direction.length() < 400:
 			attack_cooldown = smack_recharge
 			attacking = true
-			animplayer.play("Attack")
+			play_animation("Attack")
 			
 			
 func launch_orbs():
@@ -244,7 +245,7 @@ func smack_orbs(target_pos):
 		GameManager.camera.set_trauma(0.4)
 		
 func accelerate_orbs(target_pos, delta):
-	var accel = smack_speed*1.5*delta
+	var accel = smack_speed*2*delta
 	var offset = (target_pos - global_position).normalized().rotated(PI/2)*5*(num_orbs+1) if num_orbs > 1 else Vector2.ZERO
 	var offset_delta_angle = PI*2/num_orbs
 	
@@ -271,7 +272,7 @@ func accelerate_orbs(target_pos, delta):
 			
 			var delta_vel = orb.velocity - init_vel*0.5
 			var delta_speed = max(delta_vel.length(), 0.0001)
-			stands[i].conjure(orb.global_position - (delta_vel/delta_speed)*(30*orb_size - delta_angle*30), sign(delta_vel.x), false)
+			stands[i].conjure(orb.global_position - (delta_vel/delta_speed)*(15 + orb_size*15 - delta_angle*30), sign(delta_vel.x), false)
 			
 func decelerate_orbs():
 	for i in range(num_orbs):

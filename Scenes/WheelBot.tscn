@@ -16,12 +16,13 @@
 [ext_resource path="res://Sounds/SoundEffects/wheel2.wav" type="AudioStream" id=14]
 [ext_resource path="res://Sounds/SoundEffects/wheeldie.wav" type="AudioStream" id=15]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Scenes/EVParticles.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Scenes/Particles/EVParticles.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=19]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=20]
 [ext_resource path="res://Art/LockOnTarget-sheet.png" type="Texture" id=21]
 [ext_resource path="res://Sounds/SoundEffects/SawArp.wav" type="AudioStream" id=22]
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"

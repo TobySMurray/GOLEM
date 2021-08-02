@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/DungeonGround.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/Tilesets/DungeonWall.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Debug/SummonButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Debug/EVLButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Debug/TranquilityBeacon.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Transcender.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/Fog.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/Tilesets/WallWalkUnder.tscn" type="PackedScene" id=22]
@@ -135,7 +136,7 @@ script = ExtResource( 35 )
 
 [node name="Fog" parent="ParallaxBackground" instance=ExtResource( 20 )]
 material = SubResource( 2 )
-position = Vector2( 790.2, 505.742 )
+position = Vector2( 768, 504 )
 
 [node name="BackgroundModulate" type="CanvasModulate" parent="ParallaxBackground"]
 
@@ -213,7 +214,10 @@ position = Vector2( -200, 168 )
 enemy = "saber"
 
 [node name="EVLButton" parent="WorldObjects" instance=ExtResource( 8 )]
-position = Vector2( -0.561279, 264.339 )
+position = Vector2( 40, 264 )
+
+[node name="TranquilityBeacon" parent="WorldObjects" instance=ExtResource( 9 )]
+position = Vector2( -40, 264 )
 
 [node name="Characters" type="YSort" parent="WorldObjects"]
 
@@ -223,6 +227,8 @@ position = Vector2( -0.561279, 264.339 )
 "player",
 ] instance=ExtResource( 2 )]
 position = Vector2( -150, 0 )
+
+[node name="Projectiles" type="Node2D" parent="."]
 
 [node name="WallWalkUnder" parent="." instance=ExtResource( 22 )]
 position = Vector2( -8, -40 )

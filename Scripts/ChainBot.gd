@@ -165,13 +165,13 @@ func charge():
 	lock_aim = !footwork
 	max_speed = speed_while_charging
 	charge_level = init_charge
-	animplayer.play("Charge")
+	play_animation("Charge")
 	
 func attack():
 	charging = false
 	lock_aim = true
 	attack_cooldown = 1
-	animplayer.play("Attack")
+	play_animation("Attack")
 	
 
 func swing_attack():

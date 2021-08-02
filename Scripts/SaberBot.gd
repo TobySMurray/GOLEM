@@ -289,7 +289,7 @@ func end_kill_mode():
 func slash(damage):
 	attacking = true
 	kill_mode_timer = 1
-	animplayer.play("Special")
+	play_animation("Special")
 	slash_collider.position.x = -10 if facing_left else 10
 	melee_attack(slash_collider, damage, 1000, 5)
 	set_invincibility_time(0.25)
@@ -310,7 +310,7 @@ func end_slash():
 func start_unsheath():
 	lock_aim = true
 	attacking = true
-	animplayer.play("Unsheath")
+	play_animation("Unsheath")
 	
 func recall_sabers():
 	for ring in saber_rings:
@@ -328,7 +328,7 @@ func start_sheath():
 		saber_rings[i] = null
 		
 	sabers_sheathed = true
-	animplayer.play("Sheath")
+	play_animation("Sheath")
 	
 func on_sabers_sheathed():
 	lock_aim = false

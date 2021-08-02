@@ -17,4 +17,4 @@ func _on_QuitButton_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	Options.level = "Menu"
 	Options.choose_music()
-	get_tree().change_scene("res://Scenes//Menus/StartMenu.tscn")
+	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")
