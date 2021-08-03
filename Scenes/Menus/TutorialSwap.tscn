@@ -97,7 +97,7 @@ next = "res://Scenes/Menus/TutorialThresh.tscn"
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 7
+frame = 13
 playing = true
 
 [node name="Back" type="Button" parent="."]

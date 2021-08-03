@@ -220,7 +220,9 @@ tile_data = PoolIntArray( -524295, 0, 3, -524294, 0, 5, -458761, 0, 10, -458760,
 [node name="WorldObjects" type="YSort" parent="."]
 
 [node name="LevelLoadTrigger" parent="WorldObjects" instance=ExtResource( 30 )]
+visible = false
 position = Vector2( 45.3845, 322.363 )
+accessible = false
 
 [node name="Characters" type="YSort" parent="WorldObjects"]
 

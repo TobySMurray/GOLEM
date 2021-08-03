@@ -95,7 +95,7 @@ back = "res://Scenes/Menus/TutorialShields.tscn"
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 12
+frame = 2
 playing = true
 
 [node name="Back" type="Button" parent="."]
@@ -125,8 +125,8 @@ text = "Killing enemies increases your score. By chaining kills, setting up comb
 and using different golems, you can increase your multiplier.
 Once you have reached a high enough score,
 a boss will spawn on the map, indicated by a skull icon.
-Break the bosses shield and swap into them to progress to the next
-Evolution Level, gaining more power and unlocking the true power of the golems."
+Break the boss's shield and swap into them to progress to the next
+Evolution Level, gaining more power and unlocking the true potential of the golems."
 align = 1
 valign = 1
 __meta__ = {

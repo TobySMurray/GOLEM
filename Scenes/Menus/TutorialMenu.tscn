@@ -94,7 +94,7 @@ next = "res://Scenes/Menus/TutorialSwap.tscn"
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 12
+frame = 11
 playing = true
 
 [node name="Back" type="Button" parent="."]

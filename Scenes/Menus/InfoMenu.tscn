@@ -86,7 +86,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 6
+frame = 8
 playing = true
 
 [node name="Back" type="Button" parent="."]

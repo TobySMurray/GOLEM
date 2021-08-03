@@ -18,6 +18,8 @@ func _ready():
 	score = 0
 	max_attack_cooldown = 1
 	attack_cooldown = 0
+	label.visible = false
+	release.visible = false
 	
 func _physics_process(delta):
 	attack_cooldown = -1

@@ -98,7 +98,7 @@ next = "res://Scenes/Menus/TutorialItems.tscn"
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 9
+frame = 5
 playing = true
 
 [node name="Back" type="Button" parent="."]
@@ -118,8 +118,8 @@ __meta__ = {
 [node name="Label" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 55.0
-margin_bottom = -41.0
+margin_top = 57.0
+margin_bottom = -39.0
 text = "When you swap into an enemy, you will be locked in for a certain period.
 Once the possession meter has crossed the yellow
  threshold you will be able to swap again.
@@ -129,6 +129,7 @@ Every swap increases the threshold, and each kill reduces it.
 
 
 
+If you are above the threshold and your golem dies, you can still sawp.
 You are vulnerable when below the threshold!"
 align = 1
 valign = 1

@@ -311,6 +311,8 @@ func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
 	spawn_enemy(choose_weighted(enemy_scenes.keys(), level['enemy_weights']), spawn_point, boss_lv)
 	
 func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
+	if is_instance_valid(cur_boss):
+		print("Boss on the field")
 	var new_enemy = enemy_scenes[type].instance().duplicate()
 	new_enemy.add_to_group("enemy")
 	
