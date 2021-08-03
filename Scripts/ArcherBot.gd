@@ -11,7 +11,7 @@ var walk_speed
 var charge_time
 
 var walk_speed_levels = [100, 110, 120, 130, 140, 150, 160]
-var charge_time_levels = [1.5, 1.5, 1.2, 0.9, 0.8, 0.7, 0.6]
+var charge_time_levels = [1.5, 1.2, 1.0, 0.9, 0.8, 0.7, 0.6]
 
 var speed_while_charging = 0
 var beam_damage = 150

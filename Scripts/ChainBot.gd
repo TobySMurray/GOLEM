@@ -96,7 +96,6 @@ func misc_update(delta):
 		$Shadow.offset.x = 0
 
 func player_action():
-	aim_direction.y = 0
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
 		charge()
 		
@@ -162,14 +161,13 @@ func ai_move():
 func charge():
 	charging = true
 	attacking = true
-	lock_aim = !footwork
+	lock_aim = is_in_group('enemy')
 	max_speed = speed_while_charging
 	charge_level = init_charge
 	play_animation("Charge")
 	
 func attack():
 	charging = false
-	lock_aim = true
 	attack_cooldown = 1
 	play_animation("Attack")
 	
@@ -196,8 +194,9 @@ func swing_attack():
 	if laminar_shockwave:
 		var power = sqrt(6*charge_level)
 		var size = min(0.5 + power, 8)
+		var wave_dir = Util.limit_horizontal_angle(aim_direction, PI/8)
 		#var speed_mult = sqrt(num_pellets)*0.6
-		var bullet = Projectile.shoot_vortex_wave(self, global_position + aim_direction*bullet_spawn_offset, dir*shot_speed*(1 + power/8.0), 3*power, 1.0 + power/4.0, 1.5, stun*0.2, Vector2(size*0.7, size))
+		var bullet = Projectile.shoot_vortex_wave(self, global_position + wave_dir*bullet_spawn_offset, wave_dir*shot_speed*(1 + power/8.0), 3*power, 1.0 + power/4.0, 1.5, stun*0.2, Vector2(size*0.7, size))
 		
 	else:
 		for i in num_pellets + 1:

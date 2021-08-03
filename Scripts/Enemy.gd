@@ -561,6 +561,11 @@ func die(killer = null):
 				message = 'CLOSE CALL'
 				kill_validity = 1
 				
+			elif killer.enemy_type == 'flame' and killer.killed_by_player:
+				effective_score *= 1.5
+				message = 'KABOOM!'
+				kill_validity = 1
+				
 			elif time_since_player_damage < 0.5 and is_instance_valid(killer) and killer.enemy_type == 'archer':
 				effective_score *= 1.5
 				message = 'DAMN ARCHERS!'

@@ -169,7 +169,7 @@ func stop_attacking():
 func flamethrower():
 	flamethrower_audio.play(0.5)
 	
-	var limited_aim_direction = limit_aim_direction(aim_direction)
+	var limited_aim_direction = Util.limit_horizontal_angle(aim_direction, PI/6)
 	var pellets = ceil(max(fire_volume*pressure, 1))
 	var spread = shot_spread*(0.5 + pressure*0.5)
 	if startup_spurt and pressure > 0.95:
@@ -227,30 +227,19 @@ func get_target_position():
 		
 	return target_position
 	
-func limit_aim_direction(dir):
-	var angle = dir.angle()
-	if abs(angle) > PI/6 and abs(angle) < 5*PI/6:
-		if abs(angle) < PI/2:
-			angle = PI/6*sign(angle)
-		else:
-			angle = 5*PI/6*sign(angle)
-			
-	return Vector2(cos(angle), sin(angle))
-	
 func explode():
-	var source = GameManager.true_player if killed_by_player else self
 	if nuclear_suicide:
-		GameManager.spawn_explosion(global_position, source, 2, 150, 800, 0, true)
+		GameManager.spawn_explosion(global_position, self, 2, 150, 800, 0, true)
 		var offset = Vector2(60, 0)
 		for i in range(6):
-			GameManager.spawn_explosion(global_position + offset, source, 0.9, 80, 500, 0.25, true)
+			GameManager.spawn_explosion(global_position + offset, self, 0.9, 80, 500, 0.25, true)
 			offset = offset.rotated(PI/3)
 		offset = Vector2(100, 0)
 		for i in range(20):
-			GameManager.spawn_explosion(global_position + offset, source, 0.5, 40, 300, 0.5, true)
+			GameManager.spawn_explosion(global_position + offset, self, 0.5, 40, 300, 0.5, true)
 			offset = offset.rotated(PI/10)	
 	else:
-		GameManager.spawn_explosion(global_position, source, 1, 60, 1000, 0, true)
+		GameManager.spawn_explosion(global_position, self, 1, 60, 1000, 0, true)
 		
 func die(killer = null):
 	.die(killer)

@@ -236,7 +236,7 @@ func reset():
 	next_item_threshold = 2
 	player = null
 	true_player = null
-	true_player = null
+	hyperdeath_mode = false
 	
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 	get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
@@ -288,7 +288,7 @@ func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
 	Util.remove_invalid(enemies)
 	var spawn_near_player = true
 	for enemy in enemies:
-		if is_instance_valid(enemy):
+		if is_instance_valid(enemy) and not enemy.is_boss:
 			var dist = dist_offscreen(enemy.global_position)
 			if dist < 50:
 				if randf() + dist/100 < 0.5:
@@ -306,7 +306,7 @@ func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
 		if randf() < (game_time - hyperdeath_start_time) / (game_time - hyperdeath_start_time + 600):
 			boss_lv = int(1 + randf()*(game_time - hyperdeath_start_time)/60)
 	else:
-		if allow_boss and not cur_boss and total_score > evolution_thresholds[evolution_level]:
+		if allow_boss and not is_instance_valid(cur_boss) and total_score > evolution_thresholds[evolution_level]:
 			boss_lv = evolution_level + 1
 		
 	spawn_enemy(choose_weighted(enemy_scenes.keys(), level['enemy_weights']), spawn_point, boss_lv)
@@ -390,8 +390,10 @@ func on_level_loaded(lv_name):
 	level_name = lv_name
 	level = levels[lv_name]	
 	
-	BGM.stream = load('res://Sounds/Music/' + level['music'])
-	BGM.play()
+	var music = load('res://Sounds/Music/' + level['music'])
+	if BGM.stream != music:
+		BGM.stream = load('res://Sounds/Music/' + level['music'])
+		BGM.play()
 	
 	if lv_name != "MainMenu":
 		projectiles_node = get_node('/root/' + level_name + '/Projectiles')
