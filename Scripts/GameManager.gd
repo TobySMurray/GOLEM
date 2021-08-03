@@ -91,6 +91,7 @@ var timescale_timer = -1
 
 var player
 var true_player
+var player_hidden = true
 var player_switch_timer = 0
 
 var swappable = false
@@ -190,7 +191,7 @@ func _process(delta):
 	else:
 		timescale_timer -= delta/timescale
 			
-	if is_instance_valid(player):
+	if is_instance_valid(true_player):
 		game_time += delta
 		spawn_timer -= delta
 		
@@ -204,8 +205,8 @@ func _process(delta):
 					
 		if is_instance_valid(cur_boss):
 			update_boss_marker()
-				
-		if enemy_drought_bailout_available and swap_bar.control_timer > 17 and camera.zoom.x < 1.1:
+			
+		if enemy_drought_bailout_available and swap_bar.control_timer > 17:
 			enemy_drought_bailout()
 			
 	if player != true_player:
@@ -235,7 +236,7 @@ func reset():
 	next_item_threshold = 2
 	player = null
 	true_player = null
-	true_player = null
+	hyperdeath_mode = false
 	
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 	get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
@@ -287,7 +288,7 @@ func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
 	Util.remove_invalid(enemies)
 	var spawn_near_player = true
 	for enemy in enemies:
-		if is_instance_valid(enemy):
+		if is_instance_valid(enemy) and not enemy.is_boss:
 			var dist = dist_offscreen(enemy.global_position)
 			if dist < 50:
 				if randf() + dist/100 < 0.5:
@@ -305,7 +306,7 @@ func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
 		if randf() < (game_time - hyperdeath_start_time) / (game_time - hyperdeath_start_time + 600):
 			boss_lv = int(1 + randf()*(game_time - hyperdeath_start_time)/60)
 	else:
-		if allow_boss and not cur_boss and total_score > evolution_thresholds[evolution_level]:
+		if allow_boss and not is_instance_valid(cur_boss) and total_score > evolution_thresholds[evolution_level]:
 			boss_lv = evolution_level + 1
 		
 	spawn_enemy(choose_weighted(enemy_scenes.keys(), level['enemy_weights']), spawn_point, boss_lv)
@@ -319,7 +320,7 @@ func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
 	if EVL > 0:
 		new_enemy.is_boss = true
 		new_enemy.enemy_evolution_level = EVL
-		new_enemy.add_swap_shield(new_enemy.health*(evolution_level*0.5 + 1.5))
+		new_enemy.add_swap_shield(new_enemy.health*(EVL*0.5 + 1.0))
 		new_enemy.scale = Vector2(1.25, 1.25)
 		if not hyperdeath_mode:
 			cur_boss = new_enemy
@@ -343,6 +344,7 @@ func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
 	
 func on_swap(new_player):
 	set_player_after_delay(new_player, 1)
+	player_hidden = false
 	camera.anchor = new_player
 	camera.offset = Vector2.ZERO
 	camera.lerp_zoom(1)
@@ -390,8 +392,10 @@ func on_level_loaded(lv_name):
 	level_name = lv_name
 	level = levels[lv_name]	
 	
-	BGM.stream = load('res://Sounds/Music/' + level['music'])
-	BGM.play()
+	var music = load('res://Sounds/Music/' + level['music'])
+	if BGM.stream != music:
+		BGM.stream = load('res://Sounds/Music/' + level['music'])
+		BGM.play()
 	
 	if lv_name != "MainMenu":
 		projectiles_node = get_node('/root/' + level_name + '/Projectiles')
@@ -423,7 +427,7 @@ func update_boss_marker():
 		boss_marker.visible = int(game_time*6)%2 == 0
 		
 		var screen_size = camera_bounds()
-		var to_boss = cur_boss.global_position - player.global_position
+		var to_boss = cur_boss.global_position - true_player.global_position
 		var h = screen_size.x/max(abs(to_boss.x), 1)
 		var v = screen_size.y/max(abs(to_boss.y), 1)
 		

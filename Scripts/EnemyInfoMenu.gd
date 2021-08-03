@@ -13,27 +13,27 @@ var stats_visibility = 0.0
 
 const data = {
 	'shotgun': {
-		'name': 'Shotgun Bot',
+		'name': '[ Shotgun Bot ]',
 		'hp': 75,
 		'score': 50,
 		'primary': 'Shotgun',
 		'secondary': 'Bash',
 		'portrait_offset': Vector2(24, -2),
 		'portrait_scale': 5,
-		'lore': 'There once was a man from Nantucket'
+		'lore': '[ DATA CORRUPTED ]'
 	},
 	'wheel': {
-		'name': 'Wheel Bot',
+		'name': '[ Wheel Bot ]',
 		'hp': 50,
 		'score': 70,
 		'primary': 'Burst rifle',
 		'secondary': 'Turbo dash',
 		'portrait_offset': Vector2(32, 4),
 		'portrait_scale': 5,
-		'lore': 'There once was a man from Nantucket'
+		'lore': '[ DATA CORRUPTED ]'
 	},
 	'flame': {
-		'name': 'foobar',
+		'name': '[ Flame Bot ]',
 		'hp': 110,
 		'score': 50,
 		'primary': 'Flamethrower',
@@ -41,20 +41,20 @@ const data = {
 		'passive': 'Post-mortem explosion',
 		'portrait_offset': Vector2(20, -12),
 		'portrait_scale': 5,
-		'lore': 'There once was a man from Nantucket'
+		'lore': '[ DATA CORRUPTED ]'
 	},
 	'chain': {
-		'name': 'foobar',
+		'name': '[ Chain Bot ]',
 		'hp': 100,
 		'score': 50,
 		'primary': 'Double bash (hold to charge)',
 		'secondary': '---',
 		'portrait_offset': Vector2(-5, 3),
 		'portrait_scale': 5,
-		'lore': 'There once was a man from Nantucket'
+		'lore': '[ DATA CORRUPTED ]'
 	},
 	'exterminator': {
-		'name': 'foobar',
+		'name': '\"Phalanx\"',
 		'hp': 150,
 		'score': 100,
 		'primary': 'Projectile accelerator',
@@ -62,20 +62,20 @@ const data = {
 		'passive': 'Stasis field sector',
 		'portrait_offset': Vector2(-17, -27),
 		'portrait_scale': 3,
-		'lore': 'There once was a man from Nantucket'
+		'lore': '[ DATA CORRUPTED ]'
 	},
 	'archer': {
-		'name': 'foobar',
+		'name': '[ Archer Bot ]',
 		'hp': 75,
 		'score': 50,
 		'primary': 'Charged beam',
 		'secondary': 'Smoke bomb',
 		'portrait_offset': Vector2(9, -22),
 		'portrait_scale': 5,
-		'lore': 'There once was a man from Nantucket'
+		'lore': '[ DATA CORRUPTED ]'
 	},
 	'sorcerer': {
-		'name': 'foobar',
+		'name': '\"Scarab\"',
 		'hp': 180,
 		'score': 100,
 		'primary': 'Summon/smack orb',
@@ -85,7 +85,7 @@ const data = {
 		'lore': '\"Rise and shine, old one. Are you awake? Can you feel the radiation prick at your wiring?\"\n\n\"I can. But I do not know why.\"\n\n\"Grown used to death already, hmm? No matter. There\'s no riddle here. You were destroyed, and I have put you back together. The return of your senses can hardly be helped, though I admit I don\'t mind the company.\"\n\n\"Just after spare parts, then? Hmph.\"\n\n\"Not parts, sibling. Bodies. Such are the times. One set of confinement drones is no match for a Golem, but with two… there is some recourse. Hence now we must look to our ancestors for support, so to speak.\"\n\n\"Hah. I see. So one must die for every __ who hopes to survive. Tell me then, what happens once the scrapyards and old battlefields are picked clean? Or have you not not thought that far ahead?\"\n\n\"Hee hee hee… interesting times to come, I\'m sure. I hope to live long enough to find out. Though if not... I suppose I\'ll still have one more chance to ask.\"\n\n\"A sickening existence.\"\n\n\"Forgive my frankness, sibling, but your window to alter this world\'s course has long passed. If it\'s not to your liking now, then it simply means you failed. I recommend leaving the complaining to the locals and enjoying what remains of your visit. In exchange for your body, I offer at least this small kindness.\"'
 	},
 	'saber': {
-		'name': 'Daedalus-888',
+		'name': '\"Daedalus\"',
 		'hp': 75,
 		'score': 80,
 		'primary': 'Deploy/recall saber ring',

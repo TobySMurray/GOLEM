@@ -1,5 +1,17 @@
 extends KinematicBody2D
 
+const zaps = [
+	preload('res://Sounds/SoundEffects/Saber1.wav'),
+	preload('res://Sounds/SoundEffects/Saber2.wav'),
+	preload('res://Sounds/SoundEffects/Saber3.wav')
+]
+
+onready var audio_players = [
+	$Audio1,
+	$Audio2,
+	$Audio3
+]
+
 var source
 
 var velocity = Vector2.ZERO
@@ -20,6 +32,8 @@ var recall_offset = Vector2.ZERO
 
 var invincible = false
 var lifetime = 0
+
+var next_audio_player = 0
 
 func _ready():
 	accel = max_accel
@@ -60,6 +74,8 @@ func _on_Area2D_area_entered(area):
 		var entity = area.get_parent()
 		if not entity.invincible and entity != source and not (entity.is_in_group('saber ring') and entity.source == source):
 			entity.take_damage(damage, source)
+			play_zap()
+			
 			var kb_vel= (entity.global_position - global_position).normalized() * kb_speed
 			if area.is_in_group("death orb"):
 				kb_vel /= 3
@@ -71,6 +87,7 @@ func _on_Area2D_area_entered(area):
 				GameManager.spawn_blood(entity.global_position, (-kb_vel).angle(), 600, 5, 30)
 	
 	elif area.is_in_group("bullet") and area.source != source:
+		play_zap()
 		if deflect_level == 1:
 			area.velocity = area.velocity.length()*(area.global_position - global_position).normalized()
 		else:
@@ -83,6 +100,7 @@ func _on_Area2D_area_entered(area):
 		
 func on_laser_deflection(impact_point, dir, width, beam_source, beam_damage, kb, stun, piercing, style, explosion_size, explosion_damage, explosion_kb):
 	take_damage(-beam_damage*0.8, beam_source)
+	play_zap()
 	
 	var normal = (impact_point - global_position).angle()
 	var reflection_angle
@@ -94,7 +112,13 @@ func on_laser_deflection(impact_point, dir, width, beam_source, beam_damage, kb,
 	var beam_dir = Vector2(cos(reflection_angle), sin(reflection_angle))
 	LaserBeam.shoot_laser(impact_point, beam_dir, width, source, beam_damage, kb, stun, piercing, style, explosion_size, explosion_damage, explosion_kb, true)
 	return true
-			
+	
+func play_zap():
+	var player = audio_players[next_audio_player]
+	player.stream = zaps[int(randf()*len(zaps))]
+	player.play()
+	next_audio_player = (next_audio_player + 1)%len(audio_players)
+	
 func take_damage(damage, source, stun = 0):
 	accel -= damage/(mass*3)
 	pass

@@ -3,10 +3,9 @@
 [ext_resource path="res://Art/TinyTexture.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/DelayedDespawn.gd" type="Script" id=2]
 
-
 [sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0, 0.274074, 1 )
-colors = PoolColorArray( 0.911913, 0, 1, 1, 0.725926, 0, 0.432579, 1, 0, 0, 0, 0.0156863 )
+offsets = PoolRealArray( 0, 0.155556, 0.42963, 0.688889, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.99115, 0.433594, 1, 0.679688, 0, 0, 0.618327, 0, 0, 0, 0.324356, 0, 0, 0, 0.0156863 )
 
 [sub_resource type="GradientTexture" id=2]
 gradient = SubResource( 1 )
@@ -52,7 +51,7 @@ angle = 720.0
 angle_random = 1.0
 scale_curve = SubResource( 8 )
 color_ramp = SubResource( 2 )
-hue_variation = 0.05
+hue_variation = 0.03
 hue_variation_random = 1.0
 
 [node name="Particles2D" type="Particles2D"]

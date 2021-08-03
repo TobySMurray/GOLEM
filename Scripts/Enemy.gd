@@ -139,7 +139,7 @@ func _physics_process(delta):
 	else:
 		time_since_controlled += delta
 		time_since_player_damage += delta
-		if is_instance_valid(GameManager.player) and GameManager.player != self and not dead and not stunned:
+		if is_instance_valid(GameManager.player) and not GameManager.player_hidden and GameManager.player != self and not dead and not stunned:
 			ai_move()
 			ai_action()
 	
@@ -548,19 +548,22 @@ func die(killer = null):
 			var kill_validity = 2
 			
 			if killer == GameManager.true_player:
-				pass
-				
-			elif killer.time_since_controlled < 2:
-				if GameManager.true_player == null:
+				if GameManager.player_hidden:
 					effective_score *= 1.5
 					message = 'SHANK!'
-				else:
-					effective_score *= 2
-					message = 'TRICKSHOT'
+				
+			elif killer.time_since_controlled < 2:
+				effective_score *= 2
+				message = 'TRICKSHOT'
 				
 			elif time_since_controlled < 2:
 				effective_score *= 1.5
 				message = 'CLOSE CALL'
+				kill_validity = 1
+				
+			elif killer.enemy_type == 'flame' and killer.killed_by_player:
+				effective_score *= 1.5
+				message = 'KABOOM!'
 				kill_validity = 1
 				
 			elif time_since_player_damage < 0.5 and is_instance_valid(killer) and killer.enemy_type == 'archer':

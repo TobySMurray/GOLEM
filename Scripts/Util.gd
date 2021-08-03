@@ -39,6 +39,16 @@ static func unsigned_wrap_deg(a):
 		return a + 360
 	return a
 	
+static func limit_horizontal_angle(dir, limit_angle):
+	var angle = dir.angle()
+	if abs(angle) > limit_angle and abs(angle) < PI - limit_angle:
+		if abs(angle) < PI/2:
+			angle = limit_angle*sign(angle)
+		else:
+			angle = (PI - limit_angle)*sign(angle)
+			
+	return Vector2(cos(angle), sin(angle))
+	
 static func remove_invalid(a):
 	var length = len(a)
 	var shift_size = 0

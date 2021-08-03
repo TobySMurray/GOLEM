@@ -6,7 +6,7 @@ var orbs = [null, null, null, null, null, null, null, null]
 onready var stands = [$JojoReference]
 onready var tethers = [$Line2D]
 onready var attack_collider = $AttackCollider/CollisionShape2D
-
+onready var orb_detonate_audio = $OrbDetonateAudio
 
 var walk_speed = 0
 var smack_recharge = 0
@@ -287,6 +287,7 @@ func area_attack():
 		GameManager.camera.set_trauma(0.5)
 	
 func detonate_orbs():
+	orb_detonate_audio.play()
 	for i in range(num_orbs):
 		if is_instance_valid(orbs[i]):
 			orbs[i].detonate()

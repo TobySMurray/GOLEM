@@ -30,6 +30,7 @@ var last_clouds = []
 var ai_shoot = false
 var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
+var killed_by_player = false
 
 onready var flamethrower_audio = $Flamethrower
 
@@ -168,7 +169,7 @@ func stop_attacking():
 func flamethrower():
 	flamethrower_audio.play(0.5)
 	
-	var limited_aim_direction = limit_aim_direction(aim_direction)
+	var limited_aim_direction = Util.limit_horizontal_angle(aim_direction, PI/6)
 	var pellets = ceil(max(fire_volume*pressure, 1))
 	var spread = shot_spread*(0.5 + pressure*0.5)
 	if startup_spurt and pressure > 0.95:
@@ -226,16 +227,6 @@ func get_target_position():
 		
 	return target_position
 	
-func limit_aim_direction(dir):
-	var angle = dir.angle()
-	if abs(angle) > PI/6 and abs(angle) < 5*PI/6:
-		if abs(angle) < PI/2:
-			angle = PI/6*sign(angle)
-		else:
-			angle = 5*PI/6*sign(angle)
-			
-	return Vector2(cos(angle), sin(angle))
-	
 func explode():
 	if nuclear_suicide:
 		GameManager.spawn_explosion(global_position, self, 2, 150, 800, 0, true)
@@ -249,6 +240,11 @@ func explode():
 			offset = offset.rotated(PI/10)	
 	else:
 		GameManager.spawn_explosion(global_position, self, 1, 60, 1000, 0, true)
+		
+func die(killer = null):
+	.die(killer)
+	if is_instance_valid(killer) and ((is_instance_valid(GameManager.player) and killer == GameManager.player) or (is_instance_valid(GameManager.true_player) and killer == GameManager.true_player)):
+		killed_by_player = true
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":

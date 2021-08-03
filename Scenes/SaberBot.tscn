@@ -19,7 +19,6 @@
 [ext_resource path="res://Scenes/Particles/EVParticles.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=18]
 
-
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
 length = 2.1
@@ -490,7 +489,7 @@ texture = ExtResource( 14 )
 position = Vector2( -0.34697, -0.158186 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
-frame = 30
+frame = 0
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
