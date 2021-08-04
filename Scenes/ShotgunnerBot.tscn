@@ -23,10 +23,9 @@
 [ext_resource path="res://Sounds/SoundEffects/whip1.wav" type="AudioStream" id=21]
 [ext_resource path="res://Sounds/SoundEffects/CrispExplosion.wav" type="AudioStream" id=22]
 
-
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.92806
-height = 4.0
+height = 0.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "Die"
@@ -382,6 +381,7 @@ height = 7.0
 
 [node name="ShotgunnerBot" type="KinematicBody2D"]
 collision_layer = 0
+collision_mask = 1025
 script = ExtResource( 2 )
 
 [node name="Shadow" type="Sprite" parent="."]
@@ -398,7 +398,7 @@ texture = ExtResource( 4 )
 vframes = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 6 )
+position = Vector2( 0, 9.00678 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -469,7 +469,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 0, 11.3892 )
-frame = 7
+frame = 23
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -478,5 +478,6 @@ wait_time = 0.25
 
 [node name="CharacterLights" parent="." instance=ExtResource( 18 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -476,6 +476,7 @@ extents = Vector2( 63.1815, 14.6037 )
 
 [node name="SaberBot" type="KinematicBody2D"]
 collision_layer = 0
+collision_mask = 1025
 script = ExtResource( 13 )
 
 [node name="Shadow" type="Sprite" parent="."]
@@ -489,7 +490,7 @@ texture = ExtResource( 14 )
 position = Vector2( -0.34697, -0.158186 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
-frame = 0
+frame = 15
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
@@ -556,5 +557,6 @@ margin_top = -27.0
 margin_right = 39.843
 margin_bottom = -19.0
 rect_pivot_offset = Vector2( 40, 0 )
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="SlashTrigger" to="." method="_on_SlashTrigger_area_entered"]

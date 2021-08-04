@@ -413,6 +413,7 @@ _data = [ Vector2( 0, 0.409091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.2 ), 0.0, 0.0, 0
 
 [node name="SorcererBot" type="KinematicBody2D"]
 collision_layer = 0
+collision_mask = 1025
 script = ExtResource( 7 )
 
 [node name="Shadow" type="Sprite" parent="."]
@@ -516,4 +517,5 @@ end_cap_mode = 2
 
 [node name="CharacterLights" parent="." instance=ExtResource( 12 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

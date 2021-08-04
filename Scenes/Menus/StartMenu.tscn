@@ -335,7 +335,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 10
+frame = 9
 playing = true
 
 [node name="Panel" type="Panel" parent="Background"]

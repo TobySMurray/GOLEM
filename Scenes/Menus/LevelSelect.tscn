@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/LevelSelect.gd" type="Script" id=1]
 [ext_resource path="res://Art/Fonts/Title.tres" type="DynamicFont" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Art/Environment/LabyrinthImageSmall.PNG" type="Texture" id=5]
 [ext_resource path="res://Scripts/AudioButton.gd" type="Script" id=6]
 [ext_resource path="res://Art/Fonts/DefaultSmall.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Art/Environment/DesertImage.PNG" type="Texture" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -88,7 +89,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 6
+frame = 11
 playing = true
 
 [node name="Title" type="Label" parent="."]
@@ -108,10 +109,10 @@ __meta__ = {
 [node name="SkyRuins" type="Button" parent="."]
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 142.0
-margin_top = -12.0
-margin_right = 292.0
-margin_bottom = 93.0
+margin_left = 69.9898
+margin_top = -13.4811
+margin_right = 219.99
+margin_bottom = 91.5189
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -131,7 +132,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SkyRuinshStats" type="Label" parent="SkyRuins"]
+[node name="SkyRuinsStats" type="Label" parent="SkyRuins"]
 margin_left = -0.999985
 margin_top = 105.0
 margin_right = 83.0
@@ -148,10 +149,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -299.0
-margin_top = -12.0
-margin_right = -149.0
-margin_bottom = 93.0
+margin_left = -390.658
+margin_top = -13.0511
+margin_right = -240.658
+margin_bottom = 91.9489
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -184,16 +185,41 @@ __meta__ = {
 }
 
 [node name="Desert" type="Button" parent="."]
-visible = false
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 128.0
-margin_top = -160.0
-margin_right = 278.0
-margin_bottom = -140.0
-text = "Desert"
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -224.587
+margin_top = -12.5214
+margin_right = -74.5869
+margin_bottom = 92.4786
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DesertLabel" type="Label" parent="Desert"]
+margin_left = 26.7111
+margin_top = 0.198425
+margin_right = 126.711
+margin_bottom = 24.1984
+text = "Desert Islands"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DesertImageSmall" type="Sprite" parent="Desert"]
+position = Vector2( 75.53, 59.5432 )
+scale = Vector2( 0.0953782, 0.0753732 )
+texture = ExtResource( 8 )
+
+[node name="DesertStats" type="Label" parent="Desert"]
+margin_top = 105.0
+margin_right = 84.0
+margin_bottom = 129.0
+custom_fonts/font = ExtResource( 7 )
+text = "HIGH SCORE:"
 __meta__ = {
 "_edit_use_anchors_": false
 }

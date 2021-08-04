@@ -11,7 +11,8 @@ var song
 const level_paths = {
 	0: "Menu",
 	1: "SkyRuins",
-	2: "Labyrinth"
+	2: "Labyrinth",
+	3: "Desert"
 }
 var level = level_paths[0]
 #Saved

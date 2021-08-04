@@ -72,6 +72,15 @@ const levels = {
 		'music': 'cantaloupe b3.wav',
 		'scene_name': 'Labyrinth1.tscn'
 	},
+	"DesertLevel": {
+		'map_bounds': Rect2(-100, -100, 100, 100),
+		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
+		'enemy_density': 7,
+		'pace': 0.9,
+		'dark': false,
+		'music': 'melon b3.wav',
+		'scene_name': 'Desert1.tscn'
+	},
 	"Tutorial": {
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
 		'enemy_weights': [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
@@ -390,7 +399,7 @@ func give_player_upgrade(upgrade):
 	
 func on_level_loaded(lv_name):
 	level_name = lv_name
-	level = levels[lv_name]	
+	level = levels[lv_name]
 	
 	var music = load('res://Sounds/Music/' + level['music'])
 	if BGM.stream != music:

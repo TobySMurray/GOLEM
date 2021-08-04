@@ -407,6 +407,7 @@ height = 6.09468
 
 [node name="ChainBot" type="KinematicBody2D"]
 collision_layer = 0
+collision_mask = 1025
 script = ExtResource( 8 )
 
 [node name="Shadow" type="Sprite" parent="."]
@@ -469,7 +470,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 2.19092, 10.5634 )
-frame = 31
+frame = 43
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -478,5 +479,6 @@ wait_time = 0.25
 
 [node name="CharacterLights" parent="." instance=ExtResource( 17 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

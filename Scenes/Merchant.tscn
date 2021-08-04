@@ -202,6 +202,7 @@ height = 0.0
 "player",
 ]]
 collision_layer = 0
+collision_mask = 1025
 script = ExtResource( 4 )
 
 [node name="Shadow" type="Sprite" parent="."]
@@ -234,7 +235,7 @@ volume_db = -25.0
 bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 6 )]
-frame = 14
+frame = 19
 
 [node name="Label" type="Label" parent="."]
 visible = false
