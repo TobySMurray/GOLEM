@@ -656,8 +656,6 @@ shape = SubResource( 27 )
 [node name="RayCast2D" type="RayCast2D" parent="."]
 visible = false
 enabled = true
-collision_mask = 5
-collide_with_areas = true
 
 [node name="HealthBar" parent="." instance=ExtResource( 13 )]
 margin_left = -40.0
@@ -683,7 +681,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 54
+frame = 21
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

@@ -20,10 +20,12 @@ var explosion_size = 0.5
 var full_auto = false
 var shanky = false
 
-var bow_pos = Vector2.ZERO
 var charging = false
 var charge_timer = 0
 var raycast_endpoint = Vector2.ZERO
+
+var bow_pos = Vector2.ZERO
+var effective_aim_direction = Vector2.ONE
 
 var stealth_mode = false
 var stealth_timer = 0
@@ -92,10 +94,7 @@ func toggle_enhancement(state):
 
 func misc_update(delta):
 	ai_move_timer -= delta
-	bow_pos = global_position + Vector2(9*sign(aim_direction.x), 0)
-	
-	if not lock_aim:
-		aim_direction = (get_global_mouse_position() - bow_pos).normalized()
+	bow_pos = global_position + Vector2(-9 if facing_left else 9, 0)
 	
 	if charging:
 		charge_timer -= delta
@@ -110,6 +109,9 @@ func misc_update(delta):
 		
 	
 func player_action():
+	if not lock_aim:
+		effective_aim_direction = (get_global_mouse_position() - bow_pos).normalized()
+		
 	if (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and attack_cooldown < 0:
 		charge_attack()
 	elif Input.is_action_just_pressed("attack2") and special_cooldown < 0:
@@ -132,7 +134,7 @@ func ai_action():
 	var player_dist = to_player.length()
 	
 	if not lock_aim:
-		aim_direction = to_player/player_dist
+		effective_aim_direction = (GameManager.player.position - bow_pos).normalized()
 		update_raycast()
 		update_sight()
 	
@@ -142,9 +144,9 @@ func ai_action():
 	else:
 		ai_target_point = global_position
 		
-		if attack_cooldown < 0 and (raycast_endpoint - global_position).length() > player_dist - 10:
+		if not attacking and attack_cooldown < 0 and (raycast_endpoint - global_position).length() > player_dist - 10:
 			ai_move_timer = 4
-			if player_dist < 500:
+			if player_dist < 700:
 				ai_target_point = global_position - aim_direction.rotated((randf()-0.5)*PI)*(20 + 50*randf())
 				charge_attack()
 	
@@ -183,7 +185,7 @@ func release_attack():
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(max(0.4, 0.7*beam_damage/150), 4 if beam_damage > 100 else 5)
 		
-	beam_length = (LaserBeam.shoot_laser(bow_pos, aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 5, 500) - global_position).length()
+	beam_length = (LaserBeam.shoot_laser(bow_pos, effective_aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 5, 500) - global_position).length()
 	#melee_attack(attack_beam.get_node("CollisionShape2D"), beam_damage, 500, 0)
 	
 	var dist = 50
@@ -228,16 +230,15 @@ func area_attack():
 #	pass
 
 func update_raycast():
-	raycast.position = bow_pos - global_position
-	raycast.cast_to = aim_direction*500
-	raycast_endpoint = raycast.get_collision_point() if raycast.is_colliding() else (bow_pos + aim_direction.normalized()*500)
+	raycast.global_position = bow_pos
+	raycast.cast_to = effective_aim_direction*2000
+	raycast_endpoint = raycast.get_collision_point() if raycast.is_colliding() else (bow_pos + effective_aim_direction.normalized()*2000)
 
 func update_sight():
 	var beam_length = (raycast_endpoint - bow_pos).length()
-	var beam_dir = aim_direction
 	
 	sight_beam.global_position = bow_pos
-	sight_beam.rotation = beam_dir.angle()
+	sight_beam.rotation = effective_aim_direction.angle()
 	sight_beam.scale.x = beam_length/80
 	
 func _on_Hitbox_area_entered(area):
