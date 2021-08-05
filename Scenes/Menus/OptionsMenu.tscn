@@ -86,7 +86,6 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 10
 playing = true
 
 [node name="Panel" type="Panel" parent="."]
@@ -163,7 +162,6 @@ margin_left = 474.0
 margin_right = 608.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-toggle_mode = true
 text = "Credits"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -376,9 +374,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -160.0
-margin_top = -180.0
+margin_top = -41.0
 margin_right = 160.0
-margin_bottom = 179.0
+margin_bottom = 47.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CreditsPopup"]
 anchor_left = 0.5
@@ -410,4 +411,5 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="controlSettings/SaveKeybinds" to="controlSettings" method="_on_SaveKeybinds_pressed"]

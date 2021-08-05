@@ -21,7 +21,7 @@ onready var light_beam = $CharacterLights/Directed
 
 onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
 onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
-onready var ScoreDisplay = get_node("../../../Camera2D/CanvasLayer/ScoreDisplay")
+onready var HighScore = get_node("../../../Camera2D/CanvasLayer/DeathScreen/HighScore")
 
 onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/relaod.wav')
 
@@ -611,8 +611,11 @@ func actually_die():
 		GameManager.lerp_to_timescale(0.1)
 		#self.visible = false
 		GameManager.swap_bar.visible = false
-		ScoreDisplay.visible = false
-		ScoreLabel.set_text(str(GameManager.total_score))
+		ScoreLabel.set_text("Score: " + str(GameManager.total_score))
+		HighScore.set_text("High Score: " + str(Options.high_scores[GameManager.level_name]))
+		if Options.high_scores[GameManager.level_name] < GameManager.total_score:
+			ScoreLabel.set("custom_colors/font_color", ("e6e72a"))
+			HighScore.set_text("High Score: " + str(GameManager.total_score))
 		death_screen.popup()
 
 
