@@ -95,7 +95,7 @@ back = "res://Scenes/Menus/TutorialShields.tscn"
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 2
+frame = 10
 playing = true
 
 [node name="Back" type="Button" parent="."]
@@ -121,8 +121,9 @@ region_rect = Rect2( 2.94815, 1.08022, 25.4217, 26.6134 )
 [node name="Label" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "Killing enemies increases your score. By chaining kills, setting up combos,
-and using different golems, you can increase your multiplier.
+text = "Killing enemies increases your score. By, setting up trick shots, 
+using a variety of  different golems, and reducing your 
+swap threshold to zero,  you can increase your multiplier.
 Once you have reached a high enough score,
 a boss will spawn on the map, indicated by a skull icon.
 Break the boss's shield and swap into them to progress to the next

@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/ExterminatorBot.gd" type="Script" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Art/Characters/Exterminator/appear_tweaked.png" type="Texture" id=21]
 [ext_resource path="res://Sounds/SoundEffects/RevUpSteam.wav" type="AudioStream" id=22]
 [ext_resource path="res://Sounds/SoundEffects/Zing.wav" type="AudioStream" id=23]
+[ext_resource path="res://Sounds/SoundEffects/chaindie.wav" type="AudioStream" id=24]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.67502
@@ -207,6 +208,44 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6 ]
+}
+tracks/3/type = "audio"
+tracks/3/path = NodePath("AudioStreamPlayer2D")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 24 )
+} ],
+"times": PoolRealArray( 0 )
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("AudioStreamPlayer2D:volume_db")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -7.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("AudioStreamPlayer2D:pitch_scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.5, 0.7 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -424,6 +463,30 @@ tracks/3/keys = {
 } ],
 "times": PoolRealArray( 0.1, 0.5 )
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("AudioStreamPlayer2D:volume_db")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -10.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("AudioStreamPlayer2D:pitch_scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 7 )
@@ -536,8 +599,9 @@ wait_time = 0.25
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( -12, -30 )
-texture = ExtResource( 7 )
-vframes = 14
+texture = ExtResource( 8 )
+vframes = 7
+frame = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.21, 10 )
@@ -608,11 +672,12 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 1
+frame = 32
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 12 )
-volume_db = -10.0
+stream = ExtResource( 24 )
+volume_db = -7.0
+pitch_scale = 0.7
 max_distance = 500.0
 bus = "Effects"
 
