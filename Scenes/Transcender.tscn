@@ -4,4 +4,5 @@
 
 [node name="Transcender" type="Node2D"]
 light_mask = 2
+z_index = 2
 script = ExtResource( 1 )
