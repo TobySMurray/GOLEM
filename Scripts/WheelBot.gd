@@ -125,7 +125,7 @@ func misc_update(delta):
 					min_dist = dist
 		
 				
-		if aimbot_target:
+		if is_instance_valid(aimbot_target):
 			aimbot_reticle.visible = true
 			aimbot_reticle.global_position = aimbot_target.global_position
 		else:

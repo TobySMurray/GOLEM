@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Art/Characters/Sorcerer Bot/death.png" type="Texture" id=1]
 [ext_resource path="res://Art/Characters/Sorcerer Bot/damaged.png" type="Texture" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://Scripts/SorcererStand.gd" type="Script" id=15]
 [ext_resource path="res://Sounds/SoundEffects/Squelch.wav" type="AudioStream" id=16]
 [ext_resource path="res://Sounds/SoundEffects/teleport.wav" type="AudioStream" id=17]
+[ext_resource path="res://Sounds/SoundEffects/wheel2.wav" type="AudioStream" id=18]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 6.0
@@ -295,6 +296,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4 ]
 }
+tracks/3/type = "audio"
+tracks/3/path = NodePath("StepAudio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 18 )
+} ],
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="CircleShape2D" id=8]
 
@@ -426,8 +441,8 @@ texture = ExtResource( 13 )
 light_mask = 5
 material = ExtResource( 14 )
 position = Vector2( 7, -37 )
-texture = ExtResource( 4 )
-hframes = 8
+texture = ExtResource( 6 )
+hframes = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 7 )
@@ -451,7 +466,7 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 40
+frame = 41
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false
@@ -500,6 +515,14 @@ attenuation = 1.5
 position = Vector2( 70, 0 )
 stream = ExtResource( 17 )
 volume_db = -4.0
+max_distance = 1000.0
+attenuation = 1.5
+
+[node name="StepAudio" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 70, 0 )
+stream = ExtResource( 18 )
+volume_db = -16.0
+pitch_scale = 3.0
 max_distance = 1000.0
 attenuation = 1.5
 

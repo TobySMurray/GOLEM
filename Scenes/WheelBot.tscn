@@ -418,8 +418,8 @@ texture = ExtResource( 19 )
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( 36, -2 )
-texture = ExtResource( 7 )
-vframes = 8
+texture = ExtResource( 5 )
+vframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -462,31 +462,32 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 12 )
-volume_db = -12.0
+volume_db = -6.0
 max_distance = 500.0
 bus = "Effects"
 
 [node name="ChargeAudio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 22 )
-volume_db = -10.0
+volume_db = -2.0
 pitch_scale = 0.86
 max_distance = 500.0
 bus = "Effects"
 
 [node name="Dash" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 13 )
+volume_db = 2.0
 max_distance = 500.0
 bus = "Effects"
 
 [node name="Drive" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 14 )
-volume_db = -20.0
+volume_db = -12.0
 max_distance = 500.0
 bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 39
+frame = 45
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -511,7 +512,6 @@ polygon = PoolVector2Array( 0, 20, 0, -20, 300, -150, 300, 150 )
 [node name="AimbotReticle" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 22 )
-frame = 3
 playing = true
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]

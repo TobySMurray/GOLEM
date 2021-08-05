@@ -589,8 +589,8 @@ position = Vector2( -0.453369, -3.22388 )
 light_mask = 5
 material = ExtResource( 25 )
 position = Vector2( 11, -28 )
-texture = ExtResource( 8 )
-vframes = 4
+texture = ExtResource( 6 )
+vframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -666,7 +666,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 16 )
-volume_db = -12.0
+volume_db = -20.0
 max_distance = 500.0
 bus = "Effects"
 
@@ -681,7 +681,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 21
+frame = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

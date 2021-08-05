@@ -211,18 +211,18 @@ func ai_action():
 			toggle_retaliation(false)
 		
 		
-	if len(nearby_bullets) < 3 and randf() < 0.002 and special_cooldown < 0 and not retaliating:
-		for i in range(len(GameManager.player_bullets) > 0):
-			var bullet = GameManager.player_bullets[int(randf()*len(GameManager.player_bullets))]
-			if is_instance_valid(bullet) and bullet.source == GameManager.player:
-				var point = bullet.global_position + bullet.velocity
-
-				if(GameManager.is_point_in_bounds(point)):
-					start_teleport(point)
-					special_cooldown = 8
-					break
+#	if randf() < 0.002 and special_cooldown < 0 and not retaliating:
+#		for i in range(len(GameManager.player_bullets) > 0):
+#			var bullet = GameManager.player_bullets[int(randf()*len(GameManager.player_bullets))]
+#			if is_instance_valid(bullet) and bullet.source == GameManager.player:
+#				var point = bullet.global_position + bullet.velocity
+#
+#				if(GameManager.is_point_in_bounds(point)):
+#					start_teleport(point)
+#					special_cooldown = 8
+#					break
 				
-	elif special_cooldown < 0 and aim_direction.length() < 30:
+	if special_cooldown < 0 and aim_direction.length() < 30:
 		special_cooldown = 8
 		var point = GameManager.random_map_point()
 		if point:
