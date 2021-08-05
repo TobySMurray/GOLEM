@@ -116,6 +116,7 @@ func on_laser_deflection(impact_point, dir, width, beam_source, beam_damage, kb,
 func play_zap():
 	var player = audio_players[next_audio_player]
 	player.stream = zaps[int(randf()*len(zaps))]
+	player.pitch_scale = 0.95 + randf()*0.1
 	player.play()
 	next_audio_player = (next_audio_player + 1)%len(audio_players)
 	

@@ -66,16 +66,16 @@ const levels = {
 	"LabyrinthLevel": {
 		'map_bounds': Rect2(-315, -260, 2140, 1510),
 		'enemy_weights': [1, 0.66, 0.4, 1, 1, 0.2, 0.2, 0.4],
-		'enemy_density': 11,
+		'enemy_density': 12,
 		'pace': 0.6,
 		'dark': true,
 		'music': 'cantaloupe b3.wav',
 		'scene_name': 'Labyrinth1.tscn'
 	},
 	"DesertLevel": {
-		'map_bounds': Rect2(-100, -100, 100, 100),
+		'map_bounds': Rect2(-1050, -700, 2100, 1700),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
-		'enemy_density': 7,
+		'enemy_density': 12,
 		'pace': 0.9,
 		'dark': false,
 		'music': 'melon b3.wav',
@@ -172,7 +172,7 @@ var player_upgrades = {
 	#EXTERMINATOR
 	'improvised_projectiles': 0,
 	'high-energy_orbit': 0,
-	'synchotron_accelerator': 0,
+	'impulse_accelerator': 0,
 	'exposed_coils': 0,
 	'bulwark_mode': 0,
 	'particulate_screen': 0,
@@ -207,10 +207,9 @@ func _process(delta):
 		if spawn_timer < 0 and level['enemy_density'] > 0:
 			spawn_timer = 1
 			enemy_soft_cap = level["enemy_density"]*(1 + game_time*0.01*level['pace']) #pow(1.3, game_time/60)
-			if level_name != "Tutorial":
-				if randf() < (1 - enemy_count/enemy_soft_cap):
-					print("SPAWN (" + str(enemy_count + 1) +")")
-					spawn_random_enemy()
+			if randf() < (1 - enemy_count/enemy_soft_cap):
+				print("SPAWN (" + str(enemy_count + 1) +")")
+				spawn_random_enemy()
 					
 		if is_instance_valid(cur_boss):
 			update_boss_marker()
@@ -321,8 +320,12 @@ func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
 	spawn_enemy(choose_weighted(enemy_scenes.keys(), level['enemy_weights']), spawn_point, boss_lv)
 	
 func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
-	if is_instance_valid(cur_boss):
-		print("Boss on the field")
+	if typeof(spawn_point) != TYPE_VECTOR2:
+		spawn_point = random_map_point(spawn_point, true)
+		if not spawn_point:
+			print("SPAWN FAILED")
+			return null
+		
 	var new_enemy = enemy_scenes[type].instance().duplicate()
 	new_enemy.add_to_group("enemy")
 	
@@ -339,12 +342,6 @@ func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
 		if randf() < (d/(d+4.0)/2.0):
 			new_enemy.add_swap_shield(randf()*d*5)
 			
-	if typeof(spawn_point) != TYPE_VECTOR2:
-		spawn_point = random_map_point(spawn_point, true)
-		if not spawn_point:
-			print("SPAWN FAILED")
-			return null
-			
 	enemy_count += 1
 	enemies.append(new_enemy)
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
@@ -352,7 +349,12 @@ func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
 	return new_enemy
 	
 func on_swap(new_player):
+	if player != true_player:
+		true_player.toggle_enhancement(false)
+		player = true_player
+		
 	set_player_after_delay(new_player, 1)
+	
 	player_hidden = false
 	camera.anchor = new_player
 	camera.offset = Vector2.ZERO

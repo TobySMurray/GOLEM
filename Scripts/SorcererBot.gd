@@ -73,7 +73,10 @@ func toggle_enhancement(state):
 		precision_mode = GameManager.player_upgrades['precision_handling'] > 0	
 			
 	else:
-		detonate_orbs()
+		if is_any_orb_valid():
+			special_cooldown = 2
+			attacking = true
+			play_animation("Special")
 		
 	if len(orbs) > num_orbs:
 		for i in range(len(orbs) - num_orbs):

@@ -23,6 +23,7 @@ var bullet_orbit_accel_levels = [5, 7, 8, 9, 10, 11, 12]
 var damage_mult = 1.0
 var bullet_production_rate = 0
 var min_bullet_orbit_speed = 3
+var bullet_formation_speed = 5
 var shield_width = PI/2
 var bulwark_mode = false
 var compact_mode = false
@@ -85,12 +86,14 @@ func toggle_enhancement(state):
 	
 	bullet_production_rate = 0
 	min_bullet_orbit_speed = 3
+	bullet_formation_speed = 5
 	shield_width = PI/2
 	deflector_visual.texture = load('res://Art/Shields/QuarterCircle.png')
 	bulwark_mode = false
 	compact_mode = false
 	retaliation_locked = false
 	laser_deflect = false
+	
 	
 	if state  == true:
 		bullet_production_rate = 1.5*GameManager.player_upgrades['improvised_projectiles']
@@ -103,7 +106,10 @@ func toggle_enhancement(state):
 		elif GameManager.player_upgrades['exposed_coils'] > 1:
 			deflector_visual.texture = load('res://Art/Shields/Circle_234.png')
 			
-		compact_mode = not GameManager.player_upgrades['synchotron_accelerator'] > 0
+		if GameManager.player_upgrades['impulse_accelerator'] > 0:
+			compact_mode = true
+			if GameManager.player_upgrades['high-energy_orbit'] > 0:
+				bullet_formation_speed = 10
 		
 		if GameManager.player_upgrades['bulwark_mode'] > 0:
 			bulwark_mode = true
@@ -138,6 +144,8 @@ func misc_update(delta):
 	
 	if retaliating:
 		retaliate(delta)
+		if compact_mode and not bulwark_mode and retaliation_locked and bullet_orbit_speed > 6.5:
+			retaliation_locked = false
 					
 	elif bullet_orbit_speed > min_bullet_orbit_speed:
 		bullet_orbit_speed = max(bullet_orbit_speed - 4*delta, 3)
@@ -148,7 +156,7 @@ func misc_update(delta):
 		formation_timer -= delta
 		for i in range(min(len(captured_bullets), len(bullet_formation_positions))):
 			if is_instance_valid(captured_bullets[i]):
-				captured_bullets[i].position = lerp(captured_bullets[i].position, bullet_formation_positions[i], 5*delta)
+				captured_bullets[i].position = lerp(captured_bullets[i].position, bullet_formation_positions[i], bullet_formation_speed*delta)
 		
 	if shield_active:
 		apply_shield_effects(delta)	
@@ -247,6 +255,9 @@ func toggle_retaliation(state):
 			play_animation('Entrench')
 			get_node('Hitbox').position.x = -9*sign(aim_direction.x)
 			
+		elif compact_mode:
+			retaliation_locked = true
+			
 	else:
 		rev_audio.stop()
 		if compact_mode:
@@ -265,7 +276,7 @@ func retaliate(delta):
 	#rev_audio.pitch_scale = 0.9 + bullet_orbit_speed/30.0
 	
 	if compact_mode:
-		get_node("BulletHolder").position = lerp(get_node("BulletHolder").position, aim_direction.normalized()*50, 5*delta)
+		get_node("BulletHolder").position = lerp(get_node("BulletHolder").position, aim_direction.normalized()*50, bullet_formation_speed*delta)
 		bullet_reformation_timer -= delta
 		if bullet_reformation_timer < 0:
 			bullet_reformation_timer = 0.5
@@ -315,6 +326,7 @@ func expel_compacted_bullets():
 			var b = captured_bullets[i]
 			if not b.is_in_group('death orb'):
 				b.damage *= damage_mult
+				
 			b.velocity = dir*bullet_orbit_speed*70*(1.0 + (((b.global_position - global_position).length() - center_dist)/30.0))
 			b.spectral = false
 			
@@ -324,22 +336,33 @@ func expel_compacted_bullets():
 					b.explosion_damage = b.damage*0.5
 					b.explosion_kb = b.mass*800
 			
-			reparent_to(b, get_node('/root'))
+			reparent_to(b, GameManager.projectiles_node)
 			captured_bullets[i] = null
 	else:
 		var damage = 0
+		var width = 1
 		retaliating = true #Dumb hadk
 		for b in captured_bullets:
 			damage += 100 if b.is_in_group('death orb') else b.damage
+			if b.is_in_group('death orb'):
+				width += 8
+			elif b.is_in_group('flak bullet'):
+				width += 3
+			else:
+				width += 1
 			b.despawn()
 			
+		if width > 16:
+			width = 12 + sqrt(width)
+			
 		retaliating = false #End dumb hack
-		LaserBeam.shoot_laser(bullet_holder.global_position, dir, len(captured_bullets), self, damage, 1000, 0, true, 'rail')
+		LaserBeam.shoot_laser(bullet_holder.global_position, dir, width, self, damage, 1000, 0, true, 'rail')
 		 
 	if bullet_orbit_speed > 6:
 		GameManager.spawn_explosion(bullet_holder.global_position, self, 0.4, 20, 300)
 		
 	captured_bullets = []
+	velocity -= dir*bullet_orbit_speed*50
 	
 	
 func start_teleport(point):

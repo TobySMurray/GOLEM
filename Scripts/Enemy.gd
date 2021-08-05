@@ -384,6 +384,7 @@ func toggle_swap(state):
 		
 func toggle_playerhood(state):
 	toggle_light(state)
+	
 	if state == true:
 		remove_from_group("enemy")
 		add_to_group("player")

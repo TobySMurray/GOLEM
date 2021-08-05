@@ -41,8 +41,20 @@ func explode():
 	
 	var results = space_state.intersect_shape(query, 512)
 	for col in results:
-		if col['collider'].is_in_group("hitbox"):
+		if col['collider'].is_in_group('death orb'):
+			var orb = col['collider'].get_parent()
+			if orb.source != source:
+				orb.velocity += (orb.global_position - global_position).normalized() * force / orb.mass
+			
+		elif col['collider'].is_in_group('bullet'):
+			var bullet = col['collider']
+			if not bullet.source == source:
+				bullet.lifetime += 2
+				bullet.velocity = (bullet.global_position - global_position).normalized() * bullet.velocity.length()
+				
+		elif col['collider'].is_in_group("hitbox"):
 			var enemy = col['collider'].get_parent()
+			
 			if not enemy.invincible and not enemy == source:
 				enemy.take_damage(damage, source)
 				var kb_vel = (enemy.global_position - global_position).normalized() * force
@@ -51,9 +63,5 @@ func explode():
 				if not enemy.is_in_group("bloodless"):
 					GameManager.spawn_blood(enemy.global_position, kb_vel.angle(), force, damage)
 			
-		elif col['collider'].is_in_group("bullet"):
-			var bullet = col['collider']
-			if not bullet.source == source:
-				bullet.lifetime += 2
-				bullet.velocity = (bullet.global_position - global_position).normalized() * bullet.velocity.length()
+		
 

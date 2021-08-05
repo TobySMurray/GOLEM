@@ -608,7 +608,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 56
+frame = 1
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 12 )
@@ -632,7 +632,6 @@ bus = "Effects"
 
 [node name="CharacterLights" parent="." instance=ExtResource( 18 )]
 visible = false
-
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]

@@ -93,7 +93,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ -10.0 ]
+"values": [ -6.0 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -160,7 +160,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ -15.0 ]
+"values": [ -12.0 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -409,7 +409,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ -15.0 ]
+"values": [ -12.0 ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -589,9 +589,8 @@ position = Vector2( -0.453369, -3.22388 )
 light_mask = 5
 material = ExtResource( 25 )
 position = Vector2( 11, -28 )
-texture = ExtResource( 4 )
-vframes = 14
-frame = 11
+texture = ExtResource( 8 )
+vframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -657,6 +656,8 @@ shape = SubResource( 27 )
 [node name="RayCast2D" type="RayCast2D" parent="."]
 visible = false
 enabled = true
+collision_mask = 5
+collide_with_areas = true
 
 [node name="HealthBar" parent="." instance=ExtResource( 13 )]
 margin_left = -40.0
@@ -667,7 +668,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 16 )
-volume_db = -15.0
+volume_db = -12.0
 max_distance = 500.0
 bus = "Effects"
 
@@ -682,7 +683,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 30
+frame = 54
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -691,7 +692,6 @@ wait_time = 0.25
 
 [node name="CharacterLights" parent="." instance=ExtResource( 23 )]
 visible = false
-
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

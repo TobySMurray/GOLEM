@@ -196,10 +196,10 @@ const upgrades = {
 		'type': 'exterminator',
 		'max_stack': 1
 	},
-	'synchotron_accelerator': { # Bullets turn into lasers one by one while attacking
-		'name': 'Synchotron Accelerator',
-		'desc': 'Maybe you\'ll find the Higgs...',
-		'effects': [],
+	'impulse_accelerator': {
+		'name': 'Impulse Accelerator',
+		'desc': 'The railgun experience: now without rails!',
+		'effects': ['Bullets clump together while charging and are fired simultaneously', 'Bullets do not become beams when fired'],
 		'type': 'exterminator',
 		'max_stack': 1,
 	},
@@ -212,7 +212,7 @@ const upgrades = {
 	},
 	'bulwark_mode': { # Bullets accelerate faster and explode. Must stop moving to fire. 
 		'name': 'Bulwark Mode',
-		'desc': 'No retreat. No mercy.',
+		'desc': 'Read them the Riot Act.',
 		'effects': ['+100% bullet charge speed', 'Bullets/lasers explode for +50% damage', 'Cannot move while attacking'],
 		'type': 'exterminator',
 		'max_stack': 1,

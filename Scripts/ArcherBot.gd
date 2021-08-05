@@ -20,6 +20,7 @@ var explosion_size = 0.5
 var full_auto = false
 var shanky = false
 
+var bow_pos = Vector2.ZERO
 var charging = false
 var charge_timer = 0
 var raycast_endpoint = Vector2.ZERO
@@ -52,6 +53,8 @@ func toggle_enhancement(state):
 	walk_speed = walk_speed_levels[level]
 	max_speed = walk_speed
 	charge_time = charge_time_levels[level]
+	
+	max_attack_cooldown = 1.5
 	max_special_cooldown = 8 if state else 16
 	speed_while_charging = 0
 	beam_damage = 150
@@ -80,12 +83,19 @@ func toggle_enhancement(state):
 			beam_damage *= 0.7
 			
 		shanky = GameManager.player_upgrades['scruple_inhibitor'] > 0
+	
+		max_attack_cooldown = 0.1
+	else:
+		attack_cooldown = 0.75 + randf()*0.75
 		
-	max_attack_cooldown = charge_time + (0.1 if full_auto else 0.5)
 
 
 func misc_update(delta):
 	ai_move_timer -= delta
+	bow_pos = global_position + Vector2(9*sign(aim_direction.x), 0)
+	
+	if not lock_aim:
+		aim_direction = (get_global_mouse_position() - bow_pos).normalized()
 	
 	if charging:
 		charge_timer -= delta
@@ -132,13 +142,11 @@ func ai_action():
 	else:
 		ai_target_point = global_position
 		
-		
-		if attack_cooldown < 0 and (raycast_endpoint - global_position).length() > player_dist:
+		if attack_cooldown < 0 and (raycast_endpoint - global_position).length() > player_dist - 10:
 			ai_move_timer = 4
-			if player_dist < 400:
+			if player_dist < 500:
 				ai_target_point = global_position - aim_direction.rotated((randf()-0.5)*PI)*(20 + 50*randf())
-				
-			charge_attack()
+				charge_attack()
 	
 	
 func charge_attack():
@@ -148,7 +156,6 @@ func charge_attack():
 		
 	attacking = true
 	charging = true
-	attack_cooldown = max_attack_cooldown
 	lock_aim = not full_auto
 	max_speed = speed_while_charging
 	
@@ -159,6 +166,7 @@ func charge_attack():
 	
 func release_attack():
 	charging = false
+	attack_cooldown = max_attack_cooldown
 	play_animation("Attack")
 	
 	sight_beam.stop()
@@ -172,17 +180,10 @@ func release_attack():
 	var beam_length = (raycast_endpoint - global_position).length()
 	var beam_dir = (raycast_endpoint - global_position)/beam_length
 	
-	#attack_beam.get_parent().rotation = beam_dir.angle()
-	#attack_beam.scale = Vector2(beam_length/32, beam_width)
-
-	#var attack_anim = attack_beam.get_node("AnimatedSprite")
-	#attack_anim.frame = 0
-	#attack_anim.play("Shoot")
-	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(max(0.4, 0.7*beam_damage/150), 4 if beam_damage > 100 else 5)
 		
-	beam_length = (LaserBeam.shoot_laser(global_position + Vector2(9*sign(aim_direction.x), 0), aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 50, 500) - global_position).length()
+	beam_length = (LaserBeam.shoot_laser(bow_pos, aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 5, 500) - global_position).length()
 	#melee_attack(attack_beam.get_node("CollisionShape2D"), beam_damage, 500, 0)
 	
 	var dist = 50
@@ -227,13 +228,15 @@ func area_attack():
 #	pass
 
 func update_raycast():
-	raycast.cast_to = aim_direction*5000
-	raycast_endpoint = raycast.get_collision_point() if raycast.is_colliding() else (global_position + aim_direction.normalized()*1000)
+	raycast.position = bow_pos - global_position
+	raycast.cast_to = aim_direction*500
+	raycast_endpoint = raycast.get_collision_point() if raycast.is_colliding() else (bow_pos + aim_direction.normalized()*500)
 
 func update_sight():
-	var beam_length = (raycast_endpoint - global_position).length()
-	var beam_dir = (raycast_endpoint - global_position)/beam_length
+	var beam_length = (raycast_endpoint - bow_pos).length()
+	var beam_dir = aim_direction
 	
+	sight_beam.global_position = bow_pos
 	sight_beam.rotation = beam_dir.angle()
 	sight_beam.scale.x = beam_length/80
 	
@@ -281,10 +284,10 @@ func take_damage(damage, source, stun = 0):
 			for i in range(10):
 				var dir = Vector2.ONE.rotated(randf()*2*PI)
 				var result = space_state.intersect_ray(global_position, global_position + dir*10000, [get_node('Hitbox')], 1, true, false)
-				var dist = (result.position - global_position).length() if result else 10000
+				var dist = (result['position'] - global_position).length() if result else 10000
 				if dist > max_dist:
 					max_dist = dist
-					ai_target_point = result.position
+					ai_target_point = global_position + dir*dist
 		else:
 			ai_target_point = 1000*Vector2.ONE.rotated(randf()*2*PI)
 				
