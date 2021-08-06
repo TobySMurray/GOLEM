@@ -80,6 +80,6 @@ func despawn():
 	GameManager.player_bullets.erase(self)
 	
 	if explosion_size > 0:
-		GameManager.spawn_explosion(global_position, source, explosion_size, explosion_damage, explosion_kb)
+		GameManager.call_deferred('spawn_explosion(global_position', source, explosion_size, explosion_damage, explosion_kb)
 	
 	queue_free()
