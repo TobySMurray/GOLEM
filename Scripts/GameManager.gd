@@ -112,6 +112,7 @@ var game_HUD
 var ground
 var obstacles
 var wall
+var wall_foreground = null
 var audio
 var player_bullets = []
 var enemies = []
@@ -243,6 +244,7 @@ func reset():
 	player = null
 	true_player = null
 	hyperdeath_mode = false
+	wall_foreground = null
 	
 	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 	get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
@@ -252,8 +254,8 @@ func reset():
 	#	if randf() < 0.75: player_upgrades[key] += 1
 		player_upgrades[key] = 0
 		pass
-					
-			
+		
+		
 func lerp_to_timescale(scale):
 	target_timescale = scale
 	
@@ -529,6 +531,9 @@ func is_point_in_bounds(global_point):
 	var ground_points = ground.world_to_map(global_point)
 	var marble_point = wall.world_to_map(global_point)
 	var obstacles_point = obstacles.world_to_map(global_point)
+	if wall_foreground:
+		var foreground_point = wall_foreground.world_to_map(global_point)
+		return ground_points in ground.get_used_cells() and not marble_point in wall.get_used_cells() and not obstacles_point in obstacles.get_used_cells() and not wall_foreground in wall_foreground.get_used_cells()
 	
 	return ground_points in ground.get_used_cells() and not marble_point in wall.get_used_cells() and not obstacles_point in obstacles.get_used_cells()
 	
