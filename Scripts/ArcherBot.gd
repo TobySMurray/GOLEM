@@ -112,7 +112,7 @@ func player_action():
 	if not lock_aim:
 		effective_aim_direction = (get_global_mouse_position() - bow_pos).normalized()
 		
-	if (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and attack_cooldown < 0:
+	if not attacking and (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and attack_cooldown < 0:
 		charge_attack()
 	elif Input.is_action_just_pressed("attack2") and special_cooldown < 0:
 		special()
@@ -138,6 +138,9 @@ func ai_action():
 		effective_aim_direction = (GameManager.player.global_position - bow_pos).normalized()
 		update_raycast()
 		update_sight()
+		
+	if not attacking:
+		sight_beam.visible = player_dist < 700
 	
 	if(to_target_point.length() > 5) and ai_move_timer > 0:
 		target_velocity = to_target_point

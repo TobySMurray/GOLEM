@@ -526,7 +526,7 @@ func area_deflect():
 func on_bullet_despawn(b):
 	if not retaliating and b in captured_bullets:
 		captured_bullets.erase(b)
-		calculate_bullet_formation()
+		call_deferred('calculate_bullet_formation')
 
 func reparent_to(child, new_parent):
 	var pos = child.global_position
