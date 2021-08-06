@@ -50,7 +50,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Ludumdare 48"
+config/name="Golem"
 run/main_scene="res://Scenes/Menus/StartMenu.tscn"
 boot_splash/image="res://Art/GolemCoverArt.PNG"
 config/icon="res://Art/GolemCoverArt.PNG"
@@ -137,6 +137,6 @@ pause={
 
 [rendering]
 
-quality/2d/use_pixel_snap=true
-environment/default_environment="res://default_env.tres"
 2d/snapping/use_gpu_pixel_snap=true
+environment/default_environment="res://default_env.tres"
+quality/2d/use_pixel_snap=true

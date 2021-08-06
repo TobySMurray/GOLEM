@@ -510,7 +510,7 @@ func on_laser_deflection(impact_point, dir, width, source, damage, kb, stun, pie
 				LaserBeam.shoot_laser(impact_point, beam_dir, width/2.0, self, damage/3, kb/2, stun, piercing, style, explosion_size/2.0, explosion_damage/3, explosion_kb/2.0, true)
 		
 		else:
-			LaserBeam.shoot_laser(impact_point + dir, (dir + normal/2).normalized(), width/2.0, source, damage/3, kb/2, stun, piercing, style, explosion_size/2.0, explosion_damage/3, explosion_kb/2.0, true)
+			LaserBeam.shoot_laser(impact_point + dir, (dir + normal/3).normalized(), width/2.0, source, damage/2, kb/2, stun, piercing, style, explosion_size/2.0, explosion_damage/3, explosion_kb/2.0, true)
 			
 		return true
 	else:

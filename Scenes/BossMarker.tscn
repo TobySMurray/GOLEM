@@ -4,6 +4,7 @@
 
 [node name="BossMarker" type="Sprite"]
 light_mask = 2
+z_index = 2
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 64, 0, 32, 32 )

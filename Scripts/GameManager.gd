@@ -129,7 +129,6 @@ var enemy_drought_bailout_available = true
 var total_score = 0
 var variety_bonus = 1.0
 var swap_history = ['merchant']
-var next_item_threshold = 2
 
 var hyperdeath_mode = false
 var hyperdeath_start_time = 0
@@ -241,7 +240,6 @@ func reset():
 	spawn_timer = 0
 	enemy_count = 1
 	swap_history = ['merchant']
-	next_item_threshold = 2
 	player = null
 	true_player = null
 	hyperdeath_mode = false
@@ -364,9 +362,6 @@ func on_swap(new_player):
 	enemy_drought_bailout_available = true
 	Options.enemy_swaps[new_player.enemy_type] += 1
 	emit_signal("on_swap")
-	if len(swap_history) >= next_item_threshold:
-		next_item_threshold += 3
-		give_player_random_upgrade(new_player.enemy_type)
 	
 			
 func give_player_random_upgrade(type = ''):

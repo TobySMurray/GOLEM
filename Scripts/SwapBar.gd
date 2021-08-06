@@ -27,7 +27,7 @@ var swap_threshold_penalty = 0
 var unlocked_last_frame = false
 var beep_timer = 0
 
-var item_count = 2
+var item_count = 0
 
 var colors = [Color(1,0.8,0.8,1),Color(1,0.5,0.5,1), Color(1,1,1,1)]
 		
@@ -80,6 +80,7 @@ func on_GM_swap():
 	$ItemProgress/Tween.interpolate_property(item_indicator, "value", (item_count - 1)*100, item_count*100, 0.1)
 	$ItemProgress/Tween.start()
 	if item_count >= 3:
+		GameManager.give_player_random_upgrade(GameManager.true_player.enemy_type)
 		item_count = 0
 		$ItemProgress/Tween.interpolate_property(item_indicator, "value", 300, 0, 0.6)
 		$ItemProgress/Tween.start()

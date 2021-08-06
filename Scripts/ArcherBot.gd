@@ -134,7 +134,8 @@ func ai_action():
 	var player_dist = to_player.length()
 	
 	if not lock_aim:
-		effective_aim_direction = (GameManager.player.position - bow_pos).normalized()
+		aim_direction = (GameManager.player.global_position - global_position)
+		effective_aim_direction = (GameManager.player.global_position - bow_pos).normalized()
 		update_raycast()
 		update_sight()
 	

@@ -335,7 +335,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 2
+frame = 6
 playing = true
 
 [node name="Panel" type="Panel" parent="Background"]
@@ -353,7 +353,7 @@ modulate = Color( 1, 1, 1, 0.501961 )
 position = Vector2( 320, 80 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 77 )
-frame = 20
+frame = 59
 speed_scale = 4.0
 playing = true
 
@@ -439,3 +439,15 @@ __meta__ = {
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Buttons"]
 stream = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -32.0
+margin_right = 89.0
+margin_bottom = -8.0
+text = "alpha v0.1.0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
