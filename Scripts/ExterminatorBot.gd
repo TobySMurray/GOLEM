@@ -336,7 +336,7 @@ func expel_compacted_bullets():
 					b.explosion_damage = b.damage*0.5
 					b.explosion_kb = b.mass*800
 			
-			reparent_to(b, GameManager.projectiles_node)
+			Util.reparent_to(b, GameManager.projectiles_node)
 			captured_bullets[i] = null
 	else:
 		var damage = 0
@@ -427,7 +427,7 @@ func apply_shield_effects(delta):
 				captured_bullets.append(b)
 				b.modulate = Color(0.7, 0.2, 1)
 				nearby_bullets[i] = null
-				reparent_to(b, cw_ring)
+				Util.reparent_to(b, cw_ring)
 				formation_update_needed = true
 				
 		if formation_update_needed:
@@ -484,9 +484,9 @@ func calculate_bullet_formation():
 		for i in range(circle_counts[c]):
 			var b = captured_bullets[len(bullet_formation_positions)]
 			if c == 1 and b.get_parent() != ccw_ring:
-				reparent_to(b, ccw_ring)
+				Util.reparent_to(b, ccw_ring)
 			elif c != 1 and b.get_parent() != cw_ring:
-				reparent_to(b, cw_ring)
+				Util.reparent_to(b, cw_ring)
 				
 			bullet_formation_positions.append(Vector2(cos(cur_angle), sin(cur_angle)) * circle_radii[c])
 			cur_angle += delta_angles[c]
@@ -527,13 +527,6 @@ func on_bullet_despawn(b):
 	if not retaliating and b in captured_bullets:
 		captured_bullets.erase(b)
 		call_deferred('calculate_bullet_formation')
-
-func reparent_to(child, new_parent):
-	var pos = child.global_position
-	child.get_parent().remove_child(child)
-	new_parent.add_child(child)
-	child.set_owner(new_parent)
-	child.global_position = pos
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -53,7 +53,7 @@ const levels = {
 		'scene_name': 'TestRoom.tscn'
 	},
 		
-	"RuinsLevel": {
+	"SkyRuins": {
 		'map_bounds': Rect2(-500, -250, 2500, 1150),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
 		'enemy_density': 7,
@@ -63,7 +63,7 @@ const levels = {
 		'scene_name': 'SkyRuins1.tscn'
 	},
 	
-	"LabyrinthLevel": {
+	"Labyrinth": {
 		'map_bounds': Rect2(-315, -260, 2140, 1510),
 		'enemy_weights': [1, 0.66, 0.4, 1, 1, 0.2, 0.2, 0.4],
 		'enemy_density': 12,
@@ -72,7 +72,7 @@ const levels = {
 		'music': 'cantaloupe b3.wav',
 		'scene_name': 'Labyrinth1.tscn'
 	},
-	"DesertLevel": {
+	"Desert": {
 		'map_bounds': Rect2(-1050, -700, 2100, 1700),
 		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
 		'enemy_density': 12,
