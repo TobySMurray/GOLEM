@@ -335,7 +335,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 9
+frame = 8
 playing = true
 
 [node name="Panel" type="Panel" parent="Background"]
@@ -439,3 +439,13 @@ __meta__ = {
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Buttons"]
 stream = ExtResource( 4 )
+
+[node name="Version" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -24.0
+margin_right = 78.0
+text = "alpha v0.1.1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
