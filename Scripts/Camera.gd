@@ -1,8 +1,8 @@
 extends Camera2D
 
 export (NodePath) var init_anchor
-onready var anchor = get_node(init_anchor)
-onready var smooth_anchor_pos = anchor.global_position
+var anchor
+var smooth_anchor_pos
 var base_offset = Vector2.ZERO
 var smooth_base_offset = base_offset
 
