@@ -48,7 +48,6 @@ shader_param/color = Vector3( 0.8, 1, 1 )
 [node name="Camera2D" type="Camera2D"]
 current = true
 script = ExtResource( 1 )
-init_anchor = NodePath("../WorldObjects/Characters/Merchant")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

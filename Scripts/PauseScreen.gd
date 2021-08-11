@@ -23,11 +23,8 @@ func _on_PlayAgainButton_pressed():
 func _on_QuitButton_pressed():
 	toggle_pause(false)
 	GameManager.lerp_to_timescale(1)
-	GameManager.reset()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	Options.level = "Menu"
-	Options.choose_music()
-	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")
+	GameManager.scene_transition.fade_out_to_scene("res://Scenes/Menus/StartMenu.tscn", 0.25)
 
 
 

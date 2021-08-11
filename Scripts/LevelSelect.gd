@@ -29,14 +29,17 @@ func _physics_process(delta):
 		back()
 func skyRuins():
 	#get_tree().change_scene("res://Scenes/Levels/"+ level_paths[1] +".tscn")
-	GameManager.scene_transition.fade_out("res://Scenes/Levels/"+ level_paths[1] +".tscn")
+	#GameManager.scene_transition.fade_out("res://Scenes/Levels/"+ level_paths[1] +".tscn")
+	GameManager.start_game('arcade', 'SkyRuins', "res://Scenes/Levels/"+ level_paths[1] +".tscn")
 	
 func labyrinth():
 	#get_tree().change_scene("res://Scenes/Levels/"+ level_paths[2] +".tscn")
-	GameManager.scene_transition.fade_out("res://Scenes/Levels/"+ level_paths[2] +".tscn")
+	#GameManager.scene_transition.fade_out("res://Scenes/Levels/"+ level_paths[2] +".tscn")
+	GameManager.start_game('arcade', 'Labyrinth', "res://Scenes/Levels/"+ level_paths[2] +".tscn")
 
 func desert():
-	GameManager.scene_transition.fade_out("res://Scenes/Levels/"+ level_paths[3] +".tscn")
+	#GameManager.scene_transition.fade_out("res://Scenes/Levels/"+ level_paths[3] +".tscn")
+	GameManager.start_game('arcade', 'Desert', "res://Scenes/Levels/"+ level_paths[3] +".tscn")
 	
 func back():
 	get_tree().change_scene("res://Scenes/Menus/StartMenu.tscn")

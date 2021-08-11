@@ -1,10 +1,9 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/DungeonGround.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Tilesets/Ground.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Tilesets/Marble.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/HUDCamera.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Tilesets/DungeonWall.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Debug/SummonButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Debug/EVLButton.tscn" type="PackedScene" id=8]
@@ -94,43 +93,9 @@ shader_param/ALPHA = 0.5
 shader_param/ALPHA_OFFSET = -0.25
 shader_param/color = Vector3( 0.5, 0.7, 0.9 )
 
-[sub_resource type="Shader" id=3]
-code = "shader_type canvas_item;
-
-uniform float RESOLUTION = 1.0;
-uniform float FREQ = 1.0;
-uniform float ALPHA = 1.0;
-uniform float ALPHA_SHIFT = 0.0;
-uniform vec3 color = vec3(1, 1, 1);
-
-float rand(vec2 coord){
-	return fract(sin(dot(coord, vec2(21.6782397, 5.4359876739)))*1000.3475938);
-}
-
-vec2 quantize(vec2 v, float r){
-	return floor(v*r)/r;
-}
-
-void fragment(){
-	float tex_alpha = texture(TEXTURE, UV).a;
-	vec2 centered_uv = abs(UV - vec2(0.5, 0.5));
-	vec2 QUV = quantize(centered_uv*600.0, RESOLUTION);
-	COLOR = vec4(color, max(0, (rand(QUV + TIME*FREQ)+ALPHA_SHIFT)*ALPHA*tex_alpha));
-}
-
-"
-
-[sub_resource type="ShaderMaterial" id=4]
-resource_local_to_scene = true
-shader = SubResource( 3 )
-shader_param/RESOLUTION = 0.5
-shader_param/FREQ = 1.0
-shader_param/ALPHA = 1.0
-shader_param/ALPHA_SHIFT = 0.0
-shader_param/color = Vector3( 0.8, 1, 1 )
-
 [node name="TestLevel" type="Node2D"]
 script = ExtResource( 35 )
+init_player = NodePath("WorldObjects/Characters/ShotgunnerBot")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -157,24 +122,6 @@ script = ExtResource( 26 )
 [node name="Marble" parent="." instance=ExtResource( 4 )]
 position = Vector2( -8, -40 )
 script = ExtResource( 36 )
-
-[node name="Camera2D" parent="." instance=ExtResource( 5 )]
-visible = false
-position = Vector2( -8, -40 )
-init_anchor = NodePath("../../TestLevel/WorldObjects/Characters/ShotgunnerBot")
-
-[node name="SwapBar" parent="Camera2D/CanvasLayer" index="0"]
-visible = false
-
-[node name="DeathScreen" parent="Camera2D/CanvasLayer" index="2"]
-visible = false
-
-[node name="ColorRect" parent="Camera2D/CanvasLayer" index="4"]
-visible = false
-material = SubResource( 4 )
-
-[node name="Cursor" parent="Camera2D/CanvasLayer2" index="0"]
-subreticle_path = NodePath("../../../../TestLevel/Camera2D/CanvasLayer2/Subcursor")
 
 [node name="WorldObjects" type="YSort" parent="."]
 
@@ -232,5 +179,3 @@ position = Vector2( -150, 0 )
 
 [node name="WallWalkUnder" parent="." instance=ExtResource( 22 )]
 position = Vector2( -8, -40 )
-
-[editable path="Camera2D"]
