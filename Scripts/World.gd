@@ -28,6 +28,7 @@ var chunks = [[null, null, null],[null, null, null],[null, null, null]]
 var fixed_map = null
 
 var init_player = null
+var boss = null
 
 
 func _ready():
@@ -64,6 +65,9 @@ func load_level(level_name, fixed_map_path = null):
 		
 	
 func clear_level():
+	init_player = null
+	boss = null
+	
 	if fixed_map:
 		fixed_map.queue_free()
 		fixed_map = null
@@ -79,10 +83,14 @@ func clear_level():
 		
 		
 func populate_level(level_name):
-	var num_objective_chunks = 3
+	var level = Levels.level_data[level_name]
+	
+	var need_boss_chunk = true
+	
+	var objective_chunk_quota = level['objective_chunk_count'][randi() % level['objective_chunk_count'].size()]
 	var objective_chunks = []
 	
-	var num_empty_chunks = 1 + round(randf())
+	var empty_chunk_quota = level['empty_chunk_count'][randi() % level['empty_chunk_count'].size()]
 	var empty_chunks = []
 	
 	var slot_positions = [Vector2(0, 0), Vector2(0, 1), Vector2(0, 2), Vector2(1, 0), Vector2(1, 1), Vector2(1, 2), Vector2(2, 0), Vector2(2, 1), Vector2(2, 2)]
@@ -100,17 +108,34 @@ func populate_level(level_name):
 			candidates.shuffle()
 			var chosen = null
 			
-#			if len(objective_chunks) < num_objective_chunks:
-#				for candidate in candidates:
-#					if candidate.chunk_type == 'OBJECTIVE':
-#						objective_chunks.append(candidate)
-#						chosen = candidate
-#
-#			if not chosen and len(empty_chunks) < num_empty_chunks:
-#				for candidate in candidates:
-#					if candidate.chunk_type == 'EMPTY':
-#						empty_chunks.append(candidate)
-#						chosen = candidate
+			if not init_player:
+				for candidate in candidates:
+					if candidate.get('chunk_type') and candidate.chunk_type == Chunk.ChunkType.SPAWN:
+						init_player = candidate.get_node(candidate.init_player)
+						chosen = candidate
+						print('FOUND INIT PLAYER')
+						break
+						
+			if not chosen and not boss:
+				for candidate in candidates:
+					if candidate.get('chunk_type') and candidate.chunk_type == Chunk.ChunkType.BOSS:
+						boss = candidate.get_node(candidate.boss)
+						chosen = candidate
+						break
+			
+			if not chosen and len(objective_chunks) < objective_chunk_quota:
+				for candidate in candidates:
+					if candidate.get('chunk_type') and candidate.chunk_type == Chunk.ChunkType.OBJECTIVE:
+						objective_chunks.append(candidate)
+						chosen = candidate
+						break
+
+			if not chosen and not chosen and len(empty_chunks) < empty_chunk_quota:
+				for candidate in candidates:
+					if candidate.get('chunk_type') and candidate.chunk_type == Chunk.ChunkType.EMPTY:
+						empty_chunks.append(candidate)
+						chosen = candidate
+						break
 						
 			if not chosen:
 				chosen = candidates[0]
@@ -122,6 +147,10 @@ func populate_level(level_name):
 			if chunk_objects:
 				for obj in chosen.get_node('Objects').get_children():
 					Util.reparent_to(obj, objects_node)
+					
+	if not init_player:
+		init_player = GameManager.spawn_enemy('shotgun', Vector2.ZERO)
+		init_player.toggle_playerhood(true)
 		
 
 func get_chunk_paths():

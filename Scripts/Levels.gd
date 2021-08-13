@@ -27,6 +27,8 @@ const level_data = {
 		'dark': false,
 		'fog': 'Fog_SkyRuins',
 		'music': 'melon b3.wav',
+		'objective_chunk_count': [3, 3],
+		'empty_chunk_count': [1, 3],
 		'fixed_maps': ['SkyRuins1.tscn']
 	},
 	
@@ -40,6 +42,8 @@ const level_data = {
 		'fog': 'Fog_Labyrinth',
 		'modulate': Color(0.098, 0.13, 0.11),
 		'music': 'cantaloupe b3.wav',
+		'objective_chunk_count': [3, 3],
+		'empty_chunk_count': [0, 2],
 		'fixed_maps': ['Labyrinth1.tscn']
 	},
 	"Desert": {
@@ -50,6 +54,8 @@ const level_data = {
 		'pace': 0.9,
 		'dark': false,
 		'music': 'melon b3.wav',
+		'objective_chunk_count': [3, 3],
+		'empty_chunk_count': [1, 3],
 		'fixed_maps': ['Desert1.tscn']
 	},
 	"Tutorial": {
