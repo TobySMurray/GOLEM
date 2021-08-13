@@ -37,61 +37,13 @@ onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 signal on_swap
 signal on_level_ready
 
-const levels = {
-	'MainMenu': {
-		'dark': false,
-		'music': 'cuuuu b3.wav'
-	},
-	
-	"TestLevel": {
-		'map_bounds': Rect2(-250, -250, 500, 500),
-		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
-		'enemy_density': 0,
-		'pace': 0,
-		'dark': false,
-		'music': 'cuuuu b3.wav',
-		'scene_name': 'TestRoom.tscn'
-	},
-		
-	"RuinsLevel": {
-		'map_bounds': Rect2(-500, -250, 2500, 1150),
-		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
-		'enemy_density': 7,
-		'pace': 0.9,
-		'dark': false,
-		'music': 'melon b3.wav',
-		'scene_name': 'SkyRuins1.tscn'
-	},
-	
-	"LabyrinthLevel": {
-		'map_bounds': Rect2(-315, -260, 2140, 1510),
-		'enemy_weights': [1, 0.66, 0.4, 1, 1, 0.2, 0.2, 0.4],
-		'enemy_density': 12,
-		'pace': 0.6,
-		'dark': true,
-		'music': 'cantaloupe b3.wav',
-		'scene_name': 'Labyrinth1.tscn'
-	},
-	"DesertLevel": {
-		'map_bounds': Rect2(-1050, -700, 2100, 1700),
-		'enemy_weights': [1, 1, 0.3, 1, 0.66, 0.3, 0.2, 0],
-		'enemy_density': 12,
-		'pace': 0.9,
-		'dark': false,
-		'music': 'melon b3.wav',
-		'scene_name': 'Desert1.tscn'
-	},
-	"Tutorial": {
-		'map_bounds': Rect2(-500, -250, 2500, 1150),
-		'enemy_weights': [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1],
-		'enemy_density': 1,
-		'pace': 0.1,
-		'dark': false
-	}
-}
+var arcade_mode = false
 
+var world = null
 var level_name = "MainMenu"
-var level = levels[level_name]
+var level = Levels.level_data[level_name]
+var fixed_map = null
+
 var projectiles_node
 
 var timescale = 1
@@ -119,7 +71,9 @@ var enemies = []
 
 var out_of_control = false
 
-onready var game_time = 0
+var game_time = 0
+var level_time = 0
+
 var spawn_timer = 0
 var enemy_soft_cap
 var enemy_count = 1
@@ -127,7 +81,7 @@ var enemy_hard_cap = 15
 var cur_boss = null
 var enemy_drought_bailout_available = true
 
-var total_score = 0
+var score = 0
 var variety_bonus = 1.0
 var swap_history = ['merchant']
 
@@ -136,8 +90,9 @@ var hyperdeath_start_time = 0
 
 var kills = 0
 
-var evolution_thresholds = [0, 300, 1000, 2000, 3500, 5000, 999999]
 var evolution_level = 1
+var init_evolution_level = 1
+var evolution_thresholds = [0, 300, 1000, 2000, 3500, 5000, 999999]
 
 var player_upgrades = {
 	#SHOTGUN
@@ -190,6 +145,7 @@ var player_upgrades = {
 }
 
 func _ready():
+	randomize()
 	projectiles_node = get_node('/root')
 	
 func _process(delta):
@@ -201,12 +157,12 @@ func _process(delta):
 		timescale_timer -= delta/timescale
 			
 	if is_instance_valid(true_player):
-		game_time += delta
+		level_time += delta
 		spawn_timer -= delta
 		
 		if spawn_timer < 0 and level['enemy_density'] > 0:
 			spawn_timer = 1
-			enemy_soft_cap = level["enemy_density"]*(1 + game_time*0.01*level['pace']) #pow(1.3, game_time/60)
+			enemy_soft_cap = level["enemy_density"]*(1 + level_time*0.01*level['pace']) #pow(1.3, level_time/60)
 			if randf() < (1 - enemy_count/enemy_soft_cap):
 				print("SPAWN (" + str(enemy_count + 1) +")")
 				spawn_random_enemy()
@@ -224,36 +180,105 @@ func _process(delta):
 				player.toggle_enhancement(false)
 			player = true_player
 			
+func start_game(mode, init_level, fixed_map_ = null, skip_transition = false):
+		if mode == 'arcade':
+			arcade_mode = true
+			
+		elif mode == 'campaign':
+			arcade_mode = false
+			
+		else:
+			print('ERROR: Invalid gamemode (' + mode + ')')
+			return
+		
+		level_name = init_level
+		level = Levels.level_data[init_level]
+		fixed_map = fixed_map_
+		
+		game_time = 0
+		init_evolution_level = 1
+		
+		for key in player_upgrades:
+			player_upgrades[key] = 0
+			pass
+		
+		if not world:
+			scene_transition.fade_out_to_scene('res://Scenes/World.tscn', 0 if skip_transition else 0.5)
+		else:
+			scene_transition.fade_out_and_restart(0 if skip_transition else 0.5)
+		
+func on_world_loaded(world_ = world):
+	world = world_
+	projectiles_node = world.objects_node
+	
+	camera = world.camera
+	game_HUD = camera.get_node('CanvasLayer/ScoreDisplay')
+	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
+	
+	camera.add_child(boss_marker)
+	boss_marker.visible = false
+		
+	world.load_level(level_name, fixed_map)
+	
 					
-func reset():
+func start_level():
 	if level_name != 'TestLevel':
-		save_game_stats()
 		swap_bar.enabled = true
 	else:
 		swap_bar.enabled = false
+		world.init_player.toggle_playerhood(true)
+		
+	play_level_bgm()
+		
+	camera.set_anchor(world.init_player)
+	camera.get_node('CanvasLayer/DeathScreen').visible = false
 	
-	total_score = 0
+	score = 0
 	kills = 0
-	set_evolution_level(1)
 	set_timescale(1)
 	target_timescale = 1
-	game_time = 0
+	set_evolution_level(init_evolution_level)
+	level_time = 0
 	spawn_timer = 0
 	enemy_count = 1
+	
+	swap_bar.visible = true
+	swap_bar.reset()
+	swap_bar.set_swap_threshold(1)
+	
 	swap_history = ['merchant']
 	player = null
 	true_player = null
 	hyperdeath_mode = false
 	wall_foreground = null
 	
-	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
-	get_node("/root/"+ level_name +"/Camera2D").add_child(boss_marker)
-	boss_marker.visible = false
+	scene_transition.fade_in()
+	emit_signal('on_level_ready')
 	
-	for key in player_upgrades:
-	#	if randf() < 0.75: player_upgrades[key] += 1
-		player_upgrades[key] = 0
-		pass
+func game_over():
+	swappable = false
+	lerp_to_timescale(0.1)
+	swap_bar.visible = false
+	save_game_stats()
+	
+	var death_screen = camera.get_node('CanvasLayer/DeathScreen')
+	var final_score_label = death_screen.get_node('ScoreLabel')
+	var high_score_label =death_screen.get_node('HighScore')
+	
+	if level_name != 'TestLevel':
+		final_score_label.set_text("Score: " + str(GameManager.score))
+		high_score_label.set_text("High Score: " + str(Options.high_scores[GameManager.level_name]))
+		if Options.high_scores[GameManager.level_name] < GameManager.score:
+			final_score_label.set("custom_colors/font_color", ("e6e72a"))
+			high_score_label.set_text("High Score: " + str(GameManager.score))
+	death_screen.popup()
+	
+		
+func play_level_bgm(level_name_ = level_name):
+	var music = load('res://Sounds/Music/' + Levels.level_data[level_name_]['music'])
+	if BGM.stream != music:
+		BGM.stream = music
+		BGM.play()
 		
 		
 func lerp_to_timescale(scale):
@@ -284,7 +309,7 @@ func spawn_blood(origin, rot, speed = 500, amount = 20, spread = 5):
 		return
 		
 	var spray = splatter_particles.instance().duplicate()
-	get_node("/root/"+ level_name + "/WorldObjects").add_child(spray)
+	world.objects_node.add_child(spray)
 	spray.global_position = origin
 	spray.rotation = rot
 	spray.process_material.initial_velocity = speed
@@ -311,10 +336,10 @@ func spawn_random_enemy(allow_boss = true, spawn_point = level['map_bounds']):
 		
 	var boss_lv = 0
 	if hyperdeath_mode:
-		if randf() < (game_time - hyperdeath_start_time) / (game_time - hyperdeath_start_time + 600):
-			boss_lv = int(1 + randf()*(game_time - hyperdeath_start_time)/60)
+		if randf() < (level_time - hyperdeath_start_time) / (level_time - hyperdeath_start_time + 600):
+			boss_lv = int(1 + randf()*(level_time - hyperdeath_start_time)/60)
 	else:
-		if allow_boss and not is_instance_valid(cur_boss) and total_score > evolution_thresholds[evolution_level]:
+		if allow_boss and not is_instance_valid(cur_boss) and score > evolution_thresholds[evolution_level]:
 			boss_lv = evolution_level + 1
 		
 	spawn_enemy(choose_weighted(enemy_scenes.keys(), level['enemy_weights']), spawn_point, boss_lv)
@@ -338,14 +363,14 @@ func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
 			cur_boss = new_enemy
 		
 	else:
-		var d = game_time/30.0*level["pace"] - 2
+		var d = level_time/30.0*level["pace"] - 2
 		if randf() < (d/(d+4.0)/2.0):
 			new_enemy.add_swap_shield(randf()*d*5)
 			
 	enemy_count += 1
 	enemies.append(new_enemy)
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
-	get_node("/root/"+ level_name +"/WorldObjects/Characters").add_child(new_enemy)
+	world.objects_node.add_child(new_enemy)
 	return new_enemy
 	
 func on_swap(new_player):
@@ -396,25 +421,6 @@ func give_player_upgrade(upgrade):
 	popup.set_upgrade(upgrade)
 	popup.show()
 	
-func on_level_loaded(lv_name):
-	level_name = lv_name
-	level = levels[lv_name]
-	
-	var music = load('res://Sounds/Music/' + level['music'])
-	if BGM.stream != music:
-		BGM.stream = load('res://Sounds/Music/' + level['music'])
-		BGM.play()
-	
-	if lv_name != "MainMenu":
-		projectiles_node = get_node('/root/' + level_name + '/Projectiles')
-		if not projectiles_node:
-			print("ERROR: No \"Projectiles\" node found in level heirarchy")
-			projectiles_node = get_node('/root')
-			
-		reset()
-		
-	scene_transition.fade_in()
-	emit_signal('on_level_ready')
 
 func kill():
 	swappable = false
@@ -428,11 +434,11 @@ func set_evolution_level(lv):
 	
 	if lv >= 6 and not hyperdeath_mode:
 		hyperdeath_mode = true
-		hyperdeath_start_time = game_time
+		hyperdeath_start_time = level_time
 	
 func update_boss_marker():
 	if dist_offscreen(cur_boss.global_position) > 0 and cur_boss.health > 0:
-		boss_marker.visible = int(game_time*6)%2 == 0
+		boss_marker.visible = int(level_time*6)%2 == 0
 		
 		var screen_size = camera_bounds()
 		var to_boss = cur_boss.global_position - true_player.global_position
@@ -471,11 +477,11 @@ func update_variety_bonus():
 			variety_bonus += 0.1
 		
 func increase_score(value):
-	var swap_thresh_reduction = value/33/(1 + game_time/250*level["pace"])
+	var swap_thresh_reduction = value/33/(1 + level_time/250*level["pace"])
 	swap_bar.set_swap_threshold(swap_bar.swap_threshold - swap_thresh_reduction)
 		
-	total_score += value
-	game_HUD.get_node("ScoreDisplay").get_node("Score").score = total_score
+	score += value
+	game_HUD.get_node("ScoreDisplay").get_node("Score").score = score
 	
 func enemy_drought_bailout():
 	enemy_drought_bailout_available = false
@@ -513,9 +519,9 @@ func enemy_drought_bailout():
 			
 	
 func save_game_stats():
-	Options.high_scores[level_name] = max(Options.high_scores[level_name], total_score)
+	Options.high_scores[level_name] = max(Options.high_scores[level_name], score)
 	Options.max_kills[level_name] = max(Options.max_kills[level_name], kills)
-	Options.max_time[level_name] = max(Options.max_time[level_name], game_time)
+	Options.max_time[level_name] = max(Options.max_time[level_name], level_time)
 	Options.max_EVL[level_name] = max(Options.max_EVL[level_name], evolution_level)
 	Options.saveSettings()
 		

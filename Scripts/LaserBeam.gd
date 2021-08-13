@@ -49,7 +49,7 @@ static func shoot_laser(origin, dir, width, source, damage, kb = 0, stun = 0, pi
 	
 	
 	var excluded = [source.get_node('Hitbox')]
-	if source.get_node('Deflector'):
+	if source.get_node_or_null('Deflector'):
 		excluded.append(source.get_node('Deflector'))
 	
 	var result = null

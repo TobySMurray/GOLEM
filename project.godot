@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Bullet.gd"
 }, {
+"base": "Node2D",
+"class": "Chunk",
+"language": "GDScript",
+"path": "res://Scripts/Chunk.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Enemy",
 "language": "GDScript",
@@ -23,6 +28,21 @@ _global_script_classes=[ {
 "class": "LaserBeam",
 "language": "GDScript",
 "path": "res://Scripts/LaserBeam.gd"
+}, {
+"base": "Reference",
+"class": "Levels",
+"language": "GDScript",
+"path": "res://Scripts/Levels.gd"
+}, {
+"base": "Node2D",
+"class": "MapZone",
+"language": "GDScript",
+"path": "res://Scripts/MapZone.gd"
+}, {
+"base": "Node2D",
+"class": "MapZoneManager",
+"language": "GDScript",
+"path": "res://Scripts/MapZoneManager.gd"
 }, {
 "base": "Node",
 "class": "Projectile",
@@ -41,8 +61,12 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Bullet": "",
+"Chunk": "",
 "Enemy": "",
 "LaserBeam": "",
+"Levels": "",
+"MapZone": "",
+"MapZoneManager": "",
 "Projectile": "",
 "Upgrades": "",
 "Util": ""
@@ -70,6 +94,10 @@ window/size/test_width=1920
 window/size/test_height=1080
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "MapZoneGizmo", "MapZoneInspector" )
 
 [gui]
 
@@ -137,6 +165,6 @@ pause={
 
 [rendering]
 
-2d/snapping/use_gpu_pixel_snap=true
-environment/default_environment="res://default_env.tres"
 quality/2d/use_pixel_snap=true
+environment/default_environment="res://default_env.tres"
+2d/snapping/use_gpu_pixel_snap=true

@@ -1,9 +1,11 @@
 extends Node
 
-# Called when the node enters the scene tree for the first time.
+export (NodePath) var init_player
+
 func _ready():
-	GameManager.on_level_loaded(name)
-	#Options.choose_music()
+	#Only necessary so level scenes can be run individually in the editor
+	if not GameManager.world:
+		GameManager.start_game('arcade', name, filename, true)
 	
 	
 

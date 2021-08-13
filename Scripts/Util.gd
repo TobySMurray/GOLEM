@@ -65,4 +65,11 @@ static func remove_invalid(a):
 	length -= shift_size
 	a.resize(length)
 	
+static func reparent_to(child, new_parent):
+	var pos = child.global_position
+	child.get_parent().remove_child(child)
+	new_parent.add_child(child)
+	child.set_owner(new_parent)
+	child.global_position = pos
+	
 		

@@ -37,24 +37,24 @@ var keybinds = {
 
 #Game Stats
 var high_scores = {
-	"RuinsLevel": 0,
-	"LabyrinthLevel": 0,
-	"DesertLevel": 0
+	"SkyRuins": 0,
+	"Labyrinth": 0,
+	"Desert": 0
 }
 var max_kills = {
-	"RuinsLevel": 0,
-	"LabyrinthLevel": 0,
-	"DesertLevel": 0
+	"SkyRuins": 0,
+	"Labyrinth": 0,
+	"Desert": 0
 }
 var max_time = {
-	"RuinsLevel": 0,
-	"LabyrinthLevel": 0,
-	"DesertLevel": 0
+	"SkyRuins": 0,
+	"Labyrinth": 0,
+	"Desert": 0
 }
 var max_EVL = {
-	"RuinsLevel": 1,
-	"LabyrinthLevel": 1,
-	"DesertLevel": 1
+	"SkyRuins": 1,
+	"Labyrinth": 1,
+	"Desert": 1
 }
 var enemy_kills = {
 	'shotgun': 0,

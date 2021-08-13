@@ -1,8 +1,7 @@
 extends Camera2D
 
-export (NodePath) var init_anchor
-onready var anchor = get_node(init_anchor)
-onready var smooth_anchor_pos = anchor.global_position
+var anchor = null
+var smooth_anchor_pos = Vector2.ZERO
 var base_offset = Vector2.ZERO
 var smooth_base_offset = base_offset
 
@@ -18,10 +17,10 @@ var trauma_offset = Vector2.ZERO
 export var decay = 5  # How quickly the shaking stops [0, 1].
 export var max_offset = Vector2(100, 75)  # Maximum hor/ver shake in pixels.
 export var max_roll = 0.1  # Maximum rotation in radians (use sparingly).
-
-
-func _ready():
-	GameManager.camera = self
+	
+func set_anchor(a):
+	anchor = a
+	smooth_anchor_pos = anchor.global_position
 
 func _physics_process(delta):
 	if anchor:

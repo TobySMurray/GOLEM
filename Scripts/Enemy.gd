@@ -8,7 +8,7 @@ onready var swap_cursor = $BloodMoon
 onready var swap_shield = $ClearMoon
 onready var score_popup = load("res://Scenes/ScorePopup.tscn")
 onready var transcender_curve = Curve2D.new()
-onready var transcender = self.get_parent().get_node("Transcender")
+onready var transcender = GameManager.world.transcender
 onready var healthbar = $HealthBar
 onready var EV_particles = $EVParticles
 #onready var astar = self.get_parent().get_node("AStar")
@@ -18,10 +18,6 @@ onready var speed_audio = $BloodMoon/Speed
 onready var shape = $CollisionShape2D
 onready var light_circle = $CharacterLights/Radial
 onready var light_beam = $CharacterLights/Directed
-
-onready var ScoreLabel = get_node("../../../Camera2D/CanvasLayer/DeathScreen/ScoreLabel")
-onready var death_screen = get_node("../../../Camera2D/CanvasLayer/DeathScreen")
-onready var HighScore = get_node("../../../Camera2D/CanvasLayer/DeathScreen/HighScore")
 
 onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/relaod.wav')
 
@@ -607,16 +603,7 @@ func actually_die():
 		queue_free()
 	else:
 		dead = true
-		GameManager.swappable = false
-		GameManager.lerp_to_timescale(0.1)
-		#self.visible = false
-		GameManager.swap_bar.visible = false
-		ScoreLabel.set_text("Score: " + str(GameManager.total_score))
-		HighScore.set_text("High Score: " + str(Options.high_scores[GameManager.level_name]))
-		if Options.high_scores[GameManager.level_name] < GameManager.total_score:
-			ScoreLabel.set("custom_colors/font_color", ("e6e72a"))
-			HighScore.set_text("High Score: " + str(GameManager.total_score))
-		death_screen.popup()
+		GameManager.game_over()
 
 
 
