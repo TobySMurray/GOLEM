@@ -312,6 +312,6 @@ tile_data = PoolIntArray( 720928, 0, 0, 720929, 0, 0, 720930, 0, 0, 720931, 0, 0
 visible = false
 zones = {
 0: [  ],
-1: [ Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://Scripts/MapZone.gd" ),"rect":Rect2( 0, 416, 128, 80 ),"zone_type":1,"size":Vector2( 128, 80 ),"pos":Vector2( 0, 416 ),"color":Color( 0, 1, 1, 1 ),"handles":[  ])
+1: [ Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://Scripts/MapZone.gd" ),"rect":Rect2( 0, 416, 128, 80 ),"zone_type":0,"size":Vector2( 128, 80 ),"pos":Vector2( 0, 416 ),"color":Color( 0, 1, 1, 1 ),"handles":[  ])
  ]
 }

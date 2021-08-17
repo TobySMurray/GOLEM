@@ -180,7 +180,27 @@ const upgrades = {
 		'type': 'archer',
 		'max_stack': 1
 	},
-	
+	'triple_nock': { #shoot three beams
+		'name' : 'Triple Nock',
+		'desc' : 'Three times the fun.',
+		'effects' : ['Shoot three beams instead of one'],
+		'type' : 'archer',
+		'max_stack' : 1
+	},
+	'bomb_belt' : { #lowers special cooldown
+		'name' : 'Bomb Belt',
+		'desc' : 'For quicker access.',
+		'effects' : ['Lowers smoke bomb cooldown by 50%'],
+		'type' : 'archer',
+		'max_stack' : 3
+	},
+	'tazer_bomb' : { #adds stun to special
+		'name' : 'Tazer Bomb',
+		'desc' : 'An electrifing finish.',
+		'effects' : ['Special stuns nearby enemies'],
+		'type' : 'archer',
+		'max_stack' : 1
+	},
 	#EXTERMINATOR
 	'improvised_projectiles': { # Periodically generate new captured bullets
 		'name': 'Improvised Projectiles',

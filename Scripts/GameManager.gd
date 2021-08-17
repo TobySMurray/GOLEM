@@ -124,6 +124,9 @@ var player_upgrades = {
 	'half-draw': 0,
 	'slobberknocker_protocol': 0,
 	'scruple_inhibitor': 0,
+	'triple_nock' : 0,
+	'bomb_belt' : 0,
+	'tazer_bomb' : 0,
 	#EXTERMINATOR
 	'improvised_projectiles': 0,
 	'high-energy_orbit': 0,

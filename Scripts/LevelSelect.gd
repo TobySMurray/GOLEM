@@ -16,9 +16,9 @@ func _ready():
 	$Back.connect("pressed", self, "back")
 	$HowTo.connect("pressed", self, "HowTo")
 	
-	var r_time = Options.max_time['SkyRuins']
-	var l_time = Options.max_time['Labyrinth']
-	var d_time = Options.max_time['Desert']
+	var r_time = Options.max_time["SkyRuins"]
+	var l_time = Options.max_time["Labyrinth"]
+	var d_time = Options.max_time["Desert"]
 	
 	$SkyRuins/SkyRuinsStats.text = 'HIGH SCORE: ' + str(Options.high_scores['SkyRuins']) + '\nBEST TIME: ' + str(int(r_time/60)) + (':' if int(r_time)%60 > 9 else ':0') + str(int(r_time)%60)
 	$Labyrinth/LabyrinthStats.text = 'HIGH SCORE: ' + str(Options.high_scores['Labyrinth']) + '\nBEST TIME: ' + str(int(l_time/60)) + (':' if int(l_time)%60 > 9 else ':0') + str(int(l_time)%60)

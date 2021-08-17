@@ -19,6 +19,8 @@ var beam_width = 1.0
 var explosion_size = 0.5
 var full_auto = false
 var shanky = false
+var triple_nock = false
+var tazer_bomb = false
 
 var charging = false
 var charge_timer = 0
@@ -64,6 +66,8 @@ func toggle_enhancement(state):
 	explosion_size = 0.5
 	full_auto = false
 	shanky = false
+	triple_nock = false
+	tazer_bomb = false
 	
 	if state == true:
 		speed_while_charging = 50*GameManager.player_upgrades['vibro-shimmy']
@@ -85,6 +89,9 @@ func toggle_enhancement(state):
 			beam_damage *= 0.7
 			
 		shanky = GameManager.player_upgrades['scruple_inhibitor'] > 0
+		
+		triple_nock = GameManager.player_upgrades['triple_nock'] > 0
+		tazer_bomb = GameManager.player_upgrades['bomb_belt'] > 0
 	
 		max_attack_cooldown = 0.1
 	else:
@@ -188,20 +195,35 @@ func release_attack():
 	
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(max(0.4, 0.7*beam_damage/150), 4 if beam_damage > 100 else 5)
-		
-	beam_length = (LaserBeam.shoot_laser(bow_pos, effective_aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 5, 500) - global_position).length()
+	
 	#melee_attack(attack_beam.get_node("CollisionShape2D"), beam_damage, 500, 0)
 	
-	var dist = 50
-	var delay = 0.05
-	while dist < beam_length:
-		var point = global_position + beam_dir*dist
-		GameManager.spawn_explosion(point, self, explosion_size, 40*explosion_size, 600*explosion_size, delay)
-		dist += 50
-		delay += 0.05
+	if is_in_group("player") and triple_nock:
+		for i in range(-15, 16, 15):
+			print(i)
+			beam_length = (LaserBeam.shoot_laser(bow_pos, effective_aim_direction.rotated(deg2rad(i)), beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 5, 500) - global_position).length()
+			var dist = 50
+			var delay = 0.05
+			while dist < beam_length:
+				var point = global_position + beam_dir.rotated(deg2rad(i))*dist
+				GameManager.spawn_explosion(point, self, explosion_size, 40*explosion_size, 600*explosion_size, delay)
+				dist += 50
+				delay += 0.05
+	else:
+		beam_length = (LaserBeam.shoot_laser(bow_pos, effective_aim_direction, beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 5, 500) - global_position).length()
+		var dist = 50
+		var delay = 0.05
+		while dist < beam_length:
+			var point = global_position + beam_dir*dist
+			GameManager.spawn_explosion(point, self, explosion_size, 40*explosion_size, 600*explosion_size, delay)
+			dist += 50
+			delay += 0.05
 		
 func special():
 	special_cooldown = max_special_cooldown
+	if is_in_group('player'):
+		for i in range (GameManager.player_upgrades['bomb_belt']):
+			special_cooldown *= 0.5
 	attacking = true
 	max_speed = 0
 	charging = false
@@ -213,8 +235,7 @@ func toggle_stealth(state):
 	stealth_mode = state
 
 	if state == true:
-		if is_in_group('player'):
-			GameManager.player_hidden = true
+		
 		stealth_timer = 3
 		max_speed = walk_speed*2
 		sprite.modulate = Color(0.12, 0.12, 0.12, 0.5)
@@ -227,7 +248,12 @@ func toggle_stealth(state):
 	
 func area_attack():
 	invincible = true
-	melee_attack(deflector_shape, 20, 300, 1)
+	if is_in_group('player') and tazer_bomb:
+		deflector_shape.scale(10,10)
+		melee_attack(deflector_shape, 20, 300, 3)
+		deflector_shape.scale(5,5)
+	else:
+		melee_attack(deflector_shape, 20, 300, 1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
