@@ -34,7 +34,7 @@ var ai_target_point = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enemy_type = "shotgun"
+	enemy_type = EnemyType.SHOTGUN
 	health = 75
 	max_speed = 120
 	bullet_spawn_offset = 10

@@ -18,21 +18,21 @@ func set_upgrade(upgrade):
 	$Name.text = Upgrades.upgrades[upgrade]['name']
 	$Description.text = Upgrades.upgrades[upgrade]['desc']
 	match(Upgrades.upgrades[upgrade]['type']):
-		'shotgun':
+		Enemy.EnemyType.SHOTGUN:
 			$TextureRect.texture = load('res://Art/Characters/Shotgunner/icon.png')
-		'chain':
+		Enemy.EnemyType.CHAIN:
 			$TextureRect.texture = load('res://Art/Characters/Ball and Chain Bot/icon.png')
-		'wheel':
+		Enemy.EnemyType.WHEEL:
 			$TextureRect.texture = load('res://Art/Characters/Bot Wheel/icon.png')
-		'flame':
+		Enemy.EnemyType.FLAME:
 			$TextureRect.texture = load('res://Art/Characters/flamethrower bot/icon.png')
-		'archer':
+		Enemy.EnemyType.ARCHER:
 			$TextureRect.texture = load('res://Art/Characters/Archer/icon.png')
-		'exterminator':
+		Enemy.EnemyType.EXTERMINATOR:
 			$TextureRect.texture = load('res://Art/Characters/Exterminator/icon.png')
-		'sorcerer':
+		Enemy.EnemyType.SORCERER:
 			$TextureRect.texture = load('res://Art/Characters/Sorcerer Bot/icon.png')
-		'saber':
+		Enemy.EnemyType.SABER:
 			$TextureRect.texture = load('res://Art/Characters/3 Saber dude/icon.png')
 		
 

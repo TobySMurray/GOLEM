@@ -4,9 +4,6 @@ var transcender_curve = Curve2D.new()
 var should_draw = false
 var enemy_is_selected = false
 
-func _ready():
-	GameManager.transcender = self
-
 func _draw():
 	if should_draw:
 		var color = (Color.crimson if int(GameManager.game_time*80)%2 == 0 else Color.white) if enemy_is_selected else Color(0.86, 0.08, 0.24, 0.3)

@@ -37,7 +37,7 @@ var ai_move_timer = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enemy_type = "archer"
+	enemy_type = EnemyType.ARCHER
 	health = 70
 	max_speed = walk_speed
 	flip_offset = -23

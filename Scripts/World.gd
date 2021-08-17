@@ -21,8 +21,20 @@ onready var chunks_node = $Chunks
 onready var objects_node = $Objects
 onready var camera = $Camera
 onready var transcender = $Transcender
+onready var blood_moon = $BloodMoon 
 onready var fog = $Fog
 onready var canvas_modulate = $CanvasModulate
+
+var spawn_zones = {
+	Enemy.EnemyType.SHOTGUN: [],
+	Enemy.EnemyType.CHAIN: [],
+	Enemy.EnemyType.FLAME: [],
+	Enemy.EnemyType.WHEEL: [],
+	Enemy.EnemyType.ARCHER: [],
+	Enemy.EnemyType.EXTERMINATOR: [],
+	Enemy.EnemyType.SORCERER: [],
+	Enemy.EnemyType.SABER: [],
+}
 
 var chunks = [[null, null, null],[null, null, null],[null, null, null]]
 var fixed_map = null
@@ -40,6 +52,9 @@ func load_level(level_name, fixed_map_path = null):
 	clear_level()
 	var level = Levels.level_data[level_name]
 	
+	for k in spawn_zones.keys(): 
+		spawn_zones[k] = []
+	
 	if fixed_map_path:
 		print(fixed_map_path)
 		fixed_map = load(fixed_map_path).instance()
@@ -48,8 +63,8 @@ func load_level(level_name, fixed_map_path = null):
 		
 		init_player = fixed_map.get_node(fixed_map.init_player)
 		
-		for obj in fixed_map.get_node('WorldObjects').get_children():
-			Util.reparent_to(obj, objects_node)
+		flatten_and_reparent_to_objects(fixed_map.get_node('WorldObjects').get_children())
+		import_zones(fixed_map.get_node('MapZoneManager'))
 		
 	else:
 		populate_level(level_name)
@@ -152,7 +167,21 @@ func populate_level(level_name):
 		init_player = GameManager.spawn_enemy('shotgun', Vector2.ZERO)
 		init_player.toggle_playerhood(true)
 		
-
+				
+func flatten_and_reparent_to_objects(nodes):
+	for node in nodes:
+		if node is YSort:
+			flatten_and_reparent_to_objects(node.get_children())
+		else:
+			Util.reparent_to(node, objects_node)
+			
+func import_zones(MZM: MapZoneManager):
+	MZM.visible = false
+	for spawn_zone in MZM.get_node('SPAWN').get_children():
+		for enemy_type in spawn_zones.keys():
+			if spawn_zone.can_spawn_enemy(enemy_type):
+				spawn_zones[enemy_type].append(spawn_zone.rect)
+			
 func get_chunk_paths():
 	var base_path = 'res://Scenes/Levels/'
 	for level in levels:
@@ -185,6 +214,4 @@ func get_chunk_paths():
 			if x > 2:
 				x = 0
 				y += 1
-			
-
 		

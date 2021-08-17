@@ -29,7 +29,7 @@ var ai_target_pos = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enemy_type = "sorcerer"
+	enemy_type = EnemyType.SORCERER
 	health = 180
 	score = 100
 	flip_offset = -13

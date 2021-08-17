@@ -2,13 +2,23 @@ extends KinematicBody2D
 
 class_name Enemy
 
+enum EnemyType {
+	SHOTGUN,
+	CHAIN,
+	FLAME,
+	WHEEL,
+	ARCHER,
+	EXTERMINATOR,
+	SORCERER,
+	SABER,
+	UNKNOWN
+}
+
 onready var animplayer = $AnimationPlayer
 onready var sprite = $Sprite
-onready var swap_cursor = $BloodMoon
 onready var swap_shield = $ClearMoon
 onready var score_popup = load("res://Scenes/ScorePopup.tscn")
 onready var transcender_curve = Curve2D.new()
-onready var transcender = GameManager.world.transcender
 onready var healthbar = $HealthBar
 onready var EV_particles = $EVParticles
 #onready var astar = self.get_parent().get_node("AStar")
@@ -21,7 +31,7 @@ onready var light_beam = $CharacterLights/Directed
 
 onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/relaod.wav')
 
-var enemy_type = ""
+var enemy_type = EnemyType.UNKNOWN
 var score = 0
 var health = 100
 var max_speed = 100
@@ -84,8 +94,6 @@ var death_timer = 0
 
 
 func _ready():
-	self.connect("draw_transcender", transcender, "draw_transcender")
-	self.connect("clear_transcender", transcender, "clear_transcender")
 	#GameManager.audio = get_node("/root/Level/AudioStreamPlayer")
 	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 	update_swap_shield()
@@ -199,6 +207,7 @@ func ai_action():
 	pass
 		
 func choose_swap_target(delta):
+	var swap_cursor = GameManager.world.blood_moon
 	swap_cursor.global_position = get_global_mouse_position()
 	
 	var swapbar = GameManager.swap_bar
@@ -359,6 +368,8 @@ func toggle_swap(state):
 	GameManager.swap_bar.sparks.emitting = false
 	GameManager.swap_bar.rising_audio.stop()
 	
+	var swap_cursor = GameManager.world.blood_moon
+	
 	if(about_to_swap):
 		GameManager.lerp_to_timescale(0.1)
 		slow_audio.play()
@@ -398,7 +409,7 @@ func toggle_playerhood(state):
 			target_velocity = Vector2.ZERO
 			GameManager.lerp_to_timescale(0.1)
 			GameManager.camera.lerp_zoom(0.5)
-			swap_cursor.boss.play()
+			GameManager.world.blood_moon.boss.play()
 	else:
 		remove_from_group("player")
 		add_to_group("enemy")
@@ -464,7 +475,7 @@ func update_swap_shield():
 func draw_transcender():
 	transcender_curve = Curve2D.new()
 	
-	var enemy_position = swap_cursor.sprite.global_position
+	var enemy_position = GameManager.world.blood_moon.sprite.global_position
 	var my_position = self.position
 	var mid_point = (enemy_position + my_position)/2
 	var mid_point_adjusted = mid_point + Vector2(0, 1)
@@ -482,17 +493,10 @@ func draw_transcender():
 	transcender_curve.add_point(p0_vertex, p0_in, p0_out);
 	transcender_curve.add_point(p1_vertex, p1_in, p1_out);
 	
-	emit_signal("draw_transcender", transcender_curve)
-	
-	
-func animate_transcender():
-	# animate the transcendor
-	
-	# and then clear it
-	clear_transcender()
+	GameManager.world.transcender.draw_transcender(transcender_curve)
 	
 func clear_transcender(): 
-		emit_signal("clear_transcender")
+	GameManager.world.transcender.clear_transcender()
 		
 func toggle_selected_enemy(enemy_is_selected):
 	if enemy_is_selected:
@@ -558,12 +562,12 @@ func die(killer = null):
 				message = 'CLOSE CALL'
 				kill_validity = 1
 				
-			elif killer.enemy_type == 'flame' and killer.killed_by_player:
+			elif killer.enemy_type == EnemyType.FLAME and killer.killed_by_player:
 				effective_score *= 1.5
 				message = 'KABOOM!'
 				kill_validity = 1
 				
-			elif time_since_player_damage < 0.5 and is_instance_valid(killer) and killer.enemy_type == 'archer':
+			elif time_since_player_damage < 0.5 and is_instance_valid(killer) and killer.enemy_type == EnemyType.ARCHER:
 				effective_score *= 1.5
 				message = 'DAMN ARCHERS!'
 				kill_validity = 1
@@ -583,7 +587,7 @@ func die(killer = null):
 				
 				if kill_validity == 2:
 					GameManager.kills += 1
-					Options.enemy_kills[enemy_type] += 1
+					Options.enemy_kills[str(enemy_type)] += 1
 				
 				
 	else:
@@ -594,7 +598,7 @@ func die(killer = null):
 		if not GameManager.swappable:
 			death_timer = 0.3
 		if is_instance_valid(killer):
-			Options.enemy_deaths[killer.enemy_type] += 1
+			Options.enemy_deaths[str(killer.enemy_type)] += 1
 			
 
 

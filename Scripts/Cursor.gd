@@ -21,14 +21,14 @@ func _process(delta):
 		var player = GameManager.true_player
 		var origin = player
 		
-		if player.enemy_type == 'sorcerer':
+		if player.enemy_type == Enemy.EnemyType.SORCERER:
 			if is_instance_valid(player.orbs[0]):
 				if player.num_orbs == 1:
 					origin = player.orbs[0]
 				else:
 					subreticle.visible = false
 					
-		elif player.enemy_type == 'saber':
+		elif player.enemy_type == Enemy.EnemyType.SABER:
 			if is_instance_valid(player.saber_rings[0]):
 				origin = player.saber_rings[0]
 					

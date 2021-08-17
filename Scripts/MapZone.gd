@@ -7,10 +7,12 @@ const TILE_SIZE = 16
 enum ZoneType {SPAWN, NO_TP}
 
 export var rect : Rect2 = Rect2(0, 0, TILE_SIZE, TILE_SIZE) setget set_rect
-export (ZoneType) var zone_type = ZoneType.SPAWN setget set_type 
-
 var size : Vector2 = Vector2(TILE_SIZE, TILE_SIZE) setget set_size
 var pos : Vector2 = Vector2(TILE_SIZE, TILE_SIZE) setget set_pos
+
+export (ZoneType) var zone_type = ZoneType.SPAWN setget set_type 
+export (int, FLAGS, 'Shotgun', 'Chain', 'Flame', 'Wheel', 'Archer', 'Exterminator', 'Sorcerer', 'Saber') var allowed_spawns = 127
+
 
 var color = Color.red
 var handles = []
@@ -51,6 +53,9 @@ func set_type(value : int):
 func recalculate_rect():
 	rect = Rect2(pos, size)
 	update()
+	
+func can_spawn_enemy(enemy_type):
+	return zone_type == ZoneType.SPAWN and (allowed_spawns & (1 << enemy_type)) > 0
 	
 func _draw():
 	var edge_color = color

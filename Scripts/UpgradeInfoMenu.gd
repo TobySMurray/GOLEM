@@ -45,11 +45,16 @@ func _ready():
 		var button = template_button.duplicate()
 		button.name = upgrade['name']
 		button.text = ''
+		button.expand_icon = true
 		
-		var split_name = upgrade['name'].split(' ')
-		for word in split_name:
-			button.text += word[0]
-	
+		var icon = load('res://Art/Upgrades/' + u + '.png')
+		if icon:
+			button.icon = icon
+		else:
+			var split_name = upgrade['name'].split(' ')
+			for word in split_name:
+				button.text += word[0]
+		
 		button.connect('pressed', self, 'set_selected', [u])
 		selection_grid.add_child(button)
 		
@@ -82,13 +87,14 @@ func set_selected(selection):
 	title.text = selected['name']
 	subtitle.text = selected['desc']
 	
-	
 	if len(selected['name']) > 20:
 		title.get('custom_fonts/font').size = 20
 	else:
 		title.get('custom_fonts/font').size = 26
 	
-	icon.texture = load(Util.enemy_icon_paths[selected['type']]) #load(selected['icon_path'])
+	var icon_texture = load('res://Art/Upgrades/' + selected_name + '.png')
+	icon.texture = icon_texture if icon else load(Util.enemy_icon_paths[selected['type']])
+	
 	enemy_icon.texture = load(Util.enemy_icon_paths[selected['type']])
 	
 	var effects = '\n'
