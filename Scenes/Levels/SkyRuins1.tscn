@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/Sky.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://Scenes/Fog.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Shaders/Fog_SkyRuins.tres" type="Material" id=21]
 [ext_resource path="res://Scenes/Tilesets/WallWalkUnder.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Scenes/MapZone.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Scripts/MapZone.gd" type="Script" id=24]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
 [ext_resource path="res://Scenes/Tilesets/Ground.gd" type="Script" id=27]
@@ -311,7 +313,73 @@ tile_data = PoolIntArray( 720928, 0, 0, 720929, 0, 0, 720930, 0, 0, 720931, 0, 0
 [node name="MapZoneManager" parent="." instance=ExtResource( 5 )]
 visible = false
 zones = {
-0: [  ],
-1: [ Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":Resource( "res://Scripts/MapZone.gd" ),"rect":Rect2( 0, 416, 128, 80 ),"zone_type":1,"size":Vector2( 128, 80 ),"pos":Vector2( 0, 416 ),"color":Color( 0, 1, 1, 1 ),"handles":[  ])
- ]
+0: [ Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 720, 192, 1040, 624 ),"size":Vector2( 1040, 624 ),"pos":Vector2( 720, 192 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 576, 544, 144, 224 ),"size":Vector2( 144, 224 ),"pos":Vector2( 576, 544 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 192, 592, 384, 144 ),"size":Vector2( 384, 144 ),"pos":Vector2( 192, 592 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( -64, -144, 224, 800 ),"size":Vector2( 224, 800 ),"pos":Vector2( -64, -144 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( -368, -128, 288, 688 ),"size":Vector2( 288, 688 ),"pos":Vector2( -368, -128 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 160, -144, 352, 320 ),"size":Vector2( 352, 320 ),"pos":Vector2( 160, -144 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 512, 32, 496, 144 ),"size":Vector2( 496, 144 ),"pos":Vector2( 512, 32 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 640, 176, 80, 112 ),"size":Vector2( 80, 112 ),"pos":Vector2( 640, 176 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 512, -80, 64, 112 ),"size":Vector2( 64, 112 ),"pos":Vector2( 512, -80 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 1760, 352, 64, 224 ),"size":Vector2( 64, 224 ),"pos":Vector2( 1760, 352 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 1760, 576, 80, 288 ),"size":Vector2( 80, 288 ),"pos":Vector2( 1760, 576 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( 1264, 816, 480, 48 ),"size":Vector2( 480, 48 ),"pos":Vector2( 1264, 816 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+, Object(Node2D,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"visible":true,"modulate":Color( 1, 1, 1, 1 ),"self_modulate":Color( 1, 1, 1, 1 ),"show_behind_parent":false,"light_mask":1,"material":null,"use_parent_material":false,"position":Vector2( 0, 0 ),"rotation":0.0,"scale":Vector2( 1, 1 ),"z_index":0,"z_as_relative":true,"script":ExtResource( 24 ),"rect":Rect2( -320, 560, 112, 64 ),"size":Vector2( 112, 64 ),"pos":Vector2( -320, 560 ),"zone_type":0,"allowed_spawns":127,"color":Color( 1, 0, 0, 1 ),"handles":[  ])
+ ],
+1: [ null ]
 }
+
+[node name="MapZone2" type="Node2D" parent="MapZoneManager/SPAWN" index="0" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 720, 192, 1040, 624 )
+
+[node name="MapZone" type="Node2D" parent="MapZoneManager/SPAWN" index="1" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 576, 544, 144, 224 )
+
+[node name="MapZone3" type="Node2D" parent="MapZoneManager/SPAWN" index="2" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 192, 592, 384, 144 )
+
+[node name="MapZone4" type="Node2D" parent="MapZoneManager/SPAWN" index="3" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( -64, -144, 224, 800 )
+
+[node name="MapZone5" type="Node2D" parent="MapZoneManager/SPAWN" index="4" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( -368, -128, 288, 688 )
+
+[node name="MapZone6" type="Node2D" parent="MapZoneManager/SPAWN" index="5" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 160, -144, 352, 320 )
+
+[node name="MapZone7" type="Node2D" parent="MapZoneManager/SPAWN" index="6" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 512, 32, 496, 144 )
+
+[node name="MapZone8" type="Node2D" parent="MapZoneManager/SPAWN" index="7" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 640, 176, 80, 112 )
+
+[node name="MapZone9" type="Node2D" parent="MapZoneManager/SPAWN" index="8" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 512, -80, 64, 112 )
+
+[node name="MapZone10" type="Node2D" parent="MapZoneManager/SPAWN" index="9" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 1760, 352, 64, 224 )
+
+[node name="MapZone11" type="Node2D" parent="MapZoneManager/SPAWN" index="10" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 1760, 576, 80, 288 )
+
+[node name="MapZone12" type="Node2D" parent="MapZoneManager/SPAWN" index="11" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( 1264, 816, 480, 48 )
+
+[node name="MapZone13" type="Node2D" parent="MapZoneManager/SPAWN" index="12" instance=ExtResource( 23 )]
+script = ExtResource( 24 )
+rect = Rect2( -320, 560, 112, 64 )
+
+[editable path="MapZoneManager"]

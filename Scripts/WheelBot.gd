@@ -40,7 +40,7 @@ var aimbot_target = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enemy_type = "wheel"
+	enemy_type = EnemyType.WHEEL
 	health = 50
 	max_speed = walk_speed
 	accel = 2.5

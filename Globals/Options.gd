@@ -57,36 +57,36 @@ var max_EVL = {
 	"Desert": 1
 }
 var enemy_kills = {
-	'shotgun': 0,
-	'wheel': 0,
-	'chain': 0,
-	'flame': 0,
-	'archer': 0,
-	'exterminator': 0,
-	'sorcerer': 0,
-	'saber': 0
+	Enemy.EnemyType.SHOTGUN: 0,
+	Enemy.EnemyType.WHEEL: 0,
+	Enemy.EnemyType.CHAIN: 0,
+	Enemy.EnemyType.FLAME: 0,
+	Enemy.EnemyType.ARCHER: 0,
+	Enemy.EnemyType.EXTERMINATOR: 0,
+	Enemy.EnemyType.SORCERER: 0,
+	Enemy.EnemyType.SABER: 0
 }
 
 var enemy_deaths = {
-	'shotgun': 0,
-	'wheel': 0,
-	'chain': 0,
-	'flame': 0,
-	'archer': 0,
-	'exterminator': 0,
-	'sorcerer': 0,
-	'saber': 0
+	Enemy.EnemyType.SHOTGUN: 0,
+	Enemy.EnemyType.WHEEL: 0,
+	Enemy.EnemyType.CHAIN: 0,
+	Enemy.EnemyType.FLAME: 0,
+	Enemy.EnemyType.ARCHER: 0,
+	Enemy.EnemyType.EXTERMINATOR: 0,
+	Enemy.EnemyType.SORCERER: 0,
+	Enemy.EnemyType.SABER: 0
 }
 
 var enemy_swaps = {
-	'shotgun': 0,
-	'wheel': 0,
-	'chain': 0,
-	'flame': 0,
-	'archer': 0,
-	'exterminator': 0,
-	'sorcerer': 0,
-	'saber': 0
+	Enemy.EnemyType.SHOTGUN: 0,
+	Enemy.EnemyType.WHEEL: 0,
+	Enemy.EnemyType.CHAIN: 0,
+	Enemy.EnemyType.FLAME: 0,
+	Enemy.EnemyType.ARCHER: 0,
+	Enemy.EnemyType.EXTERMINATOR: 0,
+	Enemy.EnemyType.SORCERER: 0,
+	Enemy.EnemyType.SABER: 0
 }
 
 func _ready():

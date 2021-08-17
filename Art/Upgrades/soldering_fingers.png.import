@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shock_stock.png-3e4d65fdac71c36e13f5a3ba946c6c1b.stex"
+path="res://.import/soldering_fingers.png-b269846dcb259779213e7e59f8f25512.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Items/shock_stock.png"
-dest_files=[ "res://.import/shock_stock.png-3e4d65fdac71c36e13f5a3ba946c6c1b.stex" ]
+source_file="res://Art/Upgrades/soldering_fingers.png"
+dest_files=[ "res://.import/soldering_fingers.png-b269846dcb259779213e7e59f8f25512.stex" ]
 
 [params]
 

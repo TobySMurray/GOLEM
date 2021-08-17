@@ -60,7 +60,7 @@ var ai_move_timer = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enemy_type = "exterminator"
+	enemy_type = EnemyType.EXTERMINATOR
 	health = 150
 	max_speed = walk_speed
 	max_attack_cooldown = 1.5
@@ -70,7 +70,6 @@ func _ready():
 	healthbar.max_value = health
 	init_healthbar()
 	score = 100
-	swap_cursor.visible = true
 	get_node('Deflector').collision_layer = 8
 	toggle_enhancement(false)
 	

@@ -97,7 +97,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "MapZoneGizmo", "MapZoneInspector" )
+enabled=PoolStringArray( "MapZoneGizmo" )
 
 [gui]
 

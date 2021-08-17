@@ -37,7 +37,7 @@ onready var flamethrower_audio = $Flamethrower
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enemy_type = "flame"
+	enemy_type = EnemyType.FLAME
 	health = 110
 	max_speed = walk_speed
 	bullet_spawn_offset = 10

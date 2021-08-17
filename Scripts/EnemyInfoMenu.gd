@@ -14,6 +14,7 @@ var stats_visibility = 0.0
 const data = {
 	'shotgun': {
 		'name': '[ Shotgun Bot ]',
+		'type': Enemy.EnemyType.SHOTGUN,
 		'hp': 75,
 		'score': 50,
 		'primary': 'Shotgun',
@@ -25,6 +26,7 @@ const data = {
 	},
 	'wheel': {
 		'name': '[ Wheel Bot ]',
+		'type': Enemy.EnemyType.WHEEL,
 		'hp': 50,
 		'score': 70,
 		'primary': 'Burst rifle',
@@ -35,6 +37,7 @@ const data = {
 	},
 	'flame': {
 		'name': '[ Flame Bot ]',
+		'type': Enemy.EnemyType.FLAME,
 		'hp': 110,
 		'score': 50,
 		'primary': 'Flamethrower',
@@ -46,6 +49,7 @@ const data = {
 	},
 	'chain': {
 		'name': '[ Chain Bot ]',
+		'type': Enemy.EnemyType.CHAIN,
 		'hp': 100,
 		'score': 50,
 		'primary': 'Double bash (hold to charge)',
@@ -56,6 +60,7 @@ const data = {
 	},
 	'exterminator': {
 		'name': '\"Phalanx\"',
+		'type': Enemy.EnemyType.EXTERMINATOR,
 		'hp': 150,
 		'score': 100,
 		'primary': 'Projectile accelerator',
@@ -67,16 +72,18 @@ const data = {
 	},
 	'archer': {
 		'name': '[ Archer Bot ]',
+		'type': Enemy.EnemyType.ARCHER,
 		'hp': 75,
 		'score': 50,
 		'primary': 'Charged beam',
 		'secondary': 'Smoke bomb',
 		'portrait_offset': Vector2(9, -22),
 		'portrait_scale': 5,
-		'lore': '[ DATA CORRUPTED ]'
+		'lore': '“You want a WHAT?"\n\nNo reply. Just an insistent tap on the schematic.\n\n“Three megawatts. What are you doing with this thing, pulsed fusion research? The current specs are already enough to shoot down aircraft.”\n\nArms spread wide, palms square. [i]What about BIG aircraft?[/i]\n\n“Look, even trying to get my hands on something like this is going to land me in hot water. The local bosses have been all over me ever since that last one of you guys slunk in here and ordered ninety kilos of graphene batteries.”\n\nA shrug. [i]But you got them, right?[/i]\n\n“You… you realize this is going to need cryogenic cooling, don’t you? Liquid nitrogen at bare minimum?”\n\nBeneath the cowl, a hopeful tilt of the head. [i]Do you sell that too?[/i]\n\n“Oh, damn it, fine. I’ll need a week, and you’d better be willing to pay up-front."\n\nThe Ira merchant slumps slightly over her counter, staring daggers through the diminutive client. Not much of them can be made out beneath the layers of tarpaulin shawls, but their bow- """bow""", she quickly corrects- towers over both of them like a monument. It’s construction is organic, or perhaps sedimentary- a monster of fiberglass and steel, overgrown with wires, its human manufactured Tur-Bow chassis almost wholly obscured beneath a crust of eclectic modifications. In terms of components, it must vastly out-price its owner. Her scowl deepens.\n\n“And for god’s sake, why keep using that piece of junk when a gun would do the same job for half the weight?”\n\nNo response. Not even a shrug.\n\n“That was the stupidest question you’ve ever heard, right?”\n\nA curt nod.\n\n“Well, I understand one thing about you at least. Now pay up and get out of my shop.”'
 	},
 	'sorcerer': {
 		'name': '\"Scarab\"',
+		'type': Enemy.EnemyType.SORCERER,
 		'hp': 180,
 		'score': 100,
 		'primary': 'Summon/smack orb',
@@ -87,6 +94,7 @@ const data = {
 	},
 	'saber': {
 		'name': '\"Daedalus\"',
+		'type': Enemy.EnemyType.SABER,
 		'hp': 75,
 		'score': 80,
 		'primary': 'Deploy/recall saber ring',
@@ -101,7 +109,7 @@ const data = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_selected('shotgun')
+	set_selected('wheel')
 	$Back.connect("pressed", self, "back")
 	
 func back():
@@ -136,9 +144,9 @@ func set_selected(selection):
 	if 'passive' in selected:
 		stats.bbcode_text += '\n[color=purple]PASSIVE:[/color] ' + selected['passive']
 		
-	var k = str(Options.enemy_kills[selected_name])
-	var d = str(Options.enemy_deaths[selected_name])
-	var po = str(Options.enemy_swaps[selected_name])
+	var k = str(Options.enemy_kills[str(selected['type'])])
+	var d = str(Options.enemy_deaths[str(selected['type'])])
+	var po = str(Options.enemy_swaps[str(selected['type'])])
 	stats.bbcode_text += '\n\n KILLED: '+ k +'\n KILLED BY: '+ d + '\n POSSESSED: '+ po  
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.

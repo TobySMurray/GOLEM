@@ -49,14 +49,14 @@ func _physics_process(delta):
 						
 		if selected_enemy:
 			self.modulate.a = 1.0
-			GameManager.transcender.enemy_is_selected = true
+			GameManager.world.transcender.enemy_is_selected = true
 			if (sprite.global_position - selected_enemy.global_position).length() > 5:
 				sprite.position = lerp(sprite.position, selected_enemy.global_position - global_position, 15*delta/GameManager.timescale)
 			else:
 				sprite.position = selected_enemy.global_position - global_position
 		else:
 			self.modulate.a = 0.3
-			GameManager.transcender.enemy_is_selected = false
+			GameManager.world.transcender.enemy_is_selected = false
 			if sprite.position.length() > 5:
 				sprite.position = lerp(sprite.position, Vector2.ZERO, 15*delta/max(GameManager.timescale, 0.01))
 			else:
