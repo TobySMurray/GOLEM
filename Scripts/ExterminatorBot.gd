@@ -221,7 +221,7 @@ func ai_action():
 #					special_cooldown = 8
 #					break
 				
-	if special_cooldown < 0 and aim_direction.length() < 30:
+	if special_cooldown < 0 and not immobile and aim_direction.length() < 30:
 		special_cooldown = 8
 		var point = GameManager.random_map_point()
 		if point:

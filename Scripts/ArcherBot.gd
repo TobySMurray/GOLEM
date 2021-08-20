@@ -92,7 +92,6 @@ func toggle_enhancement(state):
 		
 		triple_nock = GameManager.player_upgrades['triple_nock'] > 0
 		tazer_bomb = GameManager.player_upgrades['tazer_bomb'] > 0
-	
 		max_attack_cooldown = 0.1
 	else:
 		attack_cooldown = 0.75 + randf()*0.75
@@ -249,9 +248,9 @@ func toggle_stealth(state):
 func area_attack():
 	invincible = true
 	if is_in_group('player') and tazer_bomb:
-		deflector_shape.scale(10,10)
+		deflector_shape.scale = Vector2(10,10)
 		melee_attack(deflector_shape, 20, 300, 3)
-		deflector_shape.scale(5,5)
+		deflector_shape.scale = Vector2(5,5)
 	else:
 		melee_attack(deflector_shape, 20, 300, 1)
 
@@ -305,7 +304,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			actually_die()
 			
 func take_damage(damage, source, stun = 0):
-	if is_in_group('enemy') and stun == 0 and damage < health and special_cooldown < 0 and is_instance_valid(GameManager.player) and (GameManager.player.global_position - global_position).length() < 100:
+	if is_in_group('enemy') and stun == 0 and damage < health and special_cooldown < 0 and not immobile and is_instance_valid(GameManager.player) and (GameManager.player.global_position - global_position).length() < 100:
 		special()
 		ai_move_timer = 4
 		var space_state = get_world_2d().direct_space_state

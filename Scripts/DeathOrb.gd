@@ -47,7 +47,7 @@ func _on_Area2D_area_entered(area):
 			var new_vel = (global_position - entity.global_position).normalized() * velocity.length()
 			var delta_vel = new_vel - velocity
 			velocity = new_vel * 1.05
-			entity.velocity -= delta_vel*2
+			entity.velocity -= delta_vel*2/entity.mass
 			
 			if not entity.is_in_group("bloodless"):
 				GameManager.spawn_blood(entity.global_position, (-delta_vel).angle(), sqrt(delta_vel.length())*30, damage, 30)

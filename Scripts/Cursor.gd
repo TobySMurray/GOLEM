@@ -44,9 +44,9 @@ func _physics_process(delta):
 	else:
 		sprite.modulate = Color.white 
 		
-	if is_instance_valid(GameManager.player):
-		attack_cooldown.max_value = GameManager.player.max_attack_cooldown
-		attack_cooldown.value = GameManager.player.attack_cooldown
+	if is_instance_valid(GameManager.true_player) and not GameManager.true_player.is_in_group('boss'):
+		attack_cooldown.max_value = GameManager.true_player.max_attack_cooldown
+		attack_cooldown.value = GameManager.true_player.attack_cooldown
 		if attack_cooldown.value <= 0:
 			if attack_cooldown.visible:
 				attack_cooldown.visible = false
@@ -55,10 +55,13 @@ func _physics_process(delta):
 		else:
 			attack_cooldown.visible = true
 			
-		special_cooldown.max_value = GameManager.player.max_special_cooldown
-		special_cooldown.value = GameManager.player.special_cooldown
+		special_cooldown.max_value = GameManager.true_player.max_special_cooldown
+		special_cooldown.value = GameManager.true_player.special_cooldown
 		if special_cooldown.value <= 0:
 			special_cooldown.visible = false
 			#GameManager.special_cooldown_SFX.play()
 		else:
 			special_cooldown.visible = true
+	else:
+		attack_cooldown.visible = false
+		special_cooldown.visible = false

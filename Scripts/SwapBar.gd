@@ -47,19 +47,22 @@ func _physics_process(delta):
 		
 		if not GameManager.true_player or not GameManager.true_player.dead:
 			self.value = (control_timer / max_control_time)*(bar_max_value - bar_min_value) + bar_min_value
-			GameManager.swappable = control_timer > swap_threshold
+			GameManager.can_swap = control_timer > swap_threshold
+			
 		if control_timer < max_control_time - 3:
 			in_control()
 			Static.modulate.a = 0
+			
 		elif control_timer < max_control_time - 0.1:
 			Static.modulate.a = 1 - (max_control_time - control_timer)/3
 			out_of_control()
+			
 		elif GameManager.true_player and not GameManager.player.dead:
 			GameManager.kill()
 			warning_audio.stop()
 			control_timer = 0
 	else:
-		GameManager.swappable = true
+		GameManager.can_swap = true
 		control_timer = 0
 		swap_threshold = 0
 		
@@ -91,10 +94,7 @@ func set_swap_threshold(value):
 	swap_threshold = clamp(value, 0, max_control_time)
 	threshold.value = (swap_threshold / max_control_time)*(thresh_max_value - thresh_min_value) + thresh_min_value
 	sparks.position.x = 50 + swap_threshold/max_control_time*504
-	print(threshold.value)
-	print(swap_threshold)
 	
-
 func out_of_control():
 	GameManager.out_of_control = true
 	tint_progress = lerp(tint_progress, colors[randi() % colors.size()], 0.9)

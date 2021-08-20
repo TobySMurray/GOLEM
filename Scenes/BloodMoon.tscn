@@ -271,7 +271,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 light_mask = 2
 frames = SubResource( 62 )
-frame = 13
+frame = 23
 speed_scale = 30.0
 playing = true
 offset = Vector2( -1, 0 )
@@ -297,4 +297,3 @@ stream = ExtResource( 6 )
 volume_db = -2.0
 bus = "Effects"
 [connection signal="finished" from="Slow" to="." method="_on_Slow_finished"]
-[connection signal="finished" from="Speed" to="." method="_on_Speed_finished"]

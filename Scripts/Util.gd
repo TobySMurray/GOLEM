@@ -111,4 +111,10 @@ static func rect_difference(r1, r2):
 		
 static func rect_from_min_max(max_x, min_x, max_y, min_y):
 	return Rect2(min_x, min_y, max_x - min_x, max_y - min_y)
+	
+static func dist_from_line(point, line_origin, line_dir):
+	var a = line_dir.y/line_dir.x
+	var c = line_origin.y - a*line_origin.x
+	var dist = abs(a*point.x - point.y + c)/sqrt(a*a + 1)
+	return dist * sign(sin(line_dir.angle_to(point - line_origin)))
 		

@@ -6,7 +6,7 @@ onready var hologram = $Hologram
 var active = false
 var timer = 0
 
-export (String, 'shotgun', 'chain', 'wheel', 'flame', 'archer', 'exterminator', 'sorcerer', 'saber') var enemy
+export (Enemy.EnemyType) var enemy
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

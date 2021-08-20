@@ -641,7 +641,7 @@ texture = ExtResource( 14 )
 position = Vector2( -0.34697, -0.158186 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
-frame = 38
+frame = 24
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
