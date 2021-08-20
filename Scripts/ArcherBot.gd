@@ -91,7 +91,7 @@ func toggle_enhancement(state):
 		shanky = GameManager.player_upgrades['scruple_inhibitor'] > 0
 		
 		triple_nock = GameManager.player_upgrades['triple_nock'] > 0
-		tazer_bomb = GameManager.player_upgrades['bomb_belt'] > 0
+		tazer_bomb = GameManager.player_upgrades['tazer_bomb'] > 0
 	
 		max_attack_cooldown = 0.1
 	else:
@@ -222,7 +222,7 @@ func release_attack():
 func special():
 	special_cooldown = max_special_cooldown
 	if is_in_group('player'):
-		for i in range (GameManager.player_upgrades['bomb_belt']):
+		for i in range (GameManager.player_upgrades['bomb_loader']):
 			special_cooldown *= 0.5
 	attacking = true
 	max_speed = 0

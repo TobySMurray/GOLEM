@@ -187,8 +187,8 @@ const upgrades = {
 		'type' : 'archer',
 		'max_stack' : 1
 	},
-	'bomb_belt' : { #lowers special cooldown
-		'name' : 'Bomb Belt',
+	'bomb_loader' : { #lowers special cooldown
+		'name' : 'Bomb Loader',
 		'desc' : 'For quicker access.',
 		'effects' : ['Lowers smoke bomb cooldown by 50%'],
 		'type' : 'archer',
