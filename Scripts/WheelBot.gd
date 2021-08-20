@@ -327,7 +327,7 @@ func set_dash_fx_position():
 
 func take_damage(damage, source, stun = 0):
 	.take_damage(damage, source, stun)
-	if is_in_group('enemy') and stun == 0 and not dead and special_cooldown < 0 and randf() < 0.5:
+	if is_in_group('enemy') and stun == 0 and not immobile and not dead and special_cooldown < 0 and randf() < 0.5:
 		special_cooldown = 4
 		aim_direction = velocity
 		call_deferred('dash')

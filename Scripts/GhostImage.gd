@@ -15,6 +15,7 @@ func copy_sprite(sprite):
 	flip_h = sprite.flip_h
 	flip_v = sprite.flip_v
 	offset = sprite.offset
+	scale = sprite.global_scale
 	modulate = sprite.modulate
 	frame = sprite.frame
 	

@@ -116,47 +116,56 @@ func ai_move():
 		var to_player = player_pos - global_position
 		var side = 1 if to_player.x < 0 else -1
 	
-		match ai_state:
-			'approach':
-				if to_player.length() > 300:
-					if ai_move_timer < 0:
-						#target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, player_pos)
-						ai_move_timer = 0.5
-				else:
-					ai_move_timer = 2
-					ai_target_point = null
-					ai_state = ['start_attack', 'backstep'][int(randf()*2)]
+		if not immobile:
+			match ai_state:
+				'approach':
+					if to_player.length() > 300:
+						if ai_move_timer < 0:
+							#target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, player_pos)
+							ai_move_timer = 0.5
+					else:
+						ai_move_timer = 2
+						ai_target_point = null
+						ai_state = ['start_attack', 'backstep'][int(randf()*2)]
+							
+				'start_attack':
+					var to_point = player_pos + Vector2(20*side, 0) - global_position
+					target_velocity = to_point
+					
+					if not charging and (ai_move_timer < 0 or (abs(to_point.x) < 5 and abs(to_point.y) < 20)):
+						ai_charge_timer = 0.2 + randf()*0.5
+						charge()
+						ai_state = 'mid_attack'
 						
-			'start_attack':
-				var to_point = player_pos + Vector2(20*side, 0) - global_position
-				target_velocity = to_point
-				
-				if not charging and (ai_move_timer < 0 or (abs(to_point.x) < 5 and abs(to_point.y) < 20)):
+				'mid_attack':
+					target_velocity = player_pos + Vector2(20*side, 0) - global_position
+					if not charging and not attacking:
+						target_velocity = Vector2.ZERO
+						ai_delay_timer = 0.1 + randf()*0.4
+						ai_move_timer = 2 + ai_delay_timer
+						ai_target_point = null
+						ai_state = ['start_attack', 'backstep'][int(randf()*2)]
+						
+				'backstep':
+					if ai_target_point == null:
+						ai_target_point = player_pos + Vector2(120*side, 0).rotated(deg2rad((randf()-0.5) * 90))
+						
+					var to_point = ai_target_point - global_position
+					target_velocity = to_point
+					
+					if ai_move_timer < 0 or to_point.length() < 5:
+						ai_delay_timer = 0.1 + randf()*0.2
+						ai_move_timer = 2 + ai_delay_timer
+						ai_target_point = null
+						ai_state = ['start_attack', 'backstep'][int(randf()*1.6)]
+						
+		else:
+			if ai_delay_timer < 0 and not charging and not attacking:
+				to_player = player_pos + GameManager.player.velocity*0.5 - global_position
+				if abs(to_player.x) < 200 and to_player.aspect() > 1:
 					ai_charge_timer = 0.2 + randf()*0.5
+					ai_delay_timer = ai_charge_timer + 0.3
 					charge()
-					ai_state = 'mid_attack'
-					
-			'mid_attack':
-				target_velocity = player_pos + Vector2(20*side, 0) - global_position
-				if not charging and not attacking:
-					target_velocity = Vector2.ZERO
-					ai_delay_timer = 0.1 + randf()*0.4
-					ai_move_timer = 2 + ai_delay_timer
-					ai_target_point = null
-					ai_state = ['start_attack', 'backstep'][int(randf()*2)]
-					
-			'backstep':
-				if ai_target_point == null:
-					ai_target_point = player_pos + Vector2(120*side, 0).rotated(deg2rad((randf()-0.5) * 90))
-					
-				var to_point = ai_target_point - global_position
-				target_velocity = to_point
-				
-				if ai_move_timer < 0 or to_point.length() < 5:
-					ai_delay_timer = 0.1 + randf()*0.2
-					ai_move_timer = 2 + ai_delay_timer
-					ai_target_point = null
-					ai_state = ['start_attack', 'backstep'][int(randf()*1.6)]
 
 func charge():
 	charging = true

@@ -10,6 +10,7 @@ var stun = 0
 var piercing = false
 var deflectable = true
 var spectral = false
+var ignored = []
 
 var explosion_size = 0
 var explosion_damage = 0
@@ -33,7 +34,7 @@ func _physics_process(delta):
 		despawn()
 			
 func _on_Area2D_body_entered(body):
-	if not (body.is_in_group("player") or body.is_in_group("enemy")) and not spectral:
+	if not (body.is_in_group("player") or body.is_in_group("enemy")) and not spectral and not body in ignored:
 		despawn()
 
 func _on_Area2D_area_entered(area):
@@ -43,7 +44,7 @@ func _on_Area2D_area_entered(area):
 		despawn()
 	if area.is_in_group("hitbox"):
 		var entity = area.get_parent()
-		if not entity.invincible and entity != source and not (entity.is_in_group('death orb') and entity.source == source):
+		if not entity.invincible and entity != source and not entity in ignored and not (entity.is_in_group('death orb') and entity.source == source):
 			entity.take_damage(damage, source, stun)
 			entity.velocity += velocity*mass/entity.mass
 			

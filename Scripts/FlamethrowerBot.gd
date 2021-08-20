@@ -28,6 +28,7 @@ var shot_timer = 0
 var flamethrowing = false
 var last_clouds = []
 var ai_shoot = false
+var ai_shoot_timer = 0
 var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
 var killed_by_player = false
@@ -93,6 +94,7 @@ func toggle_enhancement(state):
 			
 func misc_update(delta):
 	ai_retarget_timer -= delta
+	ai_shoot_timer -= delta
 	
 	if flamethrowing and pressure > 0:
 		pressure -= delta*pressure_dropoff
@@ -117,7 +119,7 @@ func player_action():
 		stop_attacking()
 		attack_cooldown = 0.8
 		
-	if Input.is_action_just_pressed("attack2") and GameManager.swappable:
+	if Input.is_action_just_pressed("attack2") and GameManager.can_swap:
 		die()
 		GameManager.camera.trauma = 0.2
 		GameManager.swap_bar.swap_threshold_penalty = 0
@@ -135,9 +137,10 @@ func ai_move():
 	else:
 		target_velocity = target_position - global_position
 		
-	if target_dist < 100:
+	if target_dist < shot_speed*0.6 or ai_shoot_timer > 0:
 		if attack_cooldown < 0 and !ai_shoot:
 			ai_shoot = true
+			ai_shoot_timer = 2
 			attack()
 		elif attack_cooldown > 0 and ai_shoot:
 			attack_cooldown = 1
@@ -209,7 +212,7 @@ func detonate_gas_clouds():
 
 			
 func get_target_position():
-	var enemy_position = GameManager.player.shape.global_position
+	var enemy_position = GameManager.player.global_position
 	var target_position
 	
 	if health < 25:
