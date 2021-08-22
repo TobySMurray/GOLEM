@@ -41,6 +41,7 @@ func _ready():
 	
 func _physics_process(delta):
 	if enabled:
+		increase_rate = 2.0 if GameManager.controlling_boss else 1.0
 		control_timer = min(control_timer + delta*increase_rate, max_control_time)
 		beep_timer -= 0.016
 		sparks.speed_scale = 1.0/max(GameManager.timescale, 0.01)

@@ -137,7 +137,7 @@ func misc_update(delta):
 			exhaust_timer -= delta*(speed/100.0)
 			if exhaust_timer < 0:
 				exhaust_timer = 0.35
-				Projectile.shoot_bullet(self, global_position, -velocity.rotated(PI/6*(randf()-0.5)), 5, 0.25, 1.5, 'flame')
+				Violence.shoot_bullet(self, global_position, -velocity.rotated(PI/6*(randf()-0.5)), 5, 0.25, 1.5, 'flame')
 		
 	#set_dash_fx_position()
 	

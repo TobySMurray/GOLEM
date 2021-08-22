@@ -67,6 +67,7 @@ const pillar_patterns = [
 
 onready var eye_particles = $EyeParticles
 onready var sight_raycast = $SightRaycast
+onready var punch_collider = $PunchCollider/CollisionShape2D
 
 const MAX_DIST = 250
 const MIN_DIST = 100
@@ -104,8 +105,8 @@ func _ready():
 func _physics_process(delta):
 	Util.remove_invalid(arena_enemies)
 	arena_enemy_count = len(arena_enemies)
-	if GameManager.swap_bar:
-		GameManager.swap_bar.set_swap_threshold(0)
+#	if GameManager.swap_bar:
+#		GameManager.swap_bar.set_swap_threshold(0)
 		
 #	if GameManager.true_player:
 #		GameManager.true_player.invincible = true
@@ -213,7 +214,8 @@ func enter_state(state):
 			
 		PLAYER:
 			state_timer = 0
-			accel = 8
+			accel = 5
+			look_at_player = false
 
 func process_state(delta, state):
 	#breakpoint
@@ -357,7 +359,7 @@ func process_state(delta, state):
 			
 		PUNCH:
 			if event_happened('anim_trigger'):
-				pass
+				punch()
 				
 			if event_happened('anim_finished'):
 				set_state(IDLE)
@@ -392,7 +394,6 @@ func process_state(delta, state):
 				var point = cur_pillar_pattern['offsets'][i]*arena_radius
 				var delay = spawn_explosion_wave(point, 5)
 				spawn_pillar_after_delay(cur_pillar_pattern['enemies'][i], point, delay)
-				GameManager.camera.set_trauma(0.4)
 					
 			if event_happened('anim_finished'):
 				if state_counter > 1:
@@ -419,7 +420,7 @@ func process_state(delta, state):
 							var spd = 200 - 20*k
 							var size = 2 - 0.25*k
 							var damage = 20/(k+1)
-							Projectile.shoot_bullet(self, eye_pos, d*spd, damage, size*0.5, 5, 'pellet', 0, Vector2(size, size))
+							Violence.shoot_bullet(self, eye_pos, d*spd, damage, size*0.5, 5, 'pellet', 0, Vector2(size, size))
 						d = aim_dir.rotated(-i*PI/25)
 						
 					
@@ -445,7 +446,7 @@ func process_state(delta, state):
 			
 			if state_timer < 0:
 				aim_dir = get_global_mouse_position() - global_position
-				update_sprite_flip(aim_dir.x)
+				update_look_direction(aim_dir)
 				
 				if velocity.length() > 20:
 					play_animation('Walk')
@@ -463,7 +464,8 @@ func process_state(delta, state):
 				var anim_event = get_event('anim_trigger')
 				if anim_event:
 					if anim_event[1] == 'Attack':
-						pass
+						punch()
+						
 					elif anim_event[1] == 'Special':
 						var delay = spawn_explosion_wave(get_global_mouse_position() - global_position)
 						spawn_pillar_after_delay(Enemy.EnemyType.UNKNOWN, get_global_mouse_position(), delay)
@@ -494,14 +496,30 @@ func exit_state(state):
 		STAGGER:
 			if swap_shield_health <= 0:
 				swap_shield_health = 3
+		PLAYER:
+			look_at_player = true
+				
+
+func update_look_direction(dir):
+	.update_look_direction(dir)
+	punch_collider.position.x = -36 if facing_left else 36
 			
 func toggle_playerhood(is_player):
 	.toggle_playerhood(is_player)
+	GameManager.controlling_boss = is_player
 	if is_player:
 		interrupt_state(PLAYER)
 	else:
 		set_state(STAGGER)
-	
+		
+func punch():
+	GameManager.camera.set_trauma(1.0 if is_in_group('player') else 0.6)
+	GameManager.set_timescale(0.3)
+	var hits = Violence.melee_attack(self, punch_collider, 300, 1500, 1)
+	for hit in hits:
+		if hit == GameManager.true_player:
+			GameManager.set_timescale(0.1, 0.3)
+		
 			
 func spawn_explosion_wave(vector, damage = 20, delta_delay = 0.07):
 	if vector == Vector2.ZERO:
@@ -543,6 +561,7 @@ func spawn_explosion_wave(vector, damage = 20, delta_delay = 0.07):
 		GameManager.spawn_explosion(p, self, 0.5 + randf()*0.25, damage, 500, delay + randf()*0.03)
 		delay += delta_delay
 		
+	GameManager.camera.set_trauma(0.7 if is_in_group('player') else 0.4)
 	return delay
 	
 func spawn_pillar_after_delay(type, pos, delay):

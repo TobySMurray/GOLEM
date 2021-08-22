@@ -313,14 +313,14 @@ const upgrades = {
 		'tier': 2,
 		'max_stack': 1
 	},
-	'big_explosion': {
-		'name': 'TBD',
-		'desc': 'Go boom',
-		'effects': ['Orb explosion size and damage is greatly increased, longer cooldown before spawning new orbs'],
-		'type': Enemy.EnemyType.SORCERER,
-		'tier': 1,
-		'max_stack': 1
-	},
+#	'big_explosion': {
+#		'name': 'TBD',
+#		'desc': 'Go boom',
+#		'effects': ['Orb explosion size and damage is greatly increased, longer cooldown before spawning new orbs'],
+#		'type': Enemy.EnemyType.SORCERER,
+#		'tier': 1,
+#		'max_stack': 1
+#	},
 	
 	#SABER
 	'fractured_mind': { #Decrease saber ring knockback, replaces saber ring with a spinning ring of three saber rings
@@ -336,7 +336,7 @@ const upgrades = {
 		'desc': 'Ten milliseconds, a trillion clock cycles,\none strike.',
 		'effects': ['+200% C.W.B.I.D.B.S.C. damage', '+50% dash speed', 'Time slows more while dashing', 'Can survive at 0 HP while dashing', 'C.W.B.I.D.B.S.C. breaks miniboss shields without harming them'],
 		'type': Enemy.EnemyType.SABER,
-		'tier': 2,
+		'tier': 2, 
 		'max_stack': 1,
 	},
 	'overclocked_cooling': { # Faster CWBIDBSC cooldown

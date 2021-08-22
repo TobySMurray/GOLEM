@@ -1,6 +1,6 @@
 extends Area2D
 
-var projectile = load('res://Scripts/Projectile.gd') #Can't use static typing until GDscript 4.0 due to cicular reference
+var violence = load('res://Scripts/Violence.gd') #Can't use static typing until GDscript 4.0 due to cicular reference
 var source
 var velocity = Vector2.ZERO
 var lifetime = 10
@@ -57,7 +57,7 @@ func explode(wall = null):
 	for i in range(num_frags):
 		var dir = Vector2.ONE.rotated(randf()*2*PI)
 		var speed = (0.5 + randf()*0.5)*frag_speed
-		var bullet = projectile.shoot_bullet(source, last_position, dir*speed, frag_damage, 0.25, 2, frag_type, stun)
+		var bullet = violence.shoot_bullet(source, last_position, dir*speed, frag_damage, 0.25, 2, frag_type, stun)
 #		if wall:
 #			bullet.ignored_bodies = [wall]
 	despawn()

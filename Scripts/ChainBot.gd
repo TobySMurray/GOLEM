@@ -14,6 +14,7 @@ var shot_speed_levels = [150, 175, 200, 225, 250, 275, 300]
 var walk_speed_levels = [130, 160, 190, 220, 250, 270, 280]
 var charge_speed_levels = [1, 1.4, 1.8, 2.2, 2.3, 2.4, 2.5]
 var init_charge_levels = [0.3, 0.3, 0.3, 0.3, 0.5, 0.7, 1.0]
+var quickstep_cooldown_levels = [5, 0.1, 3.5, 3, 2.66, 2.33, 2]
 
 var kb_mult = 1
 var damage_mult = 1
@@ -21,6 +22,11 @@ var melee_stun = 0
 var laminar_shockwave = false
 var speed_while_charging = 20
 var footwork = false
+
+var charging = false
+var charge_level = 0
+
+var quickstepping = false
 
 var ai_state = 'approach'
 var ai_side = 1
@@ -31,8 +37,7 @@ var ai_delay_timer = 0
 var ai_charge_timer = 0
 onready var ai_target_point = global_position
 
-var charging = false
-var charge_level = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.CHAIN
@@ -53,6 +58,8 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_levels[level]
 	charge_speed = charge_speed_levels[level]
 	init_charge = init_charge_levels[level]
+	max_special_cooldown = quickstep_cooldown_levels[level]
+	
 	kb_mult = 1
 	damage_mult = 1
 	speed_while_charging = 20
@@ -89,6 +96,10 @@ func misc_update(delta):
 	if charging:
 		charge_level += delta*charge_speed
 		
+	if quickstepping and velocity.length() < 20:
+		quickstepping = false
+		max_speed = walk_speed
+		
 	attack_collider.position.x = -34 if facing_left else 34
 	if facing_left:
 		$Shadow.offset.x = -8
@@ -101,6 +112,9 @@ func player_action():
 		
 	elif Input.is_action_just_released("attack1") and charging:
 		attack()
+		
+	if Input.is_action_just_pressed('attack2') and special_cooldown < 0:
+		quickstep(target_velocity)
 		
 func ai_action():
 	if not lock_aim:
@@ -168,18 +182,36 @@ func ai_move():
 					charge()
 
 func charge():
-	charging = true
-	attacking = true
-	lock_aim = is_in_group('enemy')
-	max_speed = speed_while_charging
-	charge_level = init_charge
-	play_animation("Charge")
+	if quickstepping:
+		quickstep_attack(velocity)
+	else:
+		charging = true
+		attacking = true
+		lock_aim = is_in_group('enemy')
+		max_speed = speed_while_charging
+		charge_level = init_charge
+		play_animation("Charge")
 	
 func attack():
 	charging = false
 	attack_cooldown = 1
 	play_animation("Attack")
 	
+func quickstep(dir):
+	special_cooldown = max_special_cooldown
+	if dir == Vector2.ZERO:
+		dir = Vector2(-sign(aim_direction.x), 0)
+	else:
+		dir = Vector2(sign(dir.x), 0) if abs(dir.x) > abs(dir.y) else Vector2(0, sign(dir.y))
+	velocity = 1000*dir
+	quickstepping = true
+	max_speed = 0
+	
+	if charging or attacking:
+		quickstep_attack(dir)
+	
+func quickstep_attack(dir):
+	pass
 
 func swing_attack():
 	num_pellets = int(6*charge_level)
@@ -205,7 +237,7 @@ func swing_attack():
 		var size = min(0.5 + power, 8)
 		var wave_dir = Util.limit_horizontal_angle(aim_direction, PI/8)
 		#var speed_mult = sqrt(num_pellets)*0.6
-		var bullet = Projectile.shoot_vortex_wave(self, global_position + wave_dir*bullet_spawn_offset, wave_dir*shot_speed*(1 + power/8.0), 3*power, 1.0 + power/4.0, 1.5, stun*0.2, Vector2(size*0.7, size))
+		var bullet = Violence.shoot_vortex_wave(self, global_position + wave_dir*bullet_spawn_offset, wave_dir*shot_speed*(1 + power/8.0), 3*power, 1.0 + power/4.0, 1.5, stun*0.2, Vector2(size*0.7, size))
 		
 	else:
 		for i in num_pellets + 1:
@@ -214,9 +246,10 @@ func swing_attack():
 			var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 			shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave', stun*0.5)
 		
-	melee_attack(attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, stun)
+	Violence.melee_attack(self, attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, stun)
 	if charge_level > 2:
 		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), self, 1, 10)
+	
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
@@ -229,8 +262,3 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	elif anim_name == "Die":
 		if is_in_group("enemy"):
 			actually_die()
-		
-
-
-func _on_Timer_timeout():
-	invincible = false

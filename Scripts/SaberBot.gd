@@ -291,7 +291,7 @@ func slash(damage):
 	kill_mode_timer = 1
 	play_animation("Special")
 	slash_collider.position.x = -10 if facing_left else 10
-	melee_attack(slash_collider, damage, 1000, 5)
+	Violence.melee_attack(self, slash_collider, damage, 1000, 5)
 	set_invincibility_time(0.25)
 	
 	if is_in_group("player"):

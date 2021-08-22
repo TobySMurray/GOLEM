@@ -228,62 +228,10 @@ func play_animation(anim_name):
 			animplayer.play(anim_name)
 		
 func shoot_bullet(vel, damage = 10, mass_ = 0.25, lifetime = 10, type = "pellet", stun = 0, size = Vector2.ONE):
-	var bullet = Projectile.shoot_bullet(self, global_position + aim_direction*bullet_spawn_offset, vel, damage, mass_, lifetime, type, stun, size)
+	var bullet = Violence.shoot_bullet(self, global_position + aim_direction*bullet_spawn_offset, vel, damage, mass_, lifetime, type, stun, size)
 	bullet.ignored = shoot_through
 	return bullet
-	
-func melee_attack(collider, damage = 10, force = 50, deflect_power = 0, stun = 0):
-	var space_rid = get_world_2d().space
-	var space_state = Physics2DServer.space_get_direct_state(space_rid)
-	
-	var query = Physics2DShapeQueryParameters.new()
-	query.collide_with_areas = true
-	query.collide_with_bodies = false
-	query.collision_layer =  6 if deflect_power > 0 else 4
-	query.exclude = []
-	query.transform = collider.global_transform
-	query.set_shape(collider.shape)
-	
-	var results = space_state.intersect_shape(query, 512)
-	for col in results:
-		if col['collider'].is_in_group("hitbox"):
-			var enemy = col['collider'].get_parent()
-			if not enemy.invincible and not enemy == self:
-				enemy.take_damage(damage, self, stun)
-				enemy.velocity += (enemy.global_position - global_position).normalized() * force / enemy.mass
-				
-				if not enemy.is_in_group("bloodless"):
-					GameManager.spawn_blood(enemy.global_position, (enemy.global_position - global_position).angle(), pow(force, 0.5)*30, damage*0.75)
-				
-		elif col['collider'].is_in_group("bullet") and deflect_power > 0:
-			var bullet = col['collider']
-			if bullet.deflectable:
-				var target = bullet.source
-				var deflect_case
-				if is_instance_valid(target):
-					if target == self:
-						deflect_case = 0
-					elif deflect_power == 1:
-						deflect_case = 1
-					else:
-						deflect_case = 2
-				else:
-					deflect_case = 1
 					
-				if deflect_case > 0:
-					bullet.source = self
-					bullet.lifetime += 1
-					bullet.stun = max(bullet.stun, stun*0.5)
-					if deflect_case > 1:
-						bullet.lifetime += 2
-						var bullet_speed = bullet.velocity.length()
-						var dir = (target.global_position - bullet.global_position).normalized() if is_instance_valid(target) else -bullet.velocity/bullet_speed
-						bullet.velocity =  dir*max(50, bullet_speed)*deflect_power
-					else:
-						bullet.velocity = -bullet.velocity*deflect_power
-				
-
-		
 func take_damage(damage, source, stun = 0):
 	if invincible:
 		return

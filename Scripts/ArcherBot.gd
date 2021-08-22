@@ -248,12 +248,13 @@ func toggle_stealth(state):
 	
 func area_attack():
 	invincible = true
+	invincibility_timer = 0.7
 	if is_in_group('player') and tazer_bomb:
 		deflector_shape.scale = Vector2(10,10)
-		melee_attack(deflector_shape, 20, 300, 3)
+		Violence.melee_attack(deflector_shape, 20, 300, 3)
 		deflector_shape.scale = Vector2(5,5)
 	else:
-		melee_attack(deflector_shape, 20, 300, 1)
+		Violence.melee_attack(self, deflector_shape, 20, 300, 1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -293,7 +294,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	elif anim_name == "Attack" or anim_name == "Special":
 		attacking = false
 		lock_aim = false
-		invincible = false
 		max_speed = max(max_speed, walk_speed)
 		
 		sight_beam.stop()
@@ -329,6 +329,3 @@ func die(killer = null):
 		toggle_stealth(false)
 	.die()
 
-
-func _on_Timer_timeout():
-	invincible = false

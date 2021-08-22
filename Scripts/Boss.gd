@@ -37,7 +37,7 @@ var velocity = Vector2.ZERO
 var stunned = false
 var stun_timer = 0
 
-var swap_shield_health = 2
+var swap_shield_health = 0
 var time_since_controlled = 999
 
 var max_attack_cooldown = 0.0
@@ -48,6 +48,7 @@ var invincible = false
 var damage_flash = false
 var damage_flash_timer = 0
 
+var facing_left = true
 var flip_offset = 0
 
 # AI VARS
@@ -63,9 +64,10 @@ var target_point = Vector2.ZERO
 var to_target = Vector2.ZERO
 var dist_to_target = 0
 
-var target_velocity = Vector2.ZERO
-
 var look_at_player = true
+var look_direction = Vector2.ZERO
+
+var target_velocity = Vector2.ZERO
 
 # MISC
 var emit_ghost_trail = false
@@ -85,13 +87,14 @@ func _physics_process(delta):
 		to_target = target_point - global_position
 		dist_to_target = global_position.distance_to(target_point)
 		
+		if look_at_player:
+			update_look_direction(to_player)
+		
 	if damage_flash:
 		damage_flash_timer -= delta
 		if damage_flash_timer < 0:
 			damage_flash = 0
 			sprite.material.set_shader_param('intensity', 0)
-			
-	update_sprite_flip()
 	
 	process_state(delta, current_state)
 	
@@ -162,13 +165,13 @@ func play_animation(anim):
 func move_toward_target():
 	target_velocity = max_speed*global_position.direction_to(target_point)
 	
-func update_sprite_flip(look_dir = null):
-	if not look_dir:
-		look_dir = to_player.x if look_at_player else target_velocity.x
-	if look_dir > 0:
+func update_look_direction(look_dir):
+	if look_dir.x > 0:
+		facing_left = false
 		sprite.flip_h = false
 		sprite.offset.x = 0
 	else:
+		facing_left = true
 		sprite.flip_h = true
 		sprite.offset.x = flip_offset
 		
@@ -195,6 +198,7 @@ func take_damage(damage, source, stun = 0):
 		frame_events.append(['damaged', damage])
 		if source == GameManager.true_player:
 			frame_events.append(['damaged_by_player', damage])
+			GameManager.swap_bar.set_swap_threshold(GameManager.swap_bar.swap_threshold - damage/100.0)
 		
 		damage_flash = true
 		damage_flash_timer = 0.05

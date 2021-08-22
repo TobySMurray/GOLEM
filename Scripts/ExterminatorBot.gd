@@ -520,7 +520,7 @@ func area_deflect():
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.5, 5)
 		
-	melee_attack(deflector_shape, 20, 2000, 3)
+	Violence.melee_attack(self, deflector_shape, 20, 2000, 3)
 	
 func on_bullet_despawn(b):
 	if not retaliating and b in captured_bullets:

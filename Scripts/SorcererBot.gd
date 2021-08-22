@@ -285,7 +285,7 @@ func decelerate_orbs():
 			orbs[i].velocity *= 0.9
 			
 func area_attack():
-	melee_attack(attack_collider, 20, 300, 1)
+	Violence.melee_attack(self, attack_collider, 20, 300, 1)
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.5)
 	

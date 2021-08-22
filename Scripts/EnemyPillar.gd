@@ -41,6 +41,7 @@ func spawn_enemy(type):
 	enemy.immobile = true
 	enemy.invincible = true
 	enemy.invincibility_timer = 0.5
+	enemy.attack_cooldown = 1.0
 	enemy.shoot_through = [self]
 	enemy.get_node('HealthBar').visible = false
 	enemy.add_swap_shield(1)

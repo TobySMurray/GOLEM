@@ -49,11 +49,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/MapZoneManager.gd"
 }, {
-"base": "Node",
-"class": "Projectile",
-"language": "GDScript",
-"path": "res://Scripts/Projectile.gd"
-}, {
 "base": "Reference",
 "class": "Upgrades",
 "language": "GDScript",
@@ -63,6 +58,11 @@ _global_script_classes=[ {
 "class": "Util",
 "language": "GDScript",
 "path": "res://Scripts/Util.gd"
+}, {
+"base": "Node",
+"class": "Violence",
+"language": "GDScript",
+"path": "res://Scripts/Violence.gd"
 } ]
 _global_script_class_icons={
 "Boss": "",
@@ -73,9 +73,9 @@ _global_script_class_icons={
 "Levels": "",
 "MapZone": "",
 "MapZoneManager": "",
-"Projectile": "",
 "Upgrades": "",
-"Util": ""
+"Util": "",
+"Violence": ""
 }
 
 [application]

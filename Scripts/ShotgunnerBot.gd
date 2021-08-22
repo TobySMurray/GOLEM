@@ -147,7 +147,7 @@ func shoot():
 		for i in range(num_shells):
 			var dir = aim_direction.rotated((randf()-0.5)*deg2rad(bullet_spread))
 			var speed = shot_speed * (1 + 0.2*(randf()-0.5))
-			Projectile.shoot_flak_bullet(self, global_position + aim_direction*bullet_spawn_offset, dir*speed, 30, 1, 4, num_pellets*1.5, 10, shot_speed*0.66, bullet_type)
+			Violence.shoot_flak_bullet(self, global_position + aim_direction*bullet_spawn_offset, dir*speed, 30, 1, 4, num_pellets*1.5, 10, shot_speed*0.66, bullet_type)
 		
 	else:
 		for i in range(num_pellets*num_shells):
@@ -171,7 +171,7 @@ func bash():
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.4)
 	velocity.x += 250*sign(aim_direction.x)
-	melee_attack(melee_collider, bash_damage, 1000, 1, melee_stun)
+	Violence.melee_attack(self, melee_collider, bash_damage, 1000, 1, melee_stun)
 	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":
