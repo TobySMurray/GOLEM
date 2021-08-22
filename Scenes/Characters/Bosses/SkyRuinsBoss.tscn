@@ -508,5 +508,6 @@ margin_bottom = -22.0
 [node name="SightRaycast" type="RayCast2D" parent="."]
 cast_to = Vector2( 0, 66 )
 collision_mask = 1025
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Hitbox" to="." method="on_hitbox_collision"]

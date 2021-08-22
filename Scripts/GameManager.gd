@@ -13,6 +13,7 @@ onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
 onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
 onready var sorcerer_bot = load("res://Scenes/SorcererBot.tscn")
 onready var saber_bot = load("res://Scenes/SaberBot.tscn")
+onready var shapeshifter = load("res://Scenes/Characters/MudBender.tscn")
 
 onready var scene_transition = $SceneTransition.get_node('TransitionRect')
 onready var attack_cooldown_SFX = $AttackCooldownSFX
@@ -29,7 +30,8 @@ onready var enemy_scenes = {
 	Enemy.EnemyType.FLAME: flame_bot, 
 	Enemy.EnemyType.EXTERMINATOR: exterminator_bot,
 	Enemy.EnemyType.SORCERER: sorcerer_bot,
-	Enemy.EnemyType.SABER: saber_bot
+	Enemy.EnemyType.SABER: saber_bot,
+	Enemy.EnemyType.SHAPESHIFTER: shapeshifter,
 }
 
 onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")

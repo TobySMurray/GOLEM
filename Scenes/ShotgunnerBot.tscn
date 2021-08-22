@@ -469,7 +469,7 @@ max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 0, 11.3892 )
-frame = 48
+frame = 42
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -478,5 +478,6 @@ wait_time = 0.25
 
 [node name="CharacterLights" parent="." instance=ExtResource( 18 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

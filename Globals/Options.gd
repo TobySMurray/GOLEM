@@ -65,6 +65,7 @@ var enemy_kills = {
 	Enemy.EnemyType.EXTERMINATOR: 0,
 	Enemy.EnemyType.SORCERER: 0,
 	Enemy.EnemyType.SABER: 0,
+	Enemy.EnemyType.SHAPESHIFTER: 0,
 	Enemy.EnemyType.UNKNOWN: 0
 }
 
@@ -77,6 +78,7 @@ var enemy_deaths = {
 	Enemy.EnemyType.EXTERMINATOR: 0,
 	Enemy.EnemyType.SORCERER: 0,
 	Enemy.EnemyType.SABER: 0,
+	Enemy.EnemyType.SHAPESHIFTER: 0,
 	Enemy.EnemyType.UNKNOWN: 0
 }
 
@@ -89,6 +91,7 @@ var enemy_swaps = {
 	Enemy.EnemyType.EXTERMINATOR: 0,
 	Enemy.EnemyType.SORCERER: 0,
 	Enemy.EnemyType.SABER: 0,
+	Enemy.EnemyType.SHAPESHIFTER: 0,
 	Enemy.EnemyType.UNKNOWN: 0
 }
 

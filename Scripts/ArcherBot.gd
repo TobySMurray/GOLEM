@@ -91,8 +91,7 @@ func toggle_enhancement(state):
 		shanky = GameManager.player_upgrades['scruple_inhibitor'] > 0
 		
 		triple_nock = GameManager.player_upgrades['triple_nock'] > 0
-		tazer_bomb = GameManager.player_upgrades['bomb_loader'] > 0
-	
+		tazer_bomb = GameManager.player_upgrades['tazer_bomb'] > 0
 		max_attack_cooldown = 0.1
 	else:
 		attack_cooldown = 0.75 + randf()*0.75
