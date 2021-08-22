@@ -9,7 +9,7 @@
 [ext_resource path="res://Scenes/Debug/SummonButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Debug/EVLButton.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Debug/TranquilityBeacon.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Scenes/Characters/Bosses/SkyRuinsBoss.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Characters/MudBender.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Fog.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/Tilesets/WallWalkUnder.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
@@ -172,7 +172,9 @@ tranquil_mode = false
 [node name="ShotgunnerBot" parent="WorldObjects/Characters" instance=ExtResource( 2 )]
 position = Vector2( -150, 0 )
 
-[node name="SkyRuinsBoss" parent="WorldObjects" instance=ExtResource( 10 )]
+[node name="MudBender" parent="WorldObjects/Characters" groups=[
+"enemy",
+] instance=ExtResource( 10 )]
 
 [node name="WallWalkUnder" parent="." instance=ExtResource( 22 )]
 position = Vector2( -8, -40 )

@@ -75,7 +75,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="StyleBoxEmpty" id=19]
+[sub_resource type="StyleBoxEmpty" id=17]
 content_margin_left = 5.0
 
 [node name="UpgradeInfoMenu" type="Control"]
@@ -90,7 +90,7 @@ __meta__ = {
 position = Vector2( 320, 180 )
 frames = SubResource( 16 )
 animation = "bg"
-frame = 8
+frame = 5
 playing = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -269,7 +269,7 @@ margin_right = 346.0
 margin_bottom = 230.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/normal = SubResource( 19 )
+custom_styles/normal = SubResource( 17 )
 custom_fonts/normal_font = ExtResource( 4 )
 custom_constants/line_separation = -2
 bbcode_enabled = true
