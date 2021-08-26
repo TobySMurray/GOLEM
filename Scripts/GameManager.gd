@@ -107,7 +107,7 @@ var player_upgrades = {
 	#SHOTGUN
 	'induction_barrel': 0,
 	'stacked_shells': 0,
-	'shock_stock': 0,
+	'shock_stock': 1,
 	'soldering_fingers': 0,
 	'reload_coroutine': 0,
 	#CHAIN

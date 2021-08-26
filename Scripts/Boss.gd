@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 class_name Boss
 
+const LevelLoadTrigger = preload('res://Scenes/LevelLoadTrigger.tscn')
 const GhostImage = preload('res://Scenes/GhostImage.tscn')
 onready var sprite = $Sprite
 onready var animplayer = $AnimationPlayer
@@ -104,11 +105,14 @@ func _physics_process(delta):
 	if interrupt:
 		interrupt = false
 		set_state(interrupt_state)
-	else:
-		process_state(delta, current_state)
-	
-	
 		
+	if not stunned:
+		process_state(delta, current_state)
+	else:
+		stun_timer -= delta
+		if stun_timer < 0:
+			stunned = false
+	
 	frame_events.clear()
 	move(delta)
 	
@@ -258,6 +262,7 @@ func init_healthbar():
 	healthbar.max_value = max_health
 	healthbar.value = health
 	#healthbar.rect_scale.x = health / 200.0
+	#healthbar.rect_scale.x = health / 200.0
 			
 func on_bullet_despawn(bullet):
 	pass
@@ -268,6 +273,10 @@ func on_anim_trigger_frame():
 		
 func _on_AnimationPlayer_animation_finished(anim):
 	if anim == 'Die':
+		var corpse = LevelLoadTrigger.instance()
+		get_parent().add_child(corpse)
+		corpse.global_position = global_position
+		corpse.destination = 'WarpRoom'
 		queue_free()
 	else:
 		frame_events.append(['anim_finished', anim])

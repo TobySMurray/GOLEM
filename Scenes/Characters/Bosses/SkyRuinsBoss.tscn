@@ -566,7 +566,7 @@ collision_mask = 1025
 
 [node name="ClearMoon" parent="." instance=ExtResource( 12 )]
 position = Vector2( 0, 15 )
-frame = 37
+frame = 49
 
 [node name="Sparks" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 20 )
