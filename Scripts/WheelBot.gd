@@ -42,7 +42,6 @@ var aimbot_target = null
 func _ready():
 	enemy_type = EnemyType.WHEEL
 	health = 50
-	max_speed = walk_speed
 	accel = 2.5
 	bullet_spawn_offset = 10
 	flip_offset = -71
@@ -63,7 +62,6 @@ func toggle_playerhood(state):
 	.toggle_playerhood(state)
 
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -80,8 +78,7 @@ func toggle_enhancement(state):
 	if state == true:
 		if GameManager.player_upgrades['top_gear'] > 0:
 			accel = 1.5
-			walk_speed *= 1.5
-			max_speed = walk_speed
+			max_speed *= 1.5
 			top_gear = true
 			
 		if GameManager.player_upgrades['self-preservation_override'] > 0:
@@ -96,6 +93,7 @@ func toggle_enhancement(state):
 	burst_count = 0
 	movement_raycast.enabled = !state
 	aimbot_collider.set_deferred('disabled', !aimbot_mode)
+	.toggle_enhancement(state)
 
 func misc_update(delta):
 	ai_retarget_timer -= delta

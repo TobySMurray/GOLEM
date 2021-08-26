@@ -34,7 +34,7 @@ func _physics_process(delta):
 		enemy.invincibility_timer = 0.5
 		enemy.attack_cooldown += delta/2
 	
-func spawn_enemy(type):
+func spawn_enemy(type = Enemy.EnemyType.UNKNOWN):
 	if type == Enemy.EnemyType.UNKNOWN:
 		type = Util.choose_weighted(GameManager.enemy_scenes.keys(), GameManager.level['enemy_weights'])
 	enemy = GameManager.enemy_scenes[type].instance().duplicate()

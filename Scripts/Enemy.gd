@@ -33,6 +33,7 @@ var enemy_type = EnemyType.UNKNOWN
 var score = 0
 var health = 100
 var max_speed = 100
+var override_speed = null
 var mass = 1
 var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
@@ -50,6 +51,7 @@ var attacking = false
 var is_miniboss = false
 var enemy_evolution_level = 0
 
+var can_be_swapped_to = true
 var max_swap_shield_health = 0
 var swap_shield_health = 0
 
@@ -86,12 +88,16 @@ var dead = false
 var force_swap = false
 var death_timer = 0
 
+var berserk = false
+var last_stand = false
+
 
 func _ready():
 	#GameManager.audio = get_node("/root/Level/AudioStreamPlayer")
 	foot_offset = Vector2(0, get_node("CollisionShape2D").position.y)
 	update_swap_shield()
 	GameManager.connect('on_level_ready', self, 'on_level_ready')	
+	GameManager.connect('on_swap', self, 'on_swap')
 	
 func on_level_ready():
 	toggle_light(GameManager.level['dark'] and is_in_group('player'))
@@ -140,6 +146,11 @@ func _physics_process(delta):
 	else:
 		time_since_controlled += delta
 		time_since_player_damage += delta
+		if GameManager.player_upgrades['scorn'] > 0 and not GameManager.player_hidden and swap_shield_health < 1 and time_since_player_damage > 2:
+			max_swap_shield_health = max(max_swap_shield_health, 1)
+			swap_shield_health = 1
+			update_swap_shield()
+		
 		if is_instance_valid(GameManager.player) and not GameManager.player_hidden and GameManager.player != self and not dead and not stunned:
 			ai_move()
 			ai_action()
@@ -179,7 +190,8 @@ func _physics_process(delta):
 	
 	
 func move(delta):
-	velocity = lerp(velocity, target_velocity.normalized()*max_speed, accel*delta)	
+	var speed = override_speed if override_speed != null else max_speed
+	velocity = lerp(velocity, target_velocity.normalized()*speed, accel*delta)	
 	velocity = move_and_slide(velocity)
 
 func player_move(_delta):
@@ -193,7 +205,7 @@ func player_move(_delta):
 	if Input.is_action_pressed("move_up"):
 		input.y -= 1
 		
-	target_velocity = max_speed * input.normalized()
+	target_velocity = input.normalized()
 	
 func misc_update(delta):
 	pass
@@ -205,7 +217,10 @@ func ai_move():
 	target_velocity = Vector2.ZERO
 	
 func ai_action():
-	pass		
+	pass	
+	
+func on_swap():
+	pass
 		
 func animate():
 	if aim_direction.x > 0:
@@ -243,6 +258,8 @@ func take_damage(damage, source, stun = 0):
 		
 	elif source == GameManager.true_player:
 		time_since_player_damage = 0
+		if not GameManager.controlling_boss and source.berserk:
+			GameManager.swap_bar.control_timer = max(GameManager.swap_bar.control_timer - damage/20.0, 15)
 		
 	if swap_shield_health > 0:
 		var shield_damage = min(swap_shield_health, damage)
@@ -290,9 +307,23 @@ func toggle_playerhood(state):
 		attack_cooldown = -1
 		special_cooldown = -1
 		time_since_controlled = 0
-		GameManager.on_swap(self)
+		#GameManager.on_swap(self)
 		toggle_enhancement(true)
 		
+		if GameManager.player_upgrades['fear'] > 0:
+			var missing_health = healthbar.max_value - health
+			health = healthbar.max_value
+			healthbar.value = health
+			
+		if GameManager.player_upgrades['efficiency'] > 0:
+			var sacrificed_health = float(health)/healthbar.max_value - 0.25
+			if sacrificed_health > 0:
+				take_damage(healthbar.max_value*sacrificed_health, null)
+				var score_bonus = int(score*sacrificed_health)
+				GameManager.increase_score(score_bonus)
+				emit_score_popup(score_bonus, 'SACRIFICE')
+			
+					
 		if is_miniboss and enemy_evolution_level > GameManager.evolution_level:
 			GameManager.evolution_level = enemy_evolution_level #Does not update UI
 			capturing_boss = true
@@ -301,13 +332,15 @@ func toggle_playerhood(state):
 			target_velocity = Vector2.ZERO
 			GameManager.lerp_to_timescale(0.1)
 			GameManager.camera.lerp_zoom(0.5)
-			GameManager.world.blood_moon.boss.play()
+			GameManager.world.blood_moon.boss_audio.play()
 	else:
 		if is_in_group('player'):
 			remove_from_group("player")
 		add_to_group("enemy")
 		attack_cooldown = max(attack_cooldown, 1)
 		special_cooldown = max(special_cooldown, 1)
+		if last_stand:
+			die()
 		
 func toggle_enhancement(state):
 	if state == true:
@@ -327,7 +360,19 @@ func toggle_enhancement(state):
 	else:
 		EV_particles.emitting = false
 		
+	berserk = false
+	if state:
+		if GameManager.player_upgrades['revelry'] > 0 and GameManager.swap_bar.control_timer >= 15:
+			max_speed *= 1.33
+			max_attack_cooldown *= 0.66
+			max_special_cooldown *= 0.66
+			berserk = true
+		
+		
 func toggle_light(is_player):
+	if not light_circle or not light_beam:
+		return
+		
 	if GameManager.level['dark']:
 		light_circle.get_parent().visible = true
 		if is_player:
@@ -360,6 +405,7 @@ func add_swap_shield(hp):
 func update_swap_shield():
 	if not swap_shield: return
 	if swap_shield_health > 0:
+		swap_shield.visible = true;
 		var health_ratio = swap_shield_health/max_swap_shield_health
 		swap_shield.modulate = Color(0.5+health_ratio*0.5, health_ratio, health_ratio, 0.3 + health_ratio*0.7)
 	else:
@@ -459,16 +505,20 @@ func die(killer = null):
 	else:
 		GameManager.camera.set_trauma(1, 16 if GameManager.swapping else 4)
 		GameManager.lerp_to_timescale(0.1)
-		GameManager.swap_bar.swap_threshold_penalty = 2
+		GameManager.swap_bar.threshold_death_penalty = 2
 		GameManager.enemy_drought_bailout_available = true
-		if not GameManager.can_swap:
+		if not GameManager.can_swap or last_stand:
+			GameManager.can_swap = false
 			death_timer = 0.3
-		if is_instance_valid(killer):
+		if is_instance_valid(killer) and killer.enemy_type != EnemyType.UNKNOWN:
 			Options.enemy_deaths[str(killer.enemy_type)] += 1
 			
 
 
 func actually_die():
+	if last_stand:
+		GameManager.spawn_explosion(global_position, self, 1, 100, 1000)
+		
 	if is_in_group("enemy"):
 		queue_free()
 	else:

@@ -47,17 +47,14 @@ var rage_color = Color(1, 0, 0.45)
 func _ready():
 	enemy_type = EnemyType.SABER
 	health = 75
-	max_speed = walk_speed
 	flip_offset = -16
 	healthbar.max_value = health
 	max_attack_cooldown = 2
 	score = 80
 	init_healthbar()
-	GameManager.connect("on_swap", self, "on_swap")
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -106,6 +103,8 @@ func toggle_enhancement(state):
 		attack_cooldown = 0
 	if not sabers_sheathed and not waiting_for_saber_recall:
 		recall_sabers()
+		
+	.toggle_enhancement(state)
 	
 func misc_update(delta):
 	.misc_update(delta)
@@ -263,7 +262,7 @@ func orbit_sabers():
 func start_kill_mode():
 	in_kill_mode = true
 	special_cooldown = max_special_cooldown
-	max_speed = dash_speed
+	override_speed = dash_speed
 	slash_trigger.get_node("CollisionShape2D").set_deferred("disabled", false)
 	remaining_slashes = slash_charges
 	sprite.modulate = rage_color
@@ -275,7 +274,7 @@ func start_kill_mode():
 	
 func end_kill_mode():
 	in_kill_mode = false
-	max_speed = walk_speed
+	override_speed = null
 	slash_trigger.get_node("CollisionShape2D").set_deferred("disabled", true)
 	sprite.modulate = Color.white
 	base_color = Color.white
@@ -360,7 +359,7 @@ func on_sabers_unsheathed():
 func _on_SlashTrigger_area_entered(area):
 	if in_kill_mode and not attacking and not area.get_parent() == self and area.is_in_group("hitbox") and not area.get_parent().invincible:
 		velocity = (area.global_position - global_position).normalized() * 1000
-		if true_focus and area.get_parent().is_in_group('enemy') and area.get_parent().is_boss and area.get_parent().swap_shield_health > 0:
+		if true_focus and area.get_parent().is_in_group('enemy') and area.get_parent().is_miniboss and area.get_parent().swap_shield_health > 0:
 			slash(area.get_parent().swap_shield_health)
 		else:
 			slash(slash_damage)

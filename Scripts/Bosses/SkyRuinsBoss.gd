@@ -68,6 +68,7 @@ const pillar_patterns = [
 onready var eye_particles = $EyeParticles
 onready var sight_raycast = $SightRaycast
 onready var punch_collider = $PunchCollider/CollisionShape2D
+onready var grind_particles = $Sparks
 
 const MAX_DIST = 250
 const MIN_DIST = 100
@@ -92,12 +93,13 @@ var ram_cooldown = 0
 
 var stagger_resists = 0
 var super_moves_used = 0
-var super_move_thresholds = [0.66, 0.33, 0]
+var super_move_thresholds = [0.96, 0.33, 0]
 
 func _ready():
 	flip_offset = -30
 	max_attack_cooldown = 0.7
 	max_special_cooldown = 0.9
+	swap_shield_health = 3
 	set_state(INACTIVE)
 	arena_center = global_position
 	init_healthbar()
@@ -117,7 +119,7 @@ func _physics_process(delta):
 	
 	pillar_cooldown -= delta
 	ram_cooldown -= delta
-
+		
 func enter_state(state):
 	if not is_instance_valid(GameManager.player) and state != INACTIVE:
 		set_state(INACTIVE)
@@ -136,6 +138,8 @@ func enter_state(state):
 			target_dist = min(cardinal_dist - randf()*50, MAX_DIST) if cardinal_dist > MIN_DIST else cardinal_dist
 
 		APPROACH:
+			state_timer = 0.5
+			state_counter = 0
 			accel = 5
 			play_animation('Walk')
 			
@@ -150,11 +154,12 @@ func enter_state(state):
 			stagger_resists = phase
 			
 		TELEGRAPH_RAM:
-			state_timer = 2
+			state_timer = 2 - 0.5*phase
 			target_velocity = Vector2.ZERO
 			accel = 8
 			sprite.material.set_shader_param('color', Color.red)
 			sight_raycast.enabled = true
+			play_animation('Idle')
 			
 		RAM:
 			state_health = 50
@@ -162,6 +167,10 @@ func enter_state(state):
 			accel = 3.5 + phase*0.5
 			emit_ghost_trail = true
 			ram_cooldown = 4
+			grind_particles.rotation = Vector2(abs(target_velocity.x), target_velocity.y).angle()
+			grind_particles.scale.x = abs(grind_particles.scale.x)*sign(target_velocity.x)
+				
+			grind_particles.emitting = true
 			
 		PUNCH:
 			state_timer = 0.7
@@ -219,7 +228,7 @@ func enter_state(state):
 
 func process_state(delta, state):
 	#breakpoint
-	if not is_instance_valid(GameManager.player) and state != INACTIVE:
+	if (not is_instance_valid(GameManager.player) or GameManager.player_hidden) and state != INACTIVE:
 		set_state(INACTIVE)
 		return
 	
@@ -270,15 +279,26 @@ func process_state(delta, state):
 						set_state(IDLE)
 				
 		APPROACH:
-			target_point = player_pos
-			move_toward_target()
-			
-			if global_position.distance_to(target_point) < 60:
-				set_state(DISCOMBOBULATE)
+			if state_counter == 0:
+				var t = min(0.5 - state_timer, 0.5)
+				sprite.position.y = -(t - 2*t*t) * (40*8)
+				if state_timer < 0:
+					state_counter = 1
+					state_timer = 3.0
+					GameManager.camera.set_trauma(0.5)
+			elif state_timer < 2.5:
+				target_point = player_pos
+				move_toward_target(max_speed*1.5)
+				
+				if global_position.distance_to(target_point) < 60:
+					set_state(DISCOMBOBULATE)
+				elif state_timer < 0:
+					set_state(IDLE)
 				
 		DISCOMBOBULATE:
 			if state_timer < 0:
 				if state_counter == 0:
+					emit_ghost_trail = false
 					set_state(PUNCH)
 				elif state_counter > 1:
 					state_timer = 0.6 - 0.15*phase
@@ -287,7 +307,8 @@ func process_state(delta, state):
 					state_timer = 1.0
 					target_point = player_pos + Vector2(100*sign(to_player.x), 0)
 					target_dist = 50*sign(to_player.x)
-					
+				
+				emit_ghost_trail = true
 				var to_point = target_point - global_position
 				var dist = max(to_point.length(), 1)
 				velocity = to_point/dist * (700 + 3.3*(dist - 220)) #Empirically calculated!
@@ -302,8 +323,9 @@ func process_state(delta, state):
 					sprite.material.set_shader_param('intensity', int(state_timer*20)%2*0.6)
 					if event_happened('damaged_by_player'):
 						if stagger_resists == 0:
-							swap_shield_health -= 2
 							velocity -= to_player.normalized()*500
+							swap_shield_health -= 2
+							shield_flicker = true
 							set_state(STAGGER)
 						else:
 							stagger_resists -= 1
@@ -314,7 +336,7 @@ func process_state(delta, state):
 			
 		TELEGRAPH_RAM:
 			sprite.material.set_shader_param('color', Color.red)
-			sprite.material.set_shader_param('intensity', (0.5 + 0.5*sin(state_timer*(10 + 5*(2 - state_timer))))*0.6)
+			sprite.material.set_shader_param('intensity', (0.5 + 0.5*sin(state_timer*(10 + 5*(3 - state_timer))))*0.6)
 			
 			sight_raycast.cast_to = (player_pos - global_position)/scale
 			if sight_raycast.is_colliding() and (sight_raycast.get_collision_point() - player_pos).length() > 30:
@@ -348,10 +370,11 @@ func process_state(delta, state):
 					GameManager.spawn_explosion(global_position + offset, self, 0.4, 10, 300, 0.5, true)
 					offset = offset.rotated(PI/10)	
 				
-				if hit_wall:
+				if hit_pillar:
 					GameManager.camera.set_trauma(0.6)
 					velocity = -velocity
 					swap_shield_health -= 1
+					shield_flicker = true
 				else:
 					GameManager.camera.set_trauma(0.4)
 					
@@ -428,6 +451,8 @@ func process_state(delta, state):
 					set_state(IDLE)
 					
 		STAGGER:
+			if state_timer < 1:
+				sprite.offset.x += (randf() - 0.5)*4
 			if state_timer < 0:
 				set_state(IDLE)
 				
@@ -482,6 +507,7 @@ func exit_state(state):
 		DISCOMBOBULATE:
 			collision_layer = 1024
 			sprite.material.set_shader_param('intensity', 0)
+			emit_ghost_trail = false
 		WAVE_DASH:
 			emit_ghost_trail = false
 		TELEGRAPH_RAM:
@@ -489,11 +515,14 @@ func exit_state(state):
 			sight_raycast.enabled = false
 		RAM:
 			emit_ghost_trail = false
+			grind_particles.emitting = false
 		PILLAR_WAVE:
 			sprite.position.y = 0
 		DIAGONAL_VOLLEY:
 			eye_particles.emitting = false
 		STAGGER:
+			shield_flicker = false
+			#sprite.position.x = 0
 			if swap_shield_health <= 0:
 				swap_shield_health = 3
 		PLAYER:
@@ -508,7 +537,7 @@ func toggle_playerhood(is_player):
 	.toggle_playerhood(is_player)
 	GameManager.controlling_boss = is_player
 	if is_player:
-		interrupt_state(PLAYER)
+		set_state(PLAYER)
 	else:
 		set_state(STAGGER)
 		

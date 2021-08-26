@@ -95,7 +95,10 @@ static func melee_attack(source, collider, damage = 10, force = 50, deflect_powe
 				else:
 					deflect_case = 1
 					
-				if deflect_case > 0:
+				if deflect_case == 0:
+					pass
+					#bullet.velocity *= 1 + 0.5*deflect_power 
+				else:
 					bullet.source = source
 					bullet.lifetime += 1
 					bullet.stun = max(bullet.stun, stun*0.5)

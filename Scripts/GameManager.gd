@@ -50,6 +50,7 @@ var projectiles_node
 
 var timescale = 1
 var target_timescale = 1
+var timescale_lerp_rate = 12
 var timescale_timer = -1
 
 var player
@@ -74,7 +75,6 @@ var audio
 var player_bullets = []
 var enemies = []
 
-var controlling_boss = false
 var out_of_control = false
 
 var game_time = 0
@@ -94,6 +94,9 @@ var swap_history = [Enemy.EnemyType.UNKNOWN]
 var hyperdeath_mode = false
 var hyperdeath_start_time = 0
 
+var fighting_boss = false
+var controlling_boss = false
+
 var kills = 0
 
 var evolution_level = 1
@@ -111,7 +114,7 @@ var player_upgrades = {
 	'precompressed_hydraulics': 0,
 	'adaptive_wrists': 0,
 	'discharge_flail': 0,
-	'vortex_technique': 1,
+	'vortex_technique': 0,
 	'footwork_scheduler': 0,
 	#WHEEL
 	'advanced_targeting': 0,
@@ -130,7 +133,7 @@ var player_upgrades = {
 	'half-draw': 0,
 	'slobberknocker_protocol': 0,
 	'scruple_inhibitor': 0,
-	'triple_nock' : 1,
+	'triple_nock' : 0,
 	'bomb_loader' : 0,
 	'tazer_bomb' : 0,
 	#EXTERMINATOR
@@ -150,7 +153,16 @@ var player_upgrades = {
 	'true_focus': 0,
 	'overclocked_cooling': 0,
 	'ricochet_simulation': 0,
-	'supple_telekinesis': 0
+	'supple_telekinesis': 0,
+	
+	#BOSS UPGRADES
+	'revelry': 0,	# Go berserk when swapbar > 15, swapbar decreases from dealing damage while berserk
+	'patience': 0,	# Slows swapbar, gives items based on time spent in host
+	'mania': 0,		# Swapbar resets to 5 instead of zero, threshold builds up less when swapping
+	'scorn': 0,		# Threshold clamped at 0, enemies have regenerating 1-hp swap shields
+	'hubris': 0,	# Instead of dying when swapbar fills up, go into debuffed state where all damage is fatal
+	'fear': 0,		# Hosts are healed to full HP when swapped into
+	'efficiency': 0	# Hosts set to 25% HP when swapped into, get score based on sacrificed health
 }
 
 func _ready():
@@ -159,7 +171,7 @@ func _ready():
 	
 func _process(delta):
 	if timescale_timer < 0:
-		timescale = lerp(timescale, target_timescale, delta*12)
+		timescale = lerp(timescale, target_timescale, min(delta*timescale_lerp_rate, 1))
 		#audio.pitch_scale = timescale
 		Engine.time_scale = timescale
 	else:
@@ -232,12 +244,13 @@ func on_world_loaded(world_ = world):
 	
 					
 func start_level():
-	if level_name != 'TestLevel':
-		swap_bar.enabled = true
+	if level_name == 'TestLevel':
+		swap_bar.enabled = false
 	else:
 		swap_bar.enabled = true
 		
-	world.init_player.toggle_playerhood(true)
+	swap_to(world.init_player)
+	player_hidden = true
 		
 	play_level_bgm()
 		
@@ -257,6 +270,7 @@ func start_level():
 	swap_bar.visible = true
 	swap_bar.reset()
 	swap_bar.set_swap_threshold(1)
+	swap_bar.update_modifiers()
 	
 	swap_history = [Enemy.EnemyType.UNKNOWN]
 	hyperdeath_mode = false
@@ -293,13 +307,15 @@ func play_level_bgm(level_name_ = level_name):
 		BGM.play()
 		
 		
-func lerp_to_timescale(scale):
+func lerp_to_timescale(scale, lerp_rate = 12):
 	target_timescale = scale
+	timescale_lerp_rate = lerp_rate
 	
-func set_timescale(scale, lock_duration = 0):
+func set_timescale(scale, lock_duration = 0, lerp_rate = 12):
 	timescale = scale
 	Engine.time_scale = scale
 	timescale_timer = lock_duration
+	timescale_lerp_rate = lerp_rate
 	
 func set_player_after_delay(new_player, delay):
 	true_player = new_player
@@ -429,9 +445,8 @@ func choose_swap_target(delta):
 		if can_swap:
 			if Input.is_action_just_released("swap"):
 				if is_instance_valid(swap_cursor.selected_enemy):
-					true_player.toggle_playerhood(false)
-					swap_cursor.selected_enemy.toggle_playerhood(true)
 					swap_bar.reset()
+					swap_to(swap_cursor.selected_enemy)
 					
 				if is_instance_valid(swap_cursor.selected_enemy) or not true_player.dead:
 					toggle_swap(false)
@@ -442,8 +457,9 @@ func choose_swap_target(delta):
 			toggle_swap(false)
 			
 	
-func on_swap(new_player):
+func swap_to(new_player):
 	if true_player:
+		true_player.toggle_playerhood(false)
 		if player != true_player:
 			true_player.toggle_enhancement(false)
 			player = true_player
@@ -459,7 +475,10 @@ func on_swap(new_player):
 	swap_history.append(new_player.enemy_type)
 	update_variety_bonus()
 	enemy_drought_bailout_available = true
-	Options.enemy_swaps[str(new_player.enemy_type)] += 1
+	if new_player.enemy_type != Enemy.EnemyType.UNKNOWN:
+		Options.enemy_swaps[str(new_player.enemy_type)] += 1
+	new_player.toggle_playerhood(true)
+	
 	emit_signal("on_swap")
 	
 			
@@ -472,7 +491,7 @@ func give_player_random_upgrade(type = Enemy.EnemyType.UNKNOWN):
 		if Upgrades.upgrades[upgrade]['type'] == type:
 			upgrade_pool.append(upgrade)
 			
-	for upgrade in player_upgrades.keys():
+	for upgrade in Upgrades.upgrades.keys():
 		if player_upgrades[upgrade] > 0 and 'precludes' in Upgrades.upgrades[upgrade]:
 			for precluded in Upgrades.upgrades[upgrade]['precludes']:
 				upgrade_pool.erase(precluded)
@@ -487,6 +506,8 @@ func give_player_random_upgrade(type = Enemy.EnemyType.UNKNOWN):
 func give_player_upgrade(upgrade):
 	print("New upgrade: "+ upgrade)
 	player_upgrades[upgrade] += 1
+	if true_player:
+		true_player.toggle_enhancement(true)
 	
 	var popup = upgrade_popup.duplicate()
 	camera.get_node('CanvasLayer').add_child(popup)
@@ -494,9 +515,14 @@ func give_player_upgrade(upgrade):
 	popup.show()
 	
 
-func kill():
-	can_swap = false
-	player.die()
+func on_swap_bar_filled():
+	if player_upgrades['hubris'] > 0 and not controlling_boss:
+		true_player.last_stand = true
+		true_player.toggle_enhancement(false)
+		true_player.take_damage(true_player.health - 1, null)
+	else:
+		can_swap = false
+		true_player.die()
 	
 func set_evolution_level(lv):
 	evolution_level = min(lv, 6) #min(evolution_level + value/(200+200.0*int(evolution_level)), 5) 

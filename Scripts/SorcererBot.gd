@@ -42,7 +42,6 @@ func _ready():
 	max_special_cooldown = 2
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -102,6 +101,9 @@ func toggle_enhancement(state):
 		stand.collision_layer = 0 if state else 4
 		if precision_mode:
 			stand.sprite.play("Walk")
+			
+	.toggle_enhancement(state)
+	
 	
 func misc_update(delta):
 	move_timer -= delta
@@ -306,7 +308,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack" or anim_name == "Special":
 		attacking = false
 		lock_aim = false
-		#max_speed = walk_speed
 		
 	elif anim_name == "Die":
 		detonate_orbs()

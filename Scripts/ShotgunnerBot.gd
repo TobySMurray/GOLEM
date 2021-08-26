@@ -8,13 +8,12 @@ onready var melee_collider = $MeleeCollider/CollisionShape2D
 
 var shot_speed
 var num_pellets
-var reload_time
 var bash_damage
 
 var walk_speed_level = [110, 120, 130, 140, 150, 160, 170]
 var shot_speed_level = [175, 350, 425, 500, 575, 650, 700]
 var num_pellets_level = [6, 6, 7, 8, 9, 10, 12, 14]
-var reload_time_level = [1.33, 1.2, 1.1, 1, 0.95, 0.9, 0.85]
+var reload_time_level = [2, 1.2, 1.1, 1, 0.95, 0.9, 0.85]
 var bash_damage_level = [20, 20, 25, 30, 35, 40, 45]
 
 var num_shells = 1
@@ -36,7 +35,6 @@ var ai_target_point = Vector2.ZERO
 func _ready():
 	enemy_type = EnemyType.SHOTGUN
 	health = 75
-	max_speed = 120
 	bullet_spawn_offset = 10
 	flip_offset = -53
 	max_special_cooldown = 1.2
@@ -47,13 +45,12 @@ func _ready():
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	max_speed = walk_speed_level[level]
 	shot_speed = shot_speed_level[level]
 	num_pellets = num_pellets_level[level]
-	reload_time = reload_time_level[level]
+	max_attack_cooldown = reload_time_level[level]
 	bash_damage = bash_damage_level[level]
 	
 	num_shells = 1
@@ -69,7 +66,7 @@ func toggle_enhancement(state):
 			bullet_type = 'flame'
 			bullet_kb = 0.15
 		
-		reload_time *= 1.0 + 0.5*GameManager.player_upgrades['stacked_shells']
+		max_attack_cooldown *= 1.0 + 0.5*GameManager.player_upgrades['stacked_shells']
 		bullet_spread = 15*(1.0 + GameManager.player_upgrades['stacked_shells'])
 		num_shells *= 1 + GameManager.player_upgrades['stacked_shells']
 		recoil *= 1.0 + 1.5*GameManager.player_upgrades['stacked_shells']
@@ -82,9 +79,9 @@ func toggle_enhancement(state):
 		
 		full_auto = GameManager.player_upgrades['reload_coroutine'] > 0
 		for i in range(GameManager.player_upgrades['reload_coroutine']):
-			reload_time *= 0.8
+			max_attack_cooldown *= 0.8
 	
-	max_attack_cooldown = reload_time
+	.toggle_enhancement(state)
 	
 func misc_update(delta):
 	ai_move_timer -= delta
@@ -94,7 +91,7 @@ func player_action():
 	if (Input.is_action_just_pressed("attack1") or (full_auto and Input.is_action_pressed("attack1"))) and not attacking and attack_cooldown < 0:
 		shoot()
 		
-	elif Input.is_action_just_pressed("attack2") and not attacking and special_cooldown < 0:
+	if Input.is_action_just_pressed("attack2") and special_cooldown < 0:
 		start_bash()
 			
 func ai_move():
@@ -127,12 +124,12 @@ func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position).normalized()
 	if ai_can_shoot and attack_cooldown < 0:
 		shoot()
-		attack_cooldown = reload_time*1.5
+		attack_cooldown = max_attack_cooldown
 		
 func shoot():
 	gun_audio.play()
 	attacking = true
-	attack_cooldown = reload_time
+	attack_cooldown = max_attack_cooldown
 	play_animation("Shoot")
 	show_muzzle_flash()
 	
@@ -147,7 +144,7 @@ func shoot():
 		for i in range(num_shells):
 			var dir = aim_direction.rotated((randf()-0.5)*deg2rad(bullet_spread))
 			var speed = shot_speed * (1 + 0.2*(randf()-0.5))
-			Violence.shoot_flak_bullet(self, global_position + aim_direction*bullet_spawn_offset, dir*speed, 30, 1, 4, num_pellets*1.5, 10, shot_speed*0.66, bullet_type)
+			Violence.shoot_flak_bullet(self, global_position + aim_direction*bullet_spawn_offset, dir*speed, num_pellets*5, 1, 4, num_pellets*1.5, 10, shot_speed*0.66, bullet_type)
 		
 	else:
 		for i in range(num_pellets*num_shells):
@@ -167,11 +164,24 @@ func start_bash():
 	special_cooldown = max_special_cooldown
 	play_animation('Special')
 	
+	#Hakita bless
+	var hits = Violence.melee_attack(self, melee_collider, 0, 0, 1, 0)
+	for hit in hits:
+		if hit.is_in_group('bullet') and hit.source == self:
+			GameManager.set_timescale(0.001, 1, 100)
+			hit.velocity = (hit.velocity.length()*2)*aim_direction.rotated((randf()-0.5)*PI/36)
+			hit.damage *= 1.5
+			hit.stun = melee_stun/2
+			hit.modulate = Color.yellow
+			#Hakita bless
+	
 func bash():
 	if is_in_group("player"):
 		GameManager.camera.set_trauma(0.4)
 	velocity.x += 250*sign(aim_direction.x)
 	Violence.melee_attack(self, melee_collider, bash_damage, 1000, 1, melee_stun)
+	
+
 	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Shoot":

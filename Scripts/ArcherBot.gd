@@ -39,7 +39,6 @@ var ai_move_timer = 0
 func _ready():
 	enemy_type = EnemyType.ARCHER
 	health = 70
-	max_speed = walk_speed
 	flip_offset = -23
 	init_healthbar()
 	score = 50
@@ -51,7 +50,6 @@ func toggle_playerhood(state):
 		charge_timer = 0
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -90,11 +88,16 @@ func toggle_enhancement(state):
 			
 		shanky = GameManager.player_upgrades['scruple_inhibitor'] > 0
 		
+		for i in range (GameManager.player_upgrades['bomb_loader']):
+			max_special_cooldown *= 0.5
+		
 		triple_nock = GameManager.player_upgrades['triple_nock'] > 0
 		tazer_bomb = GameManager.player_upgrades['tazer_bomb'] > 0
 		max_attack_cooldown = 0.1
 	else:
 		attack_cooldown = 0.75 + randf()*0.75
+		
+	.toggle_enhancement(state)
 		
 
 
@@ -169,7 +172,7 @@ func charge_attack():
 	attacking = true
 	charging = true
 	lock_aim = not full_auto
-	max_speed = speed_while_charging
+	override_speed = speed_while_charging
 	
 	charge_timer = charge_time
 	play_animation("Ready")
@@ -220,11 +223,8 @@ func release_attack():
 		
 func special():
 	special_cooldown = max_special_cooldown
-	if is_in_group('player'):
-		for i in range (GameManager.player_upgrades['bomb_loader']):
-			special_cooldown *= 0.5
 	attacking = true
-	max_speed = 0
+	override_speed = 0
 	charging = false
 	sight_beam.stop()
 	sight_beam.frame = 1
@@ -234,14 +234,14 @@ func toggle_stealth(state):
 	stealth_mode = state
 
 	if state == true:
-		
 		stealth_timer = 3
-		max_speed = walk_speed*2
+		override_speed = max_speed*2
 		sprite.modulate = Color(0.12, 0.12, 0.12, 0.5)
 	else:
 		if is_in_group('player'):
 			GameManager.player_hidden = false
-		max_speed = walk_speed
+		if not charging:
+			override_speed = null
 		sight_beam.frame = 0
 		sprite.modulate = Color.white
 	
@@ -250,7 +250,7 @@ func area_attack():
 	invincibility_timer = 0.7
 	if is_in_group('player') and tazer_bomb:
 		deflector_shape.scale = Vector2(10,10)
-		Violence.melee_attack(deflector_shape, 20, 300, 3)
+		Violence.melee_attack(self, deflector_shape, 20, 300, 3)
 		deflector_shape.scale = Vector2(5,5)
 	else:
 		Violence.melee_attack(self, deflector_shape, 20, 300, 1)
@@ -293,11 +293,14 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	elif anim_name == "Attack" or anim_name == "Special":
 		attacking = false
 		lock_aim = false
-		max_speed = max(max_speed, walk_speed)
 		
 		sight_beam.stop()
 		sight_beam.modulate = Color(1, 1, 1, 0.5)
-		sight_beam.frame = 0 if anim_name == 'Attack' else 1
+		if anim_name == 'Attack':
+			sight_beam.frame = 0
+			override_speed = null
+		else:
+			sight_beam.frame = 1
 
 	elif anim_name == "Die":
 		if is_in_group("enemy"):

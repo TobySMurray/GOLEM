@@ -6,6 +6,7 @@ const GhostImage = preload('res://Scenes/GhostImage.tscn')
 onready var sprite = $Sprite
 onready var animplayer = $AnimationPlayer
 onready var healthbar = $HealthBar
+onready var swap_shield = get_node_or_null('ClearMoon')
 
 # STATE MACHINE VARS
 var current_state = 0
@@ -37,6 +38,7 @@ var velocity = Vector2.ZERO
 var stunned = false
 var stun_timer = 0
 
+var can_be_swapped_to = true
 var swap_shield_health = 0
 var time_since_controlled = 999
 
@@ -70,6 +72,9 @@ var look_direction = Vector2.ZERO
 var target_velocity = Vector2.ZERO
 
 # MISC
+var shield_flicker = false
+var flicker_state = 0
+
 var emit_ghost_trail = false
 var ghost_trail_interval = 0.1
 var ghost_trail_timer = -1
@@ -80,7 +85,7 @@ func _physics_process(delta):
 		return
 		
 	state_timer -= delta
-	if GameManager.player:
+	if is_instance_valid(GameManager.player):
 		player_pos = GameManager.player.global_position
 		to_player = player_pos - global_position
 		dist_to_player = player_pos.length()
@@ -95,15 +100,19 @@ func _physics_process(delta):
 		if damage_flash_timer < 0:
 			damage_flash = 0
 			sprite.material.set_shader_param('intensity', 0)
-	
-	process_state(delta, current_state)
-	
+			
 	if interrupt:
 		interrupt = false
 		set_state(interrupt_state)
+	else:
+		process_state(delta, current_state)
+	
+	
 		
 	frame_events.clear()
 	move(delta)
+	
+	update_shield_flicker()
 	if emit_ghost_trail:
 		update_ghost_trail(delta)
 	
@@ -154,7 +163,7 @@ func die():
 	pass
 	
 func toggle_playerhood(state):
-	GameManager.on_swap(self)
+	pass
 	
 func toggle_enhancement(state):
 	pass
@@ -162,8 +171,8 @@ func toggle_enhancement(state):
 func play_animation(anim):
 	animplayer.play(anim)
 	
-func move_toward_target():
-	target_velocity = max_speed*global_position.direction_to(target_point)
+func move_toward_target(speed = max_speed):
+	target_velocity = speed*global_position.direction_to(target_point)
 	
 func update_look_direction(look_dir):
 	if look_dir.x > 0:
@@ -183,6 +192,38 @@ func update_ghost_trail(delta):
 		get_parent().add_child(new_ghost)
 		new_ghost.copy_sprite(sprite)
 		new_ghost.set_lifetime(0.4)
+		
+func update_shield_flicker():
+	if not swap_shield:
+		return
+		
+	if shield_flicker:
+		var r = randf()
+		if flicker_state == 0:
+			swap_shield.visible = false
+			if r < 0.1:
+				flicker_state = 1 if r < 0.05 else 2
+		else:
+			swap_shield.visible = true
+			var apparent_health
+			if flicker_state == 1:
+				apparent_health = min(swap_shield_health/3.0, 1)
+				if r < 0.5:
+					flicker_state = 0 if r < 0.01 else 2 
+			else:
+				apparent_health = min((swap_shield_health + 1)/3.0, 1)
+				if r < 0.1:
+					flicker_state = 0 if r < 0.02 else 1 
+			swap_shield.modulate = Color(0.5+apparent_health*0.5, apparent_health, apparent_health, 1)
+			
+	elif GameManager.swapping:
+		swap_shield.visible = true
+		var apparent_health = swap_shield_health / 3.0
+		swap_shield.modulate = Color(0.5+apparent_health*0.5, apparent_health, apparent_health, 1)
+		
+	else:
+		swap_shield.visible = false
+		
 	
 func take_damage(damage, source, stun = 0):
 	health -= damage
@@ -198,7 +239,9 @@ func take_damage(damage, source, stun = 0):
 		frame_events.append(['damaged', damage])
 		if source == GameManager.true_player:
 			frame_events.append(['damaged_by_player', damage])
-			GameManager.swap_bar.set_swap_threshold(GameManager.swap_bar.swap_threshold - damage/100.0)
+			GameManager.swap_bar.set_swap_threshold(GameManager.swap_bar.swap_threshold - damage/50.0)
+#			if GameManager.swap_bar.control_timer > GameManager.swap_bar.swap_threshold:
+#				GameManager.swap_bar.control_timer = max(0, - GameManager.swap_bar.control_timer - damage/50.0)
 		
 		damage_flash = true
 		damage_flash_timer = 0.05

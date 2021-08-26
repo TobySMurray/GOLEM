@@ -1,6 +1,9 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var attack_collider = $AttackCollider/CollisionShape2D
+onready var attack_collider = $AttackCollider/NeutralCollider
+onready var forward_collider = $AttackCollider/ForwardCollider
+onready var side_collider = $AttackCollider/SideCollider
+onready var back_collider = $AttackCollider/BackCollider
 onready var audio = $AudioStreamPlayer2D
 
 
@@ -50,7 +53,6 @@ func _ready():
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -82,10 +84,10 @@ func toggle_enhancement(state):
 		
 		laminar_shockwave = GameManager.player_upgrades['vortex_technique'] > 0
 		
-		
-	
 	if charging:
 		attack()
+		
+	.toggle_enhancement(state)
 		
 		
 func misc_update(delta):
@@ -98,7 +100,7 @@ func misc_update(delta):
 		
 	if quickstepping and velocity.length() < 20:
 		quickstepping = false
-		max_speed = walk_speed
+		override_speed = null
 		
 	attack_collider.position.x = -34 if facing_left else 34
 	if facing_left:
@@ -188,13 +190,13 @@ func charge():
 		charging = true
 		attacking = true
 		lock_aim = is_in_group('enemy')
-		max_speed = speed_while_charging
+		override_speed = speed_while_charging
 		charge_level = init_charge
 		play_animation("Charge")
 	
 func attack():
 	charging = false
-	attack_cooldown = 1
+	attack_cooldown = max_attack_cooldown
 	play_animation("Attack")
 	
 func quickstep(dir):
@@ -205,15 +207,31 @@ func quickstep(dir):
 		dir = Vector2(sign(dir.x), 0) if abs(dir.x) > abs(dir.y) else Vector2(0, sign(dir.y))
 	velocity = 1000*dir
 	quickstepping = true
-	max_speed = 0
+	override_speed = 0
 	
 	if charging or attacking:
-		quickstep_attack(dir)
+		attack()
 	
 func quickstep_attack(dir):
-	pass
+	var stun = melee_stun*charge_level/charge_speed - init_charge/2
+	if dir == Vector2.ZERO:
+		dir = Vector2(-sign(aim_direction.x), 0)
+	else:
+		dir = Vector2(sign(dir.x), 0) if abs(dir.x) > abs(dir.y) else Vector2(0, sign(dir.y))
+		
+	if dir.x == 1:
+		Violence.melee_attack(self, forward_collider, 50*charge_level*damage_mult, 1200*charge_level*kb_mult, charge_level+1, stun)
+	elif dir.x == -1:
+		Violence.melee_attack(self, back_collider, 50*charge_level*damage_mult, 600*charge_level*kb_mult, charge_level+1, stun)
+	else:
+		side_collider.position.y = -26 if dir.y < 0 else 38
+		Violence.melee_attack(self, side_collider, 40*charge_level*damage_mult, 600*charge_level*kb_mult, charge_level+1, stun)
 
 func swing_attack():
+	if quickstepping:
+		quickstep_attack(velocity)
+		return
+		
 	num_pellets = int(6*charge_level)
 	var spread = 120*charge_level
 	var dir = Vector2(1, 0)
@@ -246,7 +264,7 @@ func swing_attack():
 			var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 			shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave', stun*0.5)
 		
-	Violence.melee_attack(self, attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, stun)
+	Violence.melee_attack(self, attack_collider, 50*charge_level*damage_mult, 800*charge_level*kb_mult, charge_level+1, stun)
 	if charge_level > 2:
 		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), self, 1, 10)
 	
@@ -257,7 +275,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	elif anim_name == "Attack":
 		attacking = false
 		lock_aim = false
-		max_speed = walk_speed
+		override_speed = null
 		
 	elif anim_name == "Die":
 		if is_in_group("enemy"):

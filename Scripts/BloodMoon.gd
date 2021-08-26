@@ -34,7 +34,7 @@ func _physics_process(delta):
 		for col in results:
 			if col['collider'].is_in_group("hitbox"):
 				var body = col['collider'].get_parent()
-				if body.is_in_group("enemy") and body.swap_shield_health <= 0 and body.health > 0:
+				if body.is_in_group("enemy") and body.can_be_swapped_to and body.swap_shield_health <= 0 and not body.dead:
 					var dist = (body.global_position - global_position).length_squared()
 					if (body.is_in_group('boss') or (body.is_miniboss and body.enemy_evolution_level > GameManager.evolution_level)):
 						selected_enemy = body

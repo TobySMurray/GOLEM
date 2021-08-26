@@ -62,7 +62,6 @@ var ai_move_timer = 0
 func _ready():
 	enemy_type = EnemyType.EXTERMINATOR
 	health = 150
-	max_speed = walk_speed
 	max_attack_cooldown = 1.5
 	max_special_cooldown = 1.6
 	flip_offset = 24
@@ -74,7 +73,6 @@ func _ready():
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -126,6 +124,8 @@ func toggle_enhancement(state):
 	bullet_orbit_speed = min_bullet_orbit_speed
 	if retaliating:	
 		toggle_retaliation(false)
+		
+	.toggle_enhancement(state)
 
 func misc_update(delta):
 	deflector_visual.rotation = shield_angle
@@ -247,7 +247,7 @@ func toggle_retaliation(state):
 		if bulwark_mode:
 			attacking = true
 			#lock_aim = true
-			max_speed = 0
+			override_speed = 0
 			mass = 10
 			retaliation_locked = true
 			expulsion_timer = 0.4/(GameManager.player_upgrades['high-energy_orbit'] + 1)
@@ -266,7 +266,7 @@ func toggle_retaliation(state):
 		if mass > 1.5: #effectively if bulwark_mode, still works if player swaps out
 			attacking = false
 			lock_aim = false
-			max_speed = walk_speed
+			override_speed = null
 			mass = 1.5
 			get_node('Hitbox').position.x = 0
 
@@ -375,7 +375,7 @@ func start_teleport(point):
 		special_cooldown = 1.6
 		teleport_timer = 0.4
 		lock_aim = true
-		max_speed = 0
+		override_speed = 0
 		play_animation('Vanish')
 	
 func teleport():
@@ -541,7 +541,7 @@ func take_damage(damage, source, stun = 0):
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Appear" or anim_name == "Attack":
 		lock_aim = false
-		max_speed = walk_speed
+		override_speed = null
 		attacking = false
 		shield_active = true
 		deflector_visual.visible = true

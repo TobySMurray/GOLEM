@@ -40,7 +40,6 @@ onready var flamethrower_audio = $Flamethrower
 func _ready():
 	enemy_type = EnemyType.FLAME
 	health = 110
-	max_speed = walk_speed
 	bullet_spawn_offset = 10
 	flip_offset = -46
 	max_attack_cooldown = 1
@@ -50,7 +49,6 @@ func _ready():
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -91,6 +89,8 @@ func toggle_enhancement(state):
 			stop_attacking()
 			attack_cooldown = 0
 			
+		.toggle_enhancement(state)
+			
 			
 func misc_update(delta):
 	ai_retarget_timer -= delta
@@ -122,7 +122,7 @@ func player_action():
 	if Input.is_action_just_pressed("attack2") and GameManager.can_swap:
 		die()
 		GameManager.camera.trauma = 0.2
-		GameManager.swap_bar.swap_threshold_penalty = 0
+		GameManager.swap_bar.threshold_death_penalty = 0
 	
 func ai_move():
 	if not lock_aim:
@@ -152,7 +152,7 @@ func ai_move():
 
 func attack():
 	attacking = true
-	max_speed = speed_while_attacking
+	override_speed = speed_while_attacking
 	shot_timer = -1
 	if is_in_group('player'):
 		animplayer.playback_speed = 0.5 / startup_lag
@@ -261,7 +261,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Cooldown":
 		attacking = false
 		lock_aim = false
-		max_speed = walk_speed
+		override_speed = null
 		accel = 10
 		if is_in_group('player'):
 			animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level

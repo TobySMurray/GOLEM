@@ -364,3 +364,5 @@ const upgrades = {
 		'max_stack': 1
 	},
 }
+
+const tier_names = ['Common', 'Radical', 'Breakthrough']
