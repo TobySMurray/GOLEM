@@ -45,18 +45,6 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
 
 [sub_resource type="Animation" id=2]
 resource_name = "Die"
@@ -96,18 +84,6 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -150,18 +126,6 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3 ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
 
 [sub_resource type="Animation" id=4]
 resource_name = "Spawn"
@@ -201,18 +165,6 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -254,18 +206,6 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3 ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:flip_h")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
 
 [sub_resource type="CircleShape2D" id=6]
 radius = 2.27831
@@ -273,7 +213,7 @@ radius = 2.27831
 [node name="KinematicBody2D" type="KinematicBody2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -0.735786, -13.4543 )
+position = Vector2( 1, -12 )
 texture = ExtResource( 3 )
 vframes = 4
 
