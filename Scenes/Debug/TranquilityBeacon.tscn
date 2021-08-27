@@ -57,5 +57,6 @@ text = ":)"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="body_entered" from="." to="." method="_on_TranquilityBeacon_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_TranquilityBeacon_body_exited"]

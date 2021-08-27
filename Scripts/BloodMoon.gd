@@ -22,7 +22,7 @@ func _physics_process(delta):
 
 		var query = Physics2DShapeQueryParameters.new()
 		query.collide_with_areas = true
-		query.collide_with_bodies = false
+		query.collide_with_bodies = true
 		query.collision_layer = 4
 		query.exclude = []
 		query.transform = collider.global_transform
@@ -32,22 +32,16 @@ func _physics_process(delta):
 		var min_dist = 999999999
 		
 		for col in results:
-			if col['collider'].is_in_group("hitbox"):
-				var body = col['collider'].get_parent()
-				if body.is_in_group("enemy") and body.can_be_swapped_to and body.swap_shield_health <= 0 and not body.dead:
-					var dist = (body.global_position - global_position).length_squared()
-					if (body.is_in_group('boss') or (body.is_miniboss and body.enemy_evolution_level > GameManager.evolution_level)):
-						selected_enemy = body
-						break
-					elif dist < min_dist:
-						min_dist = dist
-						selected_enemy = body
-						
-			elif col['collider'].is_in_group("swap trigger") and col['collider'].accessible:
-				var dist = (col['collider'].global_position - global_position).length_squared()
-				if dist < min_dist:
+			var body = col['collider'].get_parent() if col['collider'].is_in_group("hitbox") else col['collider']
+
+			if Host.is_valid_swap_target(body):
+				var dist = (body.global_position - global_position).length_squared()
+				if (body.is_in_group('boss') or (body.is_in_group('enemy') and body.is_miniboss and body.enemy_evolution_level > GameManager.evolution_level)):
+					selected_enemy = body
+					break
+				elif dist < min_dist:
 					min_dist = dist
-					selected_enemy = col['collider']
+					selected_enemy = body
 						
 		if selected_enemy:
 			self.modulate.a = 1.0

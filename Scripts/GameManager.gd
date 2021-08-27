@@ -5,15 +5,15 @@ onready var boss_marker = load("res://Scenes/BossMarker.tscn").instance()
 onready var splatter_particles = load("res://Scenes/Particles/SplatterParticles.tscn")
 onready var upgrade_popup = load('res://Scenes/ItemPopup.tscn').instance()
 
-onready var shotgun_bot = load("res://Scenes/ShotgunnerBot.tscn")
-onready var wheel_bot = load("res://Scenes/WheelBot.tscn")
-onready var archer_bot = load("res://Scenes/ArcherBot.tscn")
-onready var chain_bot = load("res://Scenes/ChainBot.tscn")
-onready var flame_bot = load("res://Scenes/FlamethrowerBot.tscn")
-onready var exterminator_bot = load("res://Scenes/ExterminatorBot.tscn")
-onready var sorcerer_bot = load("res://Scenes/SorcererBot.tscn")
-onready var saber_bot = load("res://Scenes/SaberBot.tscn")
-onready var shapeshifter = load("res://Scenes/Characters/MudBender.tscn")
+const shotgun_bot = preload("res://Scenes/Characters/ShotgunnerBot.tscn")
+const wheel_bot = preload("res://Scenes/Characters/WheelBot.tscn")
+const archer_bot = preload("res://Scenes/Characters/ArcherBot.tscn")
+const chain_bot = preload("res://Scenes/Characters/ChainBot.tscn")
+const flame_bot = preload("res://Scenes/Characters/FlamethrowerBot.tscn")
+const exterminator_bot = preload("res://Scenes/Characters/ExterminatorBot.tscn")
+const sorcerer_bot = preload("res://Scenes/Characters/SorcererBot.tscn")
+const saber_bot = preload("res://Scenes/Characters/SaberBot.tscn")
+const shapeshifter = preload("res://Scenes/Characters/MudBender.tscn")
 
 onready var scene_transition = $SceneTransition.get_node('TransitionRect')
 onready var attack_cooldown_SFX = $AttackCooldownSFX
@@ -57,7 +57,8 @@ var player
 var true_player
 
 var player_hidden = true
-var player_switch_timer = 0
+var swap_confusion = false
+var swap_confusion_timer = 0
 
 var can_swap = false
 var swapping = false
@@ -96,6 +97,8 @@ var hyperdeath_start_time = 0
 
 var fighting_boss = false
 var controlling_boss = false
+var capturing_boss = false
+var boss_capture_timer = 0
 
 var kills = 0
 
@@ -182,6 +185,20 @@ func _process(delta):
 		level_time += delta
 		spawn_timer -= delta
 		
+		if swapping:
+			choose_swap_target(delta)
+		elif can_swap and not capturing_boss and Input.is_action_just_pressed("swap"):
+			GameManager.toggle_swap(true)
+			
+		if capturing_boss:
+			boss_capture_timer -= 0.016
+			camera.trauma = 0.3
+			
+			if boss_capture_timer < 0 or true_player.dead:
+				capturing_boss = false
+				if true_player.is_in_group('enemy'):
+					true_player.on_boss_capture()
+		
 		if spawn_timer < 0 and level['enemy_density'] > 0:
 			spawn_timer = 1
 			enemy_soft_cap = level["enemy_density"]*(1 + level_time*0.01*level['pace']) #pow(1.3, level_time/60)
@@ -195,12 +212,10 @@ func _process(delta):
 		if enemy_drought_bailout_available and swap_bar.control_timer > 17:
 			enemy_drought_bailout()
 			
-	if player != true_player:
-		player_switch_timer -= delta
-		if player_switch_timer < 0:
-			if is_instance_valid(player):
-				player.toggle_enhancement(false)
-			player = true_player
+	if swap_confusion:
+		swap_confusion_timer -= delta
+		if swap_confusion_timer < 0:
+			reveal_player()
 			
 func start_game(mode, init_level, fixed_map_ = null, skip_transition = false):
 		if mode == 'arcade':
@@ -213,35 +228,45 @@ func start_game(mode, init_level, fixed_map_ = null, skip_transition = false):
 			print('ERROR: Invalid gamemode (' + mode + ')')
 			return
 		
-		level_name = init_level
-		level = Levels.level_data[init_level]
-		fixed_map = fixed_map_
-		
 		game_time = 0
 		init_evolution_level = 1
 		
 		for key in player_upgrades:
 			#player_upgrades[key] = 0
 			pass
+			
+		level_name = init_level
+		fixed_map = fixed_map_
 		
 		if not world:
 			scene_transition.fade_out_to_scene('res://Scenes/World.tscn', 0 if skip_transition else 0.5)
 		else:
 			scene_transition.fade_out_and_restart(0 if skip_transition else 0.5)
-		
+			
+			
 func on_world_loaded(world_ = world):
 	world = world_
 	projectiles_node = world.objects_node
 	
 	camera = world.camera
 	game_HUD = camera.get_node('CanvasLayer/ScoreDisplay')
-	boss_marker = load("res://Scenes/BossMarker.tscn").instance()
-	
-	camera.add_child(boss_marker)
-	boss_marker.visible = false
+	boss_marker = camera.get_node('BossMarker')
 		
-	world.load_level(level_name, fixed_map)
+	load_level(level_name, fixed_map, true)
+					
+					
+func load_level(new_level, fixed_map_ = null, skip_transition = false):
+	if not world:
+		print('ERROR: Attempted to load level without first loading World')
+		return
+		
+	level_name = new_level
+	level = Levels.level_data[new_level]
 	
+	if skip_transition:
+		world.load_level(new_level, fixed_map_)
+	else:
+		scene_transition.fade_out_to_level(new_level, fixed_map_)
 					
 func start_level():
 	if level_name == 'TestLevel':
@@ -266,6 +291,7 @@ func start_level():
 	spawn_timer = 0
 	enemy_count = 1
 	cur_boss = null
+	boss_marker.visible = false
 	
 	swap_bar.visible = true
 	swap_bar.reset()
@@ -317,9 +343,116 @@ func set_timescale(scale, lock_duration = 0, lerp_rate = 12):
 	timescale_timer = lock_duration
 	timescale_lerp_rate = lerp_rate
 	
+	
+func toggle_swap(state):
+	if state == true and not can_swap:
+		return
+		
+	swapping = state
+	swap_timer = 1.5
+	swap_bar.sparks.emitting = false
+	swap_bar.rising_audio.stop()
+	
+	if(swapping):
+		lerp_to_timescale(0.1)
+		world.blood_moon.slow_audio.play()
+		world.blood_moon.moon_visible = true
+		#choose_swap_target()
+	else:
+		camera.lerp_zoom(1)
+		lerp_to_timescale(1)
+		
+		world.blood_moon.stopped_audio.stop()
+		world.blood_moon.slow_audio.stop()
+		world.blood_moon.speed_audio.play()
+		world.blood_moon.moon_visible = false
+		world.blood_moon.selected_enemy = null
+		world.transcender.clear_transcender()
+	
+	
+func choose_swap_target(delta):
+	if is_instance_valid(true_player):
+		var swap_cursor = world.blood_moon
+		swap_cursor.global_position = true_player.get_global_mouse_position()
+		
+		if not true_player.override_swap_camera:
+			camera.lerp_zoom(1 + (swap_bar.control_timer - swap_bar.swap_threshold)/swap_bar.max_control_time)
+		
+		if swap_bar.enabled:
+			swap_timer -= delta/max(timescale, 0.01)
+			if swap_timer < 0:
+				swap_bar.set_swap_threshold(swap_bar.swap_threshold + delta/max(timescale, 0.01))
+				if not swap_bar.sparks.emitting:
+					swap_bar.sparks.emitting = true
+					swap_bar.rising_audio.play()
+
+		if can_swap:
+			if Input.is_action_just_released("swap"):
+				if is_instance_valid(swap_cursor.selected_enemy) or not (true_player.is_in_group('enemy') and true_player.dead):
+					if is_instance_valid(swap_cursor.selected_enemy):
+						swap_bar.reset()
+						swap_to(swap_cursor.selected_enemy)
+						
+					toggle_swap(false)
+			else:
+				swap_cursor.draw_transcender(true_player.global_position)
+		else:
+			toggle_swap(false)
+			
+	
+func swap_to(new_player):
+	if not new_player.is_in_group('host'):
+		return
+		
+	#If swapping from previous host
+	if is_instance_valid(true_player):
+		true_player.toggle_playerhood(false)
+		
+		if player != true_player:
+			player = true_player
+			if true_player.is_in_group('enemy'):
+				true_player.toggle_enhancement(false)
+		
+		set_player_after_delay(new_player, 1)
+
+		if true_player.is_in_group('enemy'):
+			swap_history.append(new_player.enemy_type)
+			update_variety_bonus()
+			if new_player.enemy_type != Enemy.EnemyType.UNKNOWN:
+				Options.enemy_swaps[str(new_player.enemy_type)] += 1
+		
+	#If initialized to host
+	else:
+		true_player = new_player
+		player = new_player
+	
+	new_player.toggle_playerhood(true)
+	swap_bar.enabled = new_player.uses_swap_bar
+	camera.anchor = new_player
+	camera.offset = Vector2.ZERO
+	enemy_drought_bailout_available = true
+	emit_signal("on_swap")
+	
+
 func set_player_after_delay(new_player, delay):
 	true_player = new_player
-	player_switch_timer = delay
+	swap_confusion = true
+	swap_confusion_timer = delay
+	if not new_player.is_in_group('enemylike'):
+		player = new_player
+		player_hidden = true
+		
+	
+func reveal_player():
+	swap_confusion = false
+	if is_instance_valid(player) and player.is_in_group('enemy'):
+			player.toggle_enhancement(false)
+			
+	if true_player.is_in_group('enemy'):
+		player = true_player
+		player_hidden = true_player.enemy_type == Enemy.EnemyType.ARCHER and true_player.stealth_mode
+	else:
+		player_hidden = not true_player.is_in_group('enemylike')
 	
 func spawn_explosion(pos, source, size = 1, damage = 20, force = 200, delay = 0, show_visual = true):
 	var new_explosion = explosion.instance().duplicate()
@@ -385,7 +518,7 @@ func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
 	if EVL > 0:
 		new_enemy.is_miniboss = true
 		new_enemy.enemy_evolution_level = EVL
-		new_enemy.add_swap_shield(new_enemy.health*(EVL*0.5 + 1.0))
+		new_enemy.add_swap_shield(new_enemy.max_health*(EVL*0.5 + 1.0))
 		new_enemy.scale = Vector2(1.25, 1.25)
 		if not hyperdeath_mode:
 			cur_boss = new_enemy
@@ -400,86 +533,6 @@ func spawn_enemy(type, spawn_point = level['map_bounds'], EVL = 0):
 	new_enemy.global_position = spawn_point - Vector2(0, new_enemy.get_node("CollisionShape2D").position.y)
 	world.objects_node.add_child(new_enemy)
 	return new_enemy
-	
-	
-func toggle_swap(state):
-	if state == true and not can_swap:
-		return
-		
-	swapping = state
-	swap_timer = 1.5
-	swap_bar.sparks.emitting = false
-	swap_bar.rising_audio.stop()
-	
-	if(swapping):
-		lerp_to_timescale(0.1)
-		world.blood_moon.slow_audio.play()
-		world.blood_moon.moon_visible = true
-		#choose_swap_target()
-	else:
-		camera.lerp_zoom(1)
-		lerp_to_timescale(1)
-		
-		world.blood_moon.stopped_audio.stop()
-		world.blood_moon.slow_audio.stop()
-		world.blood_moon.speed_audio.play()
-		world.blood_moon.moon_visible = false
-		world.blood_moon.selected_enemy = null
-		world.transcender.clear_transcender()
-	
-	
-func choose_swap_target(delta):
-	if is_instance_valid(true_player):
-		var swap_cursor = world.blood_moon
-		swap_cursor.global_position = true_player.get_global_mouse_position()
-		
-		camera.lerp_zoom(1 + (swap_bar.control_timer - swap_bar.swap_threshold)/swap_bar.max_control_time)
-		
-		swap_timer -= delta/max(timescale, 0.01)
-		if swap_timer < 0:
-			swap_bar.set_swap_threshold(swap_bar.swap_threshold + delta/max(timescale, 0.01))
-			if not swap_bar.sparks.emitting:
-				swap_bar.sparks.emitting = true
-				swap_bar.rising_audio.play()
-
-		if can_swap:
-			if Input.is_action_just_released("swap"):
-				if is_instance_valid(swap_cursor.selected_enemy):
-					swap_bar.reset()
-					swap_to(swap_cursor.selected_enemy)
-					
-				if is_instance_valid(swap_cursor.selected_enemy) or not true_player.dead:
-					toggle_swap(false)
-			else:
-				swap_cursor.draw_transcender(true_player.global_position)
-				
-		else:
-			toggle_swap(false)
-			
-	
-func swap_to(new_player):
-	if true_player:
-		true_player.toggle_playerhood(false)
-		if player != true_player:
-			true_player.toggle_enhancement(false)
-			player = true_player
-			
-		set_player_after_delay(new_player, 1)
-	else:
-		true_player = new_player
-		player = new_player
-	
-	player_hidden = false
-	camera.anchor = new_player
-	camera.offset = Vector2.ZERO
-	swap_history.append(new_player.enemy_type)
-	update_variety_bonus()
-	enemy_drought_bailout_available = true
-	if new_player.enemy_type != Enemy.EnemyType.UNKNOWN:
-		Options.enemy_swaps[str(new_player.enemy_type)] += 1
-	new_player.toggle_playerhood(true)
-	
-	emit_signal("on_swap")
 	
 			
 func give_player_random_upgrade(type = Enemy.EnemyType.UNKNOWN):

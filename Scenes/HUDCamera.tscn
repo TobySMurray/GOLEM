@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/Camera.gd" type="Script" id=1]
 [ext_resource path="res://Art/Vignette.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/NoiseVignette.gd" type="Script" id=3]
 [ext_resource path="res://Art/sub_reticle.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/BossMarker.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Cursor.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/PauseScreen.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/DeathScreen.tscn" type="PackedScene" id=10]
@@ -98,3 +99,5 @@ subreticle_path = NodePath("../Subcursor")
 modulate = Color( 1, 1, 1, 0.784314 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )
+
+[node name="BossMarker" parent="." instance=ExtResource( 5 )]

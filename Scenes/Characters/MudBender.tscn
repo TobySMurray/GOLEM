@@ -568,7 +568,11 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=72]
 extents = Vector2( 15, 10 )
 
-[node name="MudBender" type="KinematicBody2D"]
+[node name="MudBender" type="KinematicBody2D" groups=[
+"enemy",
+"enemylike",
+"host",
+]]
 collision_layer = 0
 collision_mask = 1025
 script = ExtResource( 6 )
@@ -631,7 +635,7 @@ color_ramp = SubResource( 10 )
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 11.3892 )
 frames = SubResource( 71 )
-frame = 24
+frame = 44
 
 [node name="AttackCollider" type="Area2D" parent="."]
 

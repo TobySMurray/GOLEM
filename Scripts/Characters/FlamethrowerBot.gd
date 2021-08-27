@@ -39,7 +39,7 @@ onready var flamethrower_audio = $Flamethrower
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.FLAME
-	health = 110
+	max_health = 110
 	bullet_spawn_offset = 10
 	flip_offset = -46
 	max_attack_cooldown = 1
@@ -154,7 +154,7 @@ func attack():
 	attacking = true
 	override_speed = speed_while_attacking
 	shot_timer = -1
-	if is_in_group('player'):
+	if is_player:
 		animplayer.playback_speed = 0.5 / startup_lag
 		if recoil > 0:
 			accel = 3
@@ -164,7 +164,7 @@ func attack():
 func stop_attacking():
 	flamethrowing = false
 	attack_cooldown = 1
-	if is_in_group('player'):
+	if is_player:
 		animplayer.playback_speed = 0.5 / startup_lag
 	play_animation("Cooldown")
 	flamethrower_audio.stop()
@@ -253,7 +253,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
 		play_animation("Attack")
 		flamethrowing = true
-		if is_in_group('player'):
+		if is_player:
 			animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
 		else:
 			animplayer.playback_speed = 1
@@ -263,7 +263,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		lock_aim = false
 		override_speed = null
 		accel = 10
-		if is_in_group('player'):
+		if is_player:
 			animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
 		else:
 			animplayer.playback_speed = 1

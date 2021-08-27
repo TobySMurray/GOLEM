@@ -17,13 +17,16 @@ func _input(ev):
 	if active and ev is InputEventKey and ev.pressed and ev.scancode == KEY_E and not ev.echo:
 		toggle_tranquil_mode(not tranquil_mode)
 		
+	if ev is InputEventKey and ev.pressed and ev.scancode == KEY_T and not ev.echo:
+		toggle_tranquil_mode(not tranquil_mode)
+		
 func toggle_tranquil_mode(state):
 	if not state:
 		print('Retaliation enabled')
 		tranquil_mode = false
 		sprite.material.set_shader_param('color', Color.red)
 		label.text = ':('
-		GameManager.player_hidden = false
+		GameManager.reveal_player()
 	else:
 		print('Retaliation disabled')
 		tranquil_mode = true
@@ -31,9 +34,9 @@ func toggle_tranquil_mode(state):
 		label.text = ':)'
 			
 func _on_TranquilityBeacon_body_entered(body):
-	if body.is_in_group('player'):
+	if body.is_in_group('host') and body.is_in_group('player'):
 		active = true
 	
 func _on_TranquilityBeacon_body_exited(body):
-	if body.is_in_group('player'):
+	if body.is_in_group('host') and body.is_in_group('player'):
 		active = false

@@ -39,7 +39,6 @@ func spawn_enemy(type = Enemy.EnemyType.UNKNOWN):
 		type = Util.choose_weighted(GameManager.enemy_scenes.keys(), GameManager.level['enemy_weights'])
 	enemy = GameManager.enemy_scenes[type].instance().duplicate()
 	enemy.immobile = true
-	enemy.invincible = true
 	enemy.invincibility_timer = 0.5
 	enemy.attack_cooldown = 1.0
 	enemy.shoot_through = [self]
