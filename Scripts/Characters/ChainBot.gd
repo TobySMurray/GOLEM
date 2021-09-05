@@ -1,6 +1,9 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var attack_collider = $AttackCollider/CollisionShape2D
+onready var attack_collider = $AttackCollider/NeutralCollider
+onready var forward_collider = $AttackCollider/ForwardCollider
+onready var side_collider = $AttackCollider/SideCollider
+onready var back_collider = $AttackCollider/BackCollider
 onready var audio = $AudioStreamPlayer2D
 
 
@@ -14,6 +17,7 @@ var shot_speed_levels = [150, 175, 200, 225, 250, 275, 300]
 var walk_speed_levels = [130, 160, 190, 220, 250, 270, 280]
 var charge_speed_levels = [1, 1.4, 1.8, 2.2, 2.3, 2.4, 2.5]
 var init_charge_levels = [0.3, 0.3, 0.3, 0.3, 0.5, 0.7, 1.0]
+var quickstep_cooldown_levels = [5, 0.1, 3.5, 3, 2.66, 2.33, 2]
 
 var kb_mult = 1
 var damage_mult = 1
@@ -21,6 +25,11 @@ var melee_stun = 0
 var laminar_shockwave = false
 var speed_while_charging = 20
 var footwork = false
+
+var charging = false
+var charge_level = 0
+
+var quickstepping = false
 
 var ai_state = 'approach'
 var ai_side = 1
@@ -31,12 +40,11 @@ var ai_delay_timer = 0
 var ai_charge_timer = 0
 onready var ai_target_point = global_position
 
-var charging = false
-var charge_level = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.CHAIN
-	health = 100
+	max_health = 100
 	bullet_spawn_offset = 20
 	flip_offset = 0
 	score = 50
@@ -45,7 +53,6 @@ func _ready():
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -53,6 +60,8 @@ func toggle_enhancement(state):
 	shot_speed = shot_speed_levels[level]
 	charge_speed = charge_speed_levels[level]
 	init_charge = init_charge_levels[level]
+	max_special_cooldown = quickstep_cooldown_levels[level]
+	
 	kb_mult = 1
 	damage_mult = 1
 	speed_while_charging = 20
@@ -75,10 +84,10 @@ func toggle_enhancement(state):
 		
 		laminar_shockwave = GameManager.player_upgrades['vortex_technique'] > 0
 		
-		
-	
 	if charging:
 		attack()
+		
+	.toggle_enhancement(state)
 		
 		
 func misc_update(delta):
@@ -88,6 +97,10 @@ func misc_update(delta):
 	
 	if charging:
 		charge_level += delta*charge_speed
+		
+	if quickstepping and velocity.length() < 20:
+		quickstepping = false
+		override_speed = null
 		
 	attack_collider.position.x = -34 if facing_left else 34
 	if facing_left:
@@ -101,6 +114,9 @@ func player_action():
 		
 	elif Input.is_action_just_released("attack1") and charging:
 		attack()
+		
+	if Input.is_action_just_pressed('attack2') and special_cooldown < 0:
+		quickstep(target_velocity)
 		
 func ai_action():
 	if not lock_aim:
@@ -116,63 +132,106 @@ func ai_move():
 		var to_player = player_pos - global_position
 		var side = 1 if to_player.x < 0 else -1
 	
-		match ai_state:
-			'approach':
-				if to_player.length() > 300:
-					if ai_move_timer < 0:
-						#target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, player_pos)
-						ai_move_timer = 0.5
-				else:
-					ai_move_timer = 2
-					ai_target_point = null
-					ai_state = ['start_attack', 'backstep'][int(randf()*2)]
+		if not immobile:
+			match ai_state:
+				'approach':
+					if to_player.length() > 300:
+						if ai_move_timer < 0:
+							#target_velocity = astar.get_astar_target_velocity(global_position + foot_offset, player_pos)
+							ai_move_timer = 0.5
+					else:
+						ai_move_timer = 2
+						ai_target_point = null
+						ai_state = ['start_attack', 'backstep'][int(randf()*2)]
+							
+				'start_attack':
+					var to_point = player_pos + Vector2(20*side, 0) - global_position
+					target_velocity = to_point
+					
+					if not charging and (ai_move_timer < 0 or (abs(to_point.x) < 5 and abs(to_point.y) < 20)):
+						ai_charge_timer = 0.2 + randf()*0.5
+						charge()
+						ai_state = 'mid_attack'
 						
-			'start_attack':
-				var to_point = player_pos + Vector2(20*side, 0) - global_position
-				target_velocity = to_point
-				
-				if not charging and (ai_move_timer < 0 or (abs(to_point.x) < 5 and abs(to_point.y) < 20)):
+				'mid_attack':
+					target_velocity = player_pos + Vector2(20*side, 0) - global_position
+					if not charging and not attacking:
+						target_velocity = Vector2.ZERO
+						ai_delay_timer = 0.1 + randf()*0.4
+						ai_move_timer = 2 + ai_delay_timer
+						ai_target_point = null
+						ai_state = ['start_attack', 'backstep'][int(randf()*2)]
+						
+				'backstep':
+					if ai_target_point == null:
+						ai_target_point = player_pos + Vector2(120*side, 0).rotated(deg2rad((randf()-0.5) * 90))
+						
+					var to_point = ai_target_point - global_position
+					target_velocity = to_point
+					
+					if ai_move_timer < 0 or to_point.length() < 5:
+						ai_delay_timer = 0.1 + randf()*0.2
+						ai_move_timer = 2 + ai_delay_timer
+						ai_target_point = null
+						ai_state = ['start_attack', 'backstep'][int(randf()*1.6)]
+						
+		else:
+			if ai_delay_timer < 0 and not charging and not attacking:
+				to_player = player_pos + GameManager.player.velocity*0.5 - global_position
+				if abs(to_player.x) < 200 and to_player.aspect() > 1:
 					ai_charge_timer = 0.2 + randf()*0.5
+					ai_delay_timer = ai_charge_timer + 0.3
 					charge()
-					ai_state = 'mid_attack'
-					
-			'mid_attack':
-				target_velocity = player_pos + Vector2(20*side, 0) - global_position
-				if not charging and not attacking:
-					target_velocity = Vector2.ZERO
-					ai_delay_timer = 0.1 + randf()*0.4
-					ai_move_timer = 2 + ai_delay_timer
-					ai_target_point = null
-					ai_state = ['start_attack', 'backstep'][int(randf()*2)]
-					
-			'backstep':
-				if ai_target_point == null:
-					ai_target_point = player_pos + Vector2(120*side, 0).rotated(deg2rad((randf()-0.5) * 90))
-					
-				var to_point = ai_target_point - global_position
-				target_velocity = to_point
-				
-				if ai_move_timer < 0 or to_point.length() < 5:
-					ai_delay_timer = 0.1 + randf()*0.2
-					ai_move_timer = 2 + ai_delay_timer
-					ai_target_point = null
-					ai_state = ['start_attack', 'backstep'][int(randf()*1.6)]
 
 func charge():
-	charging = true
-	attacking = true
-	lock_aim = is_in_group('enemy')
-	max_speed = speed_while_charging
-	charge_level = init_charge
-	play_animation("Charge")
+	if quickstepping:
+		quickstep_attack(velocity)
+	else:
+		charging = true
+		attacking = true
+		lock_aim = is_in_group('enemy')
+		override_speed = speed_while_charging
+		charge_level = init_charge
+		play_animation("Charge")
 	
 func attack():
 	charging = false
-	attack_cooldown = 1
+	attack_cooldown = max_attack_cooldown
 	play_animation("Attack")
 	
+func quickstep(dir):
+	special_cooldown = max_special_cooldown
+	if dir == Vector2.ZERO:
+		dir = Vector2(-sign(aim_direction.x), 0)
+	else:
+		dir = Vector2(sign(dir.x), 0) if abs(dir.x) > abs(dir.y) else Vector2(0, sign(dir.y))
+	velocity = 1000*dir
+	quickstepping = true
+	override_speed = 0
+	
+	if charging or attacking:
+		attack()
+	
+func quickstep_attack(dir):
+	var stun = melee_stun*charge_level/charge_speed - init_charge/2
+	if dir == Vector2.ZERO:
+		dir = Vector2(-sign(aim_direction.x), 0)
+	else:
+		dir = Vector2(sign(dir.x), 0) if abs(dir.x) > abs(dir.y) else Vector2(0, sign(dir.y))
+		
+	if dir.x == 1:
+		Violence.melee_attack(self, forward_collider, 50*charge_level*damage_mult, 1200*charge_level*kb_mult, charge_level+1, stun)
+	elif dir.x == -1:
+		Violence.melee_attack(self, back_collider, 50*charge_level*damage_mult, 600*charge_level*kb_mult, charge_level+1, stun)
+	else:
+		side_collider.position.y = -26 if dir.y < 0 else 38
+		Violence.melee_attack(self, side_collider, 40*charge_level*damage_mult, 600*charge_level*kb_mult, charge_level+1, stun)
 
 func swing_attack():
+	if quickstepping:
+		quickstep_attack(velocity)
+		return
+		
 	num_pellets = int(6*charge_level)
 	var spread = 120*charge_level
 	var dir = Vector2(1, 0)
@@ -180,7 +239,7 @@ func swing_attack():
 	var delta_angle = spread/(num_pellets)
 	var stun = melee_stun*charge_level/charge_speed - init_charge/2
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(min(0.4 + charge_level*0.3, 1))
 	
 	if facing_left:
@@ -196,7 +255,7 @@ func swing_attack():
 		var size = min(0.5 + power, 8)
 		var wave_dir = Util.limit_horizontal_angle(aim_direction, PI/8)
 		#var speed_mult = sqrt(num_pellets)*0.6
-		var bullet = Projectile.shoot_vortex_wave(self, global_position + wave_dir*bullet_spawn_offset, wave_dir*shot_speed*(1 + power/8.0), 3*power, 1.0 + power/4.0, 1.5, stun*0.2, Vector2(size*0.7, size))
+		var bullet = Violence.shoot_vortex_wave(self, global_position + wave_dir*bullet_spawn_offset, wave_dir*shot_speed*(1 + power/8.0), 3*power, 1.0 + power/4.0, 1.5, stun*0.2, Vector2(size*0.7, size))
 		
 	else:
 		for i in num_pellets + 1:
@@ -205,9 +264,10 @@ func swing_attack():
 			var pellet_speed = shot_speed * (1 + 0.5*(randf()-0.5))
 			shoot_bullet(pellet_dir*pellet_speed, 10, 0.5, 1, 'wave', stun*0.5)
 		
-	melee_attack(attack_collider, 50*charge_level*damage_mult, 900*charge_level*kb_mult, charge_level+1, stun)
+	Violence.melee_attack(self, attack_collider, 50*charge_level*damage_mult, 800*charge_level*kb_mult, charge_level+1, stun)
 	if charge_level > 2:
 		GameManager.spawn_explosion(global_position + Vector2((-20 if facing_left else 20), 0), self, 1, 10)
+	
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":
@@ -215,13 +275,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	elif anim_name == "Attack":
 		attacking = false
 		lock_aim = false
-		max_speed = walk_speed
+		override_speed = null
 		
 	elif anim_name == "Die":
 		if is_in_group("enemy"):
 			actually_die()
-		
-
-
-func _on_Timer_timeout():
-	invincible = false

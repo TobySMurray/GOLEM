@@ -1,6 +1,6 @@
 [gd_scene load_steps=45 format=2]
 
-[ext_resource path="res://Scripts/WheelBot.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Characters/WheelBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/Bot Wheel/move without FX.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Art/Characters/Bot Wheel/GAS dash with FX.png" type="Texture" id=4]
@@ -402,7 +402,11 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="WheelBot" type="KinematicBody2D"]
+[node name="WheelBot" type="KinematicBody2D" groups=[
+"enemy",
+"enemylike",
+"host",
+]]
 collision_layer = 0
 collision_mask = 1025
 script = ExtResource( 1 )
@@ -487,7 +491,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 15
+frame = 1
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -512,7 +516,9 @@ polygon = PoolVector2Array( 0, 20, 0, -20, 300, -150, 300, 150 )
 [node name="AimbotReticle" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 22 )
+frame = 3
 playing = true
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="area_entered" from="AimbotCollider" to="." method="_on_AimbotCollider_area_entered"]

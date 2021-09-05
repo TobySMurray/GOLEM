@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scripts/SwapBar.gd" type="Script" id=1]
 [ext_resource path="res://Art/NewSwap.png" type="Texture" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Art/Vignette.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/Particles/HeavySparkParticles.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Sounds/SoundEffects/ElectricNoiseLoop.wav" type="AudioStream" id=14]
+[ext_resource path="res://Art/SwapBarMarker.png" type="Texture" id=15]
 
 [node name="SwapBar" type="TextureProgress"]
 anchor_top = 1.0
@@ -25,7 +26,7 @@ margin_right = 71.5569
 margin_bottom = 12.3471
 rect_scale = Vector2( 0.75, 0.75 )
 max_value = 1000.0
-value = 925.0
+value = 296.0
 texture_over = ExtResource( 2 )
 texture_progress = ExtResource( 4 )
 tint_progress = Color( 0.584314, 0.0196078, 0.0196078, 1 )
@@ -33,6 +34,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+control_timer = 5.0
 
 [node name="ItemProgress" type="TextureProgress" parent="."]
 material = ExtResource( 8 )
@@ -86,7 +88,6 @@ margin_right = 540.0
 margin_bottom = 36.0
 rect_scale = Vector2( 1.055, 1.1 )
 max_value = 1000.0
-value = 910.0
 texture_progress = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -109,3 +110,29 @@ __meta__ = {
 position = Vector2( 554, 44 )
 z_index = 2
 local_coords = false
+
+[node name="ManiaMarker" type="Sprite" parent="."]
+modulate = Color( 0.501961, 0, 0, 1 )
+position = Vector2( 177, 70 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 15 )
+flip_v = true
+
+[node name="PatienceMarker1" type="Sprite" parent="."]
+modulate = Color( 1, 0.843137, 0, 1 )
+position = Vector2( 304.333, 20 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 15 )
+
+[node name="PatienceMarker2" type="Sprite" parent="."]
+modulate = Color( 1, 0.843137, 0, 1 )
+position = Vector2( 481.333, 20 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 15 )
+
+[node name="RevelryMarker" type="Sprite" parent="."]
+modulate = Color( 0.39, 0, 0.195, 1 )
+position = Vector2( 430, 70 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 15 )
+flip_v = true

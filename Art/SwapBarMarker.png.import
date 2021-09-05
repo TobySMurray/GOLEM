@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/GasCloud.png-30e88ebcfe7a929a90bfaf6113a524de.stex"
+path="res://.import/SwapBarMarker.png-db0d7ee6df419a082c65d58389ace2a9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/GasCloud.png"
-dest_files=[ "res://.import/GasCloud.png-30e88ebcfe7a929a90bfaf6113a524de.stex" ]
+source_file="res://Art/SwapBarMarker.png"
+dest_files=[ "res://.import/SwapBarMarker.png-db0d7ee6df419a082c65d58389ace2a9.stex" ]
 
 [params]
 

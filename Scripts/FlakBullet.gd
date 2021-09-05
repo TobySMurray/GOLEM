@@ -1,6 +1,6 @@
 extends Area2D
 
-var projectile = load('res://Scripts/Projectile.gd') #Can't use static typing until GDscript 4.0 due to cicular reference
+var violence = load('res://Scripts/Violence.gd') #Can't use static typing until GDscript 4.0 due to cicular reference
 var source
 var velocity = Vector2.ZERO
 var lifetime = 10
@@ -15,9 +15,11 @@ var frag_type = 'pellet'
 var deflectable = true
 var spectral = false
 
+onready var last_position = global_position - velocity.normalized()*10
 var last_velocity = Vector2.ZERO
 
 func _physics_process(delta):
+	last_position = global_position
 	position += velocity*delta
 	lifetime -= delta
 	#if lifetime < 0.5:
@@ -27,13 +29,13 @@ func _physics_process(delta):
 
 func _on_Area2D_body_entered(body):
 	if not (body.is_in_group("player") or body.is_in_group("enemy")) and not spectral:
-		explode()
+		explode(body)
 
 func _on_Area2D_area_entered(area):
 	if area.is_in_group("destructible"):
 		var entity = area.get_parent()
 		entity.destroy()
-		explode()
+		explode(false)
 		
 	elif area.is_in_group("hitbox"):
 		var entity = area.get_parent()
@@ -47,11 +49,17 @@ func _on_Area2D_area_entered(area):
 			if not area.is_in_group("deflector") and not (area.is_in_group('death orb') and entity.source == source):
 				explode()
 				
-func explode():
+func explode(wall = null):
+#	var from_wall
+#	if wall:
+#		from_wall = (global_position - wall.global_position).normalized()
+		
 	for i in range(num_frags):
 		var dir = Vector2.ONE.rotated(randf()*2*PI)
 		var speed = (0.5 + randf()*0.5)*frag_speed
-		projectile.shoot_bullet(source, global_position, dir*speed, frag_damage, 0.25, 2, frag_type, stun)
+		var bullet = violence.shoot_bullet(source, last_position, dir*speed, frag_damage, 0.25, 2, frag_type, stun)
+#		if wall:
+#			bullet.ignored_bodies = [wall]
 	despawn()
 			
 func despawn():

@@ -3,7 +3,7 @@
 [ext_resource path="res://Art/Characters/Merchant/walk.png" type="Texture" id=1]
 [ext_resource path="res://Art/Characters/Merchant/idle.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scripts/Merchant.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Characters/Merchant.gd" type="Script" id=4]
 [ext_resource path="res://Sounds/SoundEffects/step.wav" type="AudioStream" id=5]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Art/Fonts/Text.tres" type="DynamicFont" id=7]
@@ -199,7 +199,9 @@ radius = 4.62383
 height = 0.0
 
 [node name="Merchant" type="KinematicBody2D" groups=[
-"player",
+"enemy",
+"enemylike",
+"host",
 ]]
 collision_layer = 0
 collision_mask = 1025
@@ -235,7 +237,6 @@ volume_db = -25.0
 bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 6 )]
-frame = 19
 
 [node name="Label" type="Label" parent="."]
 visible = false

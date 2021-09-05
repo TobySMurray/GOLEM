@@ -17,6 +17,17 @@ const level_data = {
 		'music': 'cuuuu b3.wav',
 		'fixed_maps': ['TestRoom.tscn']
 	},
+	
+	"WarpRoom": {
+		'type': 'map',
+		'map_bounds': Rect2(-250, -250, 500, 500),
+		'enemy_weights': [0, 0, 0, 0, 0, 0, 0, 0],
+		'enemy_density': 0,
+		'pace': 0,
+		'dark': false,
+		'music': 'cuuuu b3.wav',
+		'fixed_maps': ['WarpRoom.tscn']
+	},
 		
 	"SkyRuins": {
 		'type': 'map',

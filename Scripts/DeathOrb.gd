@@ -11,6 +11,8 @@ var invincible = false
 var deflectable = true
 var spectral = false
 
+signal on_bullet_despawn
+
 func _physics_process(delta):
 	var col = move_and_collide(velocity*delta)
 	
@@ -47,7 +49,7 @@ func _on_Area2D_area_entered(area):
 			var new_vel = (global_position - entity.global_position).normalized() * velocity.length()
 			var delta_vel = new_vel - velocity
 			velocity = new_vel * 1.05
-			entity.velocity -= delta_vel*2
+			entity.velocity -= delta_vel*2/entity.mass
 			
 			if not entity.is_in_group("bloodless"):
 				GameManager.spawn_blood(entity.global_position, (-delta_vel).angle(), sqrt(delta_vel.length())*30, damage, 30)
@@ -62,8 +64,7 @@ func detonate():
 	despawn()
 	
 func despawn():
-	if is_instance_valid(source):
-		source.on_bullet_despawn(self)
+	emit_signal('on_bullet_despawn', self)
 	queue_free()
 	
 

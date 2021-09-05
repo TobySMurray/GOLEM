@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/idle.png" type="Texture" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/attack.png" type="Texture" id=5]
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/charge.png" type="Texture" id=6]
 [ext_resource path="res://Art/Characters/Ball and Chain Bot/run.png" type="Texture" id=7]
-[ext_resource path="res://Scripts/ChainBot.gd" type="Script" id=8]
+[ext_resource path="res://Scripts/Characters/ChainBot.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sounds/SoundEffects/whip1.wav" type="AudioStream" id=10]
 [ext_resource path="res://Sounds/SoundEffects/heavystep.wav" type="AudioStream" id=11]
@@ -401,11 +401,24 @@ height = 3.0
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 32, 10 )
 
-[sub_resource type="CapsuleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 70, 10 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 28, 42 )
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 70, 20 )
+
+[sub_resource type="CapsuleShape2D" id=12]
 radius = 4.94826
 height = 6.09468
 
-[node name="ChainBot" type="KinematicBody2D"]
+[node name="ChainBot" type="KinematicBody2D" groups=[
+"enemy",
+"enemylike",
+"host",
+]]
 collision_layer = 0
 collision_mask = 1025
 script = ExtResource( 8 )
@@ -440,11 +453,23 @@ shape = SubResource( 7 )
 
 [node name="AttackCollider" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 3
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackCollider"]
+[node name="NeutralCollider" type="CollisionShape2D" parent="AttackCollider"]
 position = Vector2( 30, 6 )
 shape = SubResource( 8 )
+
+[node name="ForwardCollider" type="CollisionShape2D" parent="AttackCollider"]
+position = Vector2( 60, 6 )
+shape = SubResource( 9 )
+
+[node name="SideCollider" type="CollisionShape2D" parent="AttackCollider"]
+position = Vector2( 28, 38 )
+shape = SubResource( 10 )
+
+[node name="BackCollider" type="CollisionShape2D" parent="AttackCollider"]
+position = Vector2( -60, 6 )
+shape = SubResource( 11 )
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -454,7 +479,7 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2( 0.441948, 4.68458 )
-shape = SubResource( 9 )
+shape = SubResource( 12 )
 
 [node name="HealthBar" parent="." instance=ExtResource( 9 )]
 margin_left = -40.0
@@ -471,7 +496,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( 2.19092, 10.5634 )
-frame = 37
+frame = 50
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -480,5 +505,6 @@ wait_time = 0.25
 
 [node name="CharacterLights" parent="." instance=ExtResource( 17 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

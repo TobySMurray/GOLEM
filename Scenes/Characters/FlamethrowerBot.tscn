@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=2]
 
-[ext_resource path="res://Scripts/FlamethrowerBot.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Characters/FlamethrowerBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/flamethrower bot/run.png" type="Texture" id=2]
 [ext_resource path="res://Art/Characters/flamethrower bot/idle.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=4]
@@ -419,7 +419,11 @@ height = 8.0332
 [sub_resource type="CircleShape2D" id=10]
 radius = 28.4803
 
-[node name="FlamethrowerBot" type="KinematicBody2D"]
+[node name="FlamethrowerBot" type="KinematicBody2D" groups=[
+"enemy",
+"enemylike",
+"host",
+]]
 collision_layer = 0
 collision_mask = 1025
 script = ExtResource( 1 )
@@ -485,7 +489,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 13 )]
 position = Vector2( 0, 8.46354 )
-frame = 47
+frame = 23
 
 [node name="Explosion" type="Area2D" parent="."]
 visible = false
@@ -500,4 +504,5 @@ shape = SubResource( 10 )
 
 [node name="CharacterLights" parent="." instance=ExtResource( 15 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
