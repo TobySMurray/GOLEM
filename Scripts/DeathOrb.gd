@@ -11,6 +11,8 @@ var invincible = false
 var deflectable = true
 var spectral = false
 
+signal on_bullet_despawn
+
 func _physics_process(delta):
 	var col = move_and_collide(velocity*delta)
 	
@@ -62,8 +64,7 @@ func detonate():
 	despawn()
 	
 func despawn():
-	if is_instance_valid(source):
-		source.on_bullet_despawn(self)
+	emit_signal('on_bullet_despawn', self)
 	queue_free()
 	
 

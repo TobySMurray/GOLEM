@@ -13,7 +13,7 @@ var bash_damage
 var walk_speed_level = [110, 120, 130, 140, 150, 160, 170]
 var shot_speed_level = [175, 350, 425, 500, 575, 650, 700]
 var num_pellets_level = [6, 6, 7, 8, 9, 10, 12, 14]
-var reload_time_level = [2, 1.2, 1.1, 1, 0.95, 0.9, 0.85]
+var reload_time_level = [1.33, 1.2, 1.1, 1, 0.95, 0.9, 0.85]
 var bash_damage_level = [20, 20, 25, 30, 35, 40, 45]
 
 var num_shells = 1
@@ -34,12 +34,13 @@ var ai_target_point = Vector2.ZERO
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.SHOTGUN
-	health = 75
+	max_health = 75
 	bullet_spawn_offset = 10
 	flip_offset = -53
 	max_special_cooldown = 1.2
 	healthbar.max_value = health
 	attack_cooldown_audio = load('res://Sounds/SoundEffects/ShotgunReloadLight.wav')
+	attack_cooldown_audio_preempt = 0.2
 	init_healthbar()
 	score = 50
 	toggle_enhancement(false)
@@ -124,7 +125,7 @@ func ai_action():
 	aim_direction = (GameManager.player.global_position - global_position).normalized()
 	if ai_can_shoot and attack_cooldown < 0:
 		shoot()
-		attack_cooldown = max_attack_cooldown
+		attack_cooldown = max_attack_cooldown * 1.5
 		
 func shoot():
 	gun_audio.play()
@@ -135,10 +136,8 @@ func shoot():
 	
 	velocity -= aim_direction*recoil
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.55, 5)
-		
-	var bullet_type = 'flame' if (GameManager.player_upgrades['induction_barrel'] == 1 and is_in_group('player')) else 'pellet'
 		
 	if flak_mode:
 		for i in range(num_shells):
@@ -165,18 +164,18 @@ func start_bash():
 	play_animation('Special')
 	
 	#Hakita bless
-	var hits = Violence.melee_attack(self, melee_collider, 0, 0, 1, 0)
+	var hits = Violence.melee_attack(self, melee_collider, 0, 0, 0, 0)
 	for hit in hits:
 		if hit.is_in_group('bullet') and hit.source == self:
 			GameManager.set_timescale(0.001, 1, 100)
 			hit.velocity = (hit.velocity.length()*2)*aim_direction.rotated((randf()-0.5)*PI/36)
-			hit.damage *= 1.5
+			hit.damage *= 1.3
 			hit.stun = melee_stun/2
 			hit.modulate = Color.yellow
 			#Hakita bless
 	
 func bash():
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.4)
 	velocity.x += 250*sign(aim_direction.x)
 	Violence.melee_attack(self, melee_collider, bash_damage, 1000, 1, melee_stun)

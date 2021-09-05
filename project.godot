@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "KinematicBody2D",
+"base": "Enemylike",
 "class": "Boss",
 "language": "GDScript",
 "path": "res://Scripts/Boss.gd"
@@ -24,10 +24,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Chunk.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "Enemylike",
 "class": "Enemy",
 "language": "GDScript",
 "path": "res://Scripts/Enemy.gd"
+}, {
+"base": "Host",
+"class": "Enemylike",
+"language": "GDScript",
+"path": "res://Scripts/Enemylike.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Host",
+"language": "GDScript",
+"path": "res://Scripts/Host.gd"
 }, {
 "base": "Area2D",
 "class": "LaserBeam",
@@ -69,6 +79,8 @@ _global_script_class_icons={
 "Bullet": "",
 "Chunk": "",
 "Enemy": "",
+"Enemylike": "",
+"Host": "",
 "LaserBeam": "",
 "Levels": "",
 "MapZone": "",

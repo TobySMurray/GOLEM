@@ -8,7 +8,7 @@ var shift_timer = 0
 
 func _ready():
 	enemy_type = EnemyType.SHAPESHIFTER
-	health = 100
+	max_health = 100
 	max_speed = 140
 	flip_offset = -39
 	max_attack_cooldown = 1

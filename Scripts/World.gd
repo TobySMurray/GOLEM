@@ -23,6 +23,8 @@ onready var camera = $Camera
 onready var transcender = $Transcender
 onready var blood_moon = $BloodMoon 
 onready var fog = $Fog
+onready var fullbright_light = $FullbrightLight
+onready var halfbright_light = $HalfbrightLight
 onready var canvas_modulate = $CanvasModulate
 
 var spawn_zones = {
@@ -64,12 +66,16 @@ func load_level(level_name, fixed_map_path = null):
 		init_player = fixed_map.get_node(fixed_map.init_player)
 		
 		flatten_and_reparent_to_objects(fixed_map.get_node('WorldObjects').get_children())
-		import_zones(fixed_map.get_node('MapZoneManager'))
+		if fixed_map.get_node_or_null('MapZoneManager'):
+			import_zones(fixed_map.get_node('MapZoneManager'))
 		
 	else:
 		populate_level(level_name)
 		
 	canvas_modulate.color = level['modulate'] if ('modulate' in level) else Color(1, 1, 1)
+	fullbright_light.visible = level['dark']
+	halfbright_light.visible = level['dark']
+	
 	if 'fog' in level:
 		fog.visible = true
 		fog.material = load('res://Shaders/' + level['fog'] + '.tres')

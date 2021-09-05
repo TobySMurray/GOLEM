@@ -44,7 +44,7 @@ onready var ai_target_point = global_position
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.CHAIN
-	health = 100
+	max_health = 100
 	bullet_spawn_offset = 20
 	flip_offset = 0
 	score = 50
@@ -239,7 +239,7 @@ func swing_attack():
 	var delta_angle = spread/(num_pellets)
 	var stun = melee_stun*charge_level/charge_speed - init_charge/2
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(min(0.4 + charge_level*0.3, 1))
 	
 	if facing_left:

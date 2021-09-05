@@ -11,6 +11,8 @@ var deflectable = true
 var rotate_to_direction = false
 var last_velocity = Vector2.ZERO
 
+signal on_bullet_despawn
+
 func _physics_process(delta):
 	position += velocity*delta
 	
@@ -58,7 +60,6 @@ func _on_Hitbox_area_entered(area):
 		
 			
 func despawn():
-	if is_instance_valid(source):
-		source.on_bullet_despawn(self)
+	emit_signal('on_bullet_despawn', self)
 	queue_free()
 

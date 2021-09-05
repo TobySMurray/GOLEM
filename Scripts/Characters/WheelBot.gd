@@ -41,7 +41,7 @@ var aimbot_target = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.WHEEL
-	health = 50
+	max_health = 50
 	accel = 2.5
 	bullet_spawn_offset = 10
 	flip_offset = -71
@@ -207,7 +207,7 @@ func shoot():
 	attacking = true
 	charge_audio.stop()
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.3)
 	
 	var bullet_speed = shot_speed
@@ -217,7 +217,7 @@ func shoot():
 		bullet_speed *= (1.0 + power)
 		
 	var bullet_vel
-	if aimbot_mode and aimbot_target:
+	if aimbot_mode and is_instance_valid(aimbot_target):
 			
 		var a = bullet_speed*bullet_speed - aimbot_target.velocity.length_squared()
 		var b = 2*(global_position - aimbot_target.global_position).dot(aimbot_target.velocity)
@@ -299,7 +299,7 @@ func dash():
 func _on_Hitbox_area_entered(area):
 	if killdozer_mode and area.is_in_group("hitbox"):
 		var entity = area.get_parent()
-		if (entity.is_in_group('enemy') or area.is_in_group('player')) and not entity.invincible:
+		if entity.is_in_group('enemylike') and not entity.invincible:
 			var rel_speed = (velocity - entity.velocity).length()
 			var damage = pow(rel_speed, 0.65) * (2 if rel_speed > walk_speed/2 else 1)
 			entity.take_damage(damage, self)
@@ -325,7 +325,7 @@ func set_dash_fx_position():
 
 func take_damage(damage, source, stun = 0):
 	.take_damage(damage, source, stun)
-	if is_in_group('enemy') and stun == 0 and not immobile and not dead and special_cooldown < 0 and randf() < 0.5:
+	if not is_player and stun == 0 and not immobile and not dead and special_cooldown < 0 and randf() < 0.5:
 		special_cooldown = 4
 		aim_direction = velocity
 		call_deferred('dash')

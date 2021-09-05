@@ -12,7 +12,7 @@
 [ext_resource path="res://Art/Characters/3 Saber dude/move_no_sabers.png" type="Texture" id=10]
 [ext_resource path="res://Art/Characters/3 Saber dude/idle_no_sabers.png" type="Texture" id=11]
 [ext_resource path="res://Art/TinyTexture.png" type="Texture" id=12]
-[ext_resource path="res://Scripts/SaberBot.gd" type="Script" id=13]
+[ext_resource path="res://Scripts/Characters/SaberBot.gd" type="Script" id=13]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=14]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=16]
@@ -625,7 +625,11 @@ extents = Vector2( 33.7325, 7.86822 )
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 63.1815, 14.6037 )
 
-[node name="SaberBot" type="KinematicBody2D"]
+[node name="SaberBot" type="KinematicBody2D" groups=[
+"enemy",
+"enemylike",
+"host",
+]]
 collision_layer = 0
 collision_mask = 1025
 script = ExtResource( 13 )
@@ -641,7 +645,7 @@ texture = ExtResource( 14 )
 position = Vector2( -0.34697, -0.158186 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
-frame = 24
+frame = 34
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
@@ -717,5 +721,6 @@ stream = ExtResource( 21 )
 volume_db = -3.0
 pitch_scale = 0.2
 max_distance = 1000.0
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="SlashTrigger" to="." method="_on_SlashTrigger_area_entered"]

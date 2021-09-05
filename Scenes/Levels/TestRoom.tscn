@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/DungeonGround.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Characters/ShotgunnerBot.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Tilesets/Ground.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Tilesets/Marble.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/MapZoneManager.tscn" type="PackedScene" id=5]
@@ -165,7 +165,6 @@ position = Vector2( 40, 264 )
 
 [node name="TranquilityBeacon" parent="WorldObjects" instance=ExtResource( 9 )]
 position = Vector2( -40, 264 )
-tranquil_mode = false
 
 [node name="Characters" type="YSort" parent="WorldObjects"]
 

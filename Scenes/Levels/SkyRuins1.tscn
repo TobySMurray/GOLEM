@@ -1,7 +1,7 @@
 [gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/Sky.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Characters/ShotgunnerBot.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Tilesets/Ground.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Tilesets/Marble.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/MapZoneManager.tscn" type="PackedScene" id=5]
@@ -28,7 +28,7 @@
 [ext_resource path="res://Scenes/Tilesets/Ground.gd" type="Script" id=27]
 [ext_resource path="res://Scenes/AStar.tscn" type="PackedScene" id=28]
 [ext_resource path="res://Scenes/LevelLoadTrigger.tscn" type="PackedScene" id=30]
-[ext_resource path="res://Scenes/Merchant.tscn" type="PackedScene" id=31]
+[ext_resource path="res://Scenes/Characters/Merchant.tscn" type="PackedScene" id=31]
 [ext_resource path="res://Scripts/Level.gd" type="Script" id=35]
 [ext_resource path="res://Scripts/Wall.gd" type="Script" id=36]
 
@@ -155,9 +155,7 @@ accessible = false
 
 [node name="AStar" parent="WorldObjects/Characters" instance=ExtResource( 28 )]
 
-[node name="ShotgunnerBot" parent="WorldObjects/Characters" groups=[
-"enemy",
-] instance=ExtResource( 2 )]
+[node name="ShotgunnerBot" parent="WorldObjects/Characters" instance=ExtResource( 2 )]
 position = Vector2( 336, 656 )
 
 [node name="Merchant" parent="WorldObjects/Characters" instance=ExtResource( 31 )]

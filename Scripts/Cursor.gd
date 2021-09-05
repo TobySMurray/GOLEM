@@ -21,16 +21,17 @@ func _process(delta):
 		var player = GameManager.true_player
 		var origin = player
 		
-		if player.enemy_type == Enemy.EnemyType.SORCERER:
-			if is_instance_valid(player.orbs[0]):
-				if player.num_orbs == 1:
-					origin = player.orbs[0]
-				else:
-					subreticle.visible = false
-					
-		elif player.enemy_type == Enemy.EnemyType.SABER:
-			if is_instance_valid(player.saber_rings[0]):
-				origin = player.saber_rings[0]
+		if player.is_in_group('enemy'):
+			if player.enemy_type == Enemy.EnemyType.SORCERER:
+				if is_instance_valid(player.orbs[0]):
+					if player.num_orbs == 1:
+						origin = player.orbs[0]
+					else:
+						subreticle.visible = false
+						
+			elif player.enemy_type == Enemy.EnemyType.SABER:
+				if is_instance_valid(player.saber_rings[0]):
+					origin = player.saber_rings[0]
 					
 		subreticle.position = (origin.get_global_transform_with_canvas().origin + global_position)/2
 	else:
@@ -44,7 +45,7 @@ func _physics_process(delta):
 	else:
 		sprite.modulate = Color.white 
 		
-	if is_instance_valid(GameManager.true_player) and not GameManager.true_player.is_in_group('boss'):
+	if is_instance_valid(GameManager.true_player) and GameManager.true_player.is_in_group('enemy'):
 		attack_cooldown.max_value = GameManager.true_player.max_attack_cooldown
 		attack_cooldown.value = GameManager.true_player.attack_cooldown
 		if attack_cooldown.value <= 0:

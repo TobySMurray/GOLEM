@@ -38,6 +38,8 @@ var kill_mode_buffered = false
 var kill_mode_timer = 0
 var remaining_slashes = 0
 
+var base_color = Color.white
+
 var ai_move_timer = 0
 var ai_target_point = Vector2.ZERO
 
@@ -46,7 +48,7 @@ var rage_color = Color(1, 0, 0.45)
 
 func _ready():
 	enemy_type = EnemyType.SABER
-	health = 75
+	max_health = 75
 	flip_offset = -16
 	healthbar.max_value = health
 	max_attack_cooldown = 2
@@ -63,6 +65,7 @@ func toggle_enhancement(state):
 	slash_charges = slash_charges_levels[level]
 	max_special_cooldown = max_special_cooldown_levels[level]
 	saber_ring_durability = saber_ring_durability_levels[level]
+	
 	fractured_mind = false
 	true_focus = false
 	slash_damage = 150
@@ -269,7 +272,7 @@ func start_kill_mode():
 	base_color = rage_color
 	kill_mode_timer = 1
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.lerp_to_timescale(dash_time_dilation)
 	
 func end_kill_mode():
@@ -279,7 +282,7 @@ func end_kill_mode():
 	sprite.modulate = Color.white
 	base_color = Color.white
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.lerp_to_timescale(1)
 		
 	if health <= 0 and not dead:
@@ -291,9 +294,9 @@ func slash(damage):
 	play_animation("Special")
 	slash_collider.position.x = -10 if facing_left else 10
 	Violence.melee_attack(self, slash_collider, damage, 1000, 5)
-	set_invincibility_time(0.25)
+	invincibility_timer = 0.25
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.6)
 		if true_focus:
 			GameManager.set_timescale(0.02, 0.3)
@@ -365,7 +368,8 @@ func _on_SlashTrigger_area_entered(area):
 			slash(slash_damage)
 		
 func on_swap():
-	special_cooldown = 2
+	if not is_player:
+		special_cooldown = 2
 		
 func spawn_ghost_image():
 	var new_ghost = GhostImage.instance().duplicate()

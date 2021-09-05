@@ -93,12 +93,10 @@ var ram_cooldown = 0
 
 var stagger_resists = 0
 var super_moves_used = 0
-var super_move_thresholds = [0.96, 0.33, 0]
+var super_move_thresholds = [0.66, 0.33, 0]
 
 func _ready():
 	flip_offset = -30
-	max_attack_cooldown = 0.7
-	max_special_cooldown = 0.9
 	swap_shield_health = 3
 	set_state(INACTIVE)
 	arena_center = global_position
@@ -479,11 +477,11 @@ func process_state(delta, state):
 					play_animation('Idle')
 			
 				if Input.is_action_just_pressed("attack1"):
-					state_timer = max_attack_cooldown
+					state_timer = 0.7
 					play_animation('Attack')
 					
 				elif Input.is_action_just_pressed("attack2"):
-					state_timer = max_special_cooldown
+					state_timer = 0.9
 					play_animation('Special')
 			else:
 				var anim_event = get_event('anim_trigger')

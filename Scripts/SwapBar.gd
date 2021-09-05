@@ -24,6 +24,7 @@ var increase_rate = 1.0
 var init_control_timer = 0.0
 var max_control_time = 20.0
 var init_swap_threshold = 1
+
 var bar_min_value = 86
 var bar_max_value = 925
 var thresh_min_value = 112
@@ -39,7 +40,7 @@ var beep_timer = 0
 var item_count = 0
 
 var colors = [Color(1,0.8,0.8,1),Color(1,0.5,0.5,1), Color(1,1,1,1)]
-		
+
 func _ready():
 	control_timer = 0
 	item_indicator.value = item_count * 100
@@ -68,6 +69,8 @@ func update_modifiers():
 	
 func _physics_process(delta):
 	if enabled:
+		modulate = Color.white
+
 		if control_timer < max_control_time:
 			increase_rate = 1.0
 			if GameManager.fighting_boss:
@@ -82,7 +85,7 @@ func _physics_process(delta):
 			beep_timer -= 0.016
 			sparks.speed_scale = 1.0/max(GameManager.timescale, 0.01)
 			
-			if GameManager.true_player and not GameManager.true_player.dead:
+			if GameManager.true_player: #and not GameManager.true_player.dead:
 				GameManager.can_swap = control_timer > swap_threshold
 				
 			if GameManager.player_upgrades['patience'] > 0:
@@ -127,6 +130,7 @@ func _physics_process(delta):
 				GameManager.true_player.die()
 				
 	else:
+		modulate = Color(1, 1, 1, 0.2)
 		GameManager.can_swap = true
 		control_timer = 0
 		swap_threshold = 0
@@ -141,7 +145,7 @@ func reset(init_timer = init_control_timer):
 	control_timer = init_timer
 	patience_upgrades_given = 0
 	
-	var threshold_swap_penalty = 2
+	var threshold_swap_penalty = 2 if enabled else 0
 	if GameManager.player_upgrades['mania'] > 0:
 		threshold_swap_penalty *= 0.75
 	if GameManager.player_upgrades['patience'] > 0:
@@ -154,7 +158,7 @@ func reset(init_timer = init_control_timer):
 	threshold_death_penalty = 0
 
 func on_GM_swap():
-	if GameManager.player_upgrades['patience'] == 0:
+	if GameManager.true_player.is_in_group('enemylike') and GameManager.player_upgrades['patience'] == 0:
 		item_count += 1
 		update_item_indicator()
 	
@@ -163,7 +167,9 @@ func update_item_indicator():
 	$ItemProgress/Tween.interpolate_property(item_indicator, "value", (item_count - 1)*100, item_count*100, 0.1)
 	$ItemProgress/Tween.start()
 	if item_count >= 3:
-		GameManager.give_player_random_upgrade(GameManager.true_player.enemy_type)
+		var enemy_type = GameManager.true_player.enemy_type if GameManager.true_player.is_in_group('enemy') else Enemy.EnemyType.UNKNOWN
+		GameManager.give_player_random_upgrade(enemy_type)
+			
 		item_count = 0
 		$ItemProgress/Tween.interpolate_property(item_indicator, "value", 300, 0, 0.6)
 		$ItemProgress/Tween.start()

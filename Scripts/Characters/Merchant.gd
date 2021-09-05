@@ -1,4 +1,4 @@
-extends "res://Scripts/Enemy.gd"
+extends Enemy
 
 
 # Declare member variables here. Examples:
@@ -14,6 +14,7 @@ var forced = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.UNKNOWN
+	max_health = 10
 	max_speed = 30
 	score = 0
 	max_attack_cooldown = 1
@@ -32,7 +33,7 @@ func _physics_process(delta):
 			label.visible = false
 			release.visible = true
 			
-	if self.is_in_group("enemy"):
+	if not is_player:
 		if GameManager.level_name == "Tutorial":
 			label.visible = false
 			release.visible = false

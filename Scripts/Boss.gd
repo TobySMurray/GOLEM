@@ -1,13 +1,10 @@
-extends KinematicBody2D
+extends Enemylike
 
 class_name Boss
 
 const LevelLoadTrigger = preload('res://Scenes/LevelLoadTrigger.tscn')
 const GhostImage = preload('res://Scenes/GhostImage.tscn')
-onready var sprite = $Sprite
-onready var animplayer = $AnimationPlayer
 onready var healthbar = $HealthBar
-onready var swap_shield = get_node_or_null('ClearMoon')
 
 # STATE MACHINE VARS
 var current_state = 0
@@ -23,36 +20,6 @@ var state_health = 0
 var last_state_timer = 0
 var last_state_counter = 0
 var last_state_health = 0
-
-# ENEMY-LIKE VARS
-export var max_health = 100
-onready var health = float(max_health)
-export var mass = 1.0
-export var max_speed = 100
-export var accel = 10.0
-export var stun_resist = 0.0
-
-var enemy_type = Enemy.EnemyType.UNKNOWN
-
-var velocity = Vector2.ZERO
-
-var stunned = false
-var stun_timer = 0
-
-var can_be_swapped_to = true
-var swap_shield_health = 0
-var time_since_controlled = 999
-
-var max_attack_cooldown = 0.0
-var max_special_cooldown = 0.0
-
-var dead = false
-var invincible = false
-var damage_flash = false
-var damage_flash_timer = 0
-
-var facing_left = true
-var flip_offset = 0
 
 # AI VARS
 var frame_events = []
@@ -70,7 +37,6 @@ var dist_to_target = 0
 var look_at_player = true
 var look_direction = Vector2.ZERO
 
-var target_velocity = Vector2.ZERO
 
 # MISC
 var shield_flicker = false
@@ -108,14 +74,13 @@ func _physics_process(delta):
 		
 	if not stunned:
 		process_state(delta, current_state)
+		frame_events.clear()
 	else:
 		stun_timer -= delta
 		if stun_timer < 0:
 			stunned = false
 	
-	frame_events.clear()
 	move(delta)
-	
 	update_shield_flicker()
 	if emit_ghost_trail:
 		update_ghost_trail(delta)
@@ -162,18 +127,6 @@ func move(delta):
 		frame_events.append(['body_collision', col])
 	
 	velocity = move_and_slide(velocity)
-	
-func die():
-	pass
-	
-func toggle_playerhood(state):
-	pass
-	
-func toggle_enhancement(state):
-	pass
-	
-func play_animation(anim):
-	animplayer.play(anim)
 	
 func move_toward_target(speed = max_speed):
 	target_velocity = speed*global_position.direction_to(target_point)
@@ -264,9 +217,6 @@ func init_healthbar():
 	#healthbar.rect_scale.x = health / 200.0
 	#healthbar.rect_scale.x = health / 200.0
 			
-func on_bullet_despawn(bullet):
-	pass
-			
 func on_anim_trigger_frame():
 	#breakpoint
 	frame_events.append(['anim_trigger', animplayer.current_animation])
@@ -277,6 +227,7 @@ func _on_AnimationPlayer_animation_finished(anim):
 		get_parent().add_child(corpse)
 		corpse.global_position = global_position
 		corpse.destination = 'WarpRoom'
+		corpse.fixed_map = 'res://Scenes/Levels/WarpRoom.tscn'
 		queue_free()
 	else:
 		frame_events.append(['anim_finished', anim])

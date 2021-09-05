@@ -58,4 +58,5 @@ region_enabled = true
 region_rect = Rect2( 128, 0, 64, 64 )
 script = ExtResource( 3 )
 background_path = NodePath("../Background")
+
 [connection signal="body_entered" from="." to="." method="_on_SummonButton_body_entered"]

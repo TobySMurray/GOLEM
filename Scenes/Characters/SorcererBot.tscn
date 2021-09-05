@@ -6,7 +6,7 @@
 [ext_resource path="res://Art/Characters/Sorcerer Bot/attack 2.png" type="Texture" id=4]
 [ext_resource path="res://Art/Characters/Sorcerer Bot/attack 1.png" type="Texture" id=5]
 [ext_resource path="res://Art/Characters/Sorcerer Bot/walk.png" type="Texture" id=6]
-[ext_resource path="res://Scripts/SorcererBot.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/Characters/SorcererBot.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=10]
@@ -381,75 +381,75 @@ radius = 6.3286
 height = 13.1582
 
 [sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 6 )
+region = Rect2( 118, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 6 )
+region = Rect2( 236, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 6 )
+region = Rect2( 354, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 6 )
+region = Rect2( 472, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 5 )
 region = Rect2( 354, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 5 )
 region = Rect2( 472, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 5 )
 region = Rect2( 590, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 5 )
 region = Rect2( 708, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 5 )
 region = Rect2( 826, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 3 )
-region = Rect2( 118, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 3 )
-region = Rect2( 236, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 3 )
-region = Rect2( 354, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 3 )
-region = Rect2( 472, 0, 118, 107 )
-
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 118, 107 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 118, 0, 118, 107 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 236, 0, 118, 107 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 354, 0, 118, 107 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 472, 0, 118, 107 )
 
 [sub_resource type="SpriteFrames" id=25]
 animations = [ {
-"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
-"loop": false,
-"name": "Attack",
-"speed": 10.0
-}, {
-"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
 "loop": true,
 "name": "Walk",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"loop": false,
+"name": "Attack",
 "speed": 10.0
 } ]
 
@@ -489,7 +489,11 @@ shader_param/color = Vector3( 1, 0.5, 0.5 )
 [sub_resource type="Curve" id=28]
 _data = [ Vector2( 0, 0.409091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.2 ), 0.0, 0.0, 0, 0 ]
 
-[node name="SorcererBot" type="KinematicBody2D"]
+[node name="SorcererBot" type="KinematicBody2D" groups=[
+"enemy",
+"enemylike",
+"host",
+]]
 collision_layer = 0
 collision_mask = 1025
 script = ExtResource( 7 )
@@ -530,7 +534,7 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 40
+frame = 55
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false
@@ -607,4 +611,5 @@ end_cap_mode = 2
 
 [node name="CharacterLights" parent="." instance=ExtResource( 12 )]
 visible = false
+
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

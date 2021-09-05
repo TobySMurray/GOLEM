@@ -1,5 +1,4 @@
-extends KinematicBody2D
-
+extends Enemylike
 class_name Enemy
 
 enum EnemyType {
@@ -15,10 +14,6 @@ enum EnemyType {
 	UNKNOWN
 }
 
-onready var animplayer = $AnimationPlayer
-onready var sprite = $Sprite
-onready var swap_shield = $ClearMoon
-onready var score_popup = load("res://Scenes/ScorePopup.tscn")
 #onready var transcender_curve = Curve2D.new()
 onready var healthbar = $HealthBar
 onready var EV_particles = $EVParticles
@@ -29,64 +24,39 @@ onready var light_beam = $CharacterLights/Directed
 
 onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/relaod.wav')
 
-var enemy_type = EnemyType.UNKNOWN
 var score = 0
-var health = 100
-var max_speed = 100
+
 var override_speed = null
-var mass = 1
-var velocity = Vector2.ZERO
-var target_velocity = Vector2.ZERO
-var accel = 10
-var light_color = Color.white
-var base_color = Color.white
 
-var is_flashing = false
-var flash_timer = 0
-var flash_color = Color.white
-
-var facing_left = false
 var attacking = false
+var attack_cooldown = 0
+var max_attack_cooldown = 0
+var attack_cooldown_audio_preempt = 0
+
+var special_cooldown = 0
+var max_special_cooldown = 0
 
 var is_miniboss = false
 var enemy_evolution_level = 0
 
-var can_be_swapped_to = true
-var max_swap_shield_health = 0
-var swap_shield_health = 0
-
-var attack_cooldown = 0
-var max_attack_cooldown
-var special_cooldown = 0
-var max_special_cooldown = 0
-var time_since_controlled = 999
 var time_since_player_damage = 999
 
-var aim_direction = Vector2.ZERO
 var lock_aim = false
 
-var flip_offset = 0
 var bullet_spawn_offset = 0
 var foot_offset = 0
 
 var immobile = false
 var shoot_through = []
 
-var stunned = false
-var stun_timer = 0
-
-var invincible = false
-var invincibility_timer = 0
-
-var capturing_boss = false
-var boss_capture_timer = 0
+var is_flashing = false
+var flash_timer = 0
+var flash_color = Color.white
 
 var idle_anim = "Idle"
 var walk_anim = "Walk"
 
-var dead = false
 var force_swap = false
-var death_timer = 0
 
 var berserk = false
 var last_stand = false
@@ -100,13 +70,10 @@ func _ready():
 	GameManager.connect('on_swap', self, 'on_swap')
 	
 func on_level_ready():
-	toggle_light(GameManager.level['dark'] and is_in_group('player'))
-	if is_in_group('player'):
-		#toggle_playerhood(true)
-		pass
+	toggle_light(GameManager.level['dark'] and is_player)
 
 func _physics_process(delta):
-	if dead and is_in_group("player"):
+	if dead and is_player:
 		death_timer -= delta
 		if death_timer < 0:
 			death_timer = 99999999
@@ -115,16 +82,12 @@ func _physics_process(delta):
 	if not dead and not stunned:
 		misc_update(delta)
 		
-	if not is_in_group("enemy"):
-		if capturing_boss:
-			boss_capture_timer -= 0.016
-			GameManager.camera.trauma = 0.3
-			
-			if boss_capture_timer < 0 or dead:
-				capturing_boss = false
-				on_boss_capture()
-				
-		if not capturing_boss:
+	if is_player:	
+		if attack_cooldown >= attack_cooldown_audio_preempt and (attack_cooldown - attack_cooldown_audio_preempt) < delta:
+			GameManager.attack_cooldown_SFX.stream = attack_cooldown_audio
+			GameManager.attack_cooldown_SFX.play()
+		
+		if not GameManager.capturing_boss:
 			if not dead and not stunned:
 				player_move(delta)
 				
@@ -133,17 +96,14 @@ func _physics_process(delta):
 					if light_beam:
 						light_beam.rotation = aim_direction.angle() - PI/2
 				
-			if GameManager.swapping:
-				GameManager.choose_swap_target(delta)
-			else:
-				if not dead and not stunned:
+				if not GameManager.swapping:
 					player_action()
 					
-				if GameManager.can_swap and Input.is_action_just_pressed("swap"):
-					GameManager.toggle_swap(true)
-		
-		
 	else:
+		if is_instance_valid(GameManager.player) and not GameManager.player_hidden and GameManager.player != self and not dead and not stunned:
+			ai_move()
+			ai_action()
+			
 		time_since_controlled += delta
 		time_since_player_damage += delta
 		if GameManager.player_upgrades['scorn'] > 0 and not GameManager.player_hidden and swap_shield_health < 1 and time_since_player_damage > 2:
@@ -151,21 +111,15 @@ func _physics_process(delta):
 			swap_shield_health = 1
 			update_swap_shield()
 		
-		if is_instance_valid(GameManager.player) and not GameManager.player_hidden and GameManager.player != self and not dead and not stunned:
-			ai_move()
-			ai_action()
-	
-	if attack_cooldown >= 0 and attack_cooldown < delta and is_in_group('player'):
-		GameManager.attack_cooldown_SFX.stream = attack_cooldown_audio
-		GameManager.attack_cooldown_SFX.play()
-		
-	if special_cooldown >= 0 and special_cooldown < delta and is_in_group('player'):
+	if special_cooldown >= 0 and special_cooldown < delta and is_player:
 		#GameManager.attack_cooldown_SFX.stream = attack_cooldown_audio
 		#GameManager.attack_cooldown_SFX.play()
 		pass
 
 	attack_cooldown -= delta
 	special_cooldown -= delta
+	invincibility_timer -= delta
+	update_flash(delta)
 	
 	if stunned:
 		stun_timer -= delta
@@ -175,13 +129,6 @@ func _physics_process(delta):
 			animplayer.play()
 	else:
 		animate()
-	
-	if invincible:
-		invincibility_timer -= delta
-		if invincibility_timer < 0:
-			invincible = false
-	
-	update_flash(delta)
 	
 	if not immobile:
 		move(delta)
@@ -252,7 +199,7 @@ func take_damage(damage, source, stun = 0):
 	if invincible:
 		return
 	
-	if is_in_group("player"):
+	if is_player:
 		#set_invincibility_time(0.05)
 		GameManager.camera.set_trauma(0.4)
 		
@@ -284,26 +231,21 @@ func take_damage(damage, source, stun = 0):
 	
 	if health <= 0:
 		die(source)
-		
-func set_invincibility_time(time):
-	invincible = true
-	invincibility_timer = time
 
 func init_healthbar():
 	if is_miniboss:
-		health *= 2
+		max_health *= 2
+	health = max_health
 	healthbar.max_value = health
 	healthbar.value = health
 	healthbar.rect_scale.x = health / 200.0
 	
 		
 func toggle_playerhood(state):
+	.toggle_playerhood(state)
 	toggle_light(state)
 	
 	if state == true:
-		if is_in_group('enemy'):
-			remove_from_group("enemy")
-		add_to_group("player")
 		attack_cooldown = -1
 		special_cooldown = -1
 		time_since_controlled = 0
@@ -326,17 +268,14 @@ func toggle_playerhood(state):
 					
 		if is_miniboss and enemy_evolution_level > GameManager.evolution_level:
 			GameManager.evolution_level = enemy_evolution_level #Does not update UI
-			capturing_boss = true
-			set_invincibility_time(1.25)
-			boss_capture_timer = 1.25
+			GameManager.capturing_boss = true
+			GameManager.boss_capture_timer = 1.25
+			invincible = true
 			target_velocity = Vector2.ZERO
 			GameManager.lerp_to_timescale(0.1)
 			GameManager.camera.lerp_zoom(0.5)
 			GameManager.world.blood_moon.boss_audio.play()
 	else:
-		if is_in_group('player'):
-			remove_from_group("player")
-		add_to_group("enemy")
 		attack_cooldown = max(attack_cooldown, 1)
 		special_cooldown = max(special_cooldown, 1)
 		if last_stand:
@@ -435,15 +374,12 @@ func emit_score_popup(value, msg):
 	popup.get_node("Message").text = ("- " + msg + " -") if len(msg) > 0 else msg
 	popup.rect_global_position = global_position + Vector2(0, -40)
 	get_node("/root").add_child(popup)
-	
-func on_bullet_despawn(bullet):
-	pass
 
 func die(killer = null):
 	if dead: return
 	
 	dead = true
-	set_invincibility_time(999)
+	invincible = true
 	attacking = true
 	target_velocity = Vector2.ZERO
 	GameManager.enemy_count -= 1
@@ -455,7 +391,7 @@ func die(killer = null):
 		score *= enemy_evolution_level
 		GameManager.cur_boss = null
 	
-	if is_in_group("enemy"):
+	if not is_player:
 		if is_instance_valid(killer):
 			var effective_score = int(score*GameManager.variety_bonus*(1.5 if GameManager.swap_bar.swap_threshold == 0 else 1.0))
 			var message = ''
@@ -475,12 +411,12 @@ func die(killer = null):
 				message = 'CLOSE CALL'
 				kill_validity = 1
 				
-			elif killer.enemy_type == EnemyType.FLAME and killer.killed_by_player:
+			elif killer.is_in_group('enemy') and killer.enemy_type == EnemyType.FLAME and killer.killed_by_player:
 				effective_score *= 1.5
 				message = 'KABOOM!'
 				kill_validity = 1
 				
-			elif time_since_player_damage < 0.5 and is_instance_valid(killer) and killer.enemy_type == EnemyType.ARCHER:
+			elif killer.is_in_group('enemy') and time_since_player_damage < 0.5 and is_instance_valid(killer) and killer.enemy_type == EnemyType.ARCHER:
 				effective_score *= 1.5
 				message = 'DAMN ARCHERS!'
 				kill_validity = 1
@@ -510,7 +446,7 @@ func die(killer = null):
 		if not GameManager.can_swap or last_stand:
 			GameManager.can_swap = false
 			death_timer = 0.3
-		if is_instance_valid(killer) and killer.enemy_type != EnemyType.UNKNOWN:
+		if is_instance_valid(killer) and killer.is_in_group('enemy') and killer.enemy_type != EnemyType.UNKNOWN:
 			Options.enemy_deaths[str(killer.enemy_type)] += 1
 			
 
@@ -519,7 +455,7 @@ func actually_die():
 	if last_stand:
 		GameManager.spawn_explosion(global_position, self, 1, 100, 1000)
 		
-	if is_in_group("enemy"):
+	if not is_player:
 		queue_free()
 	else:
 		dead = true
