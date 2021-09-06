@@ -1,4 +1,4 @@
-extends "res://Scripts/Enemy.gd"
+extends Enemy
 
 
 # Declare member variables here. Examples:
@@ -13,7 +13,8 @@ var forced = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	enemy_type = "merchant"
+	enemy_type = EnemyType.UNKNOWN
+	max_health = 10
 	max_speed = 30
 	score = 0
 	max_attack_cooldown = 1
@@ -24,15 +25,15 @@ func _ready():
 func _physics_process(delta):
 	attack_cooldown = -1
 	if GameManager.level_name == "Tutorial":
-		if !about_to_swap and GameManager.swappable:
+		if !GameManager.swapping and GameManager.can_swap:
 			label.visible = true
 			release.visible = false
 		
-		if about_to_swap:
+		if GameManager.swapping:
 			label.visible = false
 			release.visible = true
 			
-	if self.is_in_group("enemy"):
+	if not is_player:
 		if GameManager.level_name == "Tutorial":
 			label.visible = false
 			release.visible = false
@@ -50,9 +51,10 @@ func misc_update(delta):
 		$Shadow.offset.x = 0
 
 func force():
-	release.visible = true
-	force_swap = true
-	toggle_swap(true)
+	pass
+#	release.visible = true
+#	force_swap = true
+#	toggle_swap(true)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Die":

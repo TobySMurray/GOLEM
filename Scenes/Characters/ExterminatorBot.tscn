@@ -1,7 +1,7 @@
 [gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scripts/ExterminatorBot.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Characters/ExterminatorBot.gd" type="Script" id=2]
 [ext_resource path="res://Art/Characters/Exterminator/attack.png" type="Texture" id=3]
 [ext_resource path="res://Art/Characters/Exterminator/appear.png" type="Texture" id=4]
 [ext_resource path="res://Art/Characters/Exterminator/walk.png" type="Texture" id=5]
@@ -580,7 +580,11 @@ shader_param/color = Vector3( 0.5, 0.5, 1 )
 radius = 5.0
 height = 25.0
 
-[node name="ExterminatorBot" type="KinematicBody2D"]
+[node name="ExterminatorBot" type="KinematicBody2D" groups=[
+"enemy",
+"enemylike",
+"host",
+]]
 collision_layer = 0
 collision_mask = 1025
 script = ExtResource( 2 )
@@ -599,9 +603,9 @@ wait_time = 0.25
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( -12, -30 )
-texture = ExtResource( 8 )
-vframes = 7
-frame = 6
+texture = ExtResource( 7 )
+vframes = 14
+frame = 13
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.21, 10 )
@@ -672,7 +676,6 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
-frame = 32
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 24 )
@@ -697,6 +700,7 @@ bus = "Effects"
 
 [node name="CharacterLights" parent="." instance=ExtResource( 18 )]
 visible = false
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Deflector" to="." method="_on_Deflector_area_entered"]

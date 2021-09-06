@@ -41,8 +41,7 @@ var aimbot_target = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.WHEEL
-	health = 50
-	max_speed = walk_speed
+	max_health = 50
 	accel = 2.5
 	bullet_spawn_offset = 10
 	flip_offset = -71
@@ -63,7 +62,6 @@ func toggle_playerhood(state):
 	.toggle_playerhood(state)
 
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -80,8 +78,7 @@ func toggle_enhancement(state):
 	if state == true:
 		if GameManager.player_upgrades['top_gear'] > 0:
 			accel = 1.5
-			walk_speed *= 1.5
-			max_speed = walk_speed
+			max_speed *= 1.5
 			top_gear = true
 			
 		if GameManager.player_upgrades['self-preservation_override'] > 0:
@@ -96,6 +93,7 @@ func toggle_enhancement(state):
 	burst_count = 0
 	movement_raycast.enabled = !state
 	aimbot_collider.set_deferred('disabled', !aimbot_mode)
+	.toggle_enhancement(state)
 
 func misc_update(delta):
 	ai_retarget_timer -= delta
@@ -137,7 +135,7 @@ func misc_update(delta):
 			exhaust_timer -= delta*(speed/100.0)
 			if exhaust_timer < 0:
 				exhaust_timer = 0.35
-				Projectile.shoot_bullet(self, global_position, -velocity.rotated(PI/6*(randf()-0.5)), 5, 0.25, 1.5, 'flame')
+				Violence.shoot_bullet(self, global_position, -velocity.rotated(PI/6*(randf()-0.5)), 5, 0.25, 1.5, 'flame')
 		
 	#set_dash_fx_position()
 	
@@ -209,7 +207,7 @@ func shoot():
 	attacking = true
 	charge_audio.stop()
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.3)
 	
 	var bullet_speed = shot_speed
@@ -219,7 +217,7 @@ func shoot():
 		bullet_speed *= (1.0 + power)
 		
 	var bullet_vel
-	if aimbot_mode and aimbot_target:
+	if aimbot_mode and is_instance_valid(aimbot_target):
 			
 		var a = bullet_speed*bullet_speed - aimbot_target.velocity.length_squared()
 		var b = 2*(global_position - aimbot_target.global_position).dot(aimbot_target.velocity)
@@ -301,7 +299,7 @@ func dash():
 func _on_Hitbox_area_entered(area):
 	if killdozer_mode and area.is_in_group("hitbox"):
 		var entity = area.get_parent()
-		if (entity.is_in_group('enemy') or area.is_in_group('player')) and not entity.invincible:
+		if entity.is_in_group('enemylike') and not entity.invincible:
 			var rel_speed = (velocity - entity.velocity).length()
 			var damage = pow(rel_speed, 0.65) * (2 if rel_speed > walk_speed/2 else 1)
 			entity.take_damage(damage, self)
@@ -327,7 +325,7 @@ func set_dash_fx_position():
 
 func take_damage(damage, source, stun = 0):
 	.take_damage(damage, source, stun)
-	if is_in_group('enemy') and stun == 0 and not dead and special_cooldown < 0 and randf() < 0.5:
+	if not is_player and stun == 0 and not immobile and not dead and special_cooldown < 0 and randf() < 0.5:
 		special_cooldown = 4
 		aim_direction = velocity
 		call_deferred('dash')

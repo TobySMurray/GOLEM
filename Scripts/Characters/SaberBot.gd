@@ -38,6 +38,8 @@ var kill_mode_buffered = false
 var kill_mode_timer = 0
 var remaining_slashes = 0
 
+var base_color = Color.white
+
 var ai_move_timer = 0
 var ai_target_point = Vector2.ZERO
 
@@ -46,18 +48,15 @@ var rage_color = Color(1, 0, 0.45)
 
 func _ready():
 	enemy_type = EnemyType.SABER
-	health = 75
-	max_speed = walk_speed
+	max_health = 75
 	flip_offset = -16
 	healthbar.max_value = health
 	max_attack_cooldown = 2
 	score = 80
 	init_healthbar()
-	GameManager.connect("on_swap", self, "on_swap")
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -66,6 +65,7 @@ func toggle_enhancement(state):
 	slash_charges = slash_charges_levels[level]
 	max_special_cooldown = max_special_cooldown_levels[level]
 	saber_ring_durability = saber_ring_durability_levels[level]
+	
 	fractured_mind = false
 	true_focus = false
 	slash_damage = 150
@@ -106,6 +106,8 @@ func toggle_enhancement(state):
 		attack_cooldown = 0
 	if not sabers_sheathed and not waiting_for_saber_recall:
 		recall_sabers()
+		
+	.toggle_enhancement(state)
 	
 func misc_update(delta):
 	.misc_update(delta)
@@ -263,24 +265,24 @@ func orbit_sabers():
 func start_kill_mode():
 	in_kill_mode = true
 	special_cooldown = max_special_cooldown
-	max_speed = dash_speed
+	override_speed = dash_speed
 	slash_trigger.get_node("CollisionShape2D").set_deferred("disabled", false)
 	remaining_slashes = slash_charges
 	sprite.modulate = rage_color
 	base_color = rage_color
 	kill_mode_timer = 1
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.lerp_to_timescale(dash_time_dilation)
 	
 func end_kill_mode():
 	in_kill_mode = false
-	max_speed = walk_speed
+	override_speed = null
 	slash_trigger.get_node("CollisionShape2D").set_deferred("disabled", true)
 	sprite.modulate = Color.white
 	base_color = Color.white
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.lerp_to_timescale(1)
 		
 	if health <= 0 and not dead:
@@ -291,10 +293,10 @@ func slash(damage):
 	kill_mode_timer = 1
 	play_animation("Special")
 	slash_collider.position.x = -10 if facing_left else 10
-	melee_attack(slash_collider, damage, 1000, 5)
-	set_invincibility_time(0.25)
+	Violence.melee_attack(self, slash_collider, damage, 1000, 5)
+	invincibility_timer = 0.25
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.6)
 		if true_focus:
 			GameManager.set_timescale(0.02, 0.3)
@@ -360,13 +362,14 @@ func on_sabers_unsheathed():
 func _on_SlashTrigger_area_entered(area):
 	if in_kill_mode and not attacking and not area.get_parent() == self and area.is_in_group("hitbox") and not area.get_parent().invincible:
 		velocity = (area.global_position - global_position).normalized() * 1000
-		if true_focus and area.get_parent().is_in_group('enemy') and area.get_parent().is_boss and area.get_parent().swap_shield_health > 0:
+		if true_focus and area.get_parent().is_in_group('enemy') and area.get_parent().is_miniboss and area.get_parent().swap_shield_health > 0:
 			slash(area.get_parent().swap_shield_health)
 		else:
 			slash(slash_damage)
 		
 func on_swap():
-	special_cooldown = 2
+	if not is_player:
+		special_cooldown = 2
 		
 func spawn_ghost_image():
 	var new_ghost = GhostImage.instance().duplicate()

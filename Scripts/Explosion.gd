@@ -55,9 +55,12 @@ func explode():
 		elif col['collider'].is_in_group("hitbox"):
 			var enemy = col['collider'].get_parent()
 			
+			if enemy.is_in_group('enemy pillar'):
+				damage *= 3
+			
 			if not enemy.invincible and not enemy == source:
 				enemy.take_damage(damage, source)
-				var kb_vel = (enemy.global_position - global_position).normalized() * force
+				var kb_vel = (enemy.global_position - global_position).normalized() * force / enemy.mass
 				enemy.velocity += kb_vel
 				
 				if not enemy.is_in_group("bloodless"):

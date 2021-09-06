@@ -42,11 +42,11 @@ func set_evolution_level(lv):
 		GameManager.true_player.toggle_enhancement(true)
 		
 func _on_SummonButton_body_entered(body):
-	if body.is_in_group('player'):
+	if body.is_in_group('host') and body.is_player:
 		sprite.material.set_shader_param('intensity', 0)
 		active = true
 	
 func _on_SummonButton_body_exited(body):
-	if body.is_in_group('player'):
+	if body.is_in_group('host') and body.is_player:
 		sprite.material.set_shader_param('intensity', 1)
 		active = false

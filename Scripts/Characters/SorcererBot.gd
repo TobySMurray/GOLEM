@@ -30,7 +30,7 @@ var ai_target_pos = Vector2.ZERO
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.SORCERER
-	health = 180
+	max_health = 180
 	score = 100
 	flip_offset = -13
 	init_healthbar()
@@ -42,7 +42,6 @@ func _ready():
 	max_special_cooldown = 2
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -102,6 +101,9 @@ func toggle_enhancement(state):
 		stand.collision_layer = 0 if state else 4
 		if precision_mode:
 			stand.sprite.play("Walk")
+			
+	.toggle_enhancement(state)
+	
 	
 func misc_update(delta):
 	move_timer -= delta
@@ -143,7 +145,7 @@ func misc_update(delta):
 						orbs[i].velocity = stands[i].next_smack_vel
 						orbs[i].decel_timer = 0
 						stands[i].get_node('AudioStreamPlayer2D').play()
-						if is_in_group("player"):
+						if is_player:
 							GameManager.camera.set_trauma(0.5)
 							
 					stands[i].next_smack_vel = Vector2.ZERO
@@ -229,7 +231,7 @@ func launch_orbs():
 		GameManager.projectiles_node.add_child(orb)
 		angle += delta_angle
 		
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.5)
 		
 	if precision_mode:
@@ -244,7 +246,7 @@ func smack_orbs(target_pos):
 			stands[i].conjure(orbs[i].global_position + offset + orbs[i].velocity*0.1, -side)
 			stands[i].next_smack_vel = smack_dir*max(smack_speed, orbs[i].velocity.length()*1.1)*(0.95 + randf()*0.1)
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.4)
 		
 func accelerate_orbs(target_pos, delta):
@@ -285,8 +287,8 @@ func decelerate_orbs():
 			orbs[i].velocity *= 0.9
 			
 func area_attack():
-	melee_attack(attack_collider, 20, 300, 1)
-	if is_in_group("player"):
+	Violence.melee_attack(self, attack_collider, 20, 300, 1)
+	if is_player:
 		GameManager.camera.set_trauma(0.5)
 	
 func detonate_orbs():
@@ -306,7 +308,6 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack" or anim_name == "Special":
 		attacking = false
 		lock_aim = false
-		#max_speed = walk_speed
 		
 	elif anim_name == "Die":
 		detonate_orbs()

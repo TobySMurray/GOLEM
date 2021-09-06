@@ -1,14 +1,15 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scenes/Tilesets/DungeonGround.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/ShotgunnerBot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Characters/ShotgunnerBot.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Tilesets/Ground.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Tilesets/Marble.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/MapZoneManager.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Tilesets/DungeonWall.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Debug/SummonButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Debug/EVLButton.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Debug/TranquilityBeacon.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Scenes/Transcender.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Scenes/Characters/Bosses/SkyRuinsBoss.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Fog.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/Tilesets/WallWalkUnder.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
@@ -130,35 +131,34 @@ position = Vector2( 45.3845, 322.363 )
 
 [node name="ShotgunSummon" parent="WorldObjects" instance=ExtResource( 7 )]
 position = Vector2( -200, -168 )
-enemy = "shotgun"
 
 [node name="ChainSummon" parent="WorldObjects" instance=ExtResource( 7 )]
 position = Vector2( -232, -128 )
-enemy = "chain"
+enemy = 1
 
 [node name="WheelSummon" parent="WorldObjects" instance=ExtResource( 7 )]
 position = Vector2( -248, -80 )
-enemy = "wheel"
+enemy = 3
 
 [node name="FlameSummon" parent="WorldObjects" instance=ExtResource( 7 )]
 position = Vector2( -264, -32 )
-enemy = "flame"
+enemy = 2
 
 [node name="ArcherSummon" parent="WorldObjects" instance=ExtResource( 7 )]
 position = Vector2( -264, 32 )
-enemy = "archer"
+enemy = 4
 
 [node name="ExterminatorSummon" parent="WorldObjects" instance=ExtResource( 7 )]
 position = Vector2( -248, 80 )
-enemy = "exterminator"
+enemy = 5
 
 [node name="SorcererSummon" parent="WorldObjects" instance=ExtResource( 7 )]
 position = Vector2( -232, 128 )
-enemy = "sorcerer"
+enemy = 6
 
 [node name="SaberSummon" parent="WorldObjects" instance=ExtResource( 7 )]
 position = Vector2( -200, 168 )
-enemy = "saber"
+enemy = 7
 
 [node name="EVLButton" parent="WorldObjects" instance=ExtResource( 8 )]
 position = Vector2( 40, 264 )
@@ -168,14 +168,16 @@ position = Vector2( -40, 264 )
 
 [node name="Characters" type="YSort" parent="WorldObjects"]
 
-[node name="Transcender" parent="WorldObjects/Characters" instance=ExtResource( 19 )]
-
-[node name="ShotgunnerBot" parent="WorldObjects/Characters" groups=[
-"player",
-] instance=ExtResource( 2 )]
+[node name="ShotgunnerBot" parent="WorldObjects/Characters" instance=ExtResource( 2 )]
 position = Vector2( -150, 0 )
 
-[node name="Projectiles" type="Node2D" parent="."]
+[node name="SkyRuinsBoss" parent="WorldObjects/Characters" instance=ExtResource( 10 )]
 
 [node name="WallWalkUnder" parent="." instance=ExtResource( 22 )]
 position = Vector2( -8, -40 )
+
+[node name="MapZoneManager" parent="." instance=ExtResource( 5 )]
+zones = {
+0: [  ],
+1: [  ]
+}

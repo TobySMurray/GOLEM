@@ -5,7 +5,8 @@
 
 [sub_resource type="CircleShape2D" id=1]
 
-[node name="LevelLoadTrigger" type="Area2D" groups=[
+[node name="LevelLoadTrigger" type="KinematicBody2D" groups=[
+"host",
 "swap trigger",
 ]]
 collision_layer = 4

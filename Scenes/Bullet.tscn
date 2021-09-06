@@ -5,7 +5,6 @@
 [ext_resource path="res://Art/Bullets/FlameBullet_sheet.png" type="Texture" id=3]
 [ext_resource path="res://Art/Bullets/WaveBullet_sheet.png" type="Texture" id=4]
 
-
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 12, 12 )
@@ -70,6 +69,7 @@ extents = Vector2( 3, 3 )
 [node name="Bullet" type="Area2D" groups=[
 "bullet",
 ]]
+z_index = 1
 collision_layer = 2147483650
 collision_mask = 5
 script = ExtResource( 2 )

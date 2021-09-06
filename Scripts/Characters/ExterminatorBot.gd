@@ -61,8 +61,7 @@ var ai_move_timer = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.EXTERMINATOR
-	health = 150
-	max_speed = walk_speed
+	max_health = 150
 	max_attack_cooldown = 1.5
 	max_special_cooldown = 1.6
 	flip_offset = 24
@@ -74,7 +73,6 @@ func _ready():
 	toggle_enhancement(false)
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -126,11 +124,13 @@ func toggle_enhancement(state):
 	bullet_orbit_speed = min_bullet_orbit_speed
 	if retaliating:	
 		toggle_retaliation(false)
+		
+	.toggle_enhancement(state)
 
 func misc_update(delta):
 	deflector_visual.rotation = shield_angle
 	
-	if is_in_group('player') and not retaliating:
+	if is_player and not retaliating:
 		bullet_production_timer -= delta*bullet_production_rate
 		if bullet_production_timer < 0:
 			bullet_production_timer = 1
@@ -221,7 +221,7 @@ func ai_action():
 #					special_cooldown = 8
 #					break
 				
-	if special_cooldown < 0 and aim_direction.length() < 30:
+	if special_cooldown < 0 and not immobile and aim_direction.length() < 30:
 		special_cooldown = 8
 		var point = GameManager.random_map_point()
 		if point:
@@ -247,7 +247,7 @@ func toggle_retaliation(state):
 		if bulwark_mode:
 			attacking = true
 			#lock_aim = true
-			max_speed = 0
+			override_speed = 0
 			mass = 10
 			retaliation_locked = true
 			expulsion_timer = 0.4/(GameManager.player_upgrades['high-energy_orbit'] + 1)
@@ -266,7 +266,7 @@ func toggle_retaliation(state):
 		if mass > 1.5: #effectively if bulwark_mode, still works if player swaps out
 			attacking = false
 			lock_aim = false
-			max_speed = walk_speed
+			override_speed = null
 			mass = 1.5
 			get_node('Hitbox').position.x = 0
 
@@ -297,16 +297,16 @@ func retaliate(delta):
 						shoot_audio.play()
 						
 						var b = captured_bullets[i]
-						var dir = (get_global_mouse_position() if is_in_group("player") else lerped_player_pos) - b.global_position
+						var dir = (get_global_mouse_position() if is_player else lerped_player_pos) - b.global_position
 						var width = 12 if b.is_in_group('death orb') else b.scale.x*4
 						var damage = 100 if b.is_in_group('death orb') else b.damage*damage_mult
 						var kb = 100*width/6.0 * (3 if bulwark_mode else 1)
 						var explosion_size = sqrt(damage)/10 if bulwark_mode else 0
 						
-						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, true, 'rail', explosion_size, damage/2, damage*5, false, is_in_group('player'))
+						LaserBeam.shoot_laser(b.global_position, dir, width, self, damage, kb, 0, true, 'rail', explosion_size, damage/2, damage*5, false, is_player)
 						b.despawn()
 						captured_bullets[i] = null
-						if is_in_group('player'):
+						if is_player:
 							GameManager.camera.set_trauma(0.4, 10)
 						break
 				
@@ -375,7 +375,7 @@ func start_teleport(point):
 		special_cooldown = 1.6
 		teleport_timer = 0.4
 		lock_aim = true
-		max_speed = 0
+		override_speed = 0
 		play_animation('Vanish')
 	
 func teleport():
@@ -391,6 +391,7 @@ func teleport():
 	
 	global_position = teleport_end_point
 	invincible = true
+	attacking = true
 	play_animation("Appear")
 	teleport_sprite.global_position = teleport_start_point
 	
@@ -517,10 +518,10 @@ func on_laser_deflection(impact_point, dir, width, source, damage, kb, stun, pie
 		
 	
 func area_deflect():
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(0.5, 5)
 		
-	melee_attack(deflector_shape, 20, 2000, 3)
+	Violence.melee_attack(self, deflector_shape, 20, 2000, 3)
 	
 func on_bullet_despawn(b):
 	if not retaliating and b in captured_bullets:
@@ -541,7 +542,7 @@ func take_damage(damage, source, stun = 0):
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Appear" or anim_name == "Attack":
 		lock_aim = false
-		max_speed = walk_speed
+		override_speed = null
 		attacking = false
 		shield_active = true
 		deflector_visual.visible = true

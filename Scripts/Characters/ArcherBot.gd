@@ -38,8 +38,7 @@ var ai_move_timer = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	enemy_type = EnemyType.ARCHER
-	health = 70
-	max_speed = walk_speed
+	max_health = 70
 	flip_offset = -23
 	init_healthbar()
 	score = 50
@@ -51,7 +50,6 @@ func toggle_playerhood(state):
 		charge_timer = 0
 	
 func toggle_enhancement(state):
-	.toggle_enhancement(state)
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
 	
 	walk_speed = walk_speed_levels[level]
@@ -90,12 +88,16 @@ func toggle_enhancement(state):
 			
 		shanky = GameManager.player_upgrades['scruple_inhibitor'] > 0
 		
+		for i in range (GameManager.player_upgrades['bomb_loader']):
+			max_special_cooldown *= 0.5
+		
 		triple_nock = GameManager.player_upgrades['triple_nock'] > 0
-		tazer_bomb = GameManager.player_upgrades['bomb_belt'] > 0
-	
+		tazer_bomb = GameManager.player_upgrades['tazer_bomb'] > 0
 		max_attack_cooldown = 0.1
 	else:
 		attack_cooldown = 0.75 + randf()*0.75
+		
+	.toggle_enhancement(state)
 		
 
 
@@ -131,7 +133,7 @@ func player_action():
 	update_raycast()
 	update_sight()
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.offset = lerp(GameManager.camera.offset, (get_global_mouse_position() - global_position)/2, 0.1)
 	
 func ai_action():
@@ -170,7 +172,7 @@ func charge_attack():
 	attacking = true
 	charging = true
 	lock_aim = not full_auto
-	max_speed = speed_while_charging
+	override_speed = speed_while_charging
 	
 	charge_timer = charge_time
 	play_animation("Ready")
@@ -193,12 +195,12 @@ func release_attack():
 	var beam_length = (raycast_endpoint - global_position).length()
 	var beam_dir = (raycast_endpoint - global_position)/beam_length
 	
-	if is_in_group("player"):
+	if is_player:
 		GameManager.camera.set_trauma(max(0.4, 0.7*beam_damage/150), 4 if beam_damage > 100 else 5)
 	
 	#melee_attack(attack_beam.get_node("CollisionShape2D"), beam_damage, 500, 0)
 	
-	if is_in_group("player") and triple_nock:
+	if is_player and triple_nock:
 		for i in range(-15, 16, 15):
 			print(i)
 			beam_length = (LaserBeam.shoot_laser(bow_pos, effective_aim_direction.rotated(deg2rad(i)), beam_width*6, self, beam_damage, 500, 0, true, 'archer', 0.5, 5, 500) - global_position).length()
@@ -221,11 +223,8 @@ func release_attack():
 		
 func special():
 	special_cooldown = max_special_cooldown
-	if is_in_group('player'):
-		for i in range (GameManager.player_upgrades['bomb_belt']):
-			special_cooldown *= 0.5
 	attacking = true
-	max_speed = 0
+	override_speed = 0
 	charging = false
 	sight_beam.stop()
 	sight_beam.frame = 1
@@ -235,25 +234,26 @@ func toggle_stealth(state):
 	stealth_mode = state
 
 	if state == true:
-		
+		GameManager.player_hidden = true
 		stealth_timer = 3
-		max_speed = walk_speed*2
+		override_speed = max_speed*2
 		sprite.modulate = Color(0.12, 0.12, 0.12, 0.5)
 	else:
-		if is_in_group('player'):
+		if is_player:
 			GameManager.player_hidden = false
-		max_speed = walk_speed
+		if not charging:
+			override_speed = null
 		sight_beam.frame = 0
 		sprite.modulate = Color.white
 	
 func area_attack():
-	invincible = true
-	if is_in_group('player') and tazer_bomb:
-		deflector_shape.scale(10,10)
-		melee_attack(deflector_shape, 20, 300, 3)
-		deflector_shape.scale(5,5)
+	invincibility_timer = 0.7
+	if is_player and tazer_bomb:
+		deflector_shape.scale = Vector2(10,10)
+		Violence.melee_attack(self, deflector_shape, 20, 300, 3)
+		deflector_shape.scale = Vector2(5,5)
 	else:
-		melee_attack(deflector_shape, 20, 300, 1)
+		Violence.melee_attack(self, deflector_shape, 20, 300, 1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -281,7 +281,7 @@ func _on_Hitbox_area_entered(area):
 			entity.velocity +=  300*(entity.global_position - global_position).normalized()
 			GameManager.camera.set_trauma(0.45)
 			if entity.is_in_group('enemy'):
-				entity.set_invincibility_time(min(stealth_timer, 0.7))
+				entity.invincibility_timer = min(stealth_timer, 0.7)
 			
 			if not entity.is_in_group("bloodless"):
 				GameManager.spawn_blood(entity.global_position, (entity.global_position - global_position).angle(), 300, 50, 30)
@@ -293,19 +293,21 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	elif anim_name == "Attack" or anim_name == "Special":
 		attacking = false
 		lock_aim = false
-		invincible = false
-		max_speed = max(max_speed, walk_speed)
 		
 		sight_beam.stop()
 		sight_beam.modulate = Color(1, 1, 1, 0.5)
-		sight_beam.frame = 0 if anim_name == 'Attack' else 1
+		if anim_name == 'Attack':
+			sight_beam.frame = 0
+			override_speed = null
+		else:
+			sight_beam.frame = 1
 
 	elif anim_name == "Die":
 		if is_in_group("enemy"):
 			actually_die()
 			
 func take_damage(damage, source, stun = 0):
-	if is_in_group('enemy') and stun == 0 and damage < health and special_cooldown < 0 and is_instance_valid(GameManager.player) and (GameManager.player.global_position - global_position).length() < 100:
+	if not is_player and stun == 0 and damage < health and special_cooldown < 0 and not immobile and is_instance_valid(GameManager.player) and (GameManager.player.global_position - global_position).length() < 100:
 		special()
 		ai_move_timer = 4
 		var space_state = get_world_2d().direct_space_state
@@ -329,6 +331,3 @@ func die(killer = null):
 		toggle_stealth(false)
 	.die()
 
-
-func _on_Timer_timeout():
-	invincible = false

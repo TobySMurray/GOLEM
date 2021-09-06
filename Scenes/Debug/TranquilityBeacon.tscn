@@ -53,9 +53,10 @@ margin_bottom = 16.0
 rect_pivot_offset = Vector2( 10, 0 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = ":)a"
+text = ":)"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="body_entered" from="." to="." method="_on_TranquilityBeacon_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_TranquilityBeacon_body_exited"]
