@@ -156,6 +156,9 @@ func show_muzzle_flash():
 	muzzle_flash.show_behind_parent = muzzle_flash.rotation_degrees < -30 and muzzle_flash.rotation_degrees > -150
 	muzzle_flash.frame = 0
 	muzzle_flash.play("Flash")
+	gun_particles.position.x = -13 if facing_left else 13
+	gun_particles.rotation = muzzle_flash.rotation
+	gun_particles.emitting = true
 	
 func start_bash():	
 	attacking = true

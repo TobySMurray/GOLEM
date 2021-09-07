@@ -20,6 +20,9 @@ func _input(ev):
 	if ev is InputEventKey and ev.pressed and ev.scancode == KEY_T and not ev.echo:
 		toggle_tranquil_mode(not tranquil_mode)
 		
+	if ev is InputEventKey and ev.pressed and ev.scancode == KEY_R and not ev.echo:
+		GameManager.swap_bar.enabled = (not GameManager.swap_bar.enabled)
+		
 func toggle_tranquil_mode(state):
 	if not state:
 		print('Retaliation enabled')

@@ -31,7 +31,6 @@ func _physics_process(delta):
 		scale.y = min(1, 0.1 + 0.9*(-2*appear_timer))
 		
 	if is_instance_valid(enemy):
-		enemy.invincibility_timer = 0.5
 		enemy.attack_cooldown += delta/2
 	
 func spawn_enemy(type = Enemy.EnemyType.UNKNOWN):
@@ -39,10 +38,10 @@ func spawn_enemy(type = Enemy.EnemyType.UNKNOWN):
 		type = Util.choose_weighted(GameManager.enemy_scenes.keys(), GameManager.level['enemy_weights'])
 	enemy = GameManager.enemy_scenes[type].instance().duplicate()
 	enemy.immobile = true
-	enemy.invincibility_timer = 0.5
+	enemy.invincible = true
 	enemy.attack_cooldown = 1.0
 	enemy.shoot_through = [self]
-	enemy.get_node('HealthBar').visible = false
+	enemy.get_node('EnemyFX/HealthBar').visible = false
 	enemy.add_swap_shield(1)
 	enemy.add_to_group('enemy')
 	$EnemyContainer.add_child(enemy)
@@ -59,8 +58,10 @@ func die():
 		enemy.swap_shield_health = 0
 		enemy.update_swap_shield()
 		enemy.shoot_through = []
-		enemy.get_node('HealthBar').visible = true
+		enemy.healthbar.visible = true
 		Util.reparent_to(enemy, get_parent())
 		enemy.global_position = global_position - enemy.foot_offset
+		enemy.invincible = false
+		enemy.invincibility_timer = 0.7
 	emit_signal('on_death', enemy)
 	queue_free()

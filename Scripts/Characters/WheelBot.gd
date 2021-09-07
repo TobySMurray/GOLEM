@@ -1,6 +1,6 @@
 extends "res://Scripts/Enemy.gd"
 
-const DustTrail = preload('res://Scenes/DustTrail.tscn')
+const DustTrail = preload('res://Scenes/Particles/DustTrail.tscn')
 
 onready var dash_fx = $DashFX
 onready var audio = $AudioStreamPlayer2D
@@ -9,6 +9,7 @@ onready var charge_audio = $ChargeAudio
 onready var movement_raycast = $RayCast2D
 onready var aimbot_collider = $AimbotCollider
 onready var aimbot_reticle = $AimbotReticle
+onready var wheel_particles = $EnemyFX/FootsetpParticles
 
 var walk_speed
 var burst_size
@@ -137,7 +138,6 @@ func misc_update(delta):
 				exhaust_timer = 0.35
 				Violence.shoot_bullet(self, global_position, -velocity.rotated(PI/6*(randf()-0.5)), 5, 0.25, 1.5, 'flame')
 		
-	#set_dash_fx_position()
 	
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:

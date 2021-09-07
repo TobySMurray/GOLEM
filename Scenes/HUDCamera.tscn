@@ -51,6 +51,7 @@ current = true
 script = ExtResource( 1 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="SwapBar" parent="CanvasLayer" instance=ExtResource( 12 )]
 anchor_left = 0.5
@@ -86,9 +87,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NoiseOverlay" type="CanvasLayer" parent="."]
-
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="Cursor" parent="CanvasLayer2" instance=ExtResource( 8 )]
 modulate = Color( 1, 1, 1, 1 )

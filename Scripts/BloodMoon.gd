@@ -6,16 +6,22 @@ onready var speed_audio = $Speed
 onready var boss_audio = $Boss
 onready var collider = $CollisionShape2D
 onready var sprite = $AnimatedSprite
+onready var grayscale_filter = $CanvasLayer2/GrayscaleFilter
 
 var selected_enemy
 signal selected_enemy_signal
 var moon_visible = false
 var visual_snap_pos = Vector2.ZERO
+var grayscale_intensity = 0.0
 
 func _physics_process(delta):
 	selected_enemy = null
+	grayscale_filter.rect_position = get_global_transform_with_canvas().origin - Vector2(750, 750)
+	
+	
 	if moon_visible:
 		modulate = lerp(modulate, Color(1,1,1,1), 0.1)
+		grayscale_intensity = lerp(grayscale_intensity, 1.0, 0.1)
 		
 		var space_rid = get_world_2d().space
 		var space_state = Physics2DServer.space_get_direct_state(space_rid)
@@ -58,8 +64,11 @@ func _physics_process(delta):
 			else:
 				sprite.position = Vector2.ZERO
 			
-	if !moon_visible:
+	else:
 		modulate = lerp(modulate, Color(1,1,1,0), 0.2)
+		grayscale_intensity = lerp(grayscale_intensity, 0.0, 0.2)
+		
+	grayscale_filter.material.set_shader_param('INTENSITY', grayscale_intensity)
 		
 func draw_transcender(origin):
 	var transcender_curve = Curve2D.new()

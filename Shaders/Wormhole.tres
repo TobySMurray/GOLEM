@@ -1,0 +1,34 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float RESOLUTION = 1.0;
+uniform float FREQ = 1.0;
+uniform float ALPHA = 1.0;
+uniform float ALPHA_SHIFT = 0.0;
+uniform vec3 color = vec3(1, 1, 1);
+
+float rand(vec2 coord){
+	return fract(sin(dot(coord, vec2(21.6782397, 5.4359876739)))*1000.3475938);
+}
+
+vec2 quantize(vec2 v, float r){
+	return floor(v*r)/r;
+}
+
+void fragment(){
+	float tex_alpha = texture(TEXTURE, UV).a;
+	vec2 centered_uv = abs(UV - vec2(0.5, 0.5));
+	vec2 QUV = quantize(centered_uv*600.0*tex_alpha, RESOLUTION);
+	COLOR = vec4(color, max(0, (rand(QUV + TIME*FREQ)+ALPHA_SHIFT)*ALPHA*tex_alpha));
+}"
+
+[resource]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/RESOLUTION = 0.5
+shader_param/FREQ = 0.001
+shader_param/ALPHA = 2.0
+shader_param/ALPHA_SHIFT = 0.2
+shader_param/color = Vector3( 1, 1, 1 )

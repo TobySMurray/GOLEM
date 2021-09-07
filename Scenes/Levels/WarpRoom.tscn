@@ -120,11 +120,7 @@ position = Vector2( 45.3845, 322.363 )
 
 [node name="Transcender" parent="WorldObjects/Characters" instance=ExtResource( 19 )]
 
-[node name="BossSoul" parent="WorldObjects/Characters" groups=[
-"enemy",
-"enemylike",
-"host",
-] instance=ExtResource( 1 )]
+[node name="BossSoul" parent="WorldObjects/Characters" instance=ExtResource( 1 )]
 
 [node name="Fog" parent="." instance=ExtResource( 20 )]
 visible = false

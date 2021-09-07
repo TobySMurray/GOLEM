@@ -234,7 +234,8 @@ func toggle_stealth(state):
 	stealth_mode = state
 
 	if state == true:
-		GameManager.player_hidden = true
+		if is_player:
+			GameManager.player_hidden = true
 		stealth_timer = 3
 		override_speed = max_speed*2
 		sprite.modulate = Color(0.12, 0.12, 0.12, 0.5)

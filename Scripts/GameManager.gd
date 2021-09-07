@@ -52,12 +52,15 @@ var timescale = 1
 var target_timescale = 1
 var timescale_lerp_rate = 12
 var timescale_timer = -1
+var hitstop_timer = -1
 
 var player
 var true_player
 
 var player_hidden = true
 var swap_confusion = false
+
+var hitstop = false
 var swap_confusion_timer = 0
 
 var can_swap = false
@@ -179,6 +182,12 @@ func _process(delta):
 		Engine.time_scale = timescale
 	else:
 		timescale_timer -= delta/timescale
+		
+	if hitstop:
+		hitstop_timer -= delta/timescale
+		if hitstop_timer < 0:
+			get_tree().paused = false
+			hitstop = false
 		
 	game_time += delta	
 	if is_instance_valid(true_player):
@@ -343,13 +352,17 @@ func set_timescale(scale, lock_duration = 0, lerp_rate = 12):
 	timescale_timer = lock_duration
 	timescale_lerp_rate = lerp_rate
 	
+func hitstop(duration):
+	hitstop = true
+	hitstop_timer = duration
+	get_tree().paused = true
 	
 func toggle_swap(state):
 	if state == true and not can_swap:
 		return
 		
 	swapping = state
-	swap_timer = 1.5
+	swap_timer = 111.5
 	swap_bar.sparks.emitting = false
 	swap_bar.rising_audio.stop()
 	
@@ -559,7 +572,7 @@ func give_player_random_upgrade(type = Enemy.EnemyType.UNKNOWN):
 func give_player_upgrade(upgrade):
 	print("New upgrade: "+ upgrade)
 	player_upgrades[upgrade] += 1
-	if true_player:
+	if true_player and true_player.is_in_group('enemy'):
 		true_player.toggle_enhancement(true)
 	
 	var popup = upgrade_popup.duplicate()

@@ -4,7 +4,7 @@ class_name Boss
 
 const LevelLoadTrigger = preload('res://Scenes/LevelLoadTrigger.tscn')
 const GhostImage = preload('res://Scenes/GhostImage.tscn')
-onready var healthbar = $HealthBar
+onready var healthbar = $EnemyFX/HealthBar
 
 # STATE MACHINE VARS
 var current_state = 0

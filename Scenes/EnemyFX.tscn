@@ -1,254 +1,257 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=78 format=2]
 
-[ext_resource path="res://Art/Environment/Sci-fi Animations/blood moon sprite.png" type="Texture" id=1]
-[ext_resource path="res://Scripts/BloodMoon.gd" type="Script" id=2]
-[ext_resource path="res://Sounds/SoundEffects/slowdown MID.wav" type="AudioStream" id=3]
-[ext_resource path="res://Sounds/SoundEffects/slowdown END.wav" type="AudioStream" id=4]
-[ext_resource path="res://Sounds/SoundEffects/slowdown BGN.wav" type="AudioStream" id=5]
-[ext_resource path="res://Sounds/SoundEffects/LVup.wav" type="AudioStream" id=6]
-[ext_resource path="res://Shaders/Greyscale.tres" type="Material" id=7]
+[ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Particles/EVParticles.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Art/Particles/DustCurl.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/FakeExplosiveness.gd" type="Script" id=6]
+[ext_resource path="res://Art/Environment/Sci-fi Animations/clear moon sprite.png" type="Texture" id=7]
+[ext_resource path="res://Art/medShadow.png" type="Texture" id=8]
+[ext_resource path="res://Art/Particles/DustPuff.png" type="Texture" id=9]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 18.5885
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.615894, 1 )
+colors = PoolColorArray( 1, 0.0976563, 0.795563, 0.854902, 0.5625, 0, 0, 0.85098, 0, 0, 0, 0 )
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 128, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 256, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 384, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 512, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 640, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 768, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 896, 0, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 128, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 256, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 384, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 512, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 640, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 768, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 896, 128, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 256, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 128, 256, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 256, 256, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 384, 256, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 512, 256, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 640, 256, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 768, 256, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 896, 256, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 384, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 128, 384, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 256, 384, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 384, 384, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 512, 384, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 640, 384, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 768, 384, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 896, 384, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 512, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 128, 512, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 256, 512, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 384, 512, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=38]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 512, 512, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=39]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 640, 512, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=40]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 768, 512, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=41]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 896, 512, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=42]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 640, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=43]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 128, 640, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=44]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 256, 640, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=45]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 384, 640, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=46]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 512, 640, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=47]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 640, 640, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=48]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 768, 640, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=49]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 896, 640, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=50]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 768, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=51]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 128, 768, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=52]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 256, 768, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=53]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 384, 768, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=54]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 512, 768, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=55]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 640, 768, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=56]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 768, 768, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=57]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 896, 768, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=58]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 896, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=59]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 128, 896, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=60]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 256, 896, 128, 128 )
 
 [sub_resource type="AtlasTexture" id=61]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 384, 896, 128, 128 )
 
 [sub_resource type="SpriteFrames" id=62]
@@ -256,61 +259,103 @@ animations = [ {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
+"speed": 20.0
 } ]
 
-[node name="BloodMoon" type="Area2D"]
-z_index = 2
-collision_layer = 0
-script = ExtResource( 2 )
+[sub_resource type="CanvasItemMaterial" id=63]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.198425, 1.19055 )
-scale = Vector2( 1.5, 1.5 )
-shape = SubResource( 1 )
+[sub_resource type="ParticlesMaterial" id=64]
+emission_shape = 2
+emission_box_extents = Vector3( 3, 1, 1 )
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 15.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle_random = 1.0
+anim_speed = 1.0
+anim_speed_random = 0.5
+anim_offset = 0.2
+anim_offset_random = 1.0
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-light_mask = 2
+[sub_resource type="CanvasItemMaterial" id=65]
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=67]
+offsets = PoolRealArray( 0, 0.27972, 1 )
+colors = PoolColorArray( 0.92549, 0.627451, 0.243137, 0.792157, 0.341176, 0.0784314, 0.0784314, 0.784314, 0, 0, 0, 0.278431 )
+
+[sub_resource type="GradientTexture" id=68]
+gradient = SubResource( 67 )
+
+[sub_resource type="ParticlesMaterial" id=66]
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 200.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 200.0
+angle = 90.0
+angle_random = 1.0
+color_ramp = SubResource( 68 )
+anim_speed = 1.5
+anim_speed_random = 0.5
+anim_offset = 0.5
+anim_offset_random = 1.0
+
+[node name="EnemyFX" type="Node2D"]
+
+[node name="CharacterLights" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="EVParticles" parent="." instance=ExtResource( 3 )]
+color_ramp = SubResource( 1 )
+
+[node name="ClearMoon" parent="." instance=ExtResource( 2 )]
+z_index = -1
 frames = SubResource( 62 )
 frame = 45
-speed_scale = 30.0
-playing = true
-offset = Vector2( -1, 0 )
 
-[node name="Slow" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 5 )
-volume_db = -5.0
-bus = "Effects"
+[node name="HealthBar" parent="." instance=ExtResource( 1 )]
+margin_left = -40.0
+margin_top = -10.0
+margin_right = 40.0
+margin_bottom = -2.0
+rect_pivot_offset = Vector2( 40, 0 )
 
-[node name="Stopped" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
-volume_db = -12.0
-attenuation = 0.63728
-bus = "Effects"
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
+position = Vector2( 0, 10 )
+scale = Vector2( 0.8, 0.8 )
+z_index = -1
+texture = ExtResource( 8 )
 
-[node name="Speed" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 4 )
-volume_db = -6.0
-bus = "Effects"
+[node name="FootsetpParticles" type="Particles2D" parent="."]
+material = SubResource( 63 )
+emitting = false
+amount = 40
+lifetime = 0.5
+local_coords = false
+process_material = SubResource( 64 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
 
-[node name="Boss" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
-volume_db = -2.0
-bus = "Effects"
-
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
-
-[node name="GrayscaleFilter" type="ColorRect" parent="CanvasLayer2"]
-material = ExtResource( 7 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -750.0
-margin_top = -750.0
-margin_right = 110.0
-margin_bottom = 390.0
-color = Color( 1, 1, 1, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[connection signal="finished" from="Slow" to="." method="_on_Slow_finished"]
+[node name="GunParticles" type="Particles2D" parent="."]
+material = SubResource( 65 )
+emitting = false
+amount = 200
+lifetime = 0.6
+local_coords = false
+process_material = SubResource( 66 )
+texture = ExtResource( 9 )
+script = ExtResource( 6 )

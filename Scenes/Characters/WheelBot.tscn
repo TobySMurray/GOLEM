@@ -1,8 +1,8 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Scripts/Characters/WheelBot.gd" type="Script" id=1]
 [ext_resource path="res://Art/Characters/Bot Wheel/move without FX.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/BloodMoon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/EnemyFX.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Art/Characters/Bot Wheel/GAS dash with FX.png" type="Texture" id=4]
 [ext_resource path="res://Art/Characters/Bot Wheel/shoot with FX.png" type="Texture" id=5]
 [ext_resource path="res://Art/Characters/Bot Wheel/charge.png" type="Texture" id=6]
@@ -10,15 +10,10 @@
 [ext_resource path="res://Art/Characters/Bot Wheel/death.png" type="Texture" id=8]
 [ext_resource path="res://Art/Characters/Bot Wheel/damaged.png" type="Texture" id=9]
 [ext_resource path="res://Art/Characters/Bot Wheel/GAS dash FX.png" type="Texture" id=10]
-[ext_resource path="res://Scenes/HealthBar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Sounds/SoundEffects/shoot1.wav" type="AudioStream" id=12]
 [ext_resource path="res://Sounds/SoundEffects/dash.wav" type="AudioStream" id=13]
 [ext_resource path="res://Sounds/SoundEffects/wheel2.wav" type="AudioStream" id=14]
 [ext_resource path="res://Sounds/SoundEffects/wheeldie.wav" type="AudioStream" id=15]
-[ext_resource path="res://Scenes/ClearMoon.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Scenes/Particles/EVParticles.tscn" type="PackedScene" id=17]
-[ext_resource path="res://Scenes/CharacterLights.tscn" type="PackedScene" id=18]
-[ext_resource path="res://Art/medShadow.png" type="Texture" id=19]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=20]
 [ext_resource path="res://Art/LockOnTarget-sheet.png" type="Texture" id=21]
 [ext_resource path="res://Sounds/SoundEffects/SawArp.wav" type="AudioStream" id=22]
@@ -61,6 +56,18 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("EnemyFX/FootsetpParticles:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -333,6 +340,18 @@ tracks/3/keys = {
 } ],
 "times": PoolRealArray( 0 )
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("EnemyFX/FootsetpParticles:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, true, true, true ]
+}
 
 [sub_resource type="CapsuleShape2D" id=8]
 radius = 3.0
@@ -411,13 +430,6 @@ collision_layer = 0
 collision_mask = 1025
 script = ExtResource( 1 )
 
-[node name="Shadow" type="Sprite" parent="."]
-modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
-position = Vector2( 0.285885, 9.79867 )
-scale = Vector2( 0.6, 0.8 )
-z_index = -1
-texture = ExtResource( 19 )
-
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 5
 material = ExtResource( 20 )
@@ -438,10 +450,8 @@ anims/Walk = SubResource( 7 )
 position = Vector2( -0.117981, 4.83736 )
 shape = SubResource( 8 )
 
-[node name="BloodMoon" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0.0102234, -0.932678 )
-
 [node name="DashFX" type="AnimatedSprite" parent="."]
+visible = false
 light_mask = 5
 frames = SubResource( 16 )
 animation = "Swoosh"
@@ -456,13 +466,6 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 17 )
-
-[node name="HealthBar" parent="." instance=ExtResource( 11 )]
-margin_left = -40.0
-margin_top = -21.0
-margin_right = 40.0
-margin_bottom = -13.0
-rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 12 )
@@ -489,17 +492,8 @@ volume_db = -12.0
 max_distance = 500.0
 bus = "Effects"
 
-[node name="ClearMoon" parent="." instance=ExtResource( 16 )]
-position = Vector2( 0.26487, 7.94597 )
-frame = 1
-
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
-
-[node name="EVParticles" parent="." instance=ExtResource( 17 )]
-
-[node name="CharacterLights" parent="." instance=ExtResource( 18 )]
-visible = false
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 0, 4.8 )
@@ -516,10 +510,29 @@ polygon = PoolVector2Array( 0, 20, 0, -20, 300, -150, 300, 150 )
 [node name="AimbotReticle" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 22 )
-frame = 3
+frame = 1
 playing = true
+
+[node name="EnemyFX" parent="." instance=ExtResource( 3 )]
+
+[node name="ClearMoon" parent="EnemyFX" index="2"]
+position = Vector2( 0, 7 )
+frame = 4
+
+[node name="HealthBar" parent="EnemyFX" index="3"]
+margin_top = -21.0
+margin_bottom = -13.0
+
+[node name="Shadow" parent="EnemyFX" index="4"]
+scale = Vector2( 0.6, 0.8 )
+
+[node name="FootsetpParticles" parent="EnemyFX" index="5"]
+position = Vector2( 0, 8 )
+emitting = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="area_entered" from="AimbotCollider" to="." method="_on_AimbotCollider_area_entered"]
 [connection signal="area_exited" from="AimbotCollider" to="." method="_on_AimbotCollider_area_exited"]
+
+[editable path="EnemyFX"]

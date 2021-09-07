@@ -102,11 +102,11 @@ func misc_update(delta):
 		quickstepping = false
 		override_speed = null
 		
-	attack_collider.position.x = -34 if facing_left else 34
-	if facing_left:
-		$Shadow.offset.x = -8
-	if !facing_left:
-		$Shadow.offset.x = 0
+#	attack_collider.position.x = -34 if facing_left else 34
+#	if facing_left:
+#		$Shadow.offset.x = -8
+#	if !facing_left:
+#		$Shadow.offset.x = 0
 
 func player_action():
 	if Input.is_action_just_pressed("attack1") and attack_cooldown < 0:
@@ -189,7 +189,7 @@ func charge():
 	else:
 		charging = true
 		attacking = true
-		lock_aim = is_in_group('enemy')
+		lock_aim = not is_player
 		override_speed = speed_while_charging
 		charge_level = init_charge
 		play_animation("Charge")
@@ -197,6 +197,7 @@ func charge():
 func attack():
 	charging = false
 	attack_cooldown = max_attack_cooldown
+	attack_collider.position.x = -34 if facing_left else 34
 	play_animation("Attack")
 	
 func quickstep(dir):

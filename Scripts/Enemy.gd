@@ -15,18 +15,17 @@ enum EnemyType {
 }
 
 #onready var transcender_curve = Curve2D.new()
-onready var healthbar = $HealthBar
-onready var EV_particles = $EVParticles
+onready var healthbar = $EnemyFX/HealthBar
+onready var EV_particles = $EnemyFX/EVParticles
 #onready var astar = self.get_parent().get_node("AStar")
 onready var shape = $CollisionShape2D
-onready var light_circle = $CharacterLights/Radial
-onready var light_beam = $CharacterLights/Directed
+onready var light_circle = $EnemyFX/CharacterLights/Radial
+onready var light_beam = $EnemyFX/CharacterLights/Directed
+onready var gun_particles = $EnemyFX/GunParticles
 
 onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/relaod.wav')
 
 var score = 0
-
-var override_speed = null
 
 var attacking = false
 var attack_cooldown = 0
@@ -134,12 +133,6 @@ func _physics_process(delta):
 		move(delta)
 	else:
 		velocity = Vector2.ZERO
-	
-	
-func move(delta):
-	var speed = override_speed if override_speed != null else max_speed
-	velocity = lerp(velocity, target_velocity.normalized()*speed, accel*delta)	
-	velocity = move_and_slide(velocity)
 
 func player_move(_delta):
 	var input = Vector2()
@@ -433,6 +426,7 @@ func die(killer = null):
 				effective_score = int(effective_score)
 				GameManager.increase_score(effective_score)
 				emit_score_popup(effective_score, message)
+				#GameManager.hitstop(0.06)
 				
 				if kill_validity == 2:
 					GameManager.kills += 1

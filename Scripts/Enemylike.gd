@@ -5,7 +5,7 @@ const score_popup = preload("res://Scenes/ScorePopup.tscn")
 
 onready var animplayer = $AnimationPlayer
 onready var sprite = $Sprite
-onready var swap_shield = get_node_or_null('ClearMoon')
+var swap_shield
 
 export var max_health = 100
 onready var health = float(max_health)
@@ -19,6 +19,9 @@ var enemy_type = 8 #Stupid hack, can't reference Enemy.EnemyType in a superclass
 var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
 var aim_direction = Vector2.ZERO
+
+var override_speed = null
+var override_accel = null
 
 var stunned = false
 var stun_timer = 0
@@ -35,13 +38,20 @@ var flip_offset = 0
 var dead = false
 var death_timer = 0
 
+func _ready():
+	swap_shield = get_node_or_null('EnemyFX/ClearMoon')
+	if not swap_shield:
+		swap_shield = get_node_or_null('ClearMoon')
 
+func move(delta):
+	var cur_speed = override_speed if override_speed != null else max_speed
+	var cur_accel = override_accel if override_accel != null else accel
+	velocity = lerp(velocity, target_velocity.normalized()*cur_speed, cur_accel*delta)	
+	velocity = move_and_slide(velocity)
+	
 func play_animation(anim):
 	if not dead:
 		animplayer.play(anim)
-
-func move(delta):
-	pass
 	
 func take_damage(damage, source, stun = 0):
 	pass

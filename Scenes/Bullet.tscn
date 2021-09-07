@@ -78,10 +78,10 @@ script = ExtResource( 2 )
 light_mask = 2
 frames = SubResource( 11 )
 animation = "Pellet"
-frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 12 )
+
 [connection signal="area_entered" from="." to="." method="_on_Area2D_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]

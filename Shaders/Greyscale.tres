@@ -1,0 +1,22 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=3]
+code = "shader_type canvas_item;
+
+uniform float RADIUS = 1.0;
+uniform float INTENSITY = 0.0;
+
+void fragment(){
+	vec4 bg = texture(SCREEN_TEXTURE, SCREEN_UV);
+	float v  = (bg.r + bg.g + bg.b)/3.0;
+	vec2 centered_UV = (UV - vec2(0.5, 0.5))*2.0;
+	float d = min(length(centered_UV)/RADIUS, 1.0);
+	float s = 1.0 - pow(d, 2)*INTENSITY;
+	float t = 1.0 - s;
+	COLOR = vec4(bg.r*s + v*t, bg.g*s + v*t, bg.b*s + v*t, bg.a);
+}"
+
+[resource]
+shader = SubResource( 3 )
+shader_param/RADIUS = 0.2
+shader_param/INTENSITY = 1.0
