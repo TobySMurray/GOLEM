@@ -25,11 +25,11 @@
 [ext_resource path="res://Sounds/SoundEffects/Zing.wav" type="AudioStream" id=23]
 [ext_resource path="res://Sounds/SoundEffects/chaindie.wav" type="AudioStream" id=24]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=34]
 radius = 6.67502
 height = 9.0
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=35]
 resource_name = "Appear"
 length = 1.1
 step = 0.05
@@ -98,7 +98,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0.5 )
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=36]
 resource_name = "Attack"
 length = 1.05
 step = 0.02
@@ -170,7 +170,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0.5 )
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=37]
 resource_name = "Die"
 length = 0.7
 tracks/0/type = "value"
@@ -248,7 +248,7 @@ tracks/5/keys = {
 "values": [ 0.5, 0.7 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=38]
 resource_name = "Entrench"
 length = 0.9
 tracks/0/type = "value"
@@ -288,7 +288,7 @@ tracks/2/keys = {
 "values": [ 0, 0, 6, 7, 8, 9, 10, 11, 12 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=39]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -327,7 +327,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=40]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -367,7 +367,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=41]
 length = 1.1
 step = 0.02
 tracks/0/type = "value"
@@ -407,7 +407,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 5, 8, 9, 10, 11, 12, 13 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=42]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -488,61 +488,61 @@ tracks/5/keys = {
 "values": [ 1.0 ]
 }
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 108, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 216, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 324, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 540, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=15]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 864, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=16]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 972, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 1080, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 1188, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 1296, 97, 108 )
 
-[sub_resource type="AtlasTexture" id=20]
+[sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 7 )
 region = Rect2( 0, 1404, 97, 108 )
 
-[sub_resource type="SpriteFrames" id=21]
+[sub_resource type="SpriteFrames" id=27]
 animations = [ {
-"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), null ],
+"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), null ],
 "loop": false,
 "name": "Vanish",
 "speed": 10.0
 } ]
 
-[sub_resource type="CircleShape2D" id=22]
+[sub_resource type="CircleShape2D" id=28]
 
-[sub_resource type="Shader" id=23]
+[sub_resource type="Shader" id=29]
 code = "shader_type canvas_item;
 
 uniform float RESOLUTION = 1.0;
@@ -567,16 +567,16 @@ void fragment(){
 
 "
 
-[sub_resource type="ShaderMaterial" id=24]
+[sub_resource type="ShaderMaterial" id=30]
 resource_local_to_scene = true
-shader = SubResource( 23 )
+shader = SubResource( 29 )
 shader_param/RESOLUTION = 0.2
 shader_param/FREQ = 0.002
 shader_param/ALPHA = 0.7
 shader_param/ALPHA_SHIFT = -0.336
 shader_param/color = Vector3( 0.5, 0.5, 1 )
 
-[sub_resource type="CapsuleShape2D" id=25]
+[sub_resource type="CapsuleShape2D" id=31]
 radius = 5.0
 height = 25.0
 
@@ -600,33 +600,32 @@ texture = ExtResource( 19 )
 wait_time = 0.25
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.25, 1.25, 1.25, 1 )
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( -12, -30 )
-texture = ExtResource( 7 )
-vframes = 14
-frame = 13
+texture = ExtResource( 4 )
+vframes = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.21, 10 )
-shape = SubResource( 1 )
+shape = SubResource( 34 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Appear = SubResource( 2 )
-anims/Attack = SubResource( 3 )
-anims/Die = SubResource( 4 )
-anims/Entrench = SubResource( 5 )
-anims/Hit = SubResource( 6 )
-anims/Idle = SubResource( 7 )
-anims/Vanish = SubResource( 8 )
-anims/Walk = SubResource( 9 )
+anims/Appear = SubResource( 35 )
+anims/Attack = SubResource( 36 )
+anims/Die = SubResource( 37 )
+anims/Entrench = SubResource( 38 )
+anims/Hit = SubResource( 39 )
+anims/Idle = SubResource( 40 )
+anims/Vanish = SubResource( 41 )
+anims/Walk = SubResource( 42 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
-visible = false
 
 [node name="TeleportSprite" type="AnimatedSprite" parent="."]
 light_mask = 5
-frames = SubResource( 21 )
+frames = SubResource( 27 )
 animation = "Vanish"
 frame = 11
 offset = Vector2( -13, -30 )
@@ -639,15 +638,15 @@ collision_layer = 0
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Deflector"]
-visible = false
 position = Vector2( 0, 5 )
 scale = Vector2( 6.5, 6.5 )
-shape = SubResource( 22 )
+shape = SubResource( 28 )
 
 [node name="DeflectorVisual" type="Sprite" parent="Deflector"]
+modulate = Color( 2, 2, 2, 1 )
 show_behind_parent = true
 light_mask = 2
-material = SubResource( 24 )
+material = SubResource( 30 )
 position = Vector2( 0, 5 )
 texture = ExtResource( 16 )
 
@@ -665,7 +664,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2( 7.62939e-06, 5.29732 )
-shape = SubResource( 25 )
+shape = SubResource( 31 )
 
 [node name="HealthBar" parent="." instance=ExtResource( 10 )]
 margin_left = -40.0
@@ -676,9 +675,10 @@ rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0.137764, 18.2383 )
+frame = 44
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 24 )
+stream = ExtResource( 14 )
 volume_db = -7.0
 pitch_scale = 0.7
 max_distance = 500.0

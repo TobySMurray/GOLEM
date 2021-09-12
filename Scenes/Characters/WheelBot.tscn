@@ -419,11 +419,12 @@ z_index = -1
 texture = ExtResource( 19 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.25, 1.25, 1.25, 1 )
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( 36, -2 )
-texture = ExtResource( 5 )
-vframes = 4
+texture = ExtResource( 2 )
+vframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -491,7 +492,7 @@ bus = "Effects"
 
 [node name="ClearMoon" parent="." instance=ExtResource( 16 )]
 position = Vector2( 0.26487, 7.94597 )
-frame = 1
+frame = 10
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
@@ -516,7 +517,7 @@ polygon = PoolVector2Array( 0, 20, 0, -20, 300, -150, 300, 150 )
 [node name="AimbotReticle" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 22 )
-frame = 3
+frame = 2
 playing = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

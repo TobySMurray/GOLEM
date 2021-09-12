@@ -22,7 +22,7 @@
 [ext_resource path="res://Sounds/SoundEffects/wheeldie.wav" type="AudioStream" id=20]
 [ext_resource path="res://Sounds/SoundEffects/chargeshot2.wav" type="AudioStream" id=21]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=21]
 resource_name = "Attack"
 length = 2.1
 loop = true
@@ -63,7 +63,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 20 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=22]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -140,7 +140,7 @@ tracks/5/keys = {
 "values": [ -14.0 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=23]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -179,7 +179,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=24]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -219,7 +219,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=25]
 resource_name = "Idle Saberless"
 length = 0.6
 loop = true
@@ -260,7 +260,7 @@ tracks/2/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=26]
 resource_name = "Sheath"
 length = 0.55
 step = 0.05
@@ -315,7 +315,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=27]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:texture")
@@ -406,7 +406,7 @@ tracks/6/keys = {
 "values": [ -3.0 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=28]
 length = 0.55
 step = 0.05
 tracks/0/type = "value"
@@ -460,7 +460,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=15]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -542,7 +542,7 @@ tracks/5/keys = {
 "values": [ -24.0 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=16]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -612,17 +612,17 @@ tracks/4/keys = {
 "values": [ 0.2, 0.35 ]
 }
 
-[sub_resource type="CircleShape2D" id=11]
+[sub_resource type="CircleShape2D" id=17]
 radius = 7.29989
 
-[sub_resource type="CapsuleShape2D" id=12]
+[sub_resource type="CapsuleShape2D" id=18]
 radius = 4.37527
 height = 16.3953
 
-[sub_resource type="RectangleShape2D" id=13]
+[sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 33.7325, 7.86822 )
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=20]
 extents = Vector2( 63.1815, 14.6037 )
 
 [node name="SaberBot" type="KinematicBody2D" groups=[
@@ -645,31 +645,32 @@ texture = ExtResource( 14 )
 position = Vector2( -0.34697, -0.158186 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
-frame = 34
+frame = 31
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
 light_mask = 5
 material = ExtResource( 18 )
 position = Vector2( 8, -19.057 )
 texture = ExtResource( 2 )
 vframes = 5
-frame = 4
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Attack = SubResource( 1 )
-anims/Die = SubResource( 2 )
-anims/Hit = SubResource( 3 )
-anims/Idle = SubResource( 4 )
-"anims/Idle Saberless" = SubResource( 5 )
-anims/Sheath = SubResource( 6 )
-anims/Special = SubResource( 7 )
-anims/Unsheath = SubResource( 8 )
-anims/Walk = SubResource( 9 )
-"anims/Walk Saberless" = SubResource( 10 )
+anims/Attack = SubResource( 21 )
+anims/Die = SubResource( 22 )
+anims/Hit = SubResource( 23 )
+anims/Idle = SubResource( 24 )
+"anims/Idle Saberless" = SubResource( 25 )
+anims/Sheath = SubResource( 26 )
+anims/Special = SubResource( 27 )
+anims/Unsheath = SubResource( 28 )
+anims/Walk = SubResource( 15 )
+"anims/Walk Saberless" = SubResource( 16 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
-shape = SubResource( 11 )
+shape = SubResource( 17 )
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -680,7 +681,7 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2( -0.472473, -0.629959 )
-shape = SubResource( 12 )
+shape = SubResource( 18 )
 
 [node name="SlashTrigger" type="Area2D" parent="."]
 collision_layer = 0
@@ -688,18 +689,19 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SlashTrigger"]
 visible = false
-shape = SubResource( 13 )
+shape = SubResource( 19 )
 disabled = true
 
 [node name="Sprite" type="Sprite" parent="SlashTrigger"]
 visible = false
+modulate = Color( 1.25, 1.25, 1.25, 1 )
 scale = Vector2( 21, 8 )
 texture = ExtResource( 12 )
 
 [node name="SlashCollider" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( 10, 0 )
-shape = SubResource( 14 )
+shape = SubResource( 20 )
 disabled = true
 
 [node name="LineOfSightRaycast" type="RayCast2D" parent="."]
@@ -719,7 +721,7 @@ rect_pivot_offset = Vector2( 40, 0 )
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 21 )
 volume_db = -3.0
-pitch_scale = 0.2
+pitch_scale = 0.25
 max_distance = 1000.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -20,11 +20,11 @@
 [ext_resource path="res://Sounds/SoundEffects/wheel2.wav" type="AudioStream" id=18]
 [ext_resource path="res://Sounds/SoundEffects/chargeshot2.wav" type="AudioStream" id=19]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=37]
 radius = 6.0
 height = 3.0
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=38]
 resource_name = "Attack"
 length = 0.8
 tracks/0/type = "value"
@@ -78,7 +78,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=39]
 resource_name = "Die"
 length = 0.6
 tracks/0/type = "value"
@@ -156,7 +156,7 @@ tracks/5/keys = {
 "values": [ -12.0 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=40]
 resource_name = "Hit"
 length = 0.4
 tracks/0/type = "value"
@@ -196,7 +196,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 0, 1 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=41]
 resource_name = "Idle"
 length = 0.5
 loop = true
@@ -237,7 +237,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=42]
 resource_name = "Special"
 length = 0.8
 step = 0.05
@@ -295,8 +295,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "Walk"
+[sub_resource type="Animation" id=43]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -374,86 +373,86 @@ tracks/5/keys = {
 "values": [ -18.0 ]
 }
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=44]
 
-[sub_resource type="CapsuleShape2D" id=9]
+[sub_resource type="CapsuleShape2D" id=45]
 radius = 6.3286
 height = 13.1582
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 6 )
 region = Rect2( 118, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 6 )
 region = Rect2( 236, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 6 )
 region = Rect2( 354, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 6 )
 region = Rect2( 472, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=15]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 5 )
 region = Rect2( 354, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=16]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 5 )
 region = Rect2( 472, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 5 )
 region = Rect2( 590, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 5 )
 region = Rect2( 708, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 5 )
 region = Rect2( 826, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=20]
+[sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=21]
+[sub_resource type="AtlasTexture" id=27]
 atlas = ExtResource( 3 )
 region = Rect2( 118, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=22]
+[sub_resource type="AtlasTexture" id=28]
 atlas = ExtResource( 3 )
 region = Rect2( 236, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=29]
 atlas = ExtResource( 3 )
 region = Rect2( 354, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 3 )
 region = Rect2( 472, 0, 118, 107 )
 
-[sub_resource type="SpriteFrames" id=25]
+[sub_resource type="SpriteFrames" id=31]
 animations = [ {
-"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
 "loop": true,
 "name": "Walk",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
 "loop": false,
 "name": "Attack",
 "speed": 10.0
 } ]
 
-[sub_resource type="Shader" id=26]
+[sub_resource type="Shader" id=32]
 code = "shader_type canvas_item;
 
 uniform float RESOLUTION = 1.0;
@@ -478,15 +477,15 @@ void fragment(){
 
 "
 
-[sub_resource type="ShaderMaterial" id=27]
-shader = SubResource( 26 )
+[sub_resource type="ShaderMaterial" id=33]
+shader = SubResource( 32 )
 shader_param/RESOLUTION = 0.2
 shader_param/FREQ = 0.002
 shader_param/ALPHA = 0.7
 shader_param/ALPHA_SHIFT = -0.336
 shader_param/color = Vector3( 1, 0.5, 0.5 )
 
-[sub_resource type="Curve" id=28]
+[sub_resource type="Curve" id=34]
 _data = [ Vector2( 0, 0.409091 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.2 ), 0.0, 0.0, 0, 0 ]
 
 [node name="SorcererBot" type="KinematicBody2D" groups=[
@@ -505,24 +504,25 @@ z_index = -1
 texture = ExtResource( 13 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
 light_mask = 5
 material = ExtResource( 14 )
 position = Vector2( 7, -37 )
-texture = ExtResource( 1 )
-hframes = 6
-frame = 5
+texture = ExtResource( 5 )
+hframes = 8
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 7 )
-shape = SubResource( 1 )
+shape = SubResource( 37 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Attack = SubResource( 2 )
-anims/Die = SubResource( 3 )
-anims/Hit = SubResource( 4 )
-anims/Idle = SubResource( 5 )
-anims/Special = SubResource( 6 )
-anims/Walk = SubResource( 7 )
+anims/Attack = SubResource( 38 )
+anims/Die = SubResource( 39 )
+anims/Hit = SubResource( 40 )
+anims/Idle = SubResource( 41 )
+anims/Special = SubResource( 42 )
+anims/Walk = SubResource( 43 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 8 )]
 
@@ -534,7 +534,7 @@ margin_bottom = -22.0
 rect_pivot_offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 10 )]
-frame = 55
+frame = 37
 
 [node name="AttackCollider" type="Area2D" parent="."]
 visible = false
@@ -542,7 +542,7 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackCollider"]
 scale = Vector2( 4, 4 )
-shape = SubResource( 8 )
+shape = SubResource( 44 )
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -551,7 +551,7 @@ collision_layer = 6
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-shape = SubResource( 9 )
+shape = SubResource( 45 )
 
 [node name="JojoReference" type="Area2D" parent="." groups=[
 "hitbox",
@@ -564,15 +564,16 @@ collision_mask = 2
 script = ExtResource( 15 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="JojoReference"]
+modulate = Color( 2, 2, 2, 1 )
 light_mask = 5
 position = Vector2( 7, -37 )
-frames = SubResource( 25 )
+frames = SubResource( 31 )
 animation = "Attack"
 frame = 9
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JojoReference"]
-shape = SubResource( 9 )
+shape = SubResource( 45 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="JojoReference"]
 stream = ExtResource( 16 )
@@ -595,12 +596,13 @@ max_distance = 1000.0
 attenuation = 1.5
 
 [node name="Line2D" type="Line2D" parent="."]
+modulate = Color( 1.4, 2.2, 1.66, 1 )
 show_behind_parent = true
 light_mask = 2
-material = SubResource( 27 )
+material = SubResource( 33 )
 points = PoolVector2Array( 0, 0, 200, -100 )
 width = 5.0
-width_curve = SubResource( 28 )
+width_curve = SubResource( 34 )
 default_color = Color( 0.4, 0.501961, 1, 1 )
 texture_mode = 1
 joint_mode = 1

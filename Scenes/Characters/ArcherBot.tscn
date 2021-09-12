@@ -674,9 +674,11 @@ z_index = -1
 texture = ExtResource( 24 )
 
 [node name="BloodMoon" parent="." instance=ExtResource( 1 )]
+visible = false
 position = Vector2( -0.453369, -3.22388 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.25, 1.25, 1.25, 1 )
 light_mask = 5
 material = ExtResource( 25 )
 position = Vector2( 11, -28 )
@@ -694,11 +696,11 @@ anims/Special = SubResource( 7 )
 anims/Walk = SubResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( -1, 5 )
 shape = SubResource( 9 )
 
 [node name="AttackFX" type="AnimatedSprite" parent="."]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
 frames = SubResource( 14 )
 animation = "Flash"
 frame = 4
@@ -707,7 +709,6 @@ offset = Vector2( 7, -28 )
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
 ]]
-visible = false
 collision_layer = 6
 collision_mask = 6
 
@@ -716,7 +717,6 @@ position = Vector2( -0.883881, -0.176777 )
 shape = SubResource( 15 )
 
 [node name="Deflector" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 0
 
@@ -732,7 +732,6 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="BeamRotator/AttackBeam"]
-visible = false
 light_mask = 2
 position = Vector2( 16, 0 )
 frames = SubResource( 26 )
@@ -745,7 +744,6 @@ position = Vector2( 16, 0 )
 shape = SubResource( 27 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-visible = false
 enabled = true
 
 [node name="HealthBar" parent="." instance=ExtResource( 13 )]
@@ -772,7 +770,7 @@ offset = Vector2( 40, 0 )
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
 position = Vector2( -0.611748, 4.18081 )
-frame = 50
+frame = 59
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25

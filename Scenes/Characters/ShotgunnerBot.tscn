@@ -396,6 +396,7 @@ z_index = -1
 texture = ExtResource( 19 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.2, 1.2, 1.2, 1 )
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( 26, -4 )
@@ -417,6 +418,7 @@ anims/Walk = SubResource( 7 )
 [node name="BloodMoon" parent="." instance=ExtResource( 3 )]
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
+modulate = Color( 1.4, 1.4, 1.2, 1 )
 rotation = -1.08909
 frames = SubResource( 14 )
 animation = "Flash"
@@ -473,8 +475,9 @@ volume_db = -4.0
 max_distance = 500.0
 
 [node name="ClearMoon" parent="." instance=ExtResource( 15 )]
+visible = false
 position = Vector2( 0, 11.3892 )
-frame = 37
+frame = 19
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
