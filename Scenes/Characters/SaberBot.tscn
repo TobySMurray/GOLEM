@@ -654,12 +654,13 @@ collision_mask = 1025
 script = ExtResource( 13 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
 light_mask = 5
 material = ExtResource( 18 )
 position = Vector2( 8, -19.057 )
-texture = ExtResource( 10 )
-vframes = 6
-frame = 3
+texture = ExtResource( 2 )
+vframes = 5
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -699,6 +700,7 @@ disabled = true
 
 [node name="Sprite" type="Sprite" parent="SlashTrigger"]
 visible = false
+modulate = Color( 1.25, 1.25, 1.25, 1 )
 scale = Vector2( 21, 8 )
 texture = ExtResource( 12 )
 
@@ -720,19 +722,17 @@ max_distance = 1000.0
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( -1, 7 )
-frame = 43
+frame = 38
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -27.0
 margin_bottom = -19.0
 
-[node name="Shadow" parent="EnemyFX" index="4"]
-position = Vector2( -1, 12 )
-scale = Vector2( 1, 1.2 )
-
-[node name="FootsetpParticles" parent="EnemyFX" index="5"]
-position = Vector2( 0, 10 )
-scale = Vector2( 2, 1 )
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 21 )
+volume_db = -3.0
+pitch_scale = 0.25
+max_distance = 1000.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="SlashTrigger" to="." method="_on_SlashTrigger_area_entered"]

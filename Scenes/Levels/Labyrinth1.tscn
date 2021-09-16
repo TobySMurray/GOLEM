@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Shaders/Fog_Labyrinth.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/Tilesets/DungeonWall.tscn" type="PackedScene" id=2]
@@ -27,6 +27,21 @@
 [ext_resource path="res://Art/Lights/Spotlight.png" type="Texture" id=26]
 [ext_resource path="res://Scenes/Characters/SaberBot.tscn" type="PackedScene" id=27]
 [ext_resource path="res://Scenes/MapZoneManager.tscn" type="PackedScene" id=28]
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0, 0.515385, 0.853846 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.501404, 0.593274, 0.605469, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 7 )
+
+[sub_resource type="Environment" id=8]
+background_mode = 4
+glow_enabled = true
+glow_intensity = 1.0
+glow_strength = 0.95
+glow_blend_mode = 0
+adjustment_color_correction = SubResource( 6 )
 
 [node name="Labyrinth" type="Node2D"]
 script = ExtResource( 18 )
@@ -456,5 +471,8 @@ allowed_spawns = 255
 
 [node name="MapZone36" parent="MapZoneManager/SPAWN" index="41" instance=ExtResource( 10 )]
 rect = Rect2( 1264, 512, 320, 32 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 8 )
 
 [editable path="MapZoneManager"]

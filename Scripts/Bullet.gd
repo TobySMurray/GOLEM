@@ -74,7 +74,7 @@ func set_appearance(type):
 		_:
 			sprite.animation = "Pellet"
 			sprite.offset = Vector2(0, 0)
-			rotate_to_direction = false
+			rotate_to_direction = true
 		
 			
 func despawn():

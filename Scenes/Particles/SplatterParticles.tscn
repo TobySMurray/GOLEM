@@ -55,6 +55,7 @@ hue_variation = 0.03
 hue_variation_random = 1.0
 
 [node name="Particles2D" type="Particles2D"]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
 light_mask = 2
 amount = 150
 lifetime = 2.0

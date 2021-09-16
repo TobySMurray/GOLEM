@@ -291,7 +291,6 @@ tracks/3/keys = {
 }
 
 [sub_resource type="Animation" id=7]
-resource_name = "Walk"
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -376,75 +375,75 @@ radius = 6.3286
 height = 13.1582
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 118, 107 )
+atlas = ExtResource( 5 )
+region = Rect2( 354, 0, 118, 107 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 6 )
-region = Rect2( 118, 0, 118, 107 )
+atlas = ExtResource( 5 )
+region = Rect2( 472, 0, 118, 107 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 6 )
-region = Rect2( 236, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 6 )
-region = Rect2( 354, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 6 )
-region = Rect2( 472, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 5 )
-region = Rect2( 354, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 5 )
-region = Rect2( 472, 0, 118, 107 )
-
-[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 5 )
 region = Rect2( 590, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 5 )
 region = Rect2( 708, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 5 )
 region = Rect2( 826, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=20]
+[sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=21]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 3 )
 region = Rect2( 118, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=22]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 3 )
 region = Rect2( 236, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 3 )
 region = Rect2( 354, 0, 118, 107 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 3 )
+region = Rect2( 472, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 6 )
+region = Rect2( 118, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 6 )
+region = Rect2( 236, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 6 )
+region = Rect2( 354, 0, 118, 107 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 6 )
 region = Rect2( 472, 0, 118, 107 )
 
 [sub_resource type="SpriteFrames" id=25]
 animations = [ {
-"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
-"loop": true,
-"name": "Walk",
-"speed": 10.0
-}, {
-"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
 "loop": false,
 "name": "Attack",
+"speed": 10.0
+}, {
+"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"loop": true,
+"name": "Walk",
 "speed": 10.0
 } ]
 
@@ -494,11 +493,13 @@ collision_mask = 1025
 script = ExtResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
 light_mask = 5
 material = ExtResource( 14 )
 position = Vector2( 7, -37 )
 texture = ExtResource( 5 )
 hframes = 8
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 7 )
@@ -540,6 +541,7 @@ collision_mask = 2
 script = ExtResource( 15 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="JojoReference"]
+modulate = Color( 2, 2, 2, 1 )
 light_mask = 5
 position = Vector2( 7, -37 )
 frames = SubResource( 25 )
@@ -571,6 +573,7 @@ max_distance = 1000.0
 attenuation = 1.5
 
 [node name="Line2D" type="Line2D" parent="."]
+modulate = Color( 1.4, 2.2, 1.66, 1 )
 show_behind_parent = true
 light_mask = 2
 material = SubResource( 27 )
@@ -587,7 +590,7 @@ end_cap_mode = 2
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 5 )
-frame = 47
+frame = 14
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -30.0

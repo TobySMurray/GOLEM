@@ -445,11 +445,13 @@ anims/Idle = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.25, 1.25, 1.25, 1 )
 light_mask = 5
 material = ExtResource( 17 )
 position = Vector2( 22, -19 )
-texture = ExtResource( 2 )
-hframes = 8
+texture = ExtResource( 7 )
+hframes = 6
+frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.44545, 3.34087 )
@@ -490,7 +492,7 @@ shape = SubResource( 10 )
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 8 )
-frame = 27
+frame = 46
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -18.0

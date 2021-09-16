@@ -397,6 +397,7 @@ collision_mask = 1025
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1.2, 1.2, 1.2, 1 )
 light_mask = 5
 material = ExtResource( 20 )
 position = Vector2( 26, -4 )
@@ -416,6 +417,7 @@ anims/Special = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="MuzzleFlash" type="AnimatedSprite" parent="."]
+modulate = Color( 1.4, 1.4, 1.2, 1 )
 rotation = -1.08909
 frames = SubResource( 14 )
 animation = "Flash"
@@ -471,7 +473,7 @@ wait_time = 0.25
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 11 )
-frame = 39
+frame = 47
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -19.0
