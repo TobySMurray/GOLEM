@@ -42,6 +42,13 @@ func _ready():
 	swap_shield = get_node_or_null('EnemyFX/ClearMoon')
 	if not swap_shield:
 		swap_shield = get_node_or_null('ClearMoon')
+		
+func physics_process(delta):
+	if dead and is_player:
+		death_timer -= delta
+		if death_timer < 0:
+			death_timer = 99999999
+			actually_die()
 
 func move(delta):
 	var cur_speed = override_speed if override_speed != null else max_speed
@@ -60,6 +67,19 @@ func is_invincible():
 	return invincible or invincibility_timer > 0
 	
 func die():
-	pass
+	if dead: return
+	
+	dead = true
+	invincible = true
+	target_velocity = Vector2.ZERO
+	death_timer = 0.5
+	animplayer.play("Die")
+	
+func actually_die():
+	if not is_player:
+		queue_free()
+	else:
+		dead = true
+		GameManager.game_over()
 	
 

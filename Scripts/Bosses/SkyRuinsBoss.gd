@@ -119,7 +119,7 @@ func _physics_process(delta):
 	ram_cooldown -= delta
 		
 func enter_state(state):
-	if not is_instance_valid(GameManager.player) and state != INACTIVE:
+	if not is_player and not is_instance_valid(GameManager.player) and state != INACTIVE:
 		set_state(INACTIVE)
 		return
 		
@@ -226,7 +226,7 @@ func enter_state(state):
 
 func process_state(delta, state):
 	#breakpoint
-	if (not is_instance_valid(GameManager.player) or GameManager.player_hidden) and state != INACTIVE:
+	if not is_player and (not is_instance_valid(GameManager.player) or GameManager.player_hidden) and state != INACTIVE:
 		set_state(INACTIVE)
 		return
 	
@@ -492,12 +492,6 @@ func process_state(delta, state):
 					elif anim_event[1] == 'Special':
 						var delay = spawn_explosion_wave(get_global_mouse_position() - global_position)
 						spawn_pillar_after_delay(Enemy.EnemyType.UNKNOWN, get_global_mouse_position(), delay)
-			
-			if GameManager.swapping:
-				GameManager.choose_swap_target(delta)
-			else:
-				if GameManager.can_swap and Input.is_action_just_pressed("swap"):
-					GameManager.toggle_swap(true)
 					
 			
 func exit_state(state):
@@ -621,8 +615,9 @@ func choose_random_pillar_pattern():
 	cur_pillar_pattern = Util.choose_weighted(pillar_patterns, weights)
 	
 func die():
-	dead = true
-	animplayer.play('Die')
+	if dead: return
+	.die()
+	
 	Util.remove_invalid(arena_enemies)
 	for enemy in arena_enemies:
 		if enemy != GameManager.true_player:

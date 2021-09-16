@@ -74,7 +74,11 @@ static func melee_attack(source, collider, damage = 10, force = 50, deflect_powe
 			if not enemy.invincible and not enemy == source:
 				hit_entities.append(enemy)
 				enemy.take_damage(damage, source, stun)
-				enemy.velocity += (enemy.global_position - source.global_position).normalized() * force / enemy.mass
+				
+				if typeof(force) == TYPE_VECTOR2:
+					enemy.velocity += force / enemy.mass
+				else:
+					enemy.velocity += (enemy.global_position - source.global_position).normalized() * force / enemy.mass
 				
 				if not enemy.is_in_group("bloodless"):
 					GameManager.spawn_blood(enemy.global_position, (enemy.global_position - source.global_position).angle(), pow(force, 0.5)*30, damage*0.75)

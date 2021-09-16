@@ -13,8 +13,8 @@
 [ext_resource path="res://Scenes/Particles/HeavySparkParticles.tscn" type="PackedScene" id=13]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 7.25816
-height = 3.0
+radius = 7.0
+height = 1.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "Attack"
@@ -563,7 +563,7 @@ visible = false
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 15 )
-frame = 0
+frame = 32
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -30.0

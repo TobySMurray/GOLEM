@@ -118,10 +118,12 @@ var player_upgrades = {
 	'reload_coroutine': 0,
 	#CHAIN
 	'precompressed_hydraulics': 0,
-	'adaptive_wrists': 0,
-	'discharge_flail': 0,
+	'adaptive_wrists': 1,
+	'frayed_wires': 0,
 	'vortex_technique': 0,
-	'footwork_scheduler': 0,
+	'footwork_scheduler': 1,
+	'perfect_balance': 0,
+	'reverse_polarity': 0,
 	#WHEEL
 	'advanced_targeting': 0,
 	'bypassed_muffler': 0,
@@ -283,6 +285,8 @@ func start_level():
 	else:
 		swap_bar.enabled = true
 		
+	player = null
+	true_player = null
 	swap_to(world.init_player)
 	player_hidden = true
 		
@@ -373,7 +377,7 @@ func toggle_swap(state):
 		#choose_swap_target()
 	else:
 		camera.lerp_zoom(1)
-		lerp_to_timescale(1)
+		lerp_to_timescale(1.0)
 		
 		world.blood_moon.stopped_audio.stop()
 		world.blood_moon.slow_audio.stop()
@@ -421,14 +425,14 @@ func swap_to(new_player):
 	if is_instance_valid(true_player):
 		true_player.toggle_playerhood(false)
 		
-		if player != true_player:
+		if is_instance_valid(player) and player != true_player:
+			if player.is_in_group('enemy') and player != new_player:  
+				player.toggle_enhancement(false)
 			player = true_player
-			if true_player.is_in_group('enemy'):
-				true_player.toggle_enhancement(false)
-		
+
 		set_player_after_delay(new_player, 1)
 
-		if true_player.is_in_group('enemy'):
+		if new_player.is_in_group('enemy'):
 			swap_history.append(new_player.enemy_type)
 			update_variety_bonus()
 			if new_player.enemy_type != Enemy.EnemyType.UNKNOWN:
@@ -436,11 +440,11 @@ func swap_to(new_player):
 		
 	#If initialized to host
 	else:
-		true_player = new_player
 		player = new_player
-	
+		
+	true_player = new_player
 	new_player.toggle_playerhood(true)
-	swap_bar.enabled = new_player.uses_swap_bar
+	swap_bar.enabled = false#new_player.uses_swap_bar
 	camera.anchor = new_player
 	camera.offset = Vector2.ZERO
 	enemy_drought_bailout_available = true
@@ -448,21 +452,20 @@ func swap_to(new_player):
 	
 
 func set_player_after_delay(new_player, delay):
-	true_player = new_player
 	swap_confusion = true
 	swap_confusion_timer = delay
 	if not new_player.is_in_group('enemylike'):
-		player = new_player
 		player_hidden = true
 		
 	
 func reveal_player():
 	swap_confusion = false
-	if is_instance_valid(player) and player.is_in_group('enemy'):
-			player.toggle_enhancement(false)
-			
+	if is_instance_valid(player) and player.is_in_group('enemy') and player != true_player:
+		player.toggle_enhancement(false)
+		
+	player = true_player
+		
 	if true_player.is_in_group('enemy'):
-		player = true_player
 		player_hidden = true_player.enemy_type == Enemy.EnemyType.ARCHER and true_player.stealth_mode
 	else:
 		player_hidden = not true_player.is_in_group('enemylike')

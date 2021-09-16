@@ -38,7 +38,7 @@ func _input(ev):
 func set_evolution_level(lv):
 	GameManager.set_evolution_level(lv)
 	number.set_digit(lv)
-	if is_instance_valid(GameManager.true_player):
+	if is_instance_valid(GameManager.true_player) and GameManager.true_player.is_in_group('enemy'):
 		GameManager.true_player.toggle_enhancement(true)
 		
 func _on_SummonButton_body_entered(body):

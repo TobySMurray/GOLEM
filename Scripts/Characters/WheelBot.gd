@@ -43,6 +43,7 @@ var aimbot_target = null
 func _ready():
 	enemy_type = EnemyType.WHEEL
 	max_health = 50
+	mass = 0.75
 	accel = 2.5
 	bullet_spawn_offset = 10
 	flip_offset = -71

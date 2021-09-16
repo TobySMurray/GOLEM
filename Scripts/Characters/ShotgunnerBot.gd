@@ -175,7 +175,6 @@ func start_bash():
 			hit.damage *= 1.3
 			hit.stun = melee_stun/2
 			hit.modulate = Color.yellow
-			#Hakita bless
 	
 func bash():
 	if is_player:

@@ -71,13 +71,7 @@ func _ready():
 func on_level_ready():
 	toggle_light(GameManager.level['dark'] and is_player)
 
-func _physics_process(delta):
-	if dead and is_player:
-		death_timer -= delta
-		if death_timer < 0:
-			death_timer = 99999999
-			actually_die()
-			
+func _physics_process(delta):	
 	if not dead and not stunned:
 		misc_update(delta)
 		
@@ -275,6 +269,7 @@ func toggle_playerhood(state):
 			die()
 		
 func toggle_enhancement(state):
+	print("toggled enhancement for " + name)
 	if state == true:
 		animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
 	else:
@@ -370,15 +365,11 @@ func emit_score_popup(value, msg):
 
 func die(killer = null):
 	if dead: return
+	.die()
 	
-	dead = true
-	invincible = true
 	attacking = true
-	target_velocity = Vector2.ZERO
 	GameManager.enemy_count -= 1
 	GameManager.enemies.erase(self)
-	death_timer = 0.5
-	animplayer.play("Die")
 	
 	if is_miniboss:
 		score *= enemy_evolution_level
@@ -448,12 +439,8 @@ func die(killer = null):
 func actually_die():
 	if last_stand:
 		GameManager.spawn_explosion(global_position, self, 1, 100, 1000)
-		
-	if not is_player:
-		queue_free()
-	else:
-		dead = true
-		GameManager.game_over()
+
+	.actually_die()
 
 
 

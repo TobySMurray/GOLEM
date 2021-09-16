@@ -40,6 +40,7 @@ onready var flamethrower_audio = $Flamethrower
 func _ready():
 	enemy_type = EnemyType.FLAME
 	max_health = 110
+	mass = 1.25
 	bullet_spawn_offset = 10
 	flip_offset = -46
 	max_attack_cooldown = 1
@@ -89,7 +90,7 @@ func toggle_enhancement(state):
 			stop_attacking()
 			attack_cooldown = 0
 			
-		.toggle_enhancement(state)
+	.toggle_enhancement(state)
 			
 			
 func misc_update(delta):

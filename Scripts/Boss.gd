@@ -228,7 +228,7 @@ func _on_AnimationPlayer_animation_finished(anim):
 		corpse.global_position = global_position
 		corpse.destination = 'WarpRoom'
 		corpse.fixed_map = 'res://Scenes/Levels/WarpRoom.tscn'
-		queue_free()
+		.actually_die()
 	else:
 		frame_events.append(['anim_finished', anim])
 	

@@ -60,10 +60,10 @@ const upgrades = {
 		'tier': 0,
 		'max_stack': 2
 	},
-	'discharge_flail': { #Attack stuns when charged
-		'name': 'Discharge Flail',
-		'desc': 'Incapacitating capacitors. Requires charge.',
-		'effects': [],
+	'frayed_wires': { #Attack stuns when charged
+		'name': 'Frayed Wires',
+		'desc': 'It\'s called an "ELECTRO magnet" for a reason.',
+		'effects': ['Periodically stuns grappled enemies', 'Stuns enemies hit by grapled enemies'],
 		'type': Enemy.EnemyType.CHAIN,
 		'tier': 1,
 		'max_stack': 2
@@ -84,7 +84,22 @@ const upgrades = {
 		'tier': 1,
 		'max_stack': 2
 	},
-	
+	'perfect_balance': { #Increase movement speed while charging
+		'name': 'Perfect Balance',
+		'desc': 'Weaponized ergonimics.',
+		'effects': ['Pull grappled enemies more easily.'],
+		'type': Enemy.EnemyType.UNKNOWN, #CHAIN,
+		'tier': 1,
+		'max_stack': 1
+	},
+	'reverse_polarity': { #Increase movement speed while charging
+		'name': 'Reverse Polarity',
+		'desc': 'Throwing is just grappling backwards.',
+		'effects': ['Launch the grapple 50% faster.'],
+		'type': Enemy.EnemyType.CHAIN,
+		'tier': 0,
+		'max_stack': 2
+	},
 	#WHEEL
 	'advanced_targeting': { #Replace manual aiming with auto targeting
 		'name': 'Advanced Targeting',

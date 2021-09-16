@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 
 uniform float RADIUS = 1.0;
@@ -17,6 +17,6 @@ void fragment(){
 }"
 
 [resource]
-shader = SubResource( 3 )
+shader = SubResource( 1 )
 shader_param/RADIUS = 0.2
 shader_param/INTENSITY = 1.0

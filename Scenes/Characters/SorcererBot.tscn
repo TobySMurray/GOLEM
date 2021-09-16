@@ -587,7 +587,7 @@ end_cap_mode = 2
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 5 )
-frame = 9
+frame = 47
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -30.0

@@ -32,6 +32,7 @@ func _ready():
 	enemy_type = EnemyType.SORCERER
 	max_health = 180
 	score = 100
+	mass = 2
 	flip_offset = -13
 	init_healthbar()
 	for stand in stands:
@@ -40,6 +41,11 @@ func _ready():
 		tether.visible = false
 	toggle_enhancement(false)
 	max_special_cooldown = 2
+	
+func toggle_playerhood(state):
+	.toggle_playerhood(state)
+	for stand in stands:	
+		stand.collision_layer = 0 if is_player else 4
 	
 func toggle_enhancement(state):
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
@@ -97,8 +103,8 @@ func toggle_enhancement(state):
 			tethers[-1].queue_free()
 			tethers.pop_back()
 			
-	for stand in stands:	
-		stand.collision_layer = 0 if state else 4
+	for stand in stands:
+		stand.collision_layer = 0 if is_player else 4
 		if precision_mode:
 			stand.sprite.play("Walk")
 			
