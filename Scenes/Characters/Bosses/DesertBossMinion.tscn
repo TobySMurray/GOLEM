@@ -5,7 +5,7 @@
 [ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/Mud summon move.png" type="Texture" id=3]
 [ext_resource path="res://Art/medShadow.png" type="Texture" id=4]
 [ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/mud summon summon.png" type="Texture" id=5]
-[ext_resource path="res://Scripts/Characters/DesertBossMinion.gd" type="Script" id=6]
+[ext_resource path="res://Scripts/Bosses/DesertBossSmall.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/EnemyFX.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Shaders/Flash.tres" type="Material" id=8]
 
@@ -218,16 +218,21 @@ radius = 2.27831
 radius = 3.36844
 height = 0.0
 
-[node name="DesertBossMinion" type="KinematicBody2D"]
+[node name="DesertBossMinion" type="KinematicBody2D" groups=[
+"enemy",
+"enemylike",
+"host",
+]]
+collision_layer = 0
+collision_mask = 1025
 script = ExtResource( 6 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 8 )
 position = Vector2( 0, -12 )
-texture = ExtResource( 5 )
+texture = ExtResource( 1 )
 flip_h = true
 vframes = 8
-frame = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 1 )
@@ -242,15 +247,21 @@ shape = SubResource( 6 )
 
 [node name="Shadow" type="Sprite" parent="."]
 modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
-position = Vector2( 0.5, 4 )
+position = Vector2( 0.5, 6 )
 scale = Vector2( 0.3, 0.5 )
 z_index = -1
 texture = ExtResource( 4 )
 
 [node name="EnemyFX" parent="." instance=ExtResource( 7 )]
 
+[node name="EVParticles" parent="EnemyFX" index="1"]
+visible = false
+
 [node name="ClearMoon" parent="EnemyFX" index="2"]
-frame = 41
+frame = 39
+
+[node name="HealthBar" parent="EnemyFX" index="3"]
+visible = false
 
 [node name="Shadow" parent="EnemyFX" index="4"]
 visible = false
@@ -263,5 +274,7 @@ collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 7 )
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="EnemyFX"]

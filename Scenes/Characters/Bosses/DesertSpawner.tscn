@@ -212,18 +212,34 @@ radius = 4.53251
 height = 4.6085
 
 [sub_resource type="CapsuleShape2D" id=6]
-radius = 7.43103
-height = 10.1331
+radius = 10.9583
+height = 15.875
 
 [node name="DesertSpawner" type="KinematicBody2D"]
+collision_layer = 0
+collision_mask = 1025
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 8 )
-position = Vector2( 0.397301, -5.29731 )
+position = Vector2( 1.34224, -15.2192 )
+scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 5 )
 vframes = 13
 frame = 2
+
+[node name="EnemyFX" parent="." instance=ExtResource( 7 )]
+
+[node name="ClearMoon" parent="EnemyFX" index="2"]
+visible = false
+frame = 20
+
+[node name="HealthBar" parent="EnemyFX" index="3"]
+margin_top = -42.0
+margin_bottom = -34.0
+
+[node name="Shadow" parent="EnemyFX" index="4"]
+visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Die = SubResource( 1 )
@@ -239,20 +255,9 @@ shape = SubResource( 5 )
 [node name="Shadow" type="Sprite" parent="."]
 modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
 position = Vector2( 0.13089, 14.2825 )
+scale = Vector2( 1.5, 1.5 )
 z_index = -1
 texture = ExtResource( 1 )
-
-[node name="EnemyFX" parent="." instance=ExtResource( 7 )]
-
-[node name="ClearMoon" parent="EnemyFX" index="2"]
-frame = 33
-
-[node name="HealthBar" parent="EnemyFX" index="3"]
-margin_top = -22.0
-margin_bottom = -14.0
-
-[node name="Shadow" parent="EnemyFX" index="4"]
-visible = false
 
 [node name="Hitbox" type="Area2D" parent="." groups=[
 "hitbox",
@@ -261,7 +266,7 @@ collision_layer = 6
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2( -0.055481, 2.09565 )
+position = Vector2( 0.102005, -5.1489 )
 shape = SubResource( 6 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

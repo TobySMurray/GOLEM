@@ -183,8 +183,6 @@ debug_start_as_player = true
 "host",
 ] instance=ExtResource( 10 )]
 
-[node name="SkyRuinsBoss" parent="WorldObjects/Characters" instance=ExtResource( 10 )]
-
 [node name="WallWalkUnder" parent="." instance=ExtResource( 22 )]
 position = Vector2( -8, -40 )
 

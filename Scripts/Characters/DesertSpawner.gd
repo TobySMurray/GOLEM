@@ -2,17 +2,20 @@ extends Enemy
 
 const minion = preload("res://Scenes/Characters/Bosses/DesertBossMinion.tscn")
 
+var followers = []
+
 var minion_tier = 2
 var ai_target_point = global_position
 var ai_move_timer = 0
 var minion_spawn_timer = 0
+
 
 func misc_update(delta):
 	ai_move_timer -= delta
 	minion_spawn_timer -= delta
 	if minion_spawn_timer < 0:
 		spawn_minions()
-		minion_spawn_timer = 5
+		minion_spawn_timer = 1 + randf()*0.1
 
 func ai_move():
 	if ai_move_timer < 0:
@@ -41,7 +44,12 @@ func spawn_minions():
 	self.get_parent().add_child(new_child)
 	new_child.global_position = self.global_position
 	new_child.attacking = true
+	new_child.leader = self
+	followers.append(new_child)
 	new_child.animplayer.play("Spawn")
+	
+func on_follower_death(follower):
+	followers.erase(follower)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Die":

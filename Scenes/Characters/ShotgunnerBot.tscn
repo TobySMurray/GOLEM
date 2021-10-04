@@ -473,7 +473,7 @@ wait_time = 0.25
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 11 )
-frame = 40
+frame = 50
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -19.0
