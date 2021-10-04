@@ -78,7 +78,6 @@ var eye_pos = Vector2.ZERO
 var foot_pos = Vector2.ZERO
 var aim_dir = Vector2.RIGHT
 
-var arena_center = Vector2.ZERO
 var arena_radius = 270
 
 var pillars = []
@@ -99,7 +98,6 @@ func _ready():
 	flip_offset = -30
 	swap_shield_health = 3
 	set_state(INACTIVE)
-	arena_center = global_position
 	init_healthbar()
 	
 func _physics_process(delta):
@@ -412,7 +410,7 @@ func process_state(delta, state):
 			
 			if event_happened('anim_trigger'):
 				var i = len(cur_pillar_pattern['enemies']) - state_counter
-				var point = cur_pillar_pattern['offsets'][i]*arena_radius
+				var point = arena_center + cur_pillar_pattern['offsets'][i]*arena_radius
 				var delay = spawn_explosion_wave(point, 5)
 				spawn_pillar_after_delay(cur_pillar_pattern['enemies'][i], point, delay)
 					
