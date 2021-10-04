@@ -563,7 +563,7 @@ visible = false
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 15 )
-frame = 32
+frame = 1
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -30.0

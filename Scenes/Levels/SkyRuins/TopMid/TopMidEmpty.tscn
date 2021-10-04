@@ -10,7 +10,7 @@
 
 [node name="TopMidEmpty" type="Node2D"]
 script = ExtResource( 7 )
-chunk_type = 3
+chunk_type = 1
 init_player = NodePath("Objects/Merchant")
 
 [node name="Ground" parent="." instance=ExtResource( 3 )]
@@ -25,9 +25,7 @@ tile_data = PoolIntArray( -2555964, 1, 0, -2555906, 1, 0, -2555905, 1, 0, -24904
 
 [node name="Objects" type="YSort" parent="."]
 
-[node name="ShotgunnerBot" parent="Objects" groups=[
-"enemy",
-] instance=ExtResource( 6 )]
+[node name="ShotgunnerBot" parent="Objects" instance=ExtResource( 6 )]
 position = Vector2( -252.397, -109.531 )
 
 [node name="Merchant" parent="Objects" instance=ExtResource( 5 )]

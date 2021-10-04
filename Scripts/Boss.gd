@@ -37,6 +37,8 @@ var dist_to_target = 0
 var look_at_player = true
 var look_direction = Vector2.ZERO
 
+var arena_center = Vector2.ZERO
+
 
 # MISC
 var shield_flicker = false
@@ -46,6 +48,11 @@ var emit_ghost_trail = false
 var ghost_trail_interval = 0.1
 var ghost_trail_timer = -1
 
+func _ready():
+	GameManager.connect('on_level_ready', self, 'on_level_ready')
+
+func on_level_ready():
+	arena_center = global_position
 
 func _physics_process(delta):
 	if dead:

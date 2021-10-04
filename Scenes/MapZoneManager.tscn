@@ -4,11 +4,3 @@
 
 [node name="MapZoneManager" type="Node2D"]
 script = ExtResource( 1 )
-zones = {
-0: [  ],
-1: [  ]
-}
-
-[node name="SPAWN" type="Node2D" parent="."]
-
-[node name="NO_TP" type="Node2D" parent="."]

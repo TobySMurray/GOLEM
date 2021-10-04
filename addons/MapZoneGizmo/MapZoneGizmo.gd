@@ -23,7 +23,7 @@ func edit(object):
 		
 	elif object is MapZone:
 		print("attempting to select MapZOne")
-		MZM = object.get_parent().get_parent() as MapZoneManager
+		MZM = object.get_parent() as MapZoneManager
 		
 	else:
 		MZM = null

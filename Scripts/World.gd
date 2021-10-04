@@ -124,6 +124,7 @@ func populate_level(level_name):
 		if len(candidate_paths) > 0:
 			var candidates = []
 			for path in candidate_paths:
+				print('### ' + path)
 				candidates.append(load(path).instance())
 			
 			candidates.shuffle()
@@ -183,7 +184,7 @@ func flatten_and_reparent_to_objects(nodes):
 			
 func import_zones(MZM: MapZoneManager):
 	MZM.visible = false
-	for spawn_zone in MZM.get_node('SPAWN').get_children():
+	for spawn_zone in MZM.get_children():
 		for enemy_type in spawn_zones.keys():
 			if spawn_zone.can_spawn_enemy(enemy_type):
 				spawn_zones[enemy_type].append(spawn_zone.rect)
@@ -196,12 +197,11 @@ func get_chunk_paths():
 		var y = 0
 		for i in range(9):
 			var path = base_path + level + '/' + chunk_names[i]
-			print(path)
+			#print(path)
 			var files = []
 			var dir = Directory.new()
 
 			if dir.open(path) == OK:
-				print('>>>' + dir.get_current_dir())
 				dir.list_dir_begin()
 				
 				while true:
@@ -211,10 +211,12 @@ func get_chunk_paths():
 						
 					if file[0] != '.':
 						chunk_paths[level][y][x].append(path + '/' + file)
+						#print(chunk_paths[level][y][x])
 						
 				dir.list_dir_end()
 			else:
-				print('ERROR')
+				pass
+				#print('ERROR')
 				
 			x += 1
 			if x > 2:
