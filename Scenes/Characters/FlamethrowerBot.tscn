@@ -449,9 +449,9 @@ modulate = Color( 1.25, 1.25, 1.25, 1 )
 light_mask = 5
 material = ExtResource( 17 )
 position = Vector2( 22, -19 )
-texture = ExtResource( 7 )
-hframes = 6
-frame = 5
+texture = ExtResource( 8 )
+hframes = 7
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.44545, 3.34087 )
@@ -492,7 +492,7 @@ shape = SubResource( 10 )
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 8 )
-frame = 46
+frame = 34
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -18.0

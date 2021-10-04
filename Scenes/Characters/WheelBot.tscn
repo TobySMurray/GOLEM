@@ -511,14 +511,13 @@ polygon = PoolVector2Array( 0, 20, 0, -20, 300, -150, 300, 150 )
 [node name="AimbotReticle" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 22 )
-frame = 3
 playing = true
 
 [node name="EnemyFX" parent="." instance=ExtResource( 3 )]
 
 [node name="ClearMoon" parent="EnemyFX" index="2"]
 position = Vector2( 0, 7 )
-frame = 26
+frame = 42
 
 [node name="HealthBar" parent="EnemyFX" index="3"]
 margin_top = -21.0

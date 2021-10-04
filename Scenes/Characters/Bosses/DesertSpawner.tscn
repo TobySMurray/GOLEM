@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/run.png" type="Texture" id=1]
-[ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/damaged and death.png" type="Texture" id=2]
-[ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/summon.png" type="Texture" id=3]
-[ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/idle.png" type="Texture" id=4]
-[ext_resource path="res://Art/medShadow.png" type="Texture" id=5]
-[ext_resource path="res://Scripts/Bosses/DesertBoss.gd" type="Script" id=6]
+[ext_resource path="res://Art/medShadow.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Characters/DesertSpawner.gd" type="Script" id=2]
+[ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/idle.png" type="Texture" id=3]
+[ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/run.png" type="Texture" id=4]
+[ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/damaged and death.png" type="Texture" id=5]
+[ext_resource path="res://Art/Characters/Character Pack 7/Summoner and summon/summon.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/EnemyFX.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Shaders/Flash.tres" type="Material" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Die"
@@ -20,7 +22,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 2 ) ]
+"values": [ ExtResource( 5 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:vframes")
@@ -73,7 +75,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 4 ) ]
+"values": [ ExtResource( 3 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:vframes")
@@ -125,7 +127,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 3 ) ]
+"values": [ ExtResource( 6 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:vframes")
@@ -166,7 +168,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 1 ) ]
+"values": [ ExtResource( 4 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:vframes")
@@ -209,14 +211,19 @@ tracks/3/keys = {
 radius = 4.53251
 height = 4.6085
 
-[node name="DesertBoss" type="KinematicBody2D"]
-script = ExtResource( 6 )
+[sub_resource type="CapsuleShape2D" id=6]
+radius = 7.43103
+height = 10.1331
+
+[node name="DesertSpawner" type="KinematicBody2D"]
+script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 8 )
 position = Vector2( 0.397301, -5.29731 )
-texture = ExtResource( 3 )
-vframes = 8
-frame = 7
+texture = ExtResource( 5 )
+vframes = 13
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Die = SubResource( 1 )
@@ -233,4 +240,30 @@ shape = SubResource( 5 )
 modulate = Color( 0.611765, 0.611765, 0.611765, 1 )
 position = Vector2( 0.13089, 14.2825 )
 z_index = -1
-texture = ExtResource( 5 )
+texture = ExtResource( 1 )
+
+[node name="EnemyFX" parent="." instance=ExtResource( 7 )]
+
+[node name="ClearMoon" parent="EnemyFX" index="2"]
+frame = 33
+
+[node name="HealthBar" parent="EnemyFX" index="3"]
+margin_top = -22.0
+margin_bottom = -14.0
+
+[node name="Shadow" parent="EnemyFX" index="4"]
+visible = false
+
+[node name="Hitbox" type="Area2D" parent="." groups=[
+"hitbox",
+]]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2( -0.055481, 2.09565 )
+shape = SubResource( 6 )
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+
+[editable path="EnemyFX"]

@@ -290,14 +290,14 @@ particles_anim_h_frames = 8
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="Gradient" id=67]
+[sub_resource type="Gradient" id=66]
 offsets = PoolRealArray( 0, 0.27972, 1 )
 colors = PoolColorArray( 0.92549, 0.627451, 0.243137, 0.792157, 0.341176, 0.0784314, 0.0784314, 0.784314, 0, 0, 0, 0.278431 )
 
-[sub_resource type="GradientTexture" id=68]
-gradient = SubResource( 67 )
+[sub_resource type="GradientTexture" id=67]
+gradient = SubResource( 66 )
 
-[sub_resource type="ParticlesMaterial" id=66]
+[sub_resource type="ParticlesMaterial" id=68]
 flag_disable_z = true
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 200.0
@@ -307,7 +307,7 @@ orbit_velocity_random = 0.0
 damping = 200.0
 angle = 90.0
 angle_random = 1.0
-color_ramp = SubResource( 68 )
+color_ramp = SubResource( 67 )
 anim_speed = 1.5
 anim_speed_random = 0.5
 anim_offset = 0.5
@@ -324,7 +324,7 @@ color_ramp = SubResource( 1 )
 [node name="ClearMoon" parent="." instance=ExtResource( 2 )]
 z_index = -1
 frames = SubResource( 62 )
-frame = 45
+frame = 35
 
 [node name="HealthBar" parent="." instance=ExtResource( 1 )]
 margin_left = -40.0
@@ -356,6 +356,6 @@ emitting = false
 amount = 200
 lifetime = 0.6
 local_coords = false
-process_material = SubResource( 66 )
+process_material = SubResource( 68 )
 texture = ExtResource( 9 )
 script = ExtResource( 6 )

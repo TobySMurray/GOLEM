@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 [gd_scene load_steps=23 format=2]
-=======
-[gd_scene load_steps=22 format=2]
->>>>>>> 5121de90161a89c29942639c44577ad765519500
 
 [ext_resource path="res://Scenes/Tilesets/DungeonGround.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/ShotgunnerBot.tscn" type="PackedScene" id=2]
@@ -13,13 +9,10 @@
 [ext_resource path="res://Scenes/Debug/SummonButton.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Debug/EVLButton.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Debug/TranquilityBeacon.tscn" type="PackedScene" id=9]
-<<<<<<< HEAD
-[ext_resource path="res://Scenes/Characters/Bosses/SkyRuinsBoss.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Characters/Bosses/DesertSpawner.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Shaders/Wormhole.tres" type="Material" id=11]
 [ext_resource path="res://Art/Vignette.png" type="Texture" id=12]
 [ext_resource path="res://Shaders/Greyscale.tres" type="Material" id=13]
-=======
->>>>>>> 5121de90161a89c29942639c44577ad765519500
 [ext_resource path="res://Scenes/Fog.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Scenes/Tilesets/WallWalkUnder.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/Tilesets/Obstacles.gd" type="Script" id=26]
@@ -104,21 +97,6 @@ shader_param/ALPHA = 0.5
 shader_param/ALPHA_OFFSET = -0.25
 shader_param/color = Vector3( 0.5, 0.7, 0.9 )
 
-[sub_resource type="Gradient" id=3]
-offsets = PoolRealArray( 0, 0.515385, 0.853846 )
-colors = PoolColorArray( 0, 0, 0, 1, 0.501404, 0.593274, 0.605469, 1, 1, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
-
-[sub_resource type="Environment" id=5]
-background_mode = 4
-glow_enabled = true
-glow_intensity = 1.0
-glow_strength = 0.95
-glow_blend_mode = 1
-adjustment_color_correction = SubResource( 4 )
-
 [node name="TestLevel" type="Node2D"]
 script = ExtResource( 35 )
 init_player = NodePath("WorldObjects/Characters/ShotgunnerBot")
@@ -197,6 +175,13 @@ position = Vector2( -40, 264 )
 
 [node name="ShotgunnerBot" parent="WorldObjects/Characters" instance=ExtResource( 2 )]
 position = Vector2( -150, 0 )
+debug_start_as_player = true
+
+[node name="DesertSpawner" parent="WorldObjects/Characters" groups=[
+"enemy",
+"enemylike",
+"host",
+] instance=ExtResource( 10 )]
 
 [node name="WallWalkUnder" parent="." instance=ExtResource( 22 )]
 position = Vector2( -8, -40 )
