@@ -1,0 +1,651 @@
+102b54792f6b2ef812636a2bdaeb9d34
+::res://::1647816196
+default_bus_layout.tres::AudioBusLayout::-1::1623649092::0::1::::<><>::
+default_env.tres::Environment::-1::1636695859::0::1::::<><>::
+export_presets.cfg::TextFile::-1::1628729203::0::1::::<><>::
+icon.png::CompressedTexture2D::3260355214906165339::1619226180::1647816198::1::::<><>::
+readme.txt::TextFile::-1::1628877273::0::1::::<><>::
+save.json::TextFile::-1::1636696023::0::1::::<><>::
+::res://addons/::1647816108
+::res://addons/MapZone/::1647816108
+plugin.cfg::TextFile::-1::1628877273::0::1::::<><>::
+::res://addons/MapZoneGizmo/::1647816108
+MapZoneGizmo.gd::GDScript::-1::1633316209::0::1::::<><>::
+plugin.cfg::TextFile::-1::1628877273::0::1::::<><>::
+::res://Art/::1647816115
+boss_icon.png::CompressedTexture2D::7743590920172375149::1623299476::1647816198::1::::<><>::
+Caution Tape2.png::CompressedTexture2D::5447199841889933607::1619388978::1647816198::1::::<><>::
+Caution Tape3-export.png::CompressedTexture2D::8435501738941222200::1620705888::1647816198::1::::<><>::
+Caution Tape Test.png::CompressedTexture2D::9047980980758639061::1619386314::1647816198::1::::<><>::
+chain.png::CompressedTexture2D::5208270637968893109::1632359667::1647816198::1::::<><>::
+Circle.png::CompressedTexture2D::1835462339696725441::1620173233::1647816198::1::::<><>::
+CircleLight.png::CompressedTexture2D::1588038775851630115::1623299476::1647816198::1::::<><>::
+EVL_backgrounds.png::CompressedTexture2D::4212904289126929786::1623524843::1647816198::1::::<><>::
+EVL_numbers.png::CompressedTexture2D::5380326094430885420::1623524843::1647816198::1::::<><>::
+EVL_numbers_raw.png::CompressedTexture2D::5709120935790312953::1623524843::1647816198::1::::<><>::
+FilledBar.png::CompressedTexture2D::4902327285218716067::1619386617::1647816198::1::::<><>::
+FilledBarWhite.png::CompressedTexture2D::7041079147299580231::1619386875::1647816198::1::::<><>::
+GolemCoverArt.PNG::CompressedTexture2D::3756998336197025638::1619467768::1647816198::1::::<><>::
+GreatValueWorldMap.png::CompressedTexture2D::8968510493299013879::1626151423::1647816198::1::::<><>::
+healthbar-Sheet.png::CompressedTexture2D::1094660131491128663::1619320227::1647816198::1::::<><>::
+healthbar_red.png::CompressedTexture2D::7602192949984476942::1619320227::1647816198::1::::<><>::
+healthbar_yellow.png::CompressedTexture2D::4204495655569613769::1619320227::1647816198::1::::<><>::
+line.png::CompressedTexture2D::62455792185353263::1627935466::1647816198::1::::<><>::
+LockOnTarget-sheet.png::CompressedTexture2D::7617821015918731177::1626296767::1647816198::1::::<><>::
+medShadow.png::CompressedTexture2D::5773106705365744831::1623816282::1647816198::1::::<><>::
+menubg-Sheet.png::CompressedTexture2D::6098279536965375265::1623640007::1647816198::1::::<><>::
+menubg.png::CompressedTexture2D::6557459347522633020::1619467192::1647816198::1::::<><>::
+NewCaution.png::CompressedTexture2D::4541308974699397750::1624245595::1647816198::1::::<><>::
+NewSwap White.png::CompressedTexture2D::626676222954458564::1624245611::1647816198::1::::<><>::
+NewSwap.png::CompressedTexture2D::6350774286148086234::1624245586::1647816198::1::::<><>::
+Progress Bar.png::CompressedTexture2D::7751851772696721267::1619386203::1647816198::1::::<><>::
+reticle-export.png::CompressedTexture2D::2244317533250401896::1627935466::1647816198::1::::<><>::
+reticle.png::CompressedTexture2D::7680220312654033568::1620705888::1647816198::1::::<><>::
+special.png::CompressedTexture2D::3944052663203268937::1620175297::1647816198::1::::<><>::
+sub_reticle.png::CompressedTexture2D::5622238208967209859::1627935466::1647816198::1::::<><>::
+SwapBarMarker.png::CompressedTexture2D::4740952315963840811::1630012121::1647816198::1::::<><>::
+swap_item_indicator.png::CompressedTexture2D::1989514026079076685::1626395305::1647816198::1::::<><>::
+swap_item_progress.png::CompressedTexture2D::878757078593849345::1627935466::1647816198::1::::<><>::
+TinyTexture.png::CompressedTexture2D::8060443015818083061::1623299476::1647816198::1::::<><>::
+TinyTextureBlack.png::CompressedTexture2D::5584237983753700613::1623299476::1647816198::1::::<><>::
+Vignette.png::CompressedTexture2D::9037449626695111952::1627935466::1647816199::1::::<><>::
+::res://Art/Bullets/::1647816109
+Beam.png::CompressedTexture2D::1166204006729816255::1627935466::1647816198::1::::<><>::
+death_orb1.png::CompressedTexture2D::6666656051706231565::1630883264::1647816198::1::::<><>::
+EnemyBullet-sheet.png::CompressedTexture2D::775401032928884775::1630886289::1647816198::1::::<><>::
+FlameBullet_sheet.png::CompressedTexture2D::4661777660182864088::1623735334::1647816198::1::::<><>::
+GasCloud.png::CompressedTexture2D::6288148643134209301::1629486895::1647816198::1::::<><>::
+Pellet_sheet.png::CompressedTexture2D::6214454778542060415::1630883652::1647816198::1::::<><>::
+RailgunBeam.png::CompressedTexture2D::372649338316658264::1627935466::1647816198::1::::<><>::
+RailgunBeamElectric.png::CompressedTexture2D::6127018927830554407::1627935466::1647816198::1::::<><>::
+RailgunBeamPale.png::CompressedTexture2D::6965815476731361362::1627935466::1647816198::1::::<><>::
+RailgunBeamPurple.png::CompressedTexture2D::5179459767642509108::1627935466::1647816198::1::::<><>::
+slug_bullet.png::CompressedTexture2D::7667105317906257081::1630885967::1647816198::1::::<><>::
+WaveBullet_sheet.png::CompressedTexture2D::1031528525623765435::1623735334::1647816198::1::::<><>::
+::res://Art/Characters/::1647816113
+::res://Art/Characters/3 Saber dude/::1647816109
+appear.png::CompressedTexture2D::4520318688604186203::1619215473::1647816198::1::::<><>::
+damaged.png::CompressedTexture2D::3439994527435747955::1619215473::1647816198::1::::<><>::
+death or vanish.png::CompressedTexture2D::8418478765206391600::1619215473::1647816198::1::::<><>::
+icon2.png::CompressedTexture2D::4488782022727040907::1625286262::1647816198::1::::<><>::
+icon.png::CompressedTexture2D::2679963687812458123::1625286262::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::5774385593377927297::1619215473::1647816198::1::::<><>::
+idle_no_sabers.png::CompressedTexture2D::8503894937978521504::1623299476::1647816198::1::::<><>::
+move.png::CompressedTexture2D::35817186608405713::1619215473::1647816198::1::::<><>::
+move_no_sabers.png::CompressedTexture2D::20677949419232464::1623299476::1647816198::1::::<><>::
+quick spin attack.png::CompressedTexture2D::3014604677829982817::1619215473::1647816198::1::::<><>::
+spinning_sabers-sheet.png::CompressedTexture2D::7092105101435527772::1623299476::1647816198::1::::<><>::
+spinning_sabers.png::CompressedTexture2D::5257938251057099036::1623299476::1647816198::1::::<><>::
+telekenisis attack just sabers.png::CompressedTexture2D::2143878921260814669::1619215473::1647816198::1::::<><>::
+telekenisis attack.png::CompressedTexture2D::5795572258067496227::1619215473::1647816198::1::::<><>::
+telekenisis dart attack.png::CompressedTexture2D::700278149370478018::1619215473::1647816198::1::::<><>::
+::res://Art/Characters/Archer/::1647816110
+attack charge.png::CompressedTexture2D::5966301777876499245::1619215429::1647816198::1::::<><>::
+Attack FX.png::CompressedTexture2D::8846143185002276019::1619215429::1647816198::1::::<><>::
+attack ready.png::CompressedTexture2D::8901456269062494091::1619215429::1647816198::1::::<><>::
+attack release.png::CompressedTexture2D::5059155991891811191::1619215429::1647816198::1::::<><>::
+death.png::CompressedTexture2D::1594740814098256935::1619215429::1647816198::1::::<><>::
+hit.png::CompressedTexture2D::6951135078889444489::1619215429::1647816198::1::::<><>::
+icon.png::CompressedTexture2D::4279186189382139049::1625286262::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::2336732076926142400::1619215429::1647816198::1::::<><>::
+run.png::CompressedTexture2D::974593796575917246::1619215429::1647816198::1::::<><>::
+Special Attack FX alone.png::CompressedTexture2D::2422506102024973740::1619215429::1647816198::1::::<><>::
+Special Attack with FX.png::CompressedTexture2D::3435264444843852766::1619215429::1647816198::1::::<><>::
+Special Attack without FX.png::CompressedTexture2D::2202817251443518208::1619215429::1647816198::1::::<><>::
+::res://Art/Characters/Ball and Chain Bot/::1647816111
+attack.png::CompressedTexture2D::2077059903151762250::1619147875::1647816198::1::::<><>::
+charge.png::CompressedTexture2D::1786597404692202662::1619147875::1647816198::1::::<><>::
+death.png::CompressedTexture2D::1737578800448216448::1619147875::1647816198::1::::<><>::
+hit.png::CompressedTexture2D::1764142478537874515::1619147875::1647816198::1::::<><>::
+icon.png::CompressedTexture2D::7914581728733416899::1625286262::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::5884066377193204675::1619147875::1647816198::1::::<><>::
+run.png::CompressedTexture2D::5488019217390704100::1619147875::1647816198::1::::<><>::
+transition to charge.png::CompressedTexture2D::2457594793569277142::1619147875::1647816198::1::::<><>::
+::res://Art/Characters/Bot Wheel/::1647816111
+charge.png::CompressedTexture2D::1067077647769379073::1619215473::1647816198::1::::<><>::
+damaged.png::CompressedTexture2D::6848675526737806982::1619215473::1647816198::1::::<><>::
+death.png::CompressedTexture2D::2963180381075980722::1619215473::1647816198::1::::<><>::
+GAS dash FX.png::CompressedTexture2D::2826867064166652394::1619215473::1647816198::1::::<><>::
+GAS dash with FX.png::CompressedTexture2D::270613066593044921::1619215473::1647816198::1::::<><>::
+icon.png::CompressedTexture2D::1920069813019303249::1625286262::1647816198::1::::<><>::
+move FX.png::CompressedTexture2D::8488782741599276357::1619215474::1647816198::1::::<><>::
+move with FX.png::CompressedTexture2D::6537188070994692476::1619215474::1647816198::1::::<><>::
+move without FX.png::CompressedTexture2D::7552710635001961090::1619215474::1647816198::1::::<><>::
+shoot FX.png::CompressedTexture2D::3528537131733404002::1619215474::1647816198::1::::<><>::
+shoot with FX.png::CompressedTexture2D::9223089381990630956::1619215474::1647816198::1::::<><>::
+shoot without FX.png::CompressedTexture2D::306581052080032361::1619215474::1647816198::1::::<><>::
+static idle.png::CompressedTexture2D::2907542960975500024::1619215474::1647816198::1::::<><>::
+wake.png::CompressedTexture2D::358758286537977684::1619215474::1647816198::1::::<><>::
+::res://Art/Characters/Character Pack 7/::1647816111
+::res://Art/Characters/Character Pack 7/Mud bender/::1647816111
+Mud damaged and death.png::CompressedTexture2D::8363942654923756532::1600882666::1647816198::1::::<><>::
+Mud mud slap attack.png::CompressedTexture2D::5355624225792530020::1600882623::1647816198::1::::<><>::
+Mud run.png::CompressedTexture2D::7502650835326368110::1600882639::1647816198::1::::<><>::
+Mud slide attack.png::CompressedTexture2D::1931238844958089995::1600882602::1647816198::1::::<><>::
+Mud tele down.png::CompressedTexture2D::2421623644632430609::1600882775::1647816198::1::::<><>::
+Mud tele UP.png::CompressedTexture2D::4572353364927777382::1600882758::1647816198::1::::<><>::
+::res://Art/Characters/Character Pack 7/Mud Guard/::1647816111
+attack 1.png::CompressedTexture2D::1059479839739718053::1600882260::1647816198::1::::<><>::
+attack 2.png::CompressedTexture2D::5283625415300486100::1600882319::1647816198::1::::<><>::
+damaged and death.png::CompressedTexture2D::5197384917052496449::1600882360::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::4973233239817314407::1600882218::1647816198::1::::<><>::
+Run.png::CompressedTexture2D::2579158199617514498::1600882245::1647816198::1::::<><>::
+::res://Art/Characters/Character Pack 7/Summoner and summon/::1647816111
+damaged and death.png::CompressedTexture2D::1964319612743632570::1600883736::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::8273777418111556660::1600883684::1647816198::1::::<><>::
+Mud summon attack.png::CompressedTexture2D::8652810242159724260::1600883773::1647816198::1::::<><>::
+Mud summon death and damaged.png::CompressedTexture2D::5160170189003718888::1600883801::1647816198::1::::<><>::
+Mud summon move.png::CompressedTexture2D::4702392474898677238::1600883760::1647816198::1::::<><>::
+mud summon summon.png::CompressedTexture2D::7790969108383733456::1629944473::1647816198::1::::<><>::
+run.png::CompressedTexture2D::8892498819874496269::1600883699::1647816198::1::::<><>::
+summon.png::CompressedTexture2D::8065171538452559819::1629939724::1647816198::1::::<><>::
+::res://Art/Characters/character Pack 8/::1647816112
+::res://Art/Characters/character Pack 8/shadow of storms/::1647816111
+attack 1.png::CompressedTexture2D::3536847206133486928::1603585047::1647816198::1::::<><>::
+attack 2.png::CompressedTexture2D::6610500052642363623::1603585026::1647816198::1::::<><>::
+damaged and death.png::CompressedTexture2D::4807956190473011709::1603585087::1647816198::1::::<><>::
+heal charge up.png::CompressedTexture2D::8919346144230603567::1603585002::1647816198::1::::<><>::
+idle static 1 frame.png::CompressedTexture2D::3485030677442035794::1603585173::1647816198::1::::<><>::
+run.png::CompressedTexture2D::6707345959286917335::1603585065::1647816199::1::::<><>::
+::res://Art/Characters/character Pack 8/stormhead/::1647816112
+attack.png::CompressedTexture2D::806494758977106669::1603504566::1647816199::1::::<><>::
+damaged.png::CompressedTexture2D::2291164274159914978::1603504588::1647816199::1::::<><>::
+death.png::CompressedTexture2D::8938952494886528757::1603504605::1647816199::1::::<><>::
+idle.png::CompressedTexture2D::2749707550549627831::1603504532::1647816199::1::::<><>::
+run.png::CompressedTexture2D::4790628862888692803::1603504549::1647816199::1::::<><>::
+::res://Art/Characters/character Pack 8/sword of storms/::1647816112
+attack1.png::CompressedTexture2D::221335463153044622::1603503460::1647816199::1::::<><>::
+attack2.png::CompressedTexture2D::2388153524461760306::1603503491::1647816199::1::::<><>::
+damaged and death.png::CompressedTexture2D::3932046542007028797::1603503517::1647816199::1::::<><>::
+idle.png::CompressedTexture2D::5989728177759478231::1603503409::1647816198::1::::<><>::
+run.png::CompressedTexture2D::4609881109292571545::1603503439::1647816198::1::::<><>::
+static idle kneel.png::CompressedTexture2D::5800792881134158817::1603503544::1647816198::1::::<><>::
+::res://Art/Characters/Character Pack 9/::1647816112
+::res://Art/Characters/Character Pack 9/Big Monster/::1647816112
+attack 1t.png::CompressedTexture2D::4618221238100423266::1605148829::1647816198::1::::<><>::
+attack 2t.png::CompressedTexture2D::1017201440482421184::1605148849::1647816198::1::::<><>::
+Bidamaged and death.png::CompressedTexture2D::2770888586434021801::1605148871::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::7422690712524534532::1605148789::1647816198::1::::<><>::
+run.png::CompressedTexture2D::8211876777908420233::1605148806::1647816198::1::::<><>::
+::res://Art/Characters/Character Pack 9/Medium Monster/::1647816112
+damaged and death.png::CompressedTexture2D::3212256877952575438::1605150266::1647816198::1::::<><>::
+idlet.png::CompressedTexture2D::4937445386093028976::1605150142::1647816198::1::::<><>::
+medium mattack 1t.png::CompressedTexture2D::3145867205353713150::1605150184::1647816198::1::::<><>::
+medium mattack 2.png::CompressedTexture2D::6834693909325500948::1605150206::1647816198::1::::<><>::
+runt.png::CompressedTexture2D::7649465556258122771::1605150159::1647816198::1::::<><>::
+::res://Art/Characters/Character Pack 9/Small Monster/::1647816112
+attack.png::CompressedTexture2D::6618595331789798208::1605149070::1647816198::1::::<><>::
+small modeath and damagedt.png::CompressedTexture2D::1615968585773809533::1605149093::1647816198::1::::<><>::
+small moidle.png::CompressedTexture2D::872312993299239632::1605149031::1647816198::1::::<><>::
+small morun.png::CompressedTexture2D::4759218009137562745::1605149049::1647816198::1::::<><>::
+::res://Art/Characters/Exterminator/::1647816112
+appear.png::CompressedTexture2D::7221931115702224424::1619215474::1647816198::1::::<><>::
+appear_tweaked.png::CompressedTexture2D::7620640023460412673::1626151423::1647816198::1::::<><>::
+attack from sky.png::CompressedTexture2D::1656616472567882243::1619215474::1647816198::1::::<><>::
+attack-tweaked.png::CompressedTexture2D::3517945881111543094::1626151423::1647816198::1::::<><>::
+attack.png::CompressedTexture2D::7306177872554612663::1619215474::1647816198::1::::<><>::
+damaged.png::CompressedTexture2D::3303282669234552229::1619215474::1647816198::1::::<><>::
+death.png::CompressedTexture2D::3392538295988862677::1619215474::1647816198::1::::<><>::
+icon2.png::CompressedTexture2D::2532232100343556672::1625286262::1647816198::1::::<><>::
+icon.png::CompressedTexture2D::1842755782342265949::1625286262::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::340156296940568470::1619215474::1647816198::1::::<><>::
+vanish.png::CompressedTexture2D::7145296560371898585::1619215474::1647816198::1::::<><>::
+walk.png::CompressedTexture2D::864672917358037531::1619215474::1647816198::1::::<><>::
+::res://Art/Characters/flamethrower bot/::1647816112
+all.png::CompressedTexture2D::5479991836127722152::1619215424::1647816199::1::::<><>::
+attack.png::CompressedTexture2D::7636463888005526858::1619215424::1647816198::1::::<><>::
+damaged.png::CompressedTexture2D::9090371709814765935::1619215424::1647816198::1::::<><>::
+death.png::CompressedTexture2D::1325510036239708044::1619215424::1647816198::1::::<><>::
+icon.png::CompressedTexture2D::5769887758918665397::1625286262::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::7885429629724076222::1619215424::1647816198::1::::<><>::
+prep attack.png::CompressedTexture2D::8745523275184506269::1619215424::1647816198::1::::<><>::
+run.png::CompressedTexture2D::430602335553413238::1619215424::1647816198::1::::<><>::
+::res://Art/Characters/Landmine Bot/::1647816113
+all.png::CompressedTexture2D::2148769154211459522::1619215424::1647816198::1::::<><>::
+beep.png::CompressedTexture2D::3679613017535547462::1619215424::1647816198::1::::<><>::
+dig.png::CompressedTexture2D::4769806776232829449::1619215424::1647816198::1::::<><>::
+explode.png::CompressedTexture2D::1598325137530707822::1619215424::1647816198::1::::<><>::
+move.png::CompressedTexture2D::523614999437446963::1619215424::1647816198::1::::<><>::
+::res://Art/Characters/Landmine Bot/Merchant Tileset Sidescroller/::1647816113
+Sci-fi Tileset re-imagined.png::CompressedTexture2D::5336259106180334394::1619320212::1647816198::1::::<><>::
+::res://Art/Characters/Landmine Bot/Merchant Tileset Sidescroller/merchant/::1647816113
+idle.png::CompressedTexture2D::1098665422892534806::1619320212::1647816198::1::::<><>::
+walk.png::CompressedTexture2D::832170161668708804::1619320212::1647816198::1::::<><>::
+::res://Art/Characters/Landmine Bot/Merchant Tileset Sidescroller/rock droid merchant/::1647816113
+down.png::CompressedTexture2D::6567815735467566536::1619320212::1647816198::1::::<><>::
+move.png::CompressedTexture2D::1346535360340255512::1619320212::1647816198::1::::<><>::
+no.png::CompressedTexture2D::3374404294212966079::1619320212::1647816198::1::::<><>::
+up.png::CompressedTexture2D::7106811604974119894::1619320212::1647816198::1::::<><>::
+::res://Art/Characters/Merchant/::1647816113
+idle.png::CompressedTexture2D::6515201673248342950::1619036384::1647816198::1::::<><>::
+walk.png::CompressedTexture2D::5926287656532585708::1619036384::1647816198::1::::<><>::
+::res://Art/Characters/Shotgunner/::1647816113
+attack FX.png::CompressedTexture2D::9152991014373236517::1619215429::1647816198::1::::<><>::
+attack.png::CompressedTexture2D::4752157818961920219::1619320228::1647816198::1::::<><>::
+Bonus FX.png::CompressedTexture2D::7039781682370696046::1619215429::1647816198::1::::<><>::
+death.png::CompressedTexture2D::4169282741230024644::1619215429::1647816198::1::::<><>::
+hit.png::CompressedTexture2D::1727507802797100373::1619215429::1647816198::1::::<><>::
+icon.png::CompressedTexture2D::2947144269717513985::1625286262::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::2130816930921214052::1619215429::1647816198::1::::<><>::
+run.png::CompressedTexture2D::9110758669813835414::1619215429::1647816198::1::::<><>::
+shotgun blast FX.png::CompressedTexture2D::3617694853811457367::1619215429::1647816198::1::::<><>::
+shotgun blast.png::CompressedTexture2D::8702661253782588631::1619215429::1647816198::1::::<><>::
+::res://Art/Characters/Sorcerer Bot/::1647816113
+all.png::CompressedTexture2D::2470716320076840862::1619215424::1647816198::1::::<><>::
+attack 1.png::CompressedTexture2D::3254414669120378310::1619215424::1647816198::1::::<><>::
+attack 2.png::CompressedTexture2D::4766190202478229071::1619215424::1647816198::1::::<><>::
+damaged.png::CompressedTexture2D::7295495919561780022::1619215424::1647816198::1::::<><>::
+death.png::CompressedTexture2D::5738292172291893415::1619215424::1647816198::1::::<><>::
+icon2.png::CompressedTexture2D::8701150226584220899::1625286262::1647816198::1::::<><>::
+icon.png::CompressedTexture2D::3043713321570942042::1625286262::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::8325271492741954099::1619215424::1647816198::1::::<><>::
+walk.png::CompressedTexture2D::8266635949735405945::1619215424::1647816198::1::::<><>::
+::res://Art/Characters/Toaster Bot/::1647816113
+all.png::CompressedTexture2D::850210312331030518::1619215424::1647816198::1::::<><>::
+attack.png::CompressedTexture2D::1360697518141455866::1619215424::1647816198::1::::<><>::
+damaged.png::CompressedTexture2D::2732648707345854915::1619215424::1647816198::1::::<><>::
+death.png::CompressedTexture2D::6680167298747789754::1619215424::1647816198::1::::<><>::
+idle.png::CompressedTexture2D::496290798423617012::1619215424::1647816198::1::::<><>::
+run.png::CompressedTexture2D::9036582897977608841::1619215424::1647816198::1::::<><>::
+::res://Art/Environment/::1647816114
+DesertImage.PNG::CompressedTexture2D::8993572289791791852::1628034926::1647816198::1::::<><>::
+LabyrinthImageSmall.PNG::CompressedTexture2D::1939149396869553392::1623642304::1647816198::1::::<><>::
+SCi-fi assets planet one.png::CompressedTexture2D::4193317887954828566::1619137100::1647816198::1::::<><>::
+Sci-fi assets planet two.png::CompressedTexture2D::8791253826491495712::1619036412::1647816198::1::::<><>::
+Sci-fi Tileset re-imagined.png::CompressedTexture2D::4169093398461789772::1619295763::1647816198::1::::<><>::
+SCi-fi-Planet one Add ons v1.png::CompressedTexture2D::1555044931835733101::1619036471::1647816198::1::::<><>::
+shadowtile.png::CompressedTexture2D::4663088912124176357::1619228042::1647816198::1::::<><>::
+SkyRuinsImage.PNG::CompressedTexture2D::1537985085865755766::1623640811::1647816198::1::::<><>::
+SkyRuinsImageSmall.PNG::CompressedTexture2D::6942492006397913499::1623640956::1647816198::1::::<><>::
+::res://Art/Environment/Dungeon Ruins Tileset/::1647816114
+DesertGroundCornerBR.png::CompressedTexture2D::6882022794209247502::1625034916::1647816198::1::::<><>::
+DesertGroundCorners.png::CompressedTexture2D::2448511710440373063::1625035295::1647816198::1::::<><>::
+DesertGroundTile.png::CompressedTexture2D::5042558318618874571::1625034706::1647816198::1::::<><>::
+Dungeon Ruins Tileset Day.png::CompressedTexture2D::342306748421177273::1619036387::1647816198::1::::<><>::
+Dungeon Ruins Tileset Night.png::CompressedTexture2D::8647261587637072005::1619036387::1647816198::1::::<><>::
+::res://Art/Environment/Sci-fi Animations/::1647816114
+Bear Trap animation.png::CompressedTexture2D::5364540382482183900::1619232214::1647816198::1::::<><>::
+blood moon sprite Opacity low.png::CompressedTexture2D::8461751558327169182::1619232214::1647816198::1::::<><>::
+blood moon sprite.png::CompressedTexture2D::5216183585881462648::1619232214::1647816198::1::::<><>::
+clear moon sprite.png::CompressedTexture2D::710802906211001973::1619417715::1647816198::1::::<><>::
+Crafting table Green.png::CompressedTexture2D::8658695011682011609::1619232214::1647816198::1::::<><>::
+Crafting table remote mine.png::CompressedTexture2D::331626202797765147::1619232214::1647816198::1::::<><>::
+Sci-fi Tileset re-imagined.png::CompressedTexture2D::7467902470468634681::1619295767::1647816198::1::::<><>::
+Ship Cruise Control.png::CompressedTexture2D::1382529940228507253::1619232214::1647816198::1::::<><>::
+Ship Lightspeed.png::CompressedTexture2D::5885869151964590093::1619232214::1647816198::1::::<><>::
+Ship Rise light speed.png::CompressedTexture2D::1555300596378294949::1619232214::1647816198::1::::<><>::
+Water Pump Animation P1.png::CompressedTexture2D::2244001764933155883::1619232214::1647816198::1::::<><>::
+Weather Station on Greenhouse.png::CompressedTexture2D::4662061783047639868::1619232214::1647816198::1::::<><>::
+Weather Station P1.png::CompressedTexture2D::4876380394923972126::1619232214::1647816198::1::::<><>::
+::res://Art/Environment/Sky Ruins/::1647816114
+SkyRuins_Ground_Tileset.png::CompressedTexture2D::2616842729596218854::1630810042::1647816198::1::::<><>::
+::res://Art/Fonts/::1647816114
+C&C Red Alert [INET].ttf::FontData::2176437799227777421::1626153738::1647816198::1::::<><>::
+DefaultSmall.tres::Font::-1::1629586359::0::1::::<><>::res://Art/Fonts/Retron2000.ttf
+DefaultText.tres::Font::-1::1629248491::0::1::::<><>::res://Art/Fonts/Retron2000.ttf
+DefaultXSmall.tres::Font::-1::1629250747::0::1::::<><>::res://Art/Fonts/Retron2000.ttf
+Non-BitmapDefault.tres::Font::-1::1629245545::0::1::::<><>::res://Art/Fonts/SometypeMono-Medium.ttf
+Non-BitmapDefaultItalic.tres::Font::-1::1629245530::0::1::::<><>::res://Art/Fonts/SometypeMono-MediumItalic.ttf
+OpenSans-Italic.ttf::FontData::3301109141023787202::1629244587::1647816198::1::::<><>::
+OpenSans-Regular.ttf::FontData::2675513990707886002::1629244583::1647816198::1::::<><>::
+pixelmix.ttf::FontData::4546900059021964349::1619389926::1647816198::1::::<><>::
+README [INET].txt::TextFile::-1::1626153759::0::1::::<><>::
+Retron2000.ttf::FontData::5477658477239761588::1629248430::1647816198::1::::<><>::
+SometypeMono-Medium.ttf::FontData::6601994020854240100::1629245463::1647816198::1::::<><>::
+SometypeMono-MediumItalic.ttf::FontData::8661591366576968769::1629245466::1647816198::1::::<><>::
+square 23.ttf::FontData::4483161168040536262::1619389922::1647816198::1::::<><>::
+Text.tres::Font::-1::1629586686::0::1::::<><>::res://Art/Fonts/pixelmix.ttf
+Title.tres::Font::-1::1636695408::0::1::::<><>::res://Art/Fonts/square 23.ttf
+::res://Art/Lights/::1647816115
+CircleLight.png::CompressedTexture2D::2895441986172720961::1623299476::1647816198::1::::<><>::
+SemicircleLight.png::CompressedTexture2D::857457660912645675::1623299476::1647816198::1::::<><>::
+Spotlight.png::CompressedTexture2D::5222248186528079097::1623299476::1647816198::1::::<><>::
+::res://Art/Lights/HiRes/::1647816115
+light.png::CompressedTexture2D::2356594481859079346::1623299476::1647816198::1::::<><>::
+SemicircleLight.png::CompressedTexture2D::3823449963362486083::1623299476::1647816198::1::::<><>::
+SmoothLight.png::CompressedTexture2D::8086915777435953746::1623299476::1647816198::1::::<><>::
+Spotlight.png::CompressedTexture2D::1740912037748992074::1623299476::1647816199::1::::<><>::
+::res://Art/Lights/LowRes/::1647816115
+CircleLight.png::CompressedTexture2D::430621877850628209::1623299476::1647816198::1::::<><>::
+::res://Art/Particles/::1647816115
+DustCurl.png::CompressedTexture2D::6448333609687688126::1632359667::1647816198::1::::<><>::
+DustPuff.png::CompressedTexture2D::8323044554223577563::1632359667::1647816198::1::::<><>::
+::res://Art/Shields/::1647816115
+Circle_162.png::CompressedTexture2D::4985974320003026180::1626151423::1647816198::1::::<><>::
+Circle_234.png::CompressedTexture2D::6117185604215712078::1626151423::1647816198::1::::<><>::
+QuarterCircle.png::CompressedTexture2D::466874936932366493::1626151424::1647816198::1::::<><>::
+::res://Art/Theme/::1647816115
+Button9Slice.png::CompressedTexture2D::4445216880879835252::1609724887::1647816198::1::::<><>::
+Button9Slice.tres::StyleBoxTexture::-1::1623563462::0::1::::<><>::res://Art/Theme/Button9Slice.png
+Button9SliceHover.png::CompressedTexture2D::7367716196139396464::1609724887::1647816198::1::::<><>::
+Button9SliceHover.tres::StyleBoxTexture::-1::1623561128::0::1::::<><>::res://Art/Theme/Button9SliceHover.png
+Button9SlicePressed.png::CompressedTexture2D::1830954408772272945::1609724887::1647816198::1::::<><>::
+Button9SlicePressed.tres::StyleBoxTexture::-1::1623561128::0::1::::<><>::res://Art/Theme/Button9SlicePressed.png
+DefaultTheme.tres::Theme::-1::1636695409::0::1::::<><>::res://Art/Fonts/DefaultText.tres<>res://Art/Theme/Button9Slice.tres<>res://Art/Theme/Button9SlicePressed.tres<>res://Art/Theme/Button9SliceHover.tres<>res://Art/Theme/Panel9Slice.tres<>res://Art/Theme/Button9Slice.png<>res://Art/Theme/Button9SliceHover.png
+Panel9Slice.png::CompressedTexture2D::4967100796540061621::1609724887::1647816198::1::::<><>::
+Panel9Slice.tres::StyleBoxTexture::-1::1623561461::0::1::::<><>::res://Art/Theme/Panel9Slice.png
+::res://Art/Upgrades/::1647816115
+discharge_flail.png::CompressedTexture2D::7491308982855853540::1629158747::1647816198::1::::<><>::
+induction_barrel.png::CompressedTexture2D::8976871672218122463::1629158747::1647816198::1::::<><>::
+shock_stock.png::CompressedTexture2D::6840298753699246870::1629158747::1647816198::1::::<><>::
+soldering_fingers.png::CompressedTexture2D::2796636329542690862::1629158747::1647816198::1::::<><>::
+stacked_shells.png::CompressedTexture2D::8228251173821199121::1629158747::1647816198::1::::<><>::
+::res://Builds/::1647816117
+GolemAlphaFeedbackSurvey.txt::TextFile::-1::1628213798::0::1::::<><>::
+::res://Builds/GolemHTML/::1647816116
+favicon.png::CompressedTexture2D::8078409975369003775::1628729202::1647816198::1::::<><>::
+index.png::CompressedTexture2D::2001089598995877995::1628729202::1647816198::1::::<><>::
+::res://Builds/GolemMACALPHA/::1647816116
+::res://Builds/GolemWINDOWSALPHA/::1647816118
+save.json::TextFile::-1::1629586496::0::1::::<><>::
+::res://Globals/::1647816118
+GameManager.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scripts/GameManager.gd<>res://Scenes/SceneTransition.tscn<>res://Sounds/SoundEffects/ShotgunReload.wav
+Options.gd::GDScript::-1::1629495956::0::1::::<><>::
+Options.tscn::PackedScene::-1::1627935466::0::1::::<><>::res://Globals/Options.gd<>res://Sounds/Music/cuuuu b3.wav
+::res://Scenes/::1647816120
+AStar.tscn::PackedScene::-1::1619480077::0::1::::<><>::res://Scripts/AStar.gd
+BloodMoon.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Art/Environment/Sci-fi Animations/blood moon sprite.png<>res://Scripts/BloodMoon.gd<>res://Sounds/SoundEffects/slowdown MID.wav<>res://Sounds/SoundEffects/slowdown END.wav<>res://Sounds/SoundEffects/slowdown BGN.wav<>res://Sounds/SoundEffects/LVup.wav<>res://Shaders/Greyscale.tres
+BossMarker.tscn::PackedScene::-1::1628210198::0::1::::<><>::res://Art/boss_icon.png
+BossSoul.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scenes/BloodMoon.tscn<>res://Art/Environment/Sci-fi Animations/clear moon sprite.png<>res://Scripts/BossSoul.gd<>res://Art/GreatValueWorldMap.png<>res://Scenes/LevelLoadTrigger.tscn<>res://Scenes/Particles/EVParticles.tscn
+Bullet.tscn::PackedScene::-1::1630887552::0::1::::<><>::res://Art/Bullets/EnemyBullet-sheet.png<>res://Scripts/Bullet.gd<>res://Art/Bullets/FlameBullet_sheet.png<>res://Art/Bullets/WaveBullet_sheet.png
+CharacterLights.tscn::PackedScene::-1::1623299476::0::1::::<><>::res://Art/CircleLight.png<>res://Art/Lights/Spotlight.png
+ClearMoon.tscn::PackedScene::-1::1625538035::0::1::::<><>::res://Art/Environment/Sci-fi Animations/clear moon sprite.png
+Cursor.tscn::PackedScene::-1::1627935467::0::1::::<><>::res://Scripts/Cursor.gd<>res://Art/reticle-export.png<>res://Art/Circle.png<>res://Art/special.png
+DeathOrb.tscn::PackedScene::-1::1630887552::0::1::::<><>::res://Art/Bullets/death_orb1.png<>res://Scripts/DeathOrb.gd
+DeathScreen.tscn::PackedScene::-1::1628877273::0::1::::<><>::res://Art/Fonts/Text.tres<>res://Scripts/DeathScreen.gd
+EnemyFX.tscn::PackedScene::-1::1633236714::0::1::::<><>::res://Scenes/HealthBar.tscn<>res://Scenes/ClearMoon.tscn<>res://Scenes/Particles/EVParticles.tscn<>res://Scenes/CharacterLights.tscn<>res://Art/Particles/DustCurl.png<>res://Scripts/FakeExplosiveness.gd<>res://Art/Environment/Sci-fi Animations/clear moon sprite.png<>res://Art/medShadow.png<>res://Art/Particles/DustPuff.png
+EnemyPillar.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Scripts/EnemyPillar.gd<>res://Art/Environment/Sci-fi Tileset re-imagined.png
+Explosion.tscn::PackedScene::-1::1625538035::0::1::::<><>::res://Scripts/Explosion.gd<>res://Art/Characters/Landmine Bot/explode.png
+FlakBullet.tscn::PackedScene::-1::1630887552::0::1::::<><>::res://Art/Bullets/EnemyBullet-sheet.png<>res://Scripts/FlakBullet.gd<>res://Art/Bullets/FlameBullet_sheet.png<>res://Art/Bullets/WaveBullet_sheet.png
+Fog.tscn::PackedScene::-1::1623735334::0::1::::<><>::res://Art/TinyTextureBlack.png
+GasCloud.tscn::PackedScene::-1::1629486895::0::1::::<><>::res://Scripts/GasCloud.gd<>res://Art/Bullets/GasCloud.png
+GhostImage.tscn::PackedScene::-1::1623643809::0::1::::<><>::res://Scripts/GhostImage.gd
+Grapple.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scripts/Grapple.gd<>res://Art/chain.png
+HealthBar.tscn::PackedScene::-1::1623299476::0::1::::<><>::res://Art/healthbar_yellow.png<>res://Art/healthbar_red.png
+HUDCamera.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scripts/Camera.gd<>res://Art/Vignette.png<>res://Scripts/NoiseVignette.gd<>res://Art/sub_reticle.png<>res://Scenes/BossMarker.tscn<>res://Scenes/Cursor.tscn<>res://Scenes/PauseScreen.tscn<>res://Scenes/DeathScreen.tscn<>res://Scenes/ScoreDisplay.tscn<>res://Scenes/SwapBar.tscn
+ImmediateGeometry.gd::GDScript::-1::1619321010::0::1::::<>ImmediateGeometry<>::
+ItemPopup.gd::GDScript::-1::1629158747::0::1::::<><>::
+ItemPopup.tscn::PackedScene::-1::1626296767::0::1::::<><>::res://Art/reticle.png<>res://Scenes/ItemPopup.gd<>res://Art/Fonts/C&C Red Alert [INET].ttf
+LandmineBot.tscn::PackedScene::-1::1619408010::0::1::::<><>::res://Art/Characters/Landmine Bot/all.png<>res://Scripts/LandmineBot.gd<>res://Scenes/BloodMoon.tscn
+LaserBeam.tscn::PackedScene::-1::1630878173::0::1::::<><>::res://Art/Bullets/RailgunBeam.png<>res://Scripts/LaserBeam.gd
+LevelLoadTrigger.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Art/special.png<>res://Scripts/LevelLoadTrigger.gd
+LevelTest.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Scenes/Characters/ChainBot.tscn<>res://Scenes/Tilesets/SkyExtras.tscn<>res://Scenes/Tilesets/Sky.tscn<>res://Scripts/Camera.gd
+MapZone.tscn::PackedScene::-1::1628877273::0::1::::<><>::res://Scripts/MapZone.gd
+MapZoneManager.tscn::PackedScene::-1::1633316209::0::1::::<><>::res://Scripts/MapZoneManager.gd
+PauseScreen.tscn::PackedScene::-1::1629257532::0::1::::<><>::res://Scripts/OptionsPauseMenu.gd<>res://Scenes/Menus/OptionsMenu.tscn<>res://Scripts/PauseScreen.gd
+SaberRing.tscn::PackedScene::-1::1628135823::0::1::::<><>::res://Art/Characters/3 Saber dude/spinning_sabers-sheet.png<>res://Scripts/SaberRing.gd
+SceneTransition.tscn::PackedScene::-1::1626296767::0::1::::<><>::res://Scripts/SceneTransition.gd
+ScoreDisplay.tscn::PackedScene::-1::1627935467::0::1::::<><>::res://Scripts/ScoreDisplay.gd<>res://Art/Fonts/DefaultText.tres<>res://Scripts/UIFX.gd<>res://Art/Fonts/Title.tres<>res://Scripts/EVLNumber.gd<>res://Art/EVL_backgrounds.png<>res://Art/EVL_numbers.png<>res://Shaders/Noise.tres
+ScorePopup.tscn::PackedScene::-1::1623299476::0::1::::<><>::res://Scripts/ScorePopup.gd<>res://Art/Fonts/Text.tres
+Sorting Test.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scenes/WorldObjects/Medium Rock.tscn<>res://Scenes/WorldObjects/LargeRock.tscn<>res://Scenes/WorldObjects/Awning.tscn<>res://Scenes/WorldObjects/Marble Orb.tscn<>res://Scenes/WorldObjects/Pipe1.tscn<>res://Scenes/WorldObjects/Pipe2.tscn<>res://Scenes/WorldObjects/Dwelling.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/WorldObjects/Arch.tscn
+SwapBar.tscn::PackedScene::-1::1630012121::0::1::::<><>::res://Scripts/SwapBar.gd<>res://Art/NewSwap.png<>res://Art/Caution Tape3-export.png<>res://Art/FilledBarWhite.png<>res://Sounds/SoundEffects/Wub1.wav<>res://Sounds/SoundEffects/warningbeep.wav<>res://Art/swap_item_indicator.png<>res://Shaders/Flash.tres<>res://Sounds/SoundEffects/ItemGet.wav<>res://Art/swap_item_progress.png<>res://Shaders/Noise.tres<>res://Art/Vignette.png<>res://Scenes/Particles/HeavySparkParticles.tscn<>res://Sounds/SoundEffects/ElectricNoiseLoop.wav<>res://Art/SwapBarMarker.png
+testworld.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scenes/Characters/ExterminatorBot.tscn<>res://Scripts/Camera.gd
+ToasterBot.tscn::PackedScene::-1::1619408008::0::1::::<><>::res://Art/Characters/Toaster Bot/idle.png<>res://Scripts/ToasterBot.gd<>res://Scenes/BloodMoon.tscn<>res://Art/Characters/Toaster Bot/run.png<>res://Art/Characters/Toaster Bot/death.png<>res://Art/Characters/Toaster Bot/damaged.png<>res://Art/Characters/Toaster Bot/all.png
+Transcender.tscn::PackedScene::-1::1628137141::0::1::::<><>::res://Scripts/Transcender.gd
+TranscenderAnimation.tscn::PackedScene::-1::1619321010::0::1::::<><>::
+TutorialLevel.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Scenes/Tilesets/Sky.tscn<>res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scripts/Camera.gd<>res://Scripts/TutorialLevel.gd<>res://Scenes/Characters/WheelBot.tscn<>res://Scenes/Tilesets/SkyExtras.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Transcender.tscn<>res://Scenes/Fog.tscn<>res://Scenes/SwapBar.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Obstacles.tscn<>res://Scenes/Tilesets/Obstacles.gd<>res://Scenes/Tilesets/Ground.gd<>res://Scenes/AStar.tscn<>res://Scenes/ScoreDisplay.tscn<>res://Scenes/Characters/Merchant.tscn<>res://Scenes/Cursor.tscn<>res://Scenes/DeathScreen.tscn<>res://Scenes/PauseScreen.tscn<>res://Scripts/Wall.gd
+VortexWave.tscn::PackedScene::-1::1627935467::0::1::::<><>::res://Art/Bullets/EnemyBullet-sheet.png<>res://Scripts/VortexWave.gd<>res://Art/Bullets/FlameBullet_sheet.png<>res://Art/Bullets/WaveBullet_sheet.png
+World.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scenes/HUDCamera.tscn<>res://Scenes/Fog.tscn<>res://Scripts/World.gd<>res://Scenes/Transcender.tscn<>res://Shaders/Fog_SkyRuins.tres<>res://Scenes/BloodMoon.tscn<>res://Art/TinyTexture.png
+::res://Scenes/Characters/::1647816119
+ArcherBot.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scenes/EnemyFX.tscn<>res://Scripts/Characters/ArcherBot.gd<>res://Art/Characters/Archer/hit.png<>res://Art/Characters/Archer/Special Attack with FX.png<>res://Art/Characters/Archer/attack release.png<>res://Art/Characters/Archer/run.png<>res://Art/Characters/Archer/death.png<>res://Art/Characters/Archer/attack charge.png<>res://Art/Characters/Archer/idle.png<>res://Art/Characters/Archer/attack ready.png<>res://Art/Characters/Archer/Attack FX.png<>res://Art/Bullets/Beam.png<>res://Art/healthbar-Sheet.png<>res://Sounds/SoundEffects/puff1.wav<>res://Sounds/SoundEffects/step3.wav<>res://Sounds/SoundEffects/chargeexplosion.wav<>res://Sounds/SoundEffects/chargeshot.wav<>res://Sounds/SoundEffects/warningbeep.wav<>res://Sounds/SoundEffects/step2.wav<>res://Shaders/Flash.tres<>res://Sounds/SoundEffects/charge1.wav
+ChainBot.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scenes/EnemyFX.tscn<>res://Art/Characters/Ball and Chain Bot/idle.png<>res://Art/Characters/Ball and Chain Bot/death.png<>res://Art/Characters/Ball and Chain Bot/hit.png<>res://Art/Characters/Ball and Chain Bot/attack.png<>res://Art/Characters/Ball and Chain Bot/charge.png<>res://Art/Characters/Ball and Chain Bot/run.png<>res://Scripts/Characters/ChainBot.gd<>res://Scenes/Grapple.tscn<>res://Sounds/SoundEffects/whip1.wav<>res://Sounds/SoundEffects/heavystep.wav<>res://Sounds/SoundEffects/step5.wav<>res://Sounds/SoundEffects/charge1.wav<>res://Sounds/SoundEffects/chaindie.wav<>res://Shaders/Flash.tres
+ExterminatorBot.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scripts/Characters/ExterminatorBot.gd<>res://Art/Characters/Exterminator/attack.png<>res://Art/Characters/Exterminator/appear.png<>res://Art/Characters/Exterminator/walk.png<>res://Art/Characters/Exterminator/damaged.png<>res://Art/Characters/Exterminator/vanish.png<>res://Art/Characters/Exterminator/death.png<>res://Art/Characters/Exterminator/idle.png<>res://Scenes/EnemyFX.tscn<>res://Sounds/SoundEffects/puff2.wav<>res://Sounds/SoundEffects/step.wav<>res://Sounds/SoundEffects/teleport.wav<>res://Sounds/SoundEffects/step2.wav<>res://Art/Shields/QuarterCircle.png<>res://Shaders/Flash.tres<>res://Art/Characters/Exterminator/appear_tweaked.png<>res://Sounds/SoundEffects/RevUpSteam.wav<>res://Sounds/SoundEffects/Zing.wav<>res://Sounds/SoundEffects/chaindie.wav
+FlamethrowerBot.tscn::PackedScene::-1::1633241079::0::1::::<><>::res://Scripts/Characters/FlamethrowerBot.gd<>res://Art/Characters/flamethrower bot/run.png<>res://Art/Characters/flamethrower bot/idle.png<>res://Scenes/EnemyFX.tscn<>res://Art/Characters/flamethrower bot/damaged.png<>res://Art/Characters/flamethrower bot/death.png<>res://Art/Characters/flamethrower bot/prep attack.png<>res://Art/Characters/flamethrower bot/attack.png<>res://Sounds/SoundEffects/flamethrower.wav<>res://Sounds/SoundEffects/explode1.wav<>res://Sounds/SoundEffects/step5.wav<>res://Shaders/Flash.tres<>res://Sounds/SoundEffects/dash.wav
+Merchant.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Art/Characters/Merchant/walk.png<>res://Art/Characters/Merchant/idle.png<>res://Scenes/EnemyFX.tscn<>res://Scripts/Characters/Merchant.gd<>res://Sounds/SoundEffects/step.wav<>res://Art/Fonts/Text.tres<>res://Scenes/CharacterLights.tscn<>res://Art/medShadow.png<>res://Scenes/HealthBar.tscn
+MudBender.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Art/medShadow.png<>res://Art/Characters/Character Pack 7/Mud bender/Mud run.png<>res://Art/Characters/Character Pack 7/Mud bender/Mud mud slap attack.png<>res://Art/Characters/Character Pack 7/Mud bender/Mud damaged and death.png<>res://Art/Characters/Character Pack 7/Mud bender/Mud slide attack.png<>res://Scripts/Characters/MudBender.gd<>res://Art/Characters/Character Pack 7/Mud bender/Mud tele UP.png<>res://Art/Characters/Character Pack 7/Mud bender/Mud tele down.png<>res://Scenes/HealthBar.tscn<>res://Scenes/CharacterLights.tscn<>res://Art/Environment/Sci-fi Animations/clear moon sprite.png<>res://Scenes/ClearMoon.tscn<>res://Scenes/Particles/EVParticles.tscn<>res://Shaders/Flash.tres
+SaberBot.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scenes/EnemyFX.tscn<>res://Art/Characters/3 Saber dude/quick spin attack.png<>res://Art/Characters/3 Saber dude/idle.png<>res://Art/Characters/3 Saber dude/damaged.png<>res://Art/Characters/3 Saber dude/death or vanish.png<>res://Art/Characters/3 Saber dude/move.png<>res://Art/Characters/3 Saber dude/telekenisis dart attack.png<>res://Art/Characters/3 Saber dude/telekenisis attack.png<>res://Art/Characters/3 Saber dude/move_no_sabers.png<>res://Art/Characters/3 Saber dude/idle_no_sabers.png<>res://Art/TinyTexture.png<>res://Scripts/Characters/SaberBot.gd<>res://Shaders/Flash.tres<>res://Sounds/SoundEffects/step.wav<>res://Sounds/SoundEffects/wheeldie.wav<>res://Sounds/SoundEffects/chargeshot2.wav
+ShotgunnerBot.tscn::PackedScene::-1::1633320563::0::1::::<><>::res://Art/Characters/Shotgunner/idle.png<>res://Scripts/Characters/ShotgunnerBot.gd<>res://Scenes/EnemyFX.tscn<>res://Art/Characters/Shotgunner/shotgun blast.png<>res://Art/Characters/Shotgunner/run.png<>res://Art/Characters/Shotgunner/attack.png<>res://Art/Characters/Shotgunner/death.png<>res://Art/Characters/Shotgunner/hit.png<>res://Art/Characters/Shotgunner/shotgun blast FX.png<>res://Sounds/SoundEffects/shotgun.wav<>res://Sounds/SoundEffects/relaod.wav<>res://Sounds/SoundEffects/step2.wav<>res://Sounds/SoundEffects/shotgunnerdie.wav<>res://Sounds/SoundEffects/step5.wav<>res://Shaders/Flash.tres<>res://Sounds/SoundEffects/whip1.wav<>res://Sounds/SoundEffects/CrispExplosion.wav
+SorcererBot.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Art/Characters/Sorcerer Bot/death.png<>res://Art/Characters/Sorcerer Bot/damaged.png<>res://Art/Characters/Sorcerer Bot/idle.png<>res://Art/Characters/Sorcerer Bot/attack 2.png<>res://Art/Characters/Sorcerer Bot/attack 1.png<>res://Art/Characters/Sorcerer Bot/walk.png<>res://Scripts/Characters/SorcererBot.gd<>res://Scenes/EnemyFX.tscn<>res://Shaders/Flash.tres<>res://Scripts/SorcererStand.gd<>res://Sounds/SoundEffects/Squelch.wav<>res://Sounds/SoundEffects/teleport.wav<>res://Sounds/SoundEffects/wheel2.wav<>res://Sounds/SoundEffects/chargeshot2.wav
+WheelBot.tscn::PackedScene::-1::1633315043::0::1::::<><>::res://Scripts/Characters/WheelBot.gd<>res://Art/Characters/Bot Wheel/move without FX.png<>res://Scenes/EnemyFX.tscn<>res://Art/Characters/Bot Wheel/GAS dash with FX.png<>res://Art/Characters/Bot Wheel/shoot with FX.png<>res://Art/Characters/Bot Wheel/charge.png<>res://Art/Characters/Bot Wheel/move with FX.png<>res://Art/Characters/Bot Wheel/death.png<>res://Art/Characters/Bot Wheel/damaged.png<>res://Art/Characters/Bot Wheel/GAS dash FX.png<>res://Sounds/SoundEffects/shoot1.wav<>res://Sounds/SoundEffects/dash.wav<>res://Sounds/SoundEffects/wheel2.wav<>res://Sounds/SoundEffects/wheeldie.wav<>res://Shaders/Flash.tres<>res://Art/LockOnTarget-sheet.png<>res://Sounds/SoundEffects/SawArp.wav
+::res://Scenes/Characters/Bosses/::1647816119
+DesertBossMinion.tscn::PackedScene::-1::1633320562::0::1::::<><>::res://Art/Characters/Character Pack 7/Summoner and summon/Mud summon death and damaged.png<>res://Art/Characters/Character Pack 7/Summoner and summon/Mud summon attack.png<>res://Art/Characters/Character Pack 7/Summoner and summon/Mud summon move.png<>res://Art/medShadow.png<>res://Art/Characters/Character Pack 7/Summoner and summon/mud summon summon.png<>res://Scripts/Bosses/DesertBossSmall.gd<>res://Scenes/EnemyFX.tscn<>res://Shaders/Flash.tres
+DesertSpawner.tscn::PackedScene::-1::1633320563::0::1::::<><>::res://Art/medShadow.png<>res://Scripts/Characters/DesertSpawner.gd<>res://Art/Characters/Character Pack 7/Summoner and summon/idle.png<>res://Art/Characters/Character Pack 7/Summoner and summon/run.png<>res://Art/Characters/Character Pack 7/Summoner and summon/damaged and death.png<>res://Art/Characters/Character Pack 7/Summoner and summon/summon.png<>res://Scenes/EnemyFX.tscn<>res://Shaders/Flash.tres
+FinalBoss.tscn::PackedScene::-1::1628377315::0::1::::<><>::res://Art/Characters/character Pack 8/shadow of storms/idle static 1 frame.png<>res://Art/Characters/character Pack 8/shadow of storms/run.png<>res://Art/medShadow.png<>res://Art/Characters/character Pack 8/shadow of storms/damaged and death.png<>res://Art/Characters/character Pack 8/shadow of storms/attack 2.png<>res://Art/Characters/character Pack 8/shadow of storms/attack 1.png<>res://Art/Characters/character Pack 8/shadow of storms/heal charge up.png
+LabyrinthBoss.tscn::PackedScene::-1::1628375599::0::1::::<><>::res://Art/Characters/character Pack 8/stormhead/death.png<>res://Art/Characters/character Pack 8/stormhead/run.png<>res://Art/Characters/character Pack 8/stormhead/idle.png<>res://Art/Characters/character Pack 8/stormhead/attack.png
+SkyRuinsBoss.tscn::PackedScene::-1::1633316209::0::1::::<><>::res://Art/Characters/Character Pack 9/Big Monster/attack 1t.png<>res://Art/Characters/Character Pack 9/Big Monster/Bidamaged and death.png<>res://Art/Characters/Character Pack 9/Big Monster/run.png<>res://Art/Characters/Character Pack 9/Big Monster/attack 2t.png<>res://Art/Characters/Character Pack 9/Big Monster/idle.png<>res://Scenes/EnemyFX.tscn<>res://Scripts/Bosses/SkyRuinsBoss.gd<>res://Shaders/Flash.tres<>res://Scenes/Particles/ChargeParticles.tscn<>res://Art/sub_reticle.png<>res://Scenes/Particles/HeavySparkParticles.tscn
+::res://Scenes/Debug/::1647816119
+EVLButton.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Art/EVL_numbers.png<>res://Scripts/EVLButton.gd<>res://Scripts/EVLNumber.gd<>res://Art/special.png<>res://Art/EVL_backgrounds.png<>res://Shaders/Noise.tres
+SummonButton.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Scripts/SummonButton.gd<>res://Art/Characters/Shotgunner/icon.png<>res://Art/special.png
+TranquilityBeacon.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Art/Fonts/C&C Red Alert [INET].ttf<>res://Scripts/TranquilityBeacon.gd<>res://Art/special.png
+::res://Scenes/Levels/::1647816119
+Desert1.tscn::PackedScene::-1::1630809816::0::1::::<><>::res://Scenes/Tilesets/Obstacles.tscn<>res://Scenes/Tilesets/DesertExtras.tscn<>res://Scenes/Tilesets/DesertGround.tscn<>res://Scenes/Tilesets/Desert.tscn<>res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scenes/Transcender.tscn<>res://Art/TinyTexture.png<>res://Scripts/Level.gd<>res://Scenes/Characters/ChainBot.tscn<>res://Scripts/Wall.gd<>res://Scenes/Tilesets/Obstacles.gd<>res://Scenes/Tilesets/Ground.gd<>res://Scenes/Characters/Merchant.tscn<>res://Scenes/Characters/FlamethrowerBot.tscn<>res://Scenes/WorldObjects/Awning.tscn<>res://Scenes/WorldObjects/LargeRock.tscn<>res://Scenes/WorldObjects/Medium Rock.tscn
+Labyrinth1.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Shaders/Fog_Labyrinth.tres<>res://Scenes/Tilesets/DungeonWall.tscn<>res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Transcender.tscn<>res://Scenes/Tilesets/DungeonWallForeground.tscn<>res://Scenes/Tilesets/DungeonGround.tscn<>res://Scenes/Tilesets/DungeonExtras.tscn<>res://Scripts/DungeonWallForeground.gd<>res://Scenes/MapZone.tscn<>res://Scenes/Characters/Merchant.tscn<>res://Scenes/AStar.tscn<>res://Scenes/Tilesets/Obstacles.tscn<>res://Scenes/Tilesets/Ground.gd<>res://Scripts/Wall.gd<>res://Scenes/Tilesets/Obstacles.gd<>res://Scripts/Level.gd<>res://Scenes/Fog.tscn<>res://Art/Lights/SemicircleLight.png<>res://Scenes/WorldObjects/Marble Orb.tscn<>res://Scenes/WorldObjects/LargeRock.tscn<>res://Scenes/WorldObjects/Medium Rock.tscn<>res://Art/Lights/CircleLight.png<>res://Art/TinyTexture.png<>res://Art/Lights/Spotlight.png<>res://Scenes/Characters/SaberBot.tscn<>res://Scenes/MapZoneManager.tscn
+SkyRuins1.tscn::PackedScene::-1::1633316209::0::1::::<><>::res://Scenes/Tilesets/Sky.tscn<>res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/MapZoneManager.tscn<>res://Scenes/WorldObjects/LargeRock.tscn<>res://Scenes/WorldObjects/Dwelling2.tscn<>res://Scenes/WorldObjects/Dwelling.tscn<>res://Scenes/WorldObjects/Pipe2.tscn<>res://Scenes/WorldObjects/Container.tscn<>res://Scenes/WorldObjects/Pipe1.tscn<>res://Scenes/WorldObjects/Tower.tscn<>res://Scenes/WorldObjects/Medium Rock.tscn<>res://Scenes/WorldObjects/Marble Orb.tscn<>res://Scenes/Tilesets/SkyExtras.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/WorldObjects/Awning.tscn<>res://Scenes/WorldObjects/BrokenDweling.tscn<>res://Scenes/Transcender.tscn<>res://Scenes/Fog.tscn<>res://Shaders/Fog_SkyRuins.tres<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/MapZone.tscn<>res://Scenes/Tilesets/Obstacles.tscn<>res://Scenes/Tilesets/Obstacles.gd<>res://Scenes/Tilesets/Ground.gd<>res://Scenes/AStar.tscn<>res://Scenes/LevelLoadTrigger.tscn<>res://Scenes/Characters/Merchant.tscn<>res://Scripts/Level.gd<>res://Scripts/Wall.gd
+TestRoom.tscn::PackedScene::-1::1633578695::0::1::::<><>::res://Scenes/Tilesets/DungeonGround.tscn<>res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/MapZoneManager.tscn<>res://Scenes/Tilesets/DungeonWall.tscn<>res://Scenes/Debug/SummonButton.tscn<>res://Scenes/Debug/EVLButton.tscn<>res://Scenes/Debug/TranquilityBeacon.tscn<>res://Scenes/Characters/Bosses/DesertSpawner.tscn<>res://Shaders/Wormhole.tres<>res://Art/Vignette.png<>res://Shaders/Greyscale.tres<>res://Scenes/Fog.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Obstacles.gd<>res://Scenes/Tilesets/Ground.gd<>res://Scenes/LevelLoadTrigger.tscn<>res://Scripts/Level.gd<>res://Scripts/Wall.gd
+WarpRoom.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scenes/BossSoul.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Transcender.tscn<>res://Scenes/Fog.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Obstacles.tscn<>res://Scenes/Tilesets/Obstacles.gd<>res://Scenes/Tilesets/Ground.gd<>res://Scenes/LevelLoadTrigger.tscn<>res://Scripts/Level.gd<>res://Scripts/Wall.gd
+::res://Scenes/Levels/SkyRuins/::1647816119
+::res://Scenes/Levels/SkyRuins/BottomLeft/::1647816119
+BottomLeftEmpty.tscn::PackedScene::-1::1628567770::0::1::::<><>::res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Tilesets/Ground.tscn
+BottomLeftStandard.tscn::PackedScene::-1::1628568863::0::1::::<><>::res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/WorldObjects/Awning.tscn<>res://Scenes/WorldObjects/Marble Orb.tscn
+::res://Scenes/Levels/SkyRuins/BottomMid/::1647816119
+BottomMiddleEmpty.tscn::PackedScene::-1::1628877273::0::1::::<><>::res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Tilesets/Ground.tscn
+BottomMiddleStand.tscn::PackedScene::-1::1630810042::0::1::::<><>::res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Tilesets/Ground.tscn
+::res://Scenes/Levels/SkyRuins/BottomRight/::1647816119
+BottomRightEmpty.tscn::PackedScene::-1::1628877273::0::1::::<><>::res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Tilesets/Ground.tscn
+BottomRightStandard.tscn::PackedScene::-1::1633316209::0::1::::<><>::res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Art/Environment/Sky Ruins/SkyRuins_Ground_Tileset.png
+::res://Scenes/Levels/SkyRuins/MidLeft/::1647816119
+MidLeftEmpty.tscn::PackedScene::-1::1628572954::0::1::::<><>::res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn
+MidLeftStandard.tscn::PackedScene::-1::1629158648::0::1::::<><>::res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/WorldObjects/Dwelling2.tscn<>res://Scenes/WorldObjects/Dwelling.tscn<>res://Scenes/WorldObjects/Pipe1.tscn<>res://Scenes/WorldObjects/Marble Orb.tscn<>res://Scenes/WorldObjects/LargeRock.tscn
+::res://Scenes/Levels/SkyRuins/MidMid/::1647816119
+MidMidEmpty.tscn::PackedScene::-1::1628572579::0::1::::<><>::res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn
+MidMidStandard.tscn::PackedScene::-1::1633316209::0::1::::<><>::res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scripts/Chunk.gd<>res://Scenes/Characters/Merchant.tscn
+::res://Scenes/Levels/SkyRuins/MidRight/::1647816119
+MidRightEmpty.tscn::PackedScene::-1::1628577141::0::1::::<><>::res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Tilesets/Ground.tscn
+::res://Scenes/Levels/SkyRuins/TopLeft/::1647816119
+TopLeftEmpty.tscn::PackedScene::-1::1628572219::0::1::::<><>::res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn
+::res://Scenes/Levels/SkyRuins/TopMid/::1647816119
+TopMidBoss.tscn::PackedScene::-1::1633316209::0::1::::<><>::res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Characters/Bosses/SkyRuinsBoss.tscn<>res://Scripts/Chunk.gd
+TopMidEmpty.tscn::PackedScene::-1::1633316209::0::1::::<><>::res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn<>res://Scenes/Characters/Merchant.tscn<>res://Scenes/Characters/ShotgunnerBot.tscn<>res://Scripts/Chunk.gd
+::res://Scenes/Levels/SkyRuins/TopRight/::1647816119
+TopRightEmpty.tscn::PackedScene::-1::1628571457::0::1::::<><>::res://Scenes/Tilesets/WallWalkUnder.tscn<>res://Scenes/Tilesets/Extra.tscn<>res://Scenes/Tilesets/Ground.tscn<>res://Scenes/Tilesets/Marble.tscn
+::res://Scenes/Menus/::1647816120
+EnemyInfoMenu.tscn::PackedScene::-1::1629158747::0::1::::<><>::res://Scripts/AudioButton.gd<>res://Art/Characters/Shotgunner/icon.png<>res://Art/menubg-Sheet.png<>res://Art/Characters/Archer/icon.png<>res://Art/Characters/3 Saber dude/icon2.png<>res://Art/Characters/Ball and Chain Bot/icon.png<>res://Art/Characters/Bot Wheel/icon.png<>res://Art/Characters/Exterminator/icon2.png<>res://Art/Characters/flamethrower bot/icon.png<>res://Art/Characters/Sorcerer Bot/icon2.png<>res://Scripts/EnemyInfoMenu.gd<>res://Art/Characters/Shotgunner/run.png<>res://Art/Characters/Archer/run.png<>res://Art/Characters/Exterminator/walk.png<>res://Art/Characters/Ball and Chain Bot/run.png<>res://Art/Characters/flamethrower bot/run.png<>res://Art/Characters/3 Saber dude/move.png<>res://Art/Characters/Sorcerer Bot/walk.png<>res://Art/Characters/Bot Wheel/move with FX.png<>res://Art/Fonts/C&C Red Alert [INET].ttf<>res://Art/Fonts/DefaultSmall.tres
+InfoMenu.tscn::PackedScene::-1::1629158747::0::1::::<><>::res://Scripts/AudioButton.gd<>res://Art/Characters/Shotgunner/icon.png<>res://Art/menubg-Sheet.png<>res://Art/GreatValueWorldMap.png<>res://Scripts/InfoMenu.gd<>res://Art/Upgrades/shock_stock.png
+LevelSelect.tscn::PackedScene::-1::1628877816::0::1::::<><>::res://Scripts/LevelSelect.gd<>res://Art/Fonts/Title.tres<>res://Art/menubg-Sheet.png<>res://Art/Environment/SkyRuinsImageSmall.PNG<>res://Art/Environment/LabyrinthImageSmall.PNG<>res://Scripts/AudioButton.gd<>res://Art/Fonts/DefaultSmall.tres<>res://Art/Environment/DesertImage.PNG
+MainMenu.tscn::PackedScene::-1::1625286262::0::1::::<><>::res://Scripts/StoryText.gd<>res://Scripts/MainMenu.gd<>res://Art/Fonts/Text.tres<>res://Art/Fonts/Title.tres<>res://Art/Environment/Sci-fi Animations/blood moon sprite Opacity low.png<>res://Art/menubg.png<>res://Sounds/Music/cuuuu b3.wav
+OptionsMenu.tscn::PackedScene::-1::1628213073::0::1::::<><>::res://Scripts/OptionsMainMenu.gd<>res://Art/Fonts/Title.tres<>res://Art/menubg-Sheet.png<>res://Scripts/controlSettings.gd<>res://Scripts/AudioButton.gd
+StartMenu.tscn::PackedScene::-1::1636695859::0::1::::<><>::res://Scripts/StartMenu.gd<>res://Art/Fonts/Title.tres<>res://Art/Environment/Sci-fi Animations/blood moon sprite.png<>res://Sounds/SoundEffects/Bloop1.wav<>res://Scripts/AudioButton.gd<>res://Art/menubg-Sheet.png
+TutorialItems.tscn::PackedScene::-1::1626645425::0::1::::<><>::res://Art/Fonts/DefaultText.tres<>res://Scripts/TutorialSwap.gd<>res://Art/menubg-Sheet.png<>res://Art/TinyTexture.png<>res://Art/swap_item_indicator.png<>res://Art/Fonts/Title.tres
+TutorialMenu.tscn::PackedScene::-1::1627971316::0::1::::<><>::res://Art/Fonts/Title.tres<>res://Art/Fonts/DefaultText.tres<>res://Art/menubg-Sheet.png<>res://Scripts/TutorialMenu.gd
+TutorialScore.tscn::PackedScene::-1::1628288167::0::1::::<><>::res://Art/Fonts/DefaultText.tres<>res://Scripts/TutorialSwap.gd<>res://Art/menubg-Sheet.png<>res://Art/boss_icon.png<>res://Art/Fonts/Title.tres
+TutorialShields.tscn::PackedScene::-1::1626645425::0::1::::<><>::res://Art/Fonts/DefaultText.tres<>res://Scripts/TutorialSwap.gd<>res://Art/menubg-Sheet.png<>res://Scenes/ClearMoon.tscn<>res://Art/Fonts/Title.tres
+TutorialSwap.tscn::PackedScene::-1::1627971316::0::1::::<><>::res://Art/Fonts/Title.tres<>res://Art/Fonts/DefaultText.tres<>res://Art/menubg-Sheet.png<>res://Art/NewSwap.png<>res://Scripts/TutorialSwap.gd<>res://Art/TinyTexture.png
+TutorialThresh.tscn::PackedScene::-1::1627971316::0::1::::<><>::res://Art/Fonts/DefaultText.tres<>res://Scripts/TutorialSwap.gd<>res://Art/menubg-Sheet.png<>res://Art/TinyTexture.png<>res://Art/Caution Tape2.png<>res://Art/NewSwap.png<>res://Art/Fonts/Title.tres
+UpgradeInfoMenu.tscn::PackedScene::-1::1629586686::0::1::::<><>::res://Scripts/AudioButton.gd<>res://Art/Characters/Shotgunner/icon.png<>res://Art/menubg-Sheet.png<>res://Art/Fonts/DefaultSmall.tres<>res://Scripts/UpgradeInfoMenu.gd<>res://Art/Fonts/DefaultText.tres
+::res://Scenes/Particles/::1647816120
+ChargeParticles.tscn::PackedScene::-1::1629486895::0::1::::<><>::res://Art/line.png
+DustTrail.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Scripts/DelayedDespawn.gd<>res://Art/Particles/DustCurl.png
+EVParticles.tscn::PackedScene::-1::1627935467::0::1::::<><>::
+HeavySparkParticles.tscn::PackedScene::-1::1627935467::0::1::::<><>::res://Art/line.png
+SparkParticles.tscn::PackedScene::-1::1632359667::0::1::::<><>::res://Art/TinyTexture.png
+SplatterParticles.tscn::PackedScene::-1::1630875491::0::1::::<><>::res://Art/TinyTexture.png<>res://Scripts/DelayedDespawn.gd
+::res://Scenes/Tilesets/::1647816120
+Desert.tscn::PackedScene::-1::1628028205::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Day.png<>res://Art/Environment/Sci-fi Tileset re-imagined.png
+DesertEdgeNorth.tscn::PackedScene::-1::1625035751::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Day.png
+DesertExtras.tscn::PackedScene::-1::1628035146::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Day.png<>res://Art/Environment/SCi-fi-Planet one Add ons v1.png<>res://Art/Environment/Sci-fi Tileset re-imagined.png
+DesertGround.tscn::PackedScene::-1::1625036009::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Day.png<>res://Art/Environment/Dungeon Ruins Tileset/DesertGroundCorners.png<>res://Art/Environment/Dungeon Ruins Tileset/DesertGroundTile.png<>res://Art/Environment/Dungeon Ruins Tileset/DesertGroundCornerBR.png
+DesertSky.tscn::PackedScene::-1::1628035146::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Day.png
+DungeonExtras.tscn::PackedScene::-1::1622315743::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Night.png<>res://Art/Environment/SCi-fi-Planet one Add ons v1.png<>res://Art/Environment/Sci-fi Tileset re-imagined.png
+DungeonGround.tscn::PackedScene::-1::1620710461::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Night.png
+DungeonWall.tscn::PackedScene::-1::1627942044::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Night.png
+DungeonWallForeground.tscn::PackedScene::-1::1627942044::0::1::::<><>::res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Night.png
+Extra.tscn::PackedScene::-1::1628035146::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Art/Environment/SCi-fi-Planet one Add ons v1.png
+Ground.gd::GDScript::-1::1619402911::0::1::::<>TileMap<>::
+Ground.tscn::PackedScene::-1::1620359116::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Art/Environment/shadowtile.png<>res://Art/Environment/SCi-fi assets planet one.png<>res://Art/Environment/Sci-fi assets planet two.png
+Marble.tscn::PackedScene::-1::1628567422::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png
+Obstacles.gd::GDScript::-1::1619402911::0::1::::<>TileMap<>::
+Obstacles.tscn::PackedScene::-1::1623299476::0::1::::<><>::res://Art/Environment/shadowtile.png
+Sky.tscn::PackedScene::-1::1619389004::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Art/Environment/SCi-fi assets planet one.png
+SkyExtras.tscn::PackedScene::-1::1619320227::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Art/Environment/SCi-fi assets planet one.png<>res://Art/Environment/Sci-fi assets planet two.png
+WallWalkUnder.tscn::PackedScene::-1::1628035146::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Night.png<>res://Art/Environment/Dungeon Ruins Tileset/Dungeon Ruins Tileset Day.png
+::res://Scenes/WorldObjects/::1647816120
+Arch.tscn::PackedScene::-1::1628567737::0::1::::<><>::res://Scenes/Tilesets/Marble.tscn
+Awning.tscn::PackedScene::-1::1619320227::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png
+BrokenDweling.tscn::PackedScene::-1::1619320227::0::1::::<><>::res://Art/Environment/SCi-fi-Planet one Add ons v1.png
+Container.tscn::PackedScene::-1::1624340171::0::1::::<><>::res://Art/Environment/SCi-fi assets planet one.png<>res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Scripts/DestructibleObject.gd
+Dwelling2.tscn::PackedScene::-1::1624340171::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Scripts/DestructibleObject.gd
+Dwelling.tscn::PackedScene::-1::1624340171::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Scripts/DestructibleObject.gd
+LargeRock.tscn::PackedScene::-1::1623299476::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png
+Marble Orb.tscn::PackedScene::-1::1619320227::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png
+Medium Rock.tscn::PackedScene::-1::1624340171::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Scripts/DestructibleObject.gd
+Pipe1.tscn::PackedScene::-1::1624340171::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Scripts/DestructibleObject.gd
+Pipe2.tscn::PackedScene::-1::1624340171::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png<>res://Scripts/DestructibleObject.gd
+Table.tscn::PackedScene::-1::1619320227::0::1::::<><>::res://Art/Environment/Sci-fi Tileset re-imagined.png
+Tent.tscn::PackedScene::-1::1619320227::0::1::::<><>::res://Art/Environment/SCi-fi assets planet one.png
+Tower.tscn::PackedScene::-1::1619320227::0::1::::<><>::res://Art/Environment/SCi-fi-Planet one Add ons v1.png
+::res://Scripts/::1647816121
+AStar.gd::GDScript::-1::1620071006::0::1::::<><>::
+AudioButton.gd::GDScript::-1::1627935467::0::1::::<><>::
+BloodMoon.gd::GDScript::-1::1632359667::0::1::::<><>::
+Boss.gd::GDScript::-1::1633316209::0::1::::<><>::
+BossSoul.gd::GDScript::-1::1632359667::0::1::::<><>::
+Bullet.gd::GDScript::-1::1630883988::0::1::::Bullet<>Area2D<>::
+Camera.gd::GDScript::-1::1636695408::0::1::::<><>::
+Chunk.gd::GDScript::-1::1628877273::0::1::::<><>::
+CircleLight.png::CompressedTexture2D::581477255497880463::1623299476::1647816198::1::::<><>::
+controlSettings.gd::GDScript::-1::1625293413::0::1::::<><>::
+Cursor.gd::GDScript::-1::1630809816::0::1::::<><>::
+DeathOrb.gd::GDScript::-1::1630809816::0::1::::<>KinematicBody2D<>::
+DeathScreen.gd::GDScript::-1::1628877273::0::1::::<><>::
+DelayedDespawn.gd::GDScript::-1::1627935467::0::1::::<><>::
+DestructibleObject.gd::GDScript::-1::1627935467::0::1::::<>Node2D<>::
+DungeonWallForeground.gd::GDScript::-1::1628229548::0::1::::<>TileMap<>::
+effectsVolumeSlider.gd::GDScript::-1::1623648765::0::1::::<><>::
+Enemy.gd::GDScript::-1::1632359667::0::1::::<><>::
+EnemyInfoMenu.gd::GDScript::-1::1629158747::0::1::::<><>::
+Enemylike.gd::GDScript::-1::1632359667::0::1::::<><>::
+EnemyPillar.gd::GDScript::-1::1632359667::0::1::::<><>::
+EVLButton.gd::GDScript::-1::1632359667::0::1::::<><>::
+EVLNumber.gd::GDScript::-1::1627935467::0::1::::<><>::
+Explosion.gd::GDScript::-1::1629486895::0::1::::<><>::
+FakeExplosiveness.gd::GDScript::-1::1632359667::0::1::::<>Particles2D<>::
+FlakBullet.gd::GDScript::-1::1630012121::0::1::::<><>::
+GameManager.gd::GDScript::-1::1632359667::0::1::::<><>::
+GasCloud.gd::GDScript::-1::1626393426::0::1::::<>KinematicBody2D<>::
+GhostImage.gd::GDScript::-1::1629486895::0::1::::<>Sprite<>::
+Grapple.gd::GDScript::-1::1632359667::0::1::::<><>::
+Host.gd::GDScript::-1::1632359667::0::1::::<><>::
+InfoMenu.gd::GDScript::-1::1627935467::0::1::::<>Control<>::
+InGameItemMenu.gd::GDScript::-1::1629257532::0::1::::<>Popup<>::
+KeyButton.gd::GDScript::-1::1625283352::0::1::::<>Button<>::
+LandmineBot.gd::GDScript::-1::1619330856::0::1::::<><>::
+LaserBeam.gd::GDScript::-1::1628877273::0::1::::<><>::
+Level.gd::GDScript::-1::1632359667::0::1::::<><>::
+LevelLoadTrigger.gd::GDScript::-1::1630809816::0::1::::<><>::
+Levels.gd::GDScript::-1::1630809816::0::1::::Levels<>RefCounted<>::
+LevelSelect.gd::GDScript::-1::1628888940::0::1::::<>Control<>::
+MainLevel.gd::GDScript::-1::1626151423::0::1::::<><>::
+MainMenu.gd::GDScript::-1::1623299476::0::1::::<><>::
+MapZone.gd::GDScript::-1::1633316209::0::1::::<><>::
+MapZoneManager.gd::GDScript::-1::1633316209::0::1::::<><>::
+masterVolumeSlider.gd::GDScript::-1::1628565311::0::1::::<><>::
+musicVolumeSlider.gd::GDScript::-1::1623648765::0::1::::<><>::
+NoiseVignette.gd::GDScript::-1::1627935467::0::1::::<>TextureRect<>::
+OptionsMainMenu.gd::GDScript::-1::1626157471::0::1::::<><>::
+OptionsPauseMenu.gd::GDScript::-1::1627935467::0::1::::<><>::
+PauseScreen.gd::GDScript::-1::1628877273::0::1::::<><>::
+SaberRing.gd::GDScript::-1::1628135823::0::1::::<><>::
+SceneTransition.gd::GDScript::-1::1630809816::0::1::::<><>::
+ScoreDisplay.gd::GDScript::-1::1623643809::0::1::::<><>::
+ScorePopup.gd::GDScript::-1::1623643809::0::1::::<>Control<>::
+SorcererStand.gd::GDScript::-1::1626296767::0::1::::<><>::
+StartMenu.gd::GDScript::-1::1628877273::0::1::::<>Control<>::
+StoryText.gd::GDScript::-1::1619474432::0::1::::<>RichTextLabel<>::
+SummonButton.gd::GDScript::-1::1630809816::0::1::::<><>::
+SwapBar.gd::GDScript::-1::1630809816::0::1::::<><>::
+ToasterBot.gd::GDScript::-1::1619298025::0::1::::<><>::
+TranquilityBeacon.gd::GDScript::-1::1632359667::0::1::::<><>::
+Transcender.gd::GDScript::-1::1629158747::0::1::::<>Node2D<>::
+TutorialLevel.gd::GDScript::-1::1624249924::0::1::::<><>::
+TutorialMenu.gd::GDScript::-1::1626645162::0::1::::<><>::
+TutorialSwap.gd::GDScript::-1::1636695408::0::1::::<><>::
+UIFX.gd::GDScript::-1::1626151423::0::1::::<><>::
+UpgradeInfoMenu.gd::GDScript::-1::1629158747::0::1::::<><>::
+Upgrades.gd::GDScript::-1::1632359667::0::1::::Upgrades<>RefCounted<>::
+Util.gd::GDScript::-1::1629486895::0::1::::Util<>RefCounted<>::
+Violence.gd::GDScript::-1::1632359667::0::1::::Violence<>Node<>::
+VortexWave.gd::GDScript::-1::1630809816::0::1::::<>Area2D<>::
+Wall.gd::GDScript::-1::1622094165::0::1::::<>TileMap<>::
+World.gd::GDScript::-1::1633316209::0::1::::<><>::
+::res://Scripts/Bosses/::1647816121
+DesertBoss.gd::GDScript::-1::1633316209::0::1::::<><>::
+DesertBossSmall.gd::GDScript::-1::1633320742::0::1::::<><>::
+SkyRuinsBoss.gd::GDScript::-1::1633316209::0::1::::<><>::
+::res://Scripts/Characters/::1647816121
+ArcherBot.gd::GDScript::-1::1632359667::0::1::::<><>::
+ChainBot.gd::GDScript::-1::1632359667::0::1::::<><>::
+DesertBossMinion.gd::GDScript::-1::1633238542::0::1::::<>Enemy<>::
+DesertSpawner.gd::GDScript::-1::1633320536::0::1::::<>Enemy<>::
+ExterminatorBot.gd::GDScript::-1::1630809817::0::1::::<><>::
+FlamethrowerBot.gd::GDScript::-1::1632359667::0::1::::<><>::
+Merchant.gd::GDScript::-1::1630809817::0::1::::<><>::
+MudBender.gd::GDScript::-1::1630809816::0::1::::<><>::
+SaberBot.gd::GDScript::-1::1630809817::0::1::::<><>::
+ShotgunnerBot.gd::GDScript::-1::1632359667::0::1::::<><>::
+SorcererBot.gd::GDScript::-1::1632359667::0::1::::<><>::
+WheelBot.gd::GDScript::-1::1632359667::0::1::::<><>::
+::res://Shaders/::1647816121
+EnergyStream.tres::ShaderMaterial::-1::1625538035::0::1::::<><>::
+Flash.tres::ShaderMaterial::-1::1636695408::0::1::::<><>::
+Fog_Labyrinth.tres::ShaderMaterial::-1::1630875490::0::1::::<><>::
+Fog_SkyRuins.tres::ShaderMaterial::-1::1630904924::0::1::::<><>::
+Greyscale.tres::ShaderMaterial::-1::1633578695::0::1::::<><>::
+Noise.tres::ShaderMaterial::-1::1633578695::0::1::::<><>::
+Wormhole.tres::ShaderMaterial::-1::1633578695::0::1::::<><>::
+::res://Sounds/::1647816122
+::res://Sounds/Music/::1647816122
+cantaloupe b3.wav::AudioStreamSample::4327352943194640664::1627935467::1647816200::1::::<><>::
+cuuuu b3.wav::AudioStreamSample::884983314508988920::1619404763::1647816199::1::::<><>::
+melon b3.wav::AudioStreamSample::813271268014418667::1619404764::1647816200::1::::<><>::
+::res://Sounds/SoundEffects/::1647816123
+Bloop1.wav::AudioStreamSample::909161366458972837::1627935467::1647816199::1::::<><>::
+cantaloupe b3.wav::AudioStreamSample::5057552302070688592::1627935468::1647816200::1::::<><>::
+chaindie.wav::AudioStreamSample::2899372464274351521::1619401557::1647816199::1::::<><>::
+charge1.wav::AudioStreamSample::1053155536086188053::1619401557::1647816199::1::::<><>::
+chargeexplosion.wav::AudioStreamSample::1400824711889868521::1619460710::1647816199::1::::<><>::
+chargeshot2.wav::AudioStreamSample::6923565345350393677::1619460605::1647816199::1::::<><>::
+chargeshot.wav::AudioStreamSample::6207434903740777102::1619460574::1647816199::1::::<><>::
+CrispExplosion.wav::AudioStreamSample::3847226514553016051::1627935467::1647816199::1::::<><>::
+dash.wav::AudioStreamSample::8368550362744257374::1619401557::1647816199::1::::<><>::
+ElectricNoiseLoop.wav::AudioStreamSample::9085231871313314690::1627935467::1647816199::1::::<><>::
+explode1.wav::AudioStreamSample::8761033673214621829::1619401557::1647816199::1::::<><>::
+FlameReload.wav::AudioStreamSample::7050751258220813130::1627935467::1647816199::1::::<><>::
+flamethrower.wav::AudioStreamSample::8052392625020471026::1619401557::1647816199::1::::<><>::
+heavystep.wav::AudioStreamSample::6122423403325382268::1619401557::1647816199::1::::<><>::
+ItemGet.wav::AudioStreamSample::3003409778157450720::1627935467::1647816199::1::::<><>::
+LVup.wav::AudioStreamSample::8860477229213535561::1623299476::1647816199::1::::<><>::
+moonready.wav::AudioStreamSample::5352735946327872300::1619461929::1647816199::1::::<><>::
+puff1.wav::AudioStreamSample::6439039442092714117::1619401557::1647816199::1::::<><>::
+puff2.wav::AudioStreamSample::3981488939432388627::1619401557::1647816199::1::::<><>::
+pump.wav::AudioStreamSample::6054102924006961810::1619401557::1647816199::1::::<><>::
+relaod.wav::AudioStreamSample::7823052828708726073::1619401557::1647816199::1::::<><>::
+RevUpSteam.wav::AudioStreamSample::7166066414283952898::1627935467::1647816199::1::::<><>::
+Saber1.wav::AudioStreamSample::2748578078084419375::1628026214::1647816199::1::::<><>::
+Saber2.wav::AudioStreamSample::6295111067429752424::1628026214::1647816199::1::::<><>::
+Saber3.wav::AudioStreamSample::1922639963110929803::1628026214::1647816199::1::::<><>::
+SawArp.wav::AudioStreamSample::2069822943680432932::1627935467::1647816199::1::::<><>::
+shoot1.wav::AudioStreamSample::3743814317757272161::1619401557::1647816199::1::::<><>::
+shoot2.wav::AudioStreamSample::7718121147576621028::1619401557::1647816199::1::::<><>::
+shotgun.wav::AudioStreamSample::8726666360651839505::1619401557::1647816199::1::::<><>::
+shotgunnerdie.wav::AudioStreamSample::4567732537801746298::1619401557::1647816199::1::::<><>::
+ShotgunReload.wav::AudioStreamSample::8836656808293514748::1627935467::1647816199::1::::<><>::
+ShotgunReloadLight.wav::AudioStreamSample::2436065761825855227::1627935467::1647816199::1::::<><>::
+slowdown BGN.wav::AudioStreamSample::791944495665069694::1619404785::1647816199::1::::<><>::
+slowdown END.wav::AudioStreamSample::3533424189389754404::1619404783::1647816199::1::::<><>::
+slowdown MID.wav::AudioStreamSample::8220904164674318593::1619404781::1647816199::1::::<><>::
+Squelch.wav::AudioStreamSample::6440065657345654968::1627935467::1647816199::1::::<><>::
+step2.wav::AudioStreamSample::5193334143492657506::1619401557::1647816199::1::::<><>::
+step3.wav::AudioStreamSample::4113958995137120482::1619401557::1647816199::1::::<><>::
+step4.wav::AudioStreamSample::6174126748799031881::1619401557::1647816199::1::::<><>::
+step5.wav::AudioStreamSample::6791012126441790797::1619461120::1647816199::1::::<><>::
+step.wav::AudioStreamSample::6506671111167930637::1619401557::1647816199::1::::<><>::
+teleport.wav::AudioStreamSample::8626026758258422822::1619401557::1647816199::1::::<><>::
+warning.wav::AudioStreamSample::3687625427551427404::1619461476::1647816199::1::::<><>::
+warningbeep.wav::AudioStreamSample::2283781264585423974::1619460767::1647816199::1::::<><>::
+wheel2.wav::AudioStreamSample::6042066760320453839::1619401557::1647816199::1::::<><>::
+wheel.wav::AudioStreamSample::3188956490126593252::1619401557::1647816199::1::::<><>::
+wheeldie.wav::AudioStreamSample::4524618577803873065::1619401557::1647816199::1::::<><>::
+whip1.wav::AudioStreamSample::995619624564438587::1619401557::1647816199::1::::<><>::
+Wub1.wav::AudioStreamSample::8906760578406067052::1623299476::1647816199::1::::<><>::
+WubloopLOOP.wav::AudioStreamSample::5290840180997636819::1627935468::1647816199::1::::<><>::
+Zing.wav::AudioStreamSample::2641012239531268597::1627935468::1647816199::1::::<><>::

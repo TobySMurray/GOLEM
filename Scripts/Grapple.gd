@@ -1,9 +1,9 @@
 extends Line2D
 
-onready var hook = $HookCollider
+@onready var hook = $HookCollider
 signal entity_hooked
 
-onready var source = get_parent()
+@onready var source = get_parent()
 
 enum {
 	INACTIVE,

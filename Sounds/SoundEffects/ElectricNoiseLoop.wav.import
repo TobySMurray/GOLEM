@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/ElectricNoiseLoop.wav-3a1270a84e9fdf8fdee3693904c8b871.sample"
+uid="uid://d2o7pao0hr1ac"
+path="res://.godot/imported/ElectricNoiseLoop.wav-3a1270a84e9fdf8fdee3693904c8b871.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/ElectricNoiseLoop.wav"
-dest_files=[ "res://.import/ElectricNoiseLoop.wav-3a1270a84e9fdf8fdee3693904c8b871.sample" ]
+dest_files=["res://.godot/imported/ElectricNoiseLoop.wav-3a1270a84e9fdf8fdee3693904c8b871.sample"]
 
 [params]
 

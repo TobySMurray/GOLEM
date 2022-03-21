@@ -55,8 +55,7 @@ static func shoot_vortex_wave(source_, origin, vel, damage_, mass_, lifetime_, s
 	return wave
 	
 static func melee_attack(source, collider, damage = 10, force = 50, deflect_power = -1, stun = 0):
-	var space_rid = source.get_world_2d().space
-	var space_state = Physics2DServer.space_get_direct_state(space_rid)
+	var space_state = source.get_world_2d().direct_space_state
 	
 	var query = Physics2DShapeQueryParameters.new()
 	query.collide_with_areas = true

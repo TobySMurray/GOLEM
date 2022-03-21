@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/slowdown END.wav-60b16da7d07846c8c464adacdc23bd98.sample"
+uid="uid://bqlu8lcgpekbk"
+path="res://.godot/imported/slowdown END.wav-60b16da7d07846c8c464adacdc23bd98.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/slowdown END.wav"
-dest_files=[ "res://.import/slowdown END.wav-60b16da7d07846c8c464adacdc23bd98.sample" ]
+dest_files=["res://.godot/imported/slowdown END.wav-60b16da7d07846c8c464adacdc23bd98.sample"]
 
 [params]
 

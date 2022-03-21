@@ -1,6 +1,6 @@
 extends Control
 
-onready var timer = $Timer
+@onready var timer = $Timer
 var time = 2.0
 
 func _ready():

@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/heavystep.wav-b445452c5453dcb51d9aac7845803355.sample"
+uid="uid://cth0oikvlp7ye"
+path="res://.godot/imported/heavystep.wav-b445452c5453dcb51d9aac7845803355.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/heavystep.wav"
-dest_files=[ "res://.import/heavystep.wav-b445452c5453dcb51d9aac7845803355.sample" ]
+dest_files=["res://.godot/imported/heavystep.wav-b445452c5453dcb51d9aac7845803355.sample"]
 
 [params]
 

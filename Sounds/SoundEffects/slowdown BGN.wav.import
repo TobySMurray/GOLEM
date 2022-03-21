@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/slowdown BGN.wav-2363c81f3a7710a821925a2a52a3d491.sample"
+uid="uid://ljvhe6knrlo5"
+path="res://.godot/imported/slowdown BGN.wav-2363c81f3a7710a821925a2a52a3d491.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/slowdown BGN.wav"
-dest_files=[ "res://.import/slowdown BGN.wav-2363c81f3a7710a821925a2a52a3d491.sample" ]
+dest_files=["res://.godot/imported/slowdown BGN.wav-2363c81f3a7710a821925a2a52a3d491.sample"]
 
 [params]
 

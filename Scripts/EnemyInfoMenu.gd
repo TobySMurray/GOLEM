@@ -1,17 +1,17 @@
 extends Control
 
-onready var title = $HBoxContainer/Lore/ScrollContainer/VBoxContainer/Title
-onready var desc = $HBoxContainer/Lore/ScrollContainer/VBoxContainer/Description
-onready var desc_scroll = $HBoxContainer/Lore/ScrollContainer
-onready var portrait = $HBoxContainer/Data/VBoxContainer/PortraitFrame/PortraitCenterer/Portrait
-onready var stats = $HBoxContainer/Data/VBoxContainer/VBoxContainer/Stats
+@onready var title = $HBoxContainer/Lore/ScrollContainer/VBoxContainer/Title
+@onready var desc = $HBoxContainer/Lore/ScrollContainer/VBoxContainer/Description
+@onready var desc_scroll = $HBoxContainer/Lore/ScrollContainer
+@onready var portrait = $HBoxContainer/Data/VBoxContainer/PortraitFrame/PortraitCenterer/Portrait
+@onready var stats = $HBoxContainer/Data/VBoxContainer/VBoxContainer/Stats
 
 var selected_name = ''
 var selected = null
 
 var stats_visibility = 0.0
 
-const data = {
+var data = {
 	'shotgun': {
 		'name': '[ Shotgun Bot ]',
 		'type': Enemy.EnemyType.SHOTGUN,
@@ -110,7 +110,7 @@ const data = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_selected('wheel')
-	$Back.connect("pressed", self, "back")
+	$Back.pressed.connect(self, "back")
 	
 func back():
 	get_tree().change_scene("res://Scenes/Menus/InfoMenu.tscn")

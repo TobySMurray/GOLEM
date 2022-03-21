@@ -14,7 +14,7 @@ enum {
 	PUNCH,			# Attack horizontally, breaks pillars and opportunity to stagger during windup
 	WAVE_DASH,		# Dash to the other side of the player before emitting a cardinal wave (phase 2)
 	CARDINAL_WAVE,	# Smash ground and emit an explosion wave in a cardinal direction toward the player
-	TELEGRAPH_PILLAR
+	TELEGRAPH_PILLAR,
 	PILLAR_WAVE,	# Smash ground and send a number of explosion waves toward random points, spawning enemy pillars at their terminus
 	TELEGRAPH_VOLLEY,
 	DIAGONAL_VOLLEY,# Fire a spread of bullets starting along the diagonals, and fanning out until only the cardinals are safe
@@ -22,7 +22,7 @@ enum {
 	PLAYER			# Controlled by the player
 }
 
-const pillar_patterns = [
+var pillar_patterns = [
 	{
 		'enemies': [Enemy.EnemyType.SHOTGUN, Enemy.EnemyType.SHOTGUN],
 		'offsets': [Vector2(-0.5, 0), Vector2(0.5, 0)],
@@ -65,10 +65,10 @@ const pillar_patterns = [
 	}
 ]
 
-onready var eye_particles = $EyeParticles
-onready var sight_raycast = $SightRaycast
-onready var punch_collider = $PunchCollider/CollisionShape2D
-onready var grind_particles = $Sparks
+@onready var eye_particles = $EyeParticles
+@onready var sight_raycast = $SightRaycast
+@onready var punch_collider = $PunchCollider/CollisionShape2D
+@onready var grind_particles = $Sparks
 
 const MAX_DIST = 250
 const MIN_DIST = 100
@@ -82,7 +82,7 @@ var arena_radius = 270
 
 var pillars = []
 var pillar_count = 0
-var cur_pillar_pattern = null
+var cur_pillar_pattern
 
 var arena_enemies = []
 var arena_enemy_count = 0
@@ -145,7 +145,7 @@ func enter_state(state):
 			state_timer = -1
 			target_velocity = Vector2.ZERO
 			accel = 3
-			sprite.material.set_shader_param('color', Color.red)
+			sprite.material.set_shader_param('color', Color.RED)
 			collision_layer = 0
 			stagger_resists = phase
 			
@@ -153,7 +153,7 @@ func enter_state(state):
 			state_timer = 2 - 0.5*phase
 			target_velocity = Vector2.ZERO
 			accel = 8
-			sprite.material.set_shader_param('color', Color.red)
+			sprite.material.set_shader_param('color', Color.RED)
 			sight_raycast.enabled = true
 			play_animation('Idle')
 			
@@ -315,7 +315,7 @@ func process_state(delta, state):
 				target_point = player_pos + Vector2(target_dist, 0)
 				move_toward_target()
 				if state_timer < 0.66:
-					sprite.material.set_shader_param('color', Color.red)
+					sprite.material.set_shader_param('color', Color.RED)
 					sprite.material.set_shader_param('intensity', int(state_timer*20)%2*0.6)
 					if event_happened('damaged_by_player'):
 						if stagger_resists == 0:
@@ -331,7 +331,7 @@ func process_state(delta, state):
 							velocity -= to_player.normalized()*400
 			
 		TELEGRAPH_RAM:
-			sprite.material.set_shader_param('color', Color.red)
+			sprite.material.set_shader_param('color', Color.RED)
 			sprite.material.set_shader_param('intensity', (0.5 + 0.5*sin(state_timer*(10 + 5*(3 - state_timer))))*0.6)
 			
 			sight_raycast.cast_to = (player_pos - global_position)/scale
@@ -520,11 +520,11 @@ func exit_state(state):
 				
 
 func update_look_direction(dir):
-	.update_look_direction(dir)
+	super.update_look_direction(dir)
 	punch_collider.position.x = -36 if facing_left else 36
 			
 func toggle_playerhood(is_player):
-	.toggle_playerhood(is_player)
+	super.toggle_playerhood(is_player)
 	GameManager.controlling_boss = is_player
 	if is_player:
 		set_state(PLAYER)
@@ -614,7 +614,7 @@ func choose_random_pillar_pattern():
 	
 func die():
 	if dead: return
-	.die()
+	super.die()
 	
 	Util.remove_invalid(arena_enemies)
 	for enemy in arena_enemies:

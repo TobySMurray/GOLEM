@@ -1,10 +1,10 @@
 extends Area2D
 
-onready var sprite = $Sprite
-onready var label = $Label
+@onready var sprite = $Sprite
+@onready var label = $Label
 
 var active = false
-export var tranquil_mode = true
+@export var tranquil_mode = true
 
 func _ready():
 	toggle_tranquil_mode(tranquil_mode)
@@ -27,13 +27,13 @@ func toggle_tranquil_mode(state):
 	if not state:
 		print('Retaliation enabled')
 		tranquil_mode = false
-		sprite.material.set_shader_param('color', Color.red)
+		sprite.material.set_shader_param('color', Color.RED)
 		label.text = ':('
 		GameManager.reveal_player()
 	else:
 		print('Retaliation disabled')
 		tranquil_mode = true
-		sprite.material.set_shader_param('color', Color.green)
+		sprite.material.set_shader_param('color', Color.GREEN)
 		label.text = ':)'
 			
 func _on_TranquilityBeacon_body_entered(body):

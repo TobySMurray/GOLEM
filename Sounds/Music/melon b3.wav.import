@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/melon b3.wav-7399386f9f8f3a7f6cb8da57c9180f33.sample"
+uid="uid://lt7putd24k1x"
+path="res://.godot/imported/melon b3.wav-7399386f9f8f3a7f6cb8da57c9180f33.sample"
 
 [deps]
 
 source_file="res://Sounds/Music/melon b3.wav"
-dest_files=[ "res://.import/melon b3.wav-7399386f9f8f3a7f6cb8da57c9180f33.sample" ]
+dest_files=["res://.godot/imported/melon b3.wav-7399386f9f8f3a7f6cb8da57c9180f33.sample"]
 
 [params]
 

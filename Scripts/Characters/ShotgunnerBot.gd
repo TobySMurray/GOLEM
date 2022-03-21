@@ -1,10 +1,10 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var muzzle_flash = $MuzzleFlash
-onready var audio = $StepAudio
-onready var gun_audio = $GunAudio
-onready var reload = $Reload
-onready var melee_collider = $MeleeCollider/CollisionShape2D
+@onready var muzzle_flash = $MuzzleFlash
+@onready var audio = $StepAudio
+@onready var gun_audio = $GunAudio
+@onready var reload = $Reload
+@onready var melee_collider = $MeleeCollider/CollisionShape2D
 
 var shot_speed
 var num_pellets
@@ -82,7 +82,7 @@ func toggle_enhancement(state):
 		for i in range(GameManager.player_upgrades['reload_coroutine']):
 			max_attack_cooldown *= 0.8
 	
-	.toggle_enhancement(state)
+	super.toggle_enhancement(state)
 	
 func misc_update(delta):
 	ai_move_timer -= delta
@@ -174,7 +174,7 @@ func start_bash():
 			hit.velocity = (hit.velocity.length()*2)*aim_direction.rotated((randf()-0.5)*PI/36)
 			hit.damage *= 1.3
 			hit.stun = melee_stun/2
-			hit.modulate = Color.yellow
+			hit.modulate = Color.YELLOW
 	
 func bash():
 	if is_player:

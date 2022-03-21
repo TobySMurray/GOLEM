@@ -1,8 +1,8 @@
 extends Node2D
 
 
-onready var animplayer= $AnimationPlayer
-onready var canvas = $CanvasModulate
+@onready var animplayer= $AnimationPlayer
+@onready var canvas = $CanvasModulate
 
 
 func _ready():

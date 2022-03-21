@@ -1,6 +1,6 @@
 extends ColorRect
 
-onready var anim = $AnimationPlayer
+@onready var anim = $AnimationPlayer
 
 var destination_path = ''
 var destination_level = ''

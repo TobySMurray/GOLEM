@@ -1,6 +1,6 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var attack_collider = $AttackCollider/CollisionShape2D
+@onready var attack_collider = $AttackCollider/CollisionShape2D
 
 var enemy = null
 var shifting = false
@@ -64,7 +64,7 @@ func toggle_playerhood(state):
 #	elif state == true and is_instance_valid(enemy):
 	if is_instance_valid(enemy):
 		enemy.toggle_playerhood(state)
-	.toggle_playerhood(state)
+	super.toggle_playerhood(state)
 	
 func spawn_enemy(type = Enemy.EnemyType.UNKNOWN):
 	if not is_instance_valid(enemy):

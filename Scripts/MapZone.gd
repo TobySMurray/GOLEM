@@ -1,4 +1,4 @@
-tool
+@tool
 extends Node2D
 
 class_name MapZone
@@ -6,13 +6,13 @@ class_name MapZone
 const TILE_SIZE = 16
 enum {IN_BOUNDS, SPAWN, TP}
 
-export var rect : Rect2 = Rect2(0, 0, TILE_SIZE, TILE_SIZE) setget set_rect
+@export var rect : Rect2 = Rect2(0, 0, TILE_SIZE, TILE_SIZE) setget set_rect
 var size : Vector2 = Vector2(TILE_SIZE, TILE_SIZE) setget set_size
 var pos : Vector2 = Vector2(TILE_SIZE, TILE_SIZE) setget set_pos
 
-#export (ZoneType) var zone_type = ZoneType.SPAWN setget set_type 
-export (int, FLAGS, 'In Bounds' ,'Allow Spawns', 'Allow TP') var properties = 7 setget set_props
-export (int, FLAGS, 'Shotgun', 'Chain', 'Flame', 'Wheel', 'Archer', 'Exterminator', 'Sorcerer', 'Saber') var allowed_spawns = 127
+#@export (ZoneType) var zone_type = ZoneType.SPAWN setget set_type 
+@export (int, FLAGS, 'In Bounds' ,'Allow Spawns', 'Allow TP') var properties = 7 setget set_props
+@export (int, FLAGS, 'Shotgun', 'Chain', 'Flame', 'Wheel', 'Archer', 'Exterminator', 'Sorcerer', 'Saber') var allowed_spawns = 127
 
 
 var color = Color.red

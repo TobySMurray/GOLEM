@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/shoot2.wav-0a5cb0d0b757ce4836e32580881c301b.sample"
+uid="uid://dh7yle1x32r2s"
+path="res://.godot/imported/shoot2.wav-0a5cb0d0b757ce4836e32580881c301b.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/shoot2.wav"
-dest_files=[ "res://.import/shoot2.wav-0a5cb0d0b757ce4836e32580881c301b.sample" ]
+dest_files=["res://.godot/imported/shoot2.wav-0a5cb0d0b757ce4836e32580881c301b.sample"]
 
 [params]
 

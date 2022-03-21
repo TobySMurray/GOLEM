@@ -1,6 +1,6 @@
 extends Area2D
 
-onready var anim = $AnimatedSprite
+@onready var anim = $AnimatedSprite
 
 var source
 var damage = 0
@@ -27,8 +27,7 @@ func explode():
 	anim.frame = 0
 	anim.play("Explode")
 	
-	var space_rid = get_world_2d().space
-	var space_state = Physics2DServer.space_get_direct_state(space_rid)
+	var space_state = get_world_2d().direct_space_state
 	var collider = $CollisionShape2D
 	
 	var query = Physics2DShapeQueryParameters.new()

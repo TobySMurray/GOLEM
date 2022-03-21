@@ -1,7 +1,7 @@
 extends Control
 #modifed from https://www.youtube.com/watch?v=I_Kzb-d-SvM
-onready var binds = $ScrollContainer/Binds
-onready var buttonscript = load("res://Scripts/KeyButton.gd")
+@onready var binds = $ScrollContainer/Binds
+@onready var buttonscript = load("res://Scripts/KeyButton.gd")
 
 var keybinds
 var buttons = {}

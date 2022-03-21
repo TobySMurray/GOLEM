@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/slowdown MID.wav-4613d71b4935c6ba4953fa3101235070.sample"
+uid="uid://dpejdcveqyp3n"
+path="res://.godot/imported/slowdown MID.wav-4613d71b4935c6ba4953fa3101235070.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/slowdown MID.wav"
-dest_files=[ "res://.import/slowdown MID.wav-4613d71b4935c6ba4953fa3101235070.sample" ]
+dest_files=["res://.godot/imported/slowdown MID.wav-4613d71b4935c6ba4953fa3101235070.sample"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/pump.wav-7cfbf6109e6c3e4621bf231a314215c9.sample"
+uid="uid://csiwgqna7o4wc"
+path="res://.godot/imported/pump.wav-7cfbf6109e6c3e4621bf231a314215c9.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/pump.wav"
-dest_files=[ "res://.import/pump.wav-7cfbf6109e6c3e4621bf231a314215c9.sample" ]
+dest_files=["res://.godot/imported/pump.wav-7cfbf6109e6c3e4621bf231a314215c9.sample"]
 
 [params]
 

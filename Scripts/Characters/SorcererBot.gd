@@ -1,12 +1,12 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var death_orb = load("res://Scenes/DeathOrb.tscn")
+@onready var death_orb = load("res://Scenes/DeathOrb.tscn")
 
 var orbs = [null, null, null, null, null, null, null, null]
-onready var stands = [$JojoReference]
-onready var tethers = [$Line2D]
-onready var attack_collider = $AttackCollider/CollisionShape2D
-onready var orb_detonate_audio = $OrbDetonateAudio
+@onready var stands = [$JojoReference]
+@onready var tethers = [$Line2D]
+@onready var attack_collider = $AttackCollider/CollisionShape2D
+@onready var orb_detonate_audio = $OrbDetonateAudio
 
 var walk_speed = 0
 var smack_recharge = 0
@@ -43,7 +43,7 @@ func _ready():
 	max_special_cooldown = 2
 	
 func toggle_playerhood(state):
-	.toggle_playerhood(state)
+	super.toggle_playerhood(state)
 	for stand in stands:	
 		stand.collision_layer = 0 if is_player else 4
 	
@@ -108,7 +108,7 @@ func toggle_enhancement(state):
 		if precision_mode:
 			stand.sprite.play("Walk")
 			
-	.toggle_enhancement(state)
+	super.toggle_enhancement(state)
 	
 	
 func misc_update(delta):

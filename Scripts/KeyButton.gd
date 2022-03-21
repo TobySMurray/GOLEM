@@ -18,14 +18,14 @@ func _input(event):
 			else:
 				text = OS.get_scancode_string(value)
 				menu.change_bind(key, value)
-			pressed = false
+			#pressed = false
 			waiting_for_input = false
 		if event is InputEventMouseButton:
 			if value != null:
 				text = OS.get_scancode_string(value)
 			else:
 				text = "Unassigned"
-			pressed = false
+			#pressed = false
 			waiting_for_input = false
 
 func _toggled(button_pressed):

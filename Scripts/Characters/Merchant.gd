@@ -5,8 +5,8 @@ extends Enemy
 # var a = 2
 # var b = "text"
 
-onready var label = $Label
-onready var release = $Label2
+@onready var label = $Label
+@onready var release = $Label2
 
 var forced = false
 

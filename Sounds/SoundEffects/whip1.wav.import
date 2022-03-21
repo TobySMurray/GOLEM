@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/whip1.wav-44d41739af629f1fef921f3fb5e90023.sample"
+uid="uid://ogjyeqg2bf20"
+path="res://.godot/imported/whip1.wav-44d41739af629f1fef921f3fb5e90023.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/whip1.wav"
-dest_files=[ "res://.import/whip1.wav-44d41739af629f1fef921f3fb5e90023.sample" ]
+dest_files=["res://.godot/imported/whip1.wav-44d41739af629f1fef921f3fb5e90023.sample"]
 
 [params]
 

@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/step4.wav-0ff25b9ce94949322b5259d7f1d4e415.sample"
+uid="uid://ct7173ecou0t6"
+path="res://.godot/imported/step4.wav-0ff25b9ce94949322b5259d7f1d4e415.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/step4.wav"
-dest_files=[ "res://.import/step4.wav-0ff25b9ce94949322b5259d7f1d4e415.sample" ]
+dest_files=["res://.godot/imported/step4.wav-0ff25b9ce94949322b5259d7f1d4e415.sample"]
 
 [params]
 

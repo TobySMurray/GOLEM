@@ -1,23 +1,23 @@
-extends TextureProgress
+extends TextureProgressBar
 
-onready var threshold = $Threshold
-onready var warning_audio = $WarningAudio
-onready var unlocked_audio = $UnlockedAudio
-onready var rising_audio = $RisingAudio
-onready var sparks = $Sparks
-#onready var warning_audio = preload("res://Sounds/SoundEffects/warning.wav")
-#onready var ready_audio = preload("res://Sounds/SoundEffects/moonready.wav")
-#onready var rising_audio = preload('res://Sounds/SoundEffects/ElectricNoiseLoop.wav')
+@onready var threshold = $Threshold
+@onready var warning_audio = $WarningAudio
+@onready var unlocked_audio = $UnlockedAudio
+@onready var rising_audio = $RisingAudio
+@onready var sparks = $Sparks
+#@onready var warning_audio = preload("res://Sounds/SoundEffects/warning.wav")
+#@onready var ready_audio = preload("res://Sounds/SoundEffects/mo@onready.wav")
+#@onready var rising_audio = preload('res://Sounds/SoundEffects/ElectricNoiseLoop.wav')
 
-onready var item_indicator = $ItemProgress
-onready var Static = $Static
+@onready var item_indicator = $ItemProgress
+@onready var Static = $Static
 
-onready var mania_marker = $ManiaMarker
+@onready var mania_marker = $ManiaMarker
 
-onready var patience_markers = [$PatienceMarker1, $PatienceMarker2]
+@onready var patience_markers = [$PatienceMarker1, $PatienceMarker2]
 var patience_upgrades_given = 0
 
-onready var revelry_marker = $RevelryMarker
+@onready var revelry_marker = $RevelryMarker
 
 var enabled = true
 var increase_rate = 1.0
@@ -30,7 +30,7 @@ var bar_max_value = 925
 var thresh_min_value = 112
 var thresh_max_value = 910 
 
-export var control_timer = 0.0 setget set_control_timer
+@export var control_timer = 0.0
 var prev_control_timer = 0.0
 var swap_threshold = 0.0
 var threshold_death_penalty = 0
@@ -69,7 +69,7 @@ func update_modifiers():
 	
 func _physics_process(delta):
 	if enabled:
-		modulate = Color.white
+		modulate = Color.WHITE
 
 		if control_timer < max_control_time:
 			increase_rate = 1.0

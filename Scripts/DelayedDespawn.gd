@@ -1,6 +1,6 @@
-extends Particles2D
+extends GPUParticles2D
 
-export var timer = 2
+@export var timer = 2
 
 func _process(delta):
 	timer -= delta

@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bem34gtbc5ian"]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id="1"]
 code = "shader_type canvas_item;
 
 uniform vec4 color : hint_color = vec4(1, 1, 1, 1);
@@ -15,6 +15,6 @@ void fragment(){
 
 [resource]
 resource_local_to_scene = true
-shader = SubResource( 1 )
-shader_param/color = Color( 1, 1, 1, 1 )
+shader = SubResource( "1" )
+shader_param/color = Color(1, 1, 1, 1)
 shader_param/intensity = 0.0

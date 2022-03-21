@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/moonready.wav-5bdd03e4029235987cd158f7b5d1ecf7.sample"
+uid="uid://cii51qrqnuh4g"
+path="res://.godot/imported/moonready.wav-5bdd03e4029235987cd158f7b5d1ecf7.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/moonready.wav"
-dest_files=[ "res://.import/moonready.wav-5bdd03e4029235987cd158f7b5d1ecf7.sample" ]
+dest_files=["res://.godot/imported/moonready.wav-5bdd03e4029235987cd158f7b5d1ecf7.sample"]
 
 [params]
 

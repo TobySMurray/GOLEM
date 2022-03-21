@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/ShotgunReload.wav-10d20468d5ea1639ed27a440b89ce683.sample"
+uid="uid://dx5spgiodq4eq"
+path="res://.godot/imported/ShotgunReload.wav-10d20468d5ea1639ed27a440b89ce683.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/ShotgunReload.wav"
-dest_files=[ "res://.import/ShotgunReload.wav-10d20468d5ea1639ed27a440b89ce683.sample" ]
+dest_files=["res://.godot/imported/ShotgunReload.wav-10d20468d5ea1639ed27a440b89ce683.sample"]
 
 [params]
 

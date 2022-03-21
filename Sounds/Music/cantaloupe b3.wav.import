@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/cantaloupe b3.wav-345e9073ccd82705b60a79b38a2b7855.sample"
+uid="uid://b2wg4uttr6lu3"
+path="res://.godot/imported/cantaloupe b3.wav-345e9073ccd82705b60a79b38a2b7855.sample"
 
 [deps]
 
 source_file="res://Sounds/Music/cantaloupe b3.wav"
-dest_files=[ "res://.import/cantaloupe b3.wav-345e9073ccd82705b60a79b38a2b7855.sample" ]
+dest_files=["res://.godot/imported/cantaloupe b3.wav-345e9073ccd82705b60a79b38a2b7855.sample"]
 
 [params]
 

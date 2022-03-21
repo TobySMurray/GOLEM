@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/cuuuu b3.wav-cbdf5e3bac8aa265c2b6d47d7ab50a54.sample"
+uid="uid://muxstb0rk43m"
+path="res://.godot/imported/cuuuu b3.wav-cbdf5e3bac8aa265c2b6d47d7ab50a54.sample"
 
 [deps]
 
 source_file="res://Sounds/Music/cuuuu b3.wav"
-dest_files=[ "res://.import/cuuuu b3.wav-cbdf5e3bac8aa265c2b6d47d7ab50a54.sample" ]
+dest_files=["res://.godot/imported/cuuuu b3.wav-cbdf5e3bac8aa265c2b6d47d7ab50a54.sample"]
 
 [params]
 

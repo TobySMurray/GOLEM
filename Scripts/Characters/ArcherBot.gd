@@ -1,10 +1,10 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var attack_fx = $AttackFX
-onready var attack_beam = $BeamRotator/AttackBeam
-onready var sight_beam = $SightBeam
-onready var raycast = $RayCast2D
-onready var deflector_shape = $Deflector/CollisionShape2D
+@onready var attack_fx = $AttackFX
+@onready var attack_beam = $BeamRotator/AttackBeam
+@onready var sight_beam = $SightBeam
+@onready var raycast = $RayCast2D
+@onready var deflector_shape = $Deflector/CollisionShape2D
 
 
 var walk_speed
@@ -32,7 +32,7 @@ var effective_aim_direction = Vector2.ONE
 var stealth_mode = false
 var stealth_timer = 0
 
-onready var ai_target_point = global_position
+@onready var ai_target_point = global_position
 var ai_move_timer = 0
 
 # Called when the node enters the scene tree for the first time.
@@ -45,7 +45,7 @@ func _ready():
 	toggle_enhancement(false)
 	
 func toggle_playerhood(state):
-	.toggle_playerhood(state)
+	super.toggle_playerhood(state)
 	if state == false:
 		charge_timer = 0
 	
@@ -97,7 +97,7 @@ func toggle_enhancement(state):
 	else:
 		attack_cooldown = 0.75 + randf()*0.75
 		
-	.toggle_enhancement(state)
+	super.toggle_enhancement(state)
 		
 
 
@@ -134,7 +134,7 @@ func player_action():
 	update_sight()
 	
 	if is_player:
-		GameManager.camera.offset = lerp(GameManager.camera.offset, (get_global_mouse_position() - global_position)/2, 0.1)
+		GameManager.camera.offset = GameManager.camera.offset.lerp((get_global_mouse_position() - global_position)/2, 0.1)
 	
 func ai_action():
 	var to_target_point = ai_target_point - global_position
@@ -245,7 +245,7 @@ func toggle_stealth(state):
 		if not charging:
 			override_speed = null
 		sight_beam.frame = 0
-		sprite.modulate = Color.white
+		sprite.modulate = Color.WHITE
 	
 func area_attack():
 	invincibility_timer = 0.7
@@ -325,10 +325,10 @@ func take_damage(damage, source, stun = 0):
 		else:
 			ai_target_point = 1000*Vector2.ONE.rotated(randf()*2*PI)
 				
-	.take_damage(damage, source, stun)
+	super.take_damage(damage, source, stun)
 		
 func die(killer = null):
 	if stealth_mode:
 		toggle_stealth(false)
-	.die()
+	super.die()
 

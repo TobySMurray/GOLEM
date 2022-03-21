@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/explode1.wav-223b378cef2f7ab0a6636fc164740a07.sample"
+uid="uid://dw257d7mbrrub"
+path="res://.godot/imported/explode1.wav-223b378cef2f7ab0a6636fc164740a07.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/explode1.wav"
-dest_files=[ "res://.import/explode1.wav-223b378cef2f7ab0a6636fc164740a07.sample" ]
+dest_files=["res://.godot/imported/explode1.wav-223b378cef2f7ab0a6636fc164740a07.sample"]
 
 [params]
 

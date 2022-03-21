@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/Squelch.wav-8efe801aebd9dc49e709c8ae12013d42.sample"
+uid="uid://cx0u68gjn4rtw"
+path="res://.godot/imported/Squelch.wav-8efe801aebd9dc49e709c8ae12013d42.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/Squelch.wav"
-dest_files=[ "res://.import/Squelch.wav-8efe801aebd9dc49e709c8ae12013d42.sample" ]
+dest_files=["res://.godot/imported/Squelch.wav-8efe801aebd9dc49e709c8ae12013d42.sample"]
 
 [params]
 

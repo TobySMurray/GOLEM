@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/chaindie.wav-0166dee73f649e949e08c7cb8cb87432.sample"
+uid="uid://bhkqigpwulprl"
+path="res://.godot/imported/chaindie.wav-0166dee73f649e949e08c7cb8cb87432.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/chaindie.wav"
-dest_files=[ "res://.import/chaindie.wav-0166dee73f649e949e08c7cb8cb87432.sample" ]
+dest_files=["res://.godot/imported/chaindie.wav-0166dee73f649e949e08c7cb8cb87432.sample"]
 
 [params]
 

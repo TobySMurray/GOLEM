@@ -1,7 +1,7 @@
 extends Node2D
 
 const grid_size = Vector2(60*16, 40*16)
-const anchor_points = [
+var anchor_points = [
 	[Vector2(-grid_size.x, -grid_size.y)/2, Vector2(grid_size.x, -grid_size.y)/2, Vector2(grid_size.x, -grid_size.y)/2],
 	[Vector2(-grid_size.x, -grid_size.y)/2, Vector2(grid_size.x, -grid_size.y)/2, Vector2(grid_size.x, -grid_size.y)/2],
 	[Vector2(-grid_size.x, grid_size.y)/2, Vector2(grid_size.x, grid_size.y)/2, Vector2(grid_size.x, grid_size.y)/2]
@@ -10,22 +10,22 @@ const anchor_points = [
 const levels = ['SkyRuins', 'Labyrinth', 'Desert']
 const chunk_names = ['TopLeft', 'TopMid', 'TopRight', 'MidLeft', 'MidMid', 'MidRight', 'BottomLeft', 'BottomMid', 'BottomRight']
 
-const chunk_paths = {
+var chunk_paths = {
 	'SkyRuins': [[[], [], []], [[], [], []], [[],[],[]]],
 	'Labyrinth': [[[], [], []], [[], [], []], [[],[],[]]],
 	'Desert': [[[], [], []], [[], [], []], [[],[],[]]]
 }
 
-onready var background = $Background
-onready var chunks_node = $Chunks
-onready var objects_node = $Objects
-onready var camera = $Camera
-onready var transcender = $Transcender
-onready var blood_moon = $BloodMoon 
-onready var fog = $Fog
-onready var fullbright_light = $FullbrightLight
-onready var halfbright_light = $HalfbrightLight
-onready var canvas_modulate = $CanvasModulate
+@onready var background = $Background
+@onready var chunks_node = $Chunks
+@onready var objects_node = $Objects
+@onready var camera = $Camera
+@onready var transcender = $Transcender
+@onready var blood_moon = $BloodMoon 
+@onready var fog = $Fog
+@onready var fullbright_light = $FullbrightLight
+@onready var halfbright_light = $HalfbrightLight
+@onready var canvas_modulate = $CanvasModulate
 
 var spawn_zones = {
 	Enemy.EnemyType.SHOTGUN: [],

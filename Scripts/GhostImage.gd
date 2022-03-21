@@ -1,4 +1,4 @@
-extends Sprite
+extends Sprite2D
 
 var max_lifetime = 1.0
 var lifetime = 1.0

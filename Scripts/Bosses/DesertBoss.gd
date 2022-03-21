@@ -7,7 +7,7 @@ enum {
 	BUDDIES
 }
 
-const formation_defs = {
+var formation_defs = {
 	BUDDIES: {
 		'leader': 0,
 		'followers': [0, 0] 
@@ -36,9 +36,7 @@ func on_ad_damaged(health_lost):
 	
 func on_ad_death(ad):
 	if ad.formation:
-		
-	
-	ads[ad.minion_tier].erase(ad)
+		ads[ad.minion_tier].erase(ad)
 		
 			
 			

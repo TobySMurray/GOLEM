@@ -1,7 +1,7 @@
-extends Sprite
+extends Sprite2D
 
-export (NodePath) var background_path
-onready var background = get_node(background_path)
+@export var background_path : NodePath
+@onready var background = get_node(background_path)
 
 var digit = 1
 var anim_timer = 0
@@ -20,7 +20,7 @@ const digit_colors = [
 	Color(1, 0.49, 0),
 	Color(1, 0, 0),
 	Color(1, 0, 0.5),
-	Color.white
+	Color.WHITE
 ]
 
 func set_digit(d):

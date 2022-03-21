@@ -1,9 +1,9 @@
 extends Node
 
-onready var explosion = load("res://Scenes/Explosion.tscn")
-onready var boss_marker = load("res://Scenes/BossMarker.tscn").instance()
-onready var splatter_particles = load("res://Scenes/Particles/SplatterParticles.tscn")
-onready var upgrade_popup = load('res://Scenes/ItemPopup.tscn').instance()
+@onready var explosion = load("res://Scenes/Explosion.tscn")
+@onready var boss_marker = load("res://Scenes/BossMarker.tscn").instance()
+@onready var splatter_particles = load("res://Scenes/Particles/SplatterParticles.tscn")
+@onready var upgrade_popup = load('res://Scenes/ItemPopup.tscn').instance()
 
 const shotgun_bot = preload("res://Scenes/Characters/ShotgunnerBot.tscn")
 const wheel_bot = preload("res://Scenes/Characters/WheelBot.tscn")
@@ -15,14 +15,14 @@ const sorcerer_bot = preload("res://Scenes/Characters/SorcererBot.tscn")
 const saber_bot = preload("res://Scenes/Characters/SaberBot.tscn")
 const shapeshifter = preload("res://Scenes/Characters/MudBender.tscn")
 
-onready var scene_transition = $SceneTransition.get_node('TransitionRect')
-onready var attack_cooldown_SFX = $AttackCooldownSFX
-onready var special_cooldown_SFX = $SpecialCooldownSFX2
-onready var BGM = $BGM
+@onready var scene_transition = $SceneTransition.get_node('TransitionRect')
+@onready var attack_cooldown_SFX = $AttackCooldownSFX
+@onready var special_cooldown_SFX = $SpecialCooldownSFX2
+@onready var BGM = $BGM
 
-onready var viewport = get_viewport()
+@onready var viewport = get_viewport()
 
-onready var enemy_scenes = {
+@onready var enemy_scenes = {
 	Enemy.EnemyType.SHOTGUN: shotgun_bot,
 	Enemy.EnemyType.WHEEL: wheel_bot,
 	Enemy.EnemyType.ARCHER: archer_bot,
@@ -34,7 +34,7 @@ onready var enemy_scenes = {
 	Enemy.EnemyType.SHAPESHIFTER: shapeshifter,
 }
 
-onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
+@onready var swap_unlock_sound = load("res://Sounds/SoundEffects/Wub1.wav")
 
 signal on_swap
 signal on_level_ready
@@ -356,7 +356,7 @@ func set_timescale(scale, lock_duration = 0, lerp_rate = 12):
 	timescale_timer = lock_duration
 	timescale_lerp_rate = lerp_rate
 	
-func hitstop(duration):
+func start_hitstop(duration):
 	hitstop = true
 	hitstop_timer = duration
 	get_tree().paused = true

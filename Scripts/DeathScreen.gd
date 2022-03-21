@@ -1,6 +1,6 @@
 extends Popup
 
-export(String, FILE, "*.tscn") var level
+@export var level : String
 
 
 func _on_PlayAgainButton_pressed():

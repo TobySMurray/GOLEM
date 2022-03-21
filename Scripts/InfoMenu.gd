@@ -1,9 +1,9 @@
 extends Control
 
 func _ready():
-	$GridContainer/EnemiesButton.connect("pressed", self, "enemies")
-	$GridContainer/MiscButton.connect("pressed", self, "upgrades")
-	$Back.connect("pressed", self, "back")
+	$GridContainer/EnemiesButton.pressed.connect(self, "enemies")
+	$GridContainer/MiscButton.pressed.connect(self, "upgrades")
+	$Back.pressed.connect(self, "back")
 func _physics_process(delta):
 	if Input.is_action_pressed("pause"):
 		back()

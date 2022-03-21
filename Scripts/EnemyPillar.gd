@@ -2,7 +2,7 @@ extends StaticBody2D
 
 signal on_death
 
-export (Enemy.EnemyType) var enemy_type = Enemy.EnemyType.UNKNOWN
+@export var enemy_type = Enemy.EnemyType.UNKNOWN
 var enemy = null
 
 var has_appeared = false

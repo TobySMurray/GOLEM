@@ -10,11 +10,11 @@ const level_paths = {
 }
 
 func _ready():
-	$SkyRuins.connect("pressed", self, "skyRuins")
-	$Labyrinth.connect("pressed", self, "labyrinth")
-	$Desert.connect("pressed", self, "desert")
-	$Back.connect("pressed", self, "back")
-	$HowTo.connect("pressed", self, "HowTo")
+	$SkyRuins.pressed.connect(self, "skyRuins")
+	$Labyrinth.pressed.connect(self, "labyrinth")
+	$Desert.pressed.connect(self, "desert")
+	$Back.pressed.connect( self, "back")
+	$HowTo.pressed.connect(self, "HowTo")
 	
 	var r_time = Options.max_time["SkyRuins"]
 	var l_time = Options.max_time["Labyrinth"]

@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/WubloopLOOP.wav-54e878b9202d071d50a5eefd49cfc3b9.sample"
+uid="uid://chm6mnxkedasx"
+path="res://.godot/imported/WubloopLOOP.wav-54e878b9202d071d50a5eefd49cfc3b9.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/WubloopLOOP.wav"
-dest_files=[ "res://.import/WubloopLOOP.wav-54e878b9202d071d50a5eefd49cfc3b9.sample" ]
+dest_files=["res://.godot/imported/WubloopLOOP.wav-54e878b9202d071d50a5eefd49cfc3b9.sample"]
 
 [params]
 

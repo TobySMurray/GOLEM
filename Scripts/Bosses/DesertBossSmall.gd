@@ -102,7 +102,7 @@ func get_random_nearby_formation():
 func die(killer = null):
 	if leader:
 		leader.on_follower_death(self)
-	.die(killer)
+	super.die(killer)
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Spawn":
 		attacking = false

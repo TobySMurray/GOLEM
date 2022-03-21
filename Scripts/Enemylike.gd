@@ -1,22 +1,21 @@
-extends Host
 class_name Enemylike
+extends Host
 
 const score_popup = preload("res://Scenes/ScorePopup.tscn")
 
-onready var animplayer = $AnimationPlayer
-onready var sprite = $Sprite
+@onready var animplayer = $AnimationPlayer
+@onready var sprite = $Sprite
 var swap_shield
 
-export var max_health = 100
-onready var health = float(max_health)
-export var mass = 1.0
-export var max_speed = 100
-export var accel = 10.0
-export var stun_resist = 0.0
+@export var max_health = 100
+@onready var health = float(max_health)
+@export var mass = 1.0
+@export var max_speed = 100
+@export var accel = 10.0
+@export var stun_resist = 0.0
 
 var enemy_type = 8 #Stupid hack, can't reference Enemy.EnemyType in a superclass of Enemy. Will probably break later.
 
-var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
 var aim_direction = Vector2.ZERO
 
@@ -26,7 +25,7 @@ var override_accel = null
 var stunned = false
 var stun_timer = 0
 
-var invincible = false setget , is_invincible
+var invincible = false
 var invincibility_timer = 0
 
 var damage_flash = false
@@ -53,8 +52,8 @@ func physics_process(delta):
 func move(delta):
 	var cur_speed = override_speed if override_speed != null else max_speed
 	var cur_accel = override_accel if override_accel != null else accel
-	velocity = lerp(velocity, target_velocity.normalized()*cur_speed, cur_accel*delta)	
-	velocity = move_and_slide(velocity)
+	velocity = velocity.lerp(target_velocity.normalized()*cur_speed, cur_accel*delta)	
+	move_and_slide()
 	
 func play_animation(anim):
 	if not dead:

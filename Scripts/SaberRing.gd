@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 const zaps = [
 	preload('res://Sounds/SoundEffects/Saber1.wav'),
@@ -6,7 +6,7 @@ const zaps = [
 	preload('res://Sounds/SoundEffects/Saber3.wav')
 ]
 
-onready var audio_players = [
+@onready var audio_players = [
 	$Audio1,
 	$Audio2,
 	$Audio3
@@ -14,7 +14,6 @@ onready var audio_players = [
 
 var source
 
-var velocity = Vector2.ZERO
 var max_accel = 300
 var accel = max_accel
 var max_speed = 5000
@@ -48,9 +47,9 @@ func _physics_process(delta):
 		queue_free()
 	
 	if not being_recalled:
-		velocity = move_and_slide(velocity)
+		move_and_slide()
 		
-		modulate = Color.white.linear_interpolate(Color(1, 0, 0.45), float(accel)/max_accel)
+		modulate = Color.WHITE.lerp(Color(1, 0, 0.45), float(accel)/max_accel)
 		if accel < max_accel:
 			accel += 0.5
 			
@@ -66,7 +65,7 @@ func _physics_process(delta):
 	
 	else:
 		recall_timer -= delta
-		global_position = lerp(global_position, target_pos, 0.2)
+		global_position = global_position.lerp(target_pos, 0.2)
 		recalled = (target_pos - global_position).length() < 7 or recall_timer < 0
 
 func _on_Area2D_area_entered(area):

@@ -1,7 +1,7 @@
 extends Control
 
-onready var text = $Label
-export(String, FILE, "*.tscn") var next
+@onready var text = $Label
+@export var next : String
 
 func _ready():
 	$Back.connect("pressed", self, "back")

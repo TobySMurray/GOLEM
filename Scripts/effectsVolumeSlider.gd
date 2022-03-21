@@ -1,9 +1,9 @@
 extends HSlider
 
 
-export var audio_bus_name := "Effects"
+@export var audio_bus_name := "Effects"
 
-onready var _bus := AudioServer.get_bus_index(audio_bus_name)
+@onready var _bus := AudioServer.get_bus_index(audio_bus_name)
 
 
 func _ready() -> void:

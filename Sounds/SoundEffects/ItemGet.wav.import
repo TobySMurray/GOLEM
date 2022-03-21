@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/ItemGet.wav-37b2866b3e55e73ad45b383e6dddb744.sample"
+uid="uid://bi14yquoduiqq"
+path="res://.godot/imported/ItemGet.wav-37b2866b3e55e73ad45b383e6dddb744.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/ItemGet.wav"
-dest_files=[ "res://.import/ItemGet.wav-37b2866b3e55e73ad45b383e6dddb744.sample" ]
+dest_files=["res://.godot/imported/ItemGet.wav-37b2866b3e55e73ad45b383e6dddb744.sample"]
 
 [params]
 

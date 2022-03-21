@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/Zing.wav-e1b22df1f56c036d9731a539f69d7187.sample"
+uid="uid://bdvlc6dp5roun"
+path="res://.godot/imported/Zing.wav-e1b22df1f56c036d9731a539f69d7187.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/Zing.wav"
-dest_files=[ "res://.import/Zing.wav-e1b22df1f56c036d9731a539f69d7187.sample" ]
+dest_files=["res://.godot/imported/Zing.wav-e1b22df1f56c036d9731a539f69d7187.sample"]
 
 [params]
 

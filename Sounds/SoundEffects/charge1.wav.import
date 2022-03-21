@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/charge1.wav-042b7df11f0bfe2d8e08daf198581839.sample"
+uid="uid://pafk2ni2i1wr"
+path="res://.godot/imported/charge1.wav-042b7df11f0bfe2d8e08daf198581839.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/charge1.wav"
-dest_files=[ "res://.import/charge1.wav-042b7df11f0bfe2d8e08daf198581839.sample" ]
+dest_files=["res://.godot/imported/charge1.wav-042b7df11f0bfe2d8e08daf198581839.sample"]
 
 [params]
 

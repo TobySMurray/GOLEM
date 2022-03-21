@@ -1,12 +1,12 @@
 extends Area2D
 
-onready var slow_audio = $Slow 
-onready var stopped_audio = $Stopped
-onready var speed_audio = $Speed
-onready var boss_audio = $Boss
-onready var collider = $CollisionShape2D
-onready var sprite = $AnimatedSprite
-onready var grayscale_filter = $CanvasLayer2/GrayscaleFilter
+@onready var slow_audio = $Slow 
+@onready var stopped_audio = $Stopped
+@onready var speed_audio = $Speed
+@onready var boss_audio = $Boss
+@onready var collider = $CollisionShape2D
+@onready var sprite = $AnimatedSprite
+@onready var grayscale_filter = $CanvasLayer2/GrayscaleFilter
 
 var selected_enemy
 signal selected_enemy_signal
@@ -20,11 +20,11 @@ func _physics_process(delta):
 	
 	
 	if moon_visible:
-		modulate = lerp(modulate, Color(1,1,1,1), 0.1)
+		#modulate = lerp(modulate, Color(1,1,1,1), 0.1)
 		grayscale_intensity = lerp(grayscale_intensity, 1.0, 0.1)
 		
 		var space_rid = get_world_2d().space
-		var space_state = Physics2DServer.space_get_direct_state(space_rid)
+		var space_state = PhysicsServer2D.space_get_direct_state(space_rid)
 
 		var query = Physics2DShapeQueryParameters.new()
 		query.collide_with_areas = true

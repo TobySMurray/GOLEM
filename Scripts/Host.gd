@@ -1,11 +1,11 @@
-extends KinematicBody2D
 class_name Host
+extends CharacterBody2D
 
 var is_player = false
 var can_be_swapped_to = true
 var uses_swap_bar = true
 var override_swap_camera = false
-export var debug_start_as_player = false
+@export var debug_start_as_player = false
 
 var max_swap_shield_health = 0
 var swap_shield_health = 0

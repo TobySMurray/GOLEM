@@ -1,10 +1,10 @@
 extends Node2D
 
-onready var astar_node = AStar2D.new()
-onready var ground_tm = GameManager.ground
-onready var obstacles_tm = GameManager.obstacles
+@onready var astar_node = AStar2D.new()
+@onready var ground_tm = GameManager.ground
+@onready var obstacles_tm = GameManager.obstacles
 
-export(Vector2) var map_size = Vector2(16, 16)
+@export var map_size = Vector2(16, 16)
 
 var map_coordinates_top_left = Vector2(-28, -11)
 var map_coordinates_bottom_left = Vector2(-28, 53)

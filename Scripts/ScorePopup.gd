@@ -9,7 +9,7 @@ func _ready():
 	lifetime = 1.5
 	
 func _process(delta):
-	modulate = color if int(lifetime*20)%2 == 0 else Color.white
+	modulate = color if int(lifetime*20)%2 == 0 else Color.WHITE
 	rect_position += Vector2.UP*max(lifetime-0.5, 0)*60*delta
 	lifetime -= delta
 	

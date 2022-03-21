@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/chargeexplosion.wav-c40148ca6d4648ea38ee8a0f1d1a5d74.sample"
+uid="uid://t7tm4mly62iv"
+path="res://.godot/imported/chargeexplosion.wav-c40148ca6d4648ea38ee8a0f1d1a5d74.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/chargeexplosion.wav"
-dest_files=[ "res://.import/chargeexplosion.wav-c40148ca6d4648ea38ee8a0f1d1a5d74.sample" ]
+dest_files=["res://.godot/imported/chargeexplosion.wav-c40148ca6d4648ea38ee8a0f1d1a5d74.sample"]
 
 [params]
 

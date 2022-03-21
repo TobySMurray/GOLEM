@@ -3,11 +3,11 @@ extends Control
 
 func _ready():
 	GameManager.play_level_bgm('MainMenu')
-	$Buttons/Play.connect("pressed", self, "play_campaign")
-	$Buttons/Arcade.connect("pressed", self, "play_arcade")
-	$Buttons/Options.connect("pressed",self, "options")
-	$Buttons/Quit.connect("pressed", self, "quit")
-	$Buttons/Stats.connect("pressed", self, "stats")
+	$Buttons/Play.pressed.connect(self, "play_campaign")
+	$Buttons/Arcade.pressed.connect(self, "play_arcade")
+	$Buttons/Options.pressed.connect(self, "options")
+	$Buttons/Quit.pressed.connect( self, "quit")
+	$Buttons/Stats.pressed.connect(self, "stats")
 	GameManager.scene_transition.fade_in()
 	GameManager.world = null
 

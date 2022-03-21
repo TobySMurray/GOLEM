@@ -2,7 +2,7 @@ extends Popup
 
 
 var paused = false
-onready var timer = $Timer
+@onready var timer = $Timer
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("pause") and not paused:

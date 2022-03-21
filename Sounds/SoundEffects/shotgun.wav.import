@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/shotgun.wav-b4bd7850124b5bd279fa7dc23cc0ab71.sample"
+uid="uid://dwli6jq20uivx"
+path="res://.godot/imported/shotgun.wav-b4bd7850124b5bd279fa7dc23cc0ab71.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/shotgun.wav"
-dest_files=[ "res://.import/shotgun.wav-b4bd7850124b5bd279fa7dc23cc0ab71.sample" ]
+dest_files=["res://.godot/imported/shotgun.wav-b4bd7850124b5bd279fa7dc23cc0ab71.sample"]
 
 [params]
 

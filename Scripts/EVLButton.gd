@@ -1,7 +1,7 @@
 extends Area2D
 
-onready var sprite = $Sprite
-onready var number = $Number
+@onready var sprite = $Sprite
+@onready var number = $Number
 
 var active = false
 
@@ -29,9 +29,9 @@ func _input(ev):
 				
 	elif ev is InputEventMouseButton:
 			if ev.is_pressed():
-				if ev.button_index == BUTTON_WHEEL_UP:
+				if ev.button_index == MOUSE_BUTTON_WHEEL_UP:
 					set_evolution_level(min(GameManager.evolution_level + 1, 6))
-				if ev.button_index == BUTTON_WHEEL_DOWN:
+				if ev.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 					set_evolution_level(max(GameManager.evolution_level - 1, 0))
 
 				

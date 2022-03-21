@@ -1,7 +1,7 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 var source
-var velocity = Vector2(100, 0)
+
 var mass = 3
 var decel_timer = 0
 var damage_mult = 1.0
@@ -13,6 +13,9 @@ var spectral = false
 
 signal on_bullet_despawn
 
+func _ready():
+	velocity = Vector2(100, 0)
+	
 func _physics_process(delta):
 	var col = move_and_collide(velocity*delta)
 	

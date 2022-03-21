@@ -1,8 +1,8 @@
 extends Control
 
 
-export(String, FILE, "*.tscn") var back
-export(String, FILE, "*.tscn") var next
+@export(String, FILE, "*.tscn") var back
+@export(String, FILE, "*.tscn") var next
 
 func _ready():
 	$TutorialBack.connect("pressed", self, "back")

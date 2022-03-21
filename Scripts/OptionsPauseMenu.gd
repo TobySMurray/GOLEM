@@ -2,31 +2,32 @@ extends Control
 
 
 
-onready var resolutionButton = $videoSettings/resolutionButton
-onready var fullscreenButton = $videoSettings/fullscreenButton
+@onready var resolutionButton = $videoSettings/resolutionButton
+@onready var fullscreenButton = $videoSettings/fullscreenButton
 
-onready var masterSlider = $audioSettings/masterVolumeSlider
-onready var musicSlider = $audioSettings/musicVolumeSlider
-onready var effectsSlider = $audioSettings/effectsVolumeSlider
+@onready var masterSlider = $audioSettings/masterVolumeSlider
+@onready var musicSlider = $audioSettings/musicVolumeSlider
+@onready var effectsSlider = $audioSettings/effectsVolumeSlider
 
-onready var master_mute_btn = $audioSettings/masterMute
-onready var music_mute_btn = $audioSettings/musicMute
-onready var effects_mute_btn = $audioSettings/effectsMute
+@onready var master_mute_btn = $audioSettings/masterMute
+@onready var music_mute_btn = $audioSettings/musicMute
+@onready var effects_mute_btn = $audioSettings/effectsMute
 
 
 func _ready():
-	$HBoxContainer/Video.connect("pressed", self, "video")
-	$HBoxContainer/Audio.connect("pressed", self, "audio")
-	$HBoxContainer/Controls.connect("pressed", self, "controls")
-	$Back.connect("pressed", self, "back")
-	resolutionButton.connect("item_selected", self, "resolution")
-	fullscreenButton.connect("item_selected", self, "fullscreen")
-	master_mute_btn.connect("pressed",self, "muteMaster")
-	masterSlider.connect("value_changed",self, "masterVolume")
-	music_mute_btn.connect("pressed",self, "muteMusic")
-	musicSlider.connect("value_changed",self, "musicVolume")
-	effects_mute_btn.connect("pressed",self, "muteEffects")
-	effectsSlider.connect("value_changed",self, "effectsVolume")
+	$HBoxContainer/Video.pressed.connect(self, "video")
+	$HBoxContainer/Audio.pressed.connect(self, "audio")
+	$HBoxContainer/Controls.pressed.connect(self, "controls")
+	$Back.pressed.connect(self, "back")
+	$HBoxContainer/Credits.pressed.connect("pressed", self, "toggle_credits")
+	resolutionButton.item_selected.connect(self, "resolution")
+	fullscreenButton.item_selected.connect(self, "fullscreen")
+	master_mute_btn.pressed.connect("pressed",self, "muteMaster")
+	masterSlider.value_changed.connect(self, "masterVolume")
+	music_mute_btn.pressed.connect("pressed",self, "muteMusic")
+	musicSlider.value_changed.connect(self, "musicVolume")
+	effects_mute_btn.pressed.connect(self, "muteEffects")
+	effectsSlider.value_changed.connect(self, "effectsVolume")
 	
 	resolutionButton.add_item("640 x 360", 0)
 	resolutionButton.add_item("1920 x 1080", 1)

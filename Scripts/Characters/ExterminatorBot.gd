@@ -1,13 +1,13 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var teleport_sprite = $TeleportSprite
-onready var bullet_holder = $BulletHolder
-onready var cw_ring = $BulletHolder/CW
-onready var ccw_ring = $BulletHolder/CCW
-onready var deflector_shape = $Deflector/CollisionShape2D
-onready var deflector_visual = $Deflector/DeflectorVisual
-onready var rev_audio = $RevUpAudio
-onready var shoot_audio = $ShootAudio
+@onready var teleport_sprite = $TeleportSprite
+@onready var bullet_holder = $BulletHolder
+@onready var cw_ring = $BulletHolder/CW
+@onready var ccw_ring = $BulletHolder/CCW
+@onready var deflector_shape = $Deflector/CollisionShape2D
+@onready var deflector_visual = $Deflector/DeflectorVisual
+@onready var rev_audio = $RevUpAudio
+@onready var shoot_audio = $ShootAudio
 
 const pew_sound = preload('res://Sounds/SoundEffects/Zing.wav')
 const crack_sound = preload('res://Sounds/SoundEffects/CrispExplosion.wav')
@@ -125,7 +125,7 @@ func toggle_enhancement(state):
 	if retaliating:	
 		toggle_retaliation(false)
 		
-	.toggle_enhancement(state)
+	super.toggle_enhancement(state)
 
 func misc_update(delta):
 	deflector_visual.rotation = shield_angle
@@ -196,7 +196,7 @@ func ai_move():
 
 func ai_action():
 	aim_direction = GameManager.player.global_position - global_position
-	lerped_player_pos = lerp(lerped_player_pos, GameManager.player.global_position, 0.1)
+	lerped_player_pos = lerped_player_pos.lerp(GameManager.player.global_position, 0.1)
 	
 	var delta_angle = Util.signed_wrap(aim_direction.angle() - shield_angle)
 	shield_angle = Util.signed_wrap(shield_angle + sign(delta_angle)/60)
@@ -356,7 +356,7 @@ func expel_compacted_bullets():
 			
 		retaliating = false #End dumb hack
 		LaserBeam.shoot_laser(bullet_holder.global_position, dir, width, self, damage, 1000, 0, true, 'rail')
-		 
+	
 	if bullet_orbit_speed > 6:
 		GameManager.spawn_explosion(bullet_holder.global_position, self, 0.4, 20, 300)
 		
@@ -533,7 +533,7 @@ func on_bullet_despawn(b):
 #	pass
 
 func take_damage(damage, source, stun = 0):
-	.take_damage(damage, source, stun)
+	super.take_damage(damage, source, stun)
 	if dead or stunned:
 		teleport_sprite.visible = false
 		charging_tp = false

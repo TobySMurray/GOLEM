@@ -1,8 +1,8 @@
 extends Enemylike
 
-export var current_level = 0
-onready var world_map = $WorldMap
-onready var load_triggers = [$WorldMap/SkyRuins, $WorldMap/Labyrinth, $WorldMap/Desert, $WorldMap/Summit]
+@export var current_level = 0
+@onready var world_map = $WorldMap
+@onready var load_triggers = [$WorldMap/SkyRuins, $WorldMap/Labyrinth, $WorldMap/Desert, $WorldMap/Summit]
 
 func _ready():
 	uses_swap_bar = false

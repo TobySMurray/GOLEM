@@ -1,12 +1,12 @@
 extends Host
 
-onready var sprite = $Sprite
-onready var hologram = $Hologram
+@onready var sprite = $Sprite
+@onready var hologram = $Hologram
 
 var active = false
 var timer = 0
 
-export (Enemy.EnemyType) var enemy
+@export var enemy : Enemy.EnemyType
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +25,6 @@ func _physics_process(delta):
 			GameManager.spawn_enemy(enemy, get_global_mouse_position())
 		
 func toggle_playerhood(state):
-	.toggle_playerhood(state)
+	super.toggle_playerhood(state)
 	sprite.material.set_shader_param('intensity', 0 if state else 1)
 		

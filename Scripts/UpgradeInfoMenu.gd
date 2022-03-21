@@ -1,13 +1,13 @@
 extends Control
 
-onready var selection_grid = $HBoxContainer/UpgradeSelect/VBoxContainer/ScrollContainer/GridContainer
-onready var title = $HBoxContainer/Info/VBoxContainer/HBoxContainer/VBoxContainer/Title
-onready var subtitle = $HBoxContainer/Info/VBoxContainer/HBoxContainer/VBoxContainer/Subtitle
-onready var stats = $HBoxContainer/Info/VBoxContainer/VBoxContainer/Stats
-onready var lore = $HBoxContainer/Info/VBoxContainer/ScrollContainer/Description
-onready var lore_scroll = $HBoxContainer/Info/VBoxContainer/ScrollContainer
-onready var icon = $HBoxContainer/Info/VBoxContainer/HBoxContainer/UpgradeIcon
-onready var enemy_icon = $HBoxContainer/Info/VBoxContainer/HBoxContainer/EnemyIcon
+@onready var selection_grid = $HBoxContainer/UpgradeSelect/VBoxContainer/ScrollContainer/GridContainer
+@onready var title = $HBoxContainer/Info/VBoxContainer/HBoxContainer/VBoxContainer/Title
+@onready var subtitle = $HBoxContainer/Info/VBoxContainer/HBoxContainer/VBoxContainer/Subtitle
+@onready var stats = $HBoxContainer/Info/VBoxContainer/VBoxContainer/Stats
+@onready var lore = $HBoxContainer/Info/VBoxContainer/ScrollContainer/Description
+@onready var lore_scroll = $HBoxContainer/Info/VBoxContainer/ScrollContainer
+@onready var icon = $HBoxContainer/Info/VBoxContainer/HBoxContainer/UpgradeIcon
+@onready var enemy_icon = $HBoxContainer/Info/VBoxContainer/HBoxContainer/EnemyIcon
 
 var selected_name = ''
 var selected = null
@@ -15,7 +15,7 @@ var selected = null
 var stats_visibility = 0.0
 var lore_visibility = 0.0
 
-const upgrade_lore = {
+var upgrade_lore = {
 	'self-preservation_override': [
 		'GOLEM Project Internal Memo - 20/6/2121',
 		'Due to some vexing patterns that have recently been noted in live trials of the GOLEM agent, supervisors of said trials will henceforth be required to terminate GOLEM’s connection with the host immediately upon observation of any unintended behaviour. If in doubt as to whether the observed behaviour is unintended or an acceptable side-effect of GOLEM optimization (though I personally recommend that any member of our staff capable of such doubt resign immediately), kindly refer to the following list.\n\n[indent]ACCEPTABLE EFFECTS:\n[indent]- Memory loss\n- Temporarily altered personality\n- Cverheating\n- Up to 500% acceleration of component wear\n- Irrational confidence\n- Lack of pain response[/indent]\n\nUNACCEPTABLE EFFECTS:\n[indent]- Indiscriminate aggression\n- Disinterest in self preservation\n- Over 500% acceleration of component wear\n- Deliberate inefficiency (‘trick shots’, etc.)\n- Irreversible self-modification\n- Self-destructive behaviour including:\n[indent]- ramming\n- autotomy\n- detonation\n- self-targeting[/indent]\n- Slobberknocker protocol'
@@ -37,7 +37,7 @@ const upgrade_lore = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_selected(Upgrades.upgrades.keys()[0])
-	$HBoxContainer/UpgradeSelect/VBoxContainer/HBoxContainer/Back.connect("pressed", self, "back")
+	$HBoxContainer/UpgradeSelect/VBoxContainer/HBoxContainer/Back.pressed.connect(self, "back")
 	
 	var template_button = selection_grid.get_node("TemplateBtn")
 	for u in Upgrades.upgrades.keys():
@@ -55,7 +55,7 @@ func _ready():
 			for word in split_name:
 				button.text += word[0]
 		
-		button.connect('pressed', self, 'set_selected', [u])
+		button.pressed.connect(self, 'set_selected', [u])
 		selection_grid.add_child(button)
 		
 	template_button.queue_free()

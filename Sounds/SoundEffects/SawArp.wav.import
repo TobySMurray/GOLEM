@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/SawArp.wav-d92131294fa023d28db4851b5f10c61e.sample"
+uid="uid://4qvxf116fq5q"
+path="res://.godot/imported/SawArp.wav-d92131294fa023d28db4851b5f10c61e.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/SawArp.wav"
-dest_files=[ "res://.import/SawArp.wav-d92131294fa023d28db4851b5f10c61e.sample" ]
+dest_files=["res://.godot/imported/SawArp.wav-d92131294fa023d28db4851b5f10c61e.sample"]
 
 [params]
 

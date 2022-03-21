@@ -1,6 +1,6 @@
 class_name Upgrades
 
-const upgrades = {
+var upgrades = {
 	#SHOTGUN
 	'induction_barrel': { #Replaces pellets with piercing flame bullets
 		'name': 'Induction Barrel',

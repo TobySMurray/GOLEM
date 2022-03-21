@@ -1,7 +1,7 @@
 extends Area2D
 
-onready var sprite = $AnimatedSprite
-onready var collision = $CollisionShape2D
+@onready var sprite = $AnimatedSprite
+@onready var collision = $CollisionShape2D
 
 var timer = 0
 var anchored_pos = Vector2.ZERO

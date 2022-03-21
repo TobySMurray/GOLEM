@@ -4,7 +4,7 @@ class_name Boss
 
 const LevelLoadTrigger = preload('res://Scenes/LevelLoadTrigger.tscn')
 const GhostImage = preload('res://Scenes/GhostImage.tscn')
-onready var healthbar = $EnemyFX/HealthBar
+@onready var healthbar = $EnemyFX/HealthBar
 
 # STATE MACHINE VARS
 var current_state = 0
@@ -25,7 +25,7 @@ var last_state_health = 0
 var frame_events = []
 
 var phase = 0
-export var phase_thresholds = [0.0]
+@export var phase_thresholds = [0.0]
 
 var player_pos = Vector2.ZERO
 var to_player = Vector2.ZERO
@@ -110,7 +110,7 @@ func revert_state(restart = false):
 		state_counter = last_state_counter
 		state_health = last_state_health
 		
-func interrupt_state(new_state):
+func set_interrupt_state(new_state):
 	interrupt_state = new_state
 	interrupt = true
 	
@@ -127,13 +127,13 @@ func enter_phase(new_phase):
 	pass
 	
 func move(delta):
-	velocity = lerp(velocity, target_velocity, accel*delta)	
+	velocity = velocity.lerp(target_velocity, accel*delta)	
 	
-	var col = move_and_collide(velocity*delta, true, true, true)
+	var col = move_and_collide(velocity*delta, true, true)
 	if col and (col.collider.collision_layer & 1 or (col.collider.collision_layer >> 10) & 1):
 		frame_events.append(['body_collision', col])
 	
-	velocity = move_and_slide(velocity)
+	move_and_slide()
 	
 func move_toward_target(speed = max_speed):
 	target_velocity = speed*global_position.direction_to(target_point)
@@ -209,7 +209,7 @@ func take_damage(damage, source, stun = 0):
 		
 		damage_flash = true
 		damage_flash_timer = 0.05
-		sprite.material.set_shader_param('color', Color.white)
+		sprite.material.set_shader_param('color', Color.WHITE)
 		sprite.material.set_shader_param('intensity', 1)
 		
 		if health <= 0:
@@ -235,7 +235,7 @@ func _on_AnimationPlayer_animation_finished(anim):
 		corpse.global_position = global_position
 		corpse.destination = 'WarpRoom'
 		corpse.fixed_map = 'res://Scenes/Levels/WarpRoom.tscn'
-		.actually_die()
+		super.actually_die()
 	else:
 		frame_events.append(['anim_finished', anim])
 	

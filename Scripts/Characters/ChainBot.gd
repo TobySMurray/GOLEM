@@ -1,11 +1,11 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var grapple = $Grapple
-onready var attack_collider = $AttackCollider/NeutralCollider
-onready var forward_collider = $AttackCollider/ForwardCollider
-onready var side_collider = $AttackCollider/SideCollider
-onready var back_collider = $AttackCollider/BackCollider
-onready var audio = $AudioStreamPlayer2D
+@onready var grapple = $Grapple
+@onready var attack_collider = $AttackCollider/NeutralCollider
+@onready var forward_collider = $AttackCollider/ForwardCollider
+@onready var side_collider = $AttackCollider/SideCollider
+@onready var back_collider = $AttackCollider/BackCollider
+@onready var audio = $AudioStreamPlayer2D
 
 
 var num_pellets = 5
@@ -47,7 +47,7 @@ var ai_target_angle = 0
 var ai_move_timer = 0
 var ai_delay_timer = 0
 var ai_charge_timer = 0
-onready var ai_target_point = global_position
+@onready var ai_target_point = global_position
 
 var double_tap_timer = 0
 var grapple_stun_timer = 0
@@ -66,7 +66,7 @@ func _ready():
 	toggle_enhancement(false)
 	
 func toggle_playerhood(state):
-	.toggle_playerhood(state)
+	super.toggle_playerhood(state)
 	if charging:
 		if is_instance_valid(grapple.anchor_entity):
 			aim_direction = (grapple.anchor_entity.global_position - global_position).normalized()
@@ -111,7 +111,7 @@ func toggle_enhancement(state):
 		
 		steady_body = GameManager.player_upgrades['perfect_balance'] > 0
 		
-	.toggle_enhancement(state)
+	super.toggle_enhancement(state)
 		
 		
 func misc_update(delta):
@@ -368,7 +368,7 @@ func swing_attack():
 	
 func die(killer = null):
 	grapple.retract()
-	.die(killer)
+	super.die(killer)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Charge":

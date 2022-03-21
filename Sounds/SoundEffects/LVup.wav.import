@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/LVup.wav-9f22a35b8d8b69bf00bbaa875957b95b.sample"
+uid="uid://dyic1a3t8asej"
+path="res://.godot/imported/LVup.wav-9f22a35b8d8b69bf00bbaa875957b95b.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/LVup.wav"
-dest_files=[ "res://.import/LVup.wav-9f22a35b8d8b69bf00bbaa875957b95b.sample" ]
+dest_files=["res://.godot/imported/LVup.wav-9f22a35b8d8b69bf00bbaa875957b95b.sample"]
 
 [params]
 

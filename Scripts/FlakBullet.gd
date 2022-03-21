@@ -15,7 +15,7 @@ var frag_type = 'pellet'
 var deflectable = true
 var spectral = false
 
-onready var last_position = global_position - velocity.normalized()*10
+@onready var last_position = global_position - velocity.normalized()*10
 var last_velocity = Vector2.ZERO
 
 func _physics_process(delta):

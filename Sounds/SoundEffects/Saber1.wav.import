@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/Saber1.wav-ff8cbb20d88b706303efc4259f576a11.sample"
+uid="uid://bffoxdmdvgfb0"
+path="res://.godot/imported/Saber1.wav-ff8cbb20d88b706303efc4259f576a11.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/Saber1.wav"
-dest_files=[ "res://.import/Saber1.wav-ff8cbb20d88b706303efc4259f576a11.sample" ]
+dest_files=["res://.godot/imported/Saber1.wav-ff8cbb20d88b706303efc4259f576a11.sample"]
 
 [params]
 

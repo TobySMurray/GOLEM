@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/chargeshot.wav-fba2f997e4c042b9af97c6e1118f4697.sample"
+uid="uid://cuo6std5wncq5"
+path="res://.godot/imported/chargeshot.wav-fba2f997e4c042b9af97c6e1118f4697.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/chargeshot.wav"
-dest_files=[ "res://.import/chargeshot.wav-fba2f997e4c042b9af97c6e1118f4697.sample" ]
+dest_files=["res://.godot/imported/chargeshot.wav-fba2f997e4c042b9af97c6e1118f4697.sample"]
 
 [params]
 

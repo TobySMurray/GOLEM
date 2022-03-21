@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/shotgunnerdie.wav-5247f2e30aaaf53e33051ec9d9826186.sample"
+uid="uid://b6cv5gaamdvck"
+path="res://.godot/imported/shotgunnerdie.wav-5247f2e30aaaf53e33051ec9d9826186.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/shotgunnerdie.wav"
-dest_files=[ "res://.import/shotgunnerdie.wav-5247f2e30aaaf53e33051ec9d9826186.sample" ]
+dest_files=["res://.godot/imported/shotgunnerdie.wav-5247f2e30aaaf53e33051ec9d9826186.sample"]
 
 [params]
 

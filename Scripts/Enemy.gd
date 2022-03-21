@@ -1,5 +1,5 @@
-extends Enemylike
 class_name Enemy
+extends Enemylike
 
 enum EnemyType {
 	SHOTGUN,
@@ -14,16 +14,16 @@ enum EnemyType {
 	UNKNOWN
 }
 
-#onready var transcender_curve = Curve2D.new()
-onready var healthbar = $EnemyFX/HealthBar
-onready var EV_particles = $EnemyFX/EVParticles
-#onready var astar = self.get_parent().get_node("AStar")
-onready var shape = $CollisionShape2D
-onready var light_circle = $EnemyFX/CharacterLights/Radial
-onready var light_beam = $EnemyFX/CharacterLights/Directed
-onready var gun_particles = $EnemyFX/GunParticles
+#@onready var transcender_curve = Curve2D.new()
+@onready var healthbar = $EnemyFX/HealthBar
+@onready var EV_particles = $EnemyFX/EVParticles
+#@onready var astar = self.get_parent().get_node("AStar")
+@onready var shape = $CollisionShape2D
+@onready var light_circle = $EnemyFX/CharacterLights/Radial
+@onready var light_beam = $EnemyFX/CharacterLights/Directed
+@onready var gun_particles = $EnemyFX/GunParticles
 
-onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/relaod.wav')
+@onready var attack_cooldown_audio = load('res://Sounds/SoundEffects/relaod.wav')
 
 var score = 0
 
@@ -50,7 +50,7 @@ var shoot_through = []
 
 var is_flashing = false
 var flash_timer = 0
-var flash_color = Color.white
+var flash_color = Color.WHITE
 
 var idle_anim = "Idle"
 var walk_anim = "Walk"
@@ -229,7 +229,7 @@ func init_healthbar():
 	
 		
 func toggle_playerhood(state):
-	.toggle_playerhood(state)
+	super.toggle_playerhood(state)
 	toggle_light(state)
 	
 	if state == true:
@@ -269,7 +269,7 @@ func toggle_playerhood(state):
 			die()
 		
 func toggle_enhancement(state):
-	print("toggled enhancement for " + name)
+	print("toggled enhancement for ", name)
 	if state == true:
 		animplayer.playback_speed = 1 + 0.1*GameManager.evolution_level
 	else:
@@ -305,11 +305,11 @@ func toggle_light(is_player):
 		if is_player:
 			light_circle.texture_scale = 10
 			light_circle.energy = 0.8
-			light_circle.color = Color.white
+			light_circle.color = Color.WHITE
 			
 			light_beam.texture_scale = 0.7
 			light_beam.energy = 1
-			light_beam.color = Color.white
+			light_beam.color = Color.WHITE
 		else:
 			light_circle.get_parent().visible = false
 			#light.texture_scale = 3
@@ -365,7 +365,7 @@ func emit_score_popup(value, msg):
 
 func die(killer = null):
 	if dead: return
-	.die()
+	super.die()
 	
 	attacking = true
 	GameManager.enemy_count -= 1
@@ -440,7 +440,7 @@ func actually_die():
 	if last_stand:
 		GameManager.spawn_explosion(global_position, self, 1, 100, 1000)
 
-	.actually_die()
+	super.actually_die()
 
 
 

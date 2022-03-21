@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/wheel2.wav-5ad757f0b2e4c9c76a51bacb51f0745b.sample"
+uid="uid://csc27sbq42icd"
+path="res://.godot/imported/wheel2.wav-5ad757f0b2e4c9c76a51bacb51f0745b.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/wheel2.wav"
-dest_files=[ "res://.import/wheel2.wav-5ad757f0b2e4c9c76a51bacb51f0745b.sample" ]
+dest_files=["res://.godot/imported/wheel2.wav-5ad757f0b2e4c9c76a51bacb51f0745b.sample"]
 
 [params]
 

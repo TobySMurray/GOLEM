@@ -1,9 +1,9 @@
-tool
+@tool
 extends Node2D
 
 class_name MapZoneManager
-export var zones = []
-export (bool) var reread_zones = false setget reread_zones
+@export var zones = []
+@export (bool) var reread_zones = false setget reread_zones
 
 func add_zone(zone: MapZone):
 	zones.append(zone)

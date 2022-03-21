@@ -1,12 +1,12 @@
 extends Node2D
 
 
-onready var attack_cooldown = $Attack
-onready var special_cooldown = $Special
-onready var sprite = $Sprite
+@onready var attack_cooldown = $Attack
+@onready var special_cooldown = $Special
+@onready var sprite = $Sprite
 
-export (NodePath) var subreticle_path
-onready var subreticle = get_node(subreticle_path)
+@export var subreticle_path : NodePath
+@onready var subreticle = get_node(subreticle_path)
 var flash_timer = 0
 
 
@@ -41,9 +41,9 @@ func _process(delta):
 func _physics_process(delta):
 	if flash_timer > 0:
 		flash_timer -= delta
-		sprite.modulate = Color.black if int(flash_timer*20)%2 == 0 else Color.white
+		sprite.modulate = Color.BLACK if int(flash_timer*20)%2 == 0 else Color.WHITE
 	else:
-		sprite.modulate = Color.white 
+		sprite.modulate = Color.WHITE 
 		
 	if is_instance_valid(GameManager.true_player) and GameManager.true_player.is_in_group('enemy'):
 		attack_cooldown.max_value = GameManager.true_player.max_attack_cooldown

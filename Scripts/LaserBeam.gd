@@ -4,7 +4,7 @@ extends Area2D
 const red_beam = preload('res://Art/Bullets/Beam.png')
 const rail_beam = preload('res://Art/Bullets/RailgunBeamPale.png')
 
-onready var sprite = $Sprite
+@onready var sprite = $Sprite
 var anim_frame = 0
 var last_frame = 11
 var anim_timer = 0.05

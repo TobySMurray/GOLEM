@@ -1,6 +1,6 @@
 class_name Levels
 
-const level_data = {
+var level_data = {
 	'MainMenu': {
 		'type': 'menu',
 		'dark': false,

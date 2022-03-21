@@ -1,23 +1,23 @@
 extends Label
 
-onready var mult_display_1 = get_node("../Multiplier1")
-onready var mult_display_2 = get_node("../Multiplier2")
+@onready var mult_display_1 = get_node("../Multiplier1")
+@onready var mult_display_2 = get_node("../Multiplier2")
 
-export var decay = 1  # How quickly the shaking stops [0, 1].
-export var max_dist = 5  # Maximum hor/ver shake in pixels.
-export var max_roll = 0  # Maximum rotation in radians (use sparingly).
-#export var color_fade_time = 0.5
-#export var rave_intensity = 0
+@export var decay = 1  # How quickly the shaking stops [0, 1].
+@export var max_dist = 5  # Maximum hor/ver shake in pixels.
+@export var max_roll = 0  # Maximum rotation in radians (use sparingly).
+#@export var color_fade_time = 0.5
+#@export var rave_intensity = 0
 
-#export var color_pulse_enabled = false
-#export var pulse_gradient : Gradient
-#export var color_pulse_freq = 2
-#export var color_pulse_range = 0.3
+#@export var color_pulse_enabled = false
+#@export var pulse_gradient : Gradient
+#@export var color_pulse_freq = 2
+#@export var color_pulse_range = 0.3
 
 
 
 #var base_color
-#export var color_pulse_offset = 0.0
+#@export var color_pulse_offset = 0.0
 
 var timer = 0
 var increment_timer = 0
@@ -89,8 +89,8 @@ func update_multipliers():
 		mult_display_2.text = ""
 		
 		var t = sin(GameManager.game_time*2)*0.5 + 0.5
-		mult_display_1.modulate = Color.white.linear_interpolate(Color(0.97, 0, 0.57) if variety_mult >= 1 else Color(0.43, 0, 1), t)
-		mult_display_2.modulate = Color.white.linear_interpolate(Color(0.97, 0, 0.57), 1-t)
+		mult_display_1.modulate = Color.WHITE.lerp(Color(0.97, 0, 0.57) if variety_mult >= 1 else Color(0.43, 0, 1), t)
+		mult_display_2.modulate = Color.WHITE.lerp(Color(0.97, 0, 0.57), 1-t)
 		
 		
 		if variety_mult != 1.0:

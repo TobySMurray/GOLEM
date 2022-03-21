@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/CrispExplosion.wav-3dcb8bb771e0706bf4fd89d026b0097c.sample"
+uid="uid://bu2vi17k807n8"
+path="res://.godot/imported/CrispExplosion.wav-3dcb8bb771e0706bf4fd89d026b0097c.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/CrispExplosion.wav"
-dest_files=[ "res://.import/CrispExplosion.wav-3dcb8bb771e0706bf4fd89d026b0097c.sample" ]
+dest_files=["res://.godot/imported/CrispExplosion.wav-3dcb8bb771e0706bf4fd89d026b0097c.sample"]
 
 [params]
 

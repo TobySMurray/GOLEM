@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/flamethrower.wav-6b8c08c58fd1563618f612a50734b7e7.sample"
+uid="uid://dmyvy27p410h7"
+path="res://.godot/imported/flamethrower.wav-6b8c08c58fd1563618f612a50734b7e7.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/flamethrower.wav"
-dest_files=[ "res://.import/flamethrower.wav-6b8c08c58fd1563618f612a50734b7e7.sample" ]
+dest_files=["res://.godot/imported/flamethrower.wav-6b8c08c58fd1563618f612a50734b7e7.sample"]
 
 [params]
 

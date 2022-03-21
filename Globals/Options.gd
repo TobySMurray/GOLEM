@@ -158,21 +158,21 @@ func saveSettings():
 			width = resWidth,
 			height = resHeight
 		},
-		"fullscreen": fullscreen,
-		"masterVolume": masterVolume,
-		"masterMute": masterMute,
-		"musicVolume": musicVolume,
-		"musicMute": musicMute,
-		"effectsVolume": effectsVolume,
-		"effectsMute": effectsMute,
-		"keybinds": keybinds,
-		"high_scores": high_scores,
-		"max_kills": max_kills,
-		"max_time": max_time,
-		"max_EVL": max_EVL,
-		"enemy_kills": enemy_kills,
-		"enemy_deaths": enemy_deaths,
-		"enemy_swaps": enemy_swaps
+		"fullscreen" = fullscreen,
+		"masterVolume"= masterVolume,
+		"masterMute"= masterMute,
+		"musicVolume"= musicVolume,
+		"musicMute"= musicMute,
+		"effectsVolume"= effectsVolume,
+		"effectsMute"= effectsMute,
+		"keybinds"= keybinds,
+		"high_scores"= high_scores,
+		"max_kills"= max_kills,
+		"max_time"= max_time,
+		"max_EVL"= max_EVL,
+		"enemy_kills"= enemy_kills,
+		"enemy_deaths"= enemy_deaths,
+		"enemy_swaps"= enemy_swaps
 	}
 	
 	var saveFile = File.new()
@@ -186,8 +186,8 @@ func loadSettings():
 		return
 	saveFile.open(SAVE_PATH, File.READ)
 	
-	var data= {}
-	data = parse_json(saveFile.get_as_text())
+	var data = JSON.new()
+	data = data.parse(saveFile.get_as_text())
 	masterVolume = data['masterVolume']
 	musicVolume = data['musicVolume']
 	effectsVolume = data['effectsVolume']

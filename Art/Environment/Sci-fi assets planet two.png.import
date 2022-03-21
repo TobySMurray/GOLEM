@@ -1,8 +1,9 @@
 [remap]
 
 importer="texture"
-type="StreamTexture"
-path="res://.import/Sci-fi assets planet two.png-30c21cf5d6a71b325a8909a9d3868221.stex"
+type="CompressedTexture2D"
+uid="uid://dxiswwas3h21i"
+path="res://.godot/imported/Sci-fi assets planet two.png-30c21cf5d6a71b325a8909a9d3868221.ctex"
 metadata={
 "vram_texture": false
 }
@@ -10,25 +11,24 @@ metadata={
 [deps]
 
 source_file="res://Art/Environment/Sci-fi assets planet two.png"
-dest_files=[ "res://.import/Sci-fi assets planet two.png-30c21cf5d6a71b325a8909a9d3868221.stex" ]
+dest_files=["res://.godot/imported/Sci-fi assets planet two.png-30c21cf5d6a71b325a8909a9d3868221.ctex"]
 
 [params]
 
 compress/mode=0
 compress/lossy_quality=0.7
-compress/hdr_mode=0
+compress/hdr_compression=1
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
-flags/filter=false
-flags/mipmaps=false
-flags/anisotropic=false
-flags/srgb=2
+compress/channel_pack=0
+compress/streamed=false
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
-stream=false
-size_limit=0
-detect_3d=false
-svg/scale=1.0
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/size_limit=0
+detect_3d/compress_to=1

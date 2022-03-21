@@ -6,10 +6,10 @@ var enemy_is_selected = false
 
 func _draw():
 	if should_draw:
-		var color = (Color.crimson if int(GameManager.game_time*80)%2 == 0 else Color.white) if enemy_is_selected else Color(0.86, 0.08, 0.24, 0.3)
+		var color = (Color.CRIMSON if int(GameManager.game_time*80)%2 == 0 else Color.WHITE) if enemy_is_selected else Color(0.86, 0.08, 0.24, 0.3)
 		var curve_points = transcender_curve.tessellate()
 		for i in len(curve_points) - 1:
-			draw_line(curve_points[i], curve_points[i + 1], color, 2, true)
+			draw_line(curve_points[i], curve_points[i + 1], color, 2)
 
 func draw_transcender(curve):
 	should_draw = true

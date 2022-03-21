@@ -1,8 +1,7 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 var source = null
 
-var velocity = Vector2.ZERO
 var decel = Vector2.ZERO
 
 var next_in_chain = []

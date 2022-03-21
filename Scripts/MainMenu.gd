@@ -1,11 +1,11 @@
 extends Control
 
 
-onready var credits = $CreditsPopup
-onready var controls = $ControlsPopup
-onready var level_select = $LevelSelectPopup
-onready var Canvas = $CanvasModulate
-onready var animplayer = $AnimationPlayer
+@onready var credits = $CreditsPopup
+@onready var controls = $ControlsPopup
+@onready var level_select = $LevelSelectPopup
+@onready var Canvas = $CanvasModulate
+@onready var animplayer = $AnimationPlayer
 
 const level_paths = {
 	1: "MainLevel",

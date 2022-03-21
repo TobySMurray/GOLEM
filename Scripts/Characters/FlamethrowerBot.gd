@@ -1,6 +1,6 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var GasCloud = load('res://Scenes/GasCloud.tscn')
+@onready var GasCloud = load('res://Scenes/GasCloud.tscn')
 
 var num_pellets = 5
 
@@ -33,7 +33,7 @@ var ai_target_point = Vector2.ZERO
 var ai_retarget_timer = 0
 var killed_by_player = false
 
-onready var flamethrower_audio = $Flamethrower
+@onready var flamethrower_audio = $Flamethrower
 
 
 # Called when the node enters the scene tree for the first time.
@@ -90,7 +90,7 @@ func toggle_enhancement(state):
 			stop_attacking()
 			attack_cooldown = 0
 			
-	.toggle_enhancement(state)
+	super.toggle_enhancement(state)
 			
 			
 func misc_update(delta):
@@ -246,7 +246,7 @@ func explode():
 		GameManager.spawn_explosion(global_position, self, 1, 60, 1000, 0, true)
 		
 func die(killer = null):
-	.die(killer)
+	super.die(killer)
 	if is_instance_valid(killer) and ((is_instance_valid(GameManager.player) and killer == GameManager.player) or (is_instance_valid(GameManager.true_player) and killer == GameManager.true_player)):
 		killed_by_player = true
 

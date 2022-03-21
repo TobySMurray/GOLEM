@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/RevUpSteam.wav-4b3d67740cf7fe8bbd0c10183a92c8cc.sample"
+uid="uid://dadkcjkf6fanq"
+path="res://.godot/imported/RevUpSteam.wav-4b3d67740cf7fe8bbd0c10183a92c8cc.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/RevUpSteam.wav"
-dest_files=[ "res://.import/RevUpSteam.wav-4b3d67740cf7fe8bbd0c10183a92c8cc.sample" ]
+dest_files=["res://.godot/imported/RevUpSteam.wav-4b3d67740cf7fe8bbd0c10183a92c8cc.sample"]
 
 [params]
 

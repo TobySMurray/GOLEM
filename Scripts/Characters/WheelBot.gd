@@ -2,14 +2,14 @@ extends "res://Scripts/Enemy.gd"
 
 const DustTrail = preload('res://Scenes/Particles/DustTrail.tscn')
 
-onready var dash_fx = $DashFX
-onready var audio = $AudioStreamPlayer2D
-onready var dash_audio = $Dash
-onready var charge_audio = $ChargeAudio
-onready var movement_raycast = $RayCast2D
-onready var aimbot_collider = $AimbotCollider
-onready var aimbot_reticle = $AimbotReticle
-onready var wheel_particles = $EnemyFX/FootsetpParticles
+@onready var dash_fx = $DashFX
+@onready var audio = $AudioStreamPlayer2D
+@onready var dash_audio = $Dash
+@onready var charge_audio = $ChargeAudio
+@onready var movement_raycast = $RayCast2D
+@onready var aimbot_collider = $AimbotCollider
+@onready var aimbot_reticle = $AimbotReticle
+@onready var wheel_particles = $EnemyFX/FootsetpParticles
 
 var walk_speed
 var burst_size
@@ -61,7 +61,7 @@ func toggle_playerhood(state):
 	if is_instance_valid(aimbot_reticle):
 		aimbot_reticle.visible = false
 	aimbot_mode = false
-	.toggle_playerhood(state)
+	super.toggle_playerhood(state)
 
 func toggle_enhancement(state):
 	var level = int(GameManager.evolution_level) if state == true else enemy_evolution_level
@@ -95,7 +95,7 @@ func toggle_enhancement(state):
 	burst_count = 0
 	movement_raycast.enabled = !state
 	aimbot_collider.set_deferred('disabled', !aimbot_mode)
-	.toggle_enhancement(state)
+	super.toggle_enhancement(state)
 
 func misc_update(delta):
 	ai_retarget_timer -= delta
@@ -325,7 +325,7 @@ func set_dash_fx_position():
 	dash_fx.global_position = dash_start_point
 
 func take_damage(damage, source, stun = 0):
-	.take_damage(damage, source, stun)
+	super.take_damage(damage, source, stun)
 	if not is_player and stun == 0 and not immobile and not dead and special_cooldown < 0 and randf() < 0.5:
 		special_cooldown = 4
 		aim_direction = velocity

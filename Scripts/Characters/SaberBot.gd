@@ -1,10 +1,10 @@
 extends "res://Scripts/Enemy.gd"
 
-onready var SaberRing = load("res://Scenes/SaberRing.tscn")
-onready var GhostImage = load("res://Scenes/GhostImage.tscn")
-onready var slash_trigger = $SlashTrigger
-onready var slash_collider = $SlashCollider
-onready var LOS_raycast = $LineOfSightRaycast
+@onready var SaberRing = load("res://Scenes/SaberRing.tscn")
+@onready var GhostImage = load("res://Scenes/GhostImage.tscn")
+@onready var slash_trigger = $SlashTrigger
+@onready var slash_collider = $SlashCollider
+@onready var LOS_raycast = $LineOfSightRaycast
 
 
 var walk_speed_levels = [90, 100, 110, 120, 130, 140, 150]
@@ -38,7 +38,7 @@ var kill_mode_buffered = false
 var kill_mode_timer = 0
 var remaining_slashes = 0
 
-var base_color = Color.white
+var base_color = Color.WHITE
 
 var ai_move_timer = 0
 var ai_target_point = Vector2.ZERO
@@ -107,10 +107,10 @@ func toggle_enhancement(state):
 	if not sabers_sheathed and not waiting_for_saber_recall:
 		recall_sabers()
 		
-	.toggle_enhancement(state)
+	super.toggle_enhancement(state)
 	
 func misc_update(delta):
-	.misc_update(delta)
+	super.misc_update(delta)
 	ai_move_timer -= delta
 			
 	if not sabers_sheathed and not waiting_for_saber_recall:
@@ -167,10 +167,10 @@ func misc_update(delta):
 			
 			
 	elif special_cooldown < 0:
-		base_color = Color.white.linear_interpolate(rage_color, sin(GameManager.game_time*5)/2 + 0.5) 
+		base_color = Color.WHITE.lerp(rage_color, sin(GameManager.game_time*5)/2 + 0.5) 
 	
 func player_action():
-	.player_action()
+	super.player_action()
 	if not attacking and not in_kill_mode and attack_cooldown < 0 and Input.is_action_just_pressed("attack1"):
 		if sabers_sheathed:
 			start_unsheath()
@@ -279,8 +279,8 @@ func end_kill_mode():
 	in_kill_mode = false
 	override_speed = null
 	slash_trigger.get_node("CollisionShape2D").set_deferred("disabled", true)
-	sprite.modulate = Color.white
-	base_color = Color.white
+	sprite.modulate = Color.WHITE
+	base_color = Color.WHITE
 	
 	if is_player:
 		GameManager.lerp_to_timescale(1)
@@ -380,7 +380,7 @@ func spawn_ghost_image():
 func take_damage(damage, source, stun = 0):
 	if in_kill_mode:
 		damage /= 2
-	.take_damage(damage, source, stun)
+	super.take_damage(damage, source, stun)
 	
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Die":
@@ -389,14 +389,14 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		
 func die(killer = null):
 	if not (true_focus and in_kill_mode):
-		.die()
+		super.die()
 		
 func actually_die():
 	for i in range(len(saber_rings)):
 		if is_instance_valid(saber_rings[i]):
 			saber_rings[i].queue_free()
 			
-	.actually_die()
+	super.actually_die()
 
 
 

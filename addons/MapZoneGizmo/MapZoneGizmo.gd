@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 enum CORNERS {TL, TR, BL, BR}

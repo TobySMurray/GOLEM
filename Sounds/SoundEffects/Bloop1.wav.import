@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/Bloop1.wav-07af40a6fd24ed9d1ddb3784b937d473.sample"
+uid="uid://m7n0wvvh0hdl"
+path="res://.godot/imported/Bloop1.wav-07af40a6fd24ed9d1ddb3784b937d473.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/Bloop1.wav"
-dest_files=[ "res://.import/Bloop1.wav-07af40a6fd24ed9d1ddb3784b937d473.sample" ]
+dest_files=["res://.godot/imported/Bloop1.wav-07af40a6fd24ed9d1ddb3784b937d473.sample"]
 
 [params]
 

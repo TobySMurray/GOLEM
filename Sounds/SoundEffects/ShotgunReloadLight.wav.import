@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/ShotgunReloadLight.wav-af8d6c0b421f03ae085ff675019116ef.sample"
+uid="uid://baybwae50ylq6"
+path="res://.godot/imported/ShotgunReloadLight.wav-af8d6c0b421f03ae085ff675019116ef.sample"
 
 [deps]
 
 source_file="res://Sounds/SoundEffects/ShotgunReloadLight.wav"
-dest_files=[ "res://.import/ShotgunReloadLight.wav-af8d6c0b421f03ae085ff675019116ef.sample" ]
+dest_files=["res://.godot/imported/ShotgunReloadLight.wav-af8d6c0b421f03ae085ff675019116ef.sample"]
 
 [params]
 

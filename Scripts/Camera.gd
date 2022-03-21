@@ -14,9 +14,9 @@ var linearity_hack = 1.0
 
 var trauma = 0
 var trauma_offset = Vector2.ZERO
-export var decay = 5  # How quickly the shaking stops [0, 1].
-export var max_offset = Vector2(100, 75)  # Maximum hor/ver shake in pixels.
-export var max_roll = 0.1  # Maximum rotation in radians (use sparingly).
+@export var decay = 5  # How quickly the shaking stops [0, 1].
+@export var max_offset = Vector2(100, 75)  # Maximum hor/ver shake in pixels.
+@export var max_roll = 0.1  # Maximum rotation in radians (use sparingly).
 	
 func set_anchor(a):
 	anchor = a
@@ -25,8 +25,8 @@ func set_anchor(a):
 func _physics_process(delta):
 	if anchor:
 		base_offset = (get_global_mouse_position() - anchor.global_position)*mouse_follow
-		smooth_anchor_pos = lerp(smooth_anchor_pos, anchor.global_position, 0.15)
-		smooth_base_offset = lerp(smooth_base_offset, base_offset, 0.5)
+		smooth_anchor_pos = smooth_anchor_pos.lerp(anchor.global_position, 0.15)
+		smooth_base_offset = smooth_base_offset.lerp(base_offset, 0.5)
 		global_position = smooth_anchor_pos + trauma_offset
 		
 		if abs(zoom_ - target_zoom) > 0.001:
